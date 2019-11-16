@@ -64,7 +64,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116120113.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116121238.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116142330.png">
-<meta property="og:updated_time" content="2019-11-16T06:58:55.788Z">
+<meta property="og:updated_time" content="2019-11-16T07:21:52.498Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116091802.png">
 
@@ -208,7 +208,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-11-16 14:58:20 / Modified: 14:58:55" itemprop="dateCreated datePublished" datetime="2019-11-16T14:58:20+08:00">2019-11-16</time>
+              <time title="Created: 2019-11-16 14:58:20 / Modified: 15:21:52" itemprop="dateCreated datePublished" datetime="2019-11-16T14:58:20+08:00">2019-11-16</time>
             </span>
 
           
@@ -259,30 +259,33 @@
 </ul>
 <h2 id="2-2-2-xgboost"><a href="#2-2-2-xgboost" class="headerlink" title="2.2.2 xgboost"></a>2.2.2 xgboost</h2><p>当已经生成了一棵树的时候，如何去选择新子树：</p>
 <ul>
-<li><p>1 目标函数：<br>$$Obj=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}<em>{i}\right)+\sum</em>{k} \Omega\left(f_{k}\right), f_{k} \in \mathcal{F}$$</p>
-</li>
-<li><p>1.1 第t轮的时候：<br>$$\begin{aligned} O b j^{(t)}<br>&amp;=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}<em>{i}^{(t)}\right)+\sum</em>{i=1}^{t} \Omega\left(f_{i}\right)<br>\ &amp; \equiv \sum_{i=1}^{n} l\left(y_{i}, \hat{y}<em>{i}^{(t-1)}+f</em>{t}\left(x_{i}\right)\right)+\Omega\left(f_{t}\right)+c\end{aligned}$$</p>
-</li>
-<li><p>这时候需要寻找f_t来让目标函数最小</p>
-</li>
+<li><p>1 目标函数：</p>
+<script type="math/tex; mode=display">Obj=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}\right)+\sum_{k} \Omega\left(f_{k}\right), f_{k} \in \mathcal{F}</script></li>
+<li><p>1.1 第t轮的时候：</p>
+<script type="math/tex; mode=display">\begin{aligned} O b j^{(t)} 
+&=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}^{(t)}\right)+\sum_{i=1}^{t} \Omega\left(f_{i}\right) 
+\\ & \equiv \sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}^{(t-1)}+f_{t}\left(x_{i}\right)\right)+\Omega\left(f_{t}\right)+c\end{aligned}</script></li>
+<li>这时候需要寻找f_t来让目标函数最小</li>
 </ul>
 <blockquote>
 <p>a. 式子左边，对目标函数在$f_t(x)$上泰勒展开，去二阶，求得近似解：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116120113.png" alt=""></p>
-</blockquote>
-<blockquote>
 <p>b. 式子右边，定义复杂度 $\Omega\left(f_{t}\right)$<br>每颗树，都是由枝干(分类节点)和叶子(树的末端)组成的。<br>定义复杂度为：叶子个个数T, 加上每个叶子的值w平方和（各有系数）。<br>树越复杂，T ↑，w平方和 ↑，复杂度 ↑，惩罚 ↑。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116121238.png" alt=""></p>
 </blockquote>
 <ul>
-<li>更新目标函数：<br>$$<br>\begin{aligned} O b j^{(t)} &amp; \simeq \sum_{i=1}^{n}\left[g_{i} f_{t}\left(x_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(x_{i}\right)\right]+\Omega\left(f_{t}\right) +c\ &amp;=\sum_{i=1}^{n}\left[g_{i} w_{q\left(x_{i}\right)}+\frac{1}{2} h_{i} w_{q\left(x_{i}\right)}^{2}\right]+\left(\gamma T+\lambda \frac{1}{2} \sum_{j=1}^{T} w_{j}^{2}\right)+c<br>\ &amp;=\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]+\gamma T +c \end{aligned}<br>$$</li>
+<li>更新目标函数：<script type="math/tex; mode=display">
+\begin{aligned} O b j^{(t)} & \simeq \sum_{i=1}^{n}\left[g_{i} f_{t}\left(x_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(x_{i}\right)\right]+\Omega\left(f_{t}\right) +c\\ &=\sum_{i=1}^{n}\left[g_{i} w_{q\left(x_{i}\right)}+\frac{1}{2} h_{i} w_{q\left(x_{i}\right)}^{2}\right]+\left(\gamma T+\lambda \frac{1}{2} \sum_{j=1}^{T} w_{j}^{2}\right)+c
+\\ &=\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]+\gamma T +c \end{aligned}</script></li>
 </ul>
 <blockquote>
 <ul>
-<li>其中$f_{t}(x)=w_{q(x)}, w \in \mathbf{R}^{T}, q: \mathbf{R}^{d} \rightarrow{1,2, \cdots, T}$，表示x→叶节点→对应的值w。目的是统一用$w_{j}$表示树$f_t$。</li>
-<li>第三行的理解，对于示性函数$I_{j}=\left{i | q\left(x_{i}\right)=j\right}$，$I_j$表示一个集合在j的叶子节点中。用示性函数求和代替1-n的求和，然后交换求和顺序。</li>
+<li>其中$f_{t}(x)=w_{q(x)}, w \in \mathbf{R}^{T}, q: \mathbf{R}^{d} \rightarrow\{1,2, \cdots, T\}$，表示x→叶节点→对应的值w。目的是统一用$w_{j}$表示树$f_t$。</li>
+<li>第三行的理解，对于示性函数$I_{j}=\left\{i | q\left(x_{i}\right)=j\right\}$，$I_j$表示一个集合在j的叶子节点中。用示性函数求和代替1-n的求和，然后交换求和顺序。</li>
 </ul>
 </blockquote>
 <ul>
-<li>这里发现目标函数是关于$w_{j}$的二次函数，二次函数在对称轴上取极值。<br>简化表达：$G_{j}=\sum_{i \in I_{j}} g_{i} \quad H_{j}=\sum_{i \in I_{j}} h_{i}$得到：<br>$$<br>\begin{aligned} O b j^{(t)} =\sum_{j=1}^{T}\left[G_{j} w_{j}+\frac{1}{2}\left(H_{j}+\lambda\right) w_{j}^{2}\right]+\gamma T \end{aligned}<br>$$<br>二次函数求极值得到：<br>$$<br>\begin{array}{c}{w_{j}^{*}=-\frac{G_{j}}{H_{j}+\lambda}} \ {} \ {O b j=-\frac{1}{2} \sum_{j=1}^{T} \frac{G_{j}^{2}}{H_{j}+\lambda}+\gamma T}\end{array}<br>$$<br>w是每一个叶节点值，Obj是这个树的分数，分数越低越好。<br>这样，就可以直接计算出树的分数，可以对于候选进行评比。</li>
+<li>这里发现目标函数是关于$w_{j}$的二次函数，二次函数在对称轴上取极值。<br>简化表达：$G_{j}=\sum_{i \in I_{j}} g_{i} \quad H_{j}=\sum_{i \in I_{j}} h_{i}$得到：<script type="math/tex; mode=display">
+\begin{aligned} O b j^{(t)} =\sum_{j=1}^{T}\left[G_{j} w_{j}+\frac{1}{2}\left(H_{j}+\lambda\right) w_{j}^{2}\right]+\gamma T \end{aligned}</script>二次函数求极值得到：<script type="math/tex; mode=display">
+\begin{array}{c}{w_{j}^{*}=-\frac{G_{j}}{H_{j}+\lambda}} \\ {} \\ {O b j=-\frac{1}{2} \sum_{j=1}^{T} \frac{G_{j}^{2}}{H_{j}+\lambda}+\gamma T}\end{array}</script>w是每一个叶节点值，Obj是这个树的分数，分数越低越好。<br>这样，就可以直接计算出树的分数，可以对于候选进行评比。</li>
 </ul>
 <hr>
 <p>如何生成候选树？</p>
@@ -489,6 +492,56 @@
 
 
   
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 
