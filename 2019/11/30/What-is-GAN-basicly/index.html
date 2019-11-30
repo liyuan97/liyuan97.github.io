@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="MSBD5012 Term Paper Due Date: 7 December 2019 Via Canvas As announced by the university administration, there won’t be any proctored examinations this semester and alternative assessment arrangements">
+<meta name="keywords" content="技术,学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What is GAN basicly?">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;30&#x2F;What-is-GAN-basicly&#x2F;index.html">
+<meta property="og:site_name" content="元哥的后花园">
+<meta property="og:description" content="MSBD5012 Term Paper Due Date: 7 December 2019 Via Canvas As announced by the university administration, there won’t be any proctored examinations this semester and alternative assessment arrangements">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191130001221.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191130110753.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191130110852.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191130001221.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;04&#x2F;Example-of-the-GAN-Generator-Model.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;04&#x2F;Example-of-the-GAN-Discriminator-Model.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com&#x2F;wp-content&#x2F;uploads&#x2F;2019&#x2F;04&#x2F;Example-of-the-Generative-Adversarial-Network-Model-Architecture.png">
+<meta property="og:updated_time" content="2019-11-30T07:13:31.089Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191130001221.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/11/30/What-is-GAN-basicly/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>What is GAN basicly? | 元哥的后花园</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">元哥的后花园</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学习笔记&采坑日记</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/30/What-is-GAN-basicly/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Yuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="元哥的后花园">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          What is GAN basicly?
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-11-30 15:13:04 / Modified: 15:13:31" itemprop="dateCreated datePublished" datetime="2019-11-30T15:13:04+08:00">2019-11-30</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>MSBD5012 Term Paper</strong></p>
+<p>Due Date: 7 December 2019</p>
+<p>Via Canvas</p>
+<p>As announced by the university administration, there won’t be any proctored examinations this semester and alternative assessment arrangements are to be made by the course instructors. For CSIT6000G/MSBD5012, you are asked to write a term paper in lieu of the final exam.</p>
+<p>You need to choose one topic from the following list, and explain it informally:</p>
+<p>· Adversarial attack</p>
+<p>· Variational autoencoders</p>
+<p>· Generative adversarial networks</p>
+<p>· Deep reinforcement learning</p>
+<p>The targeted readers of the paper are computer science students who are about to take the course. In other words,  <strong>you are asked to explain the chosen topic to the past you</strong> at 1 September 2019.  Obviously, there isn’t enough space for you to include all the details. However, you need to cover the<br>key concepts and key ideas.<br> You can follow the outlines of the relevant lectures, and might need to include contents before those lectures as background.</p>
+<p>You can include diagrams and mathematical formulae. However, avoid mathematical formulae as much as possible because  <strong>the purpose is to give informal explanations, not formal proofs.</strong></p>
+<p>The term paper should be no more than 4 pages in length, and the font size of the main text should be 12pt. You are encouraged to use latex  <a href="https://github.com/ICLR/Master-Template/blob/master/archive/iclr2020.zip" target="_blank" rel="noopener">latex template</a> of <a href="https://iclr.cc/Conferences/2020/CallForPapers" target="_blank" rel="noopener">ICLR 2020</a>. Generate a pdf file for submission via Canvas and name your file  “ [Last Name]_ [First Name]_[Student ID].pdf”. Discussions among students are encouraged. However, you need to write up your paper independently.  A plagiarism checker will be run on all submitted reports.</p>
+<p>The term paper will be graded using the following scheme:</p>
+<p>· Overall understanding of the topic:  50%</p>
+<p>· Clarity of explanations:  30%</p>
+<p>· Effort (how polished the report is):  20%</p>
+<p>The term paper is  <strong>due by 23:59 on 7 December</strong>, the scheduled final exam date.  <strong>No late submissions will be accepted</strong>.</p>
+<hr>
+<h1 id="Generative-Adversarial-Networks-is-so-Easy"><a href="#Generative-Adversarial-Networks-is-so-Easy" class="headerlink" title="Generative Adversarial Networks is so Easy"></a>Generative Adversarial Networks is so Easy</h1><p>In machine learning course, we learn how to teach our program to learn the information among the data. There are a lot’s kinds of work can be down, just like classification, regression and generate new data as same as nature. Generating new data is pretty interesting job. Thinking about what if you can teach your program to learn the plot by Picasso’s. The plots by Picasso’s  is very famous and expensive. The most painting by Picasso is _Les femmes d’Alger_  which worth  $179 million.  If we can teach our program to plot a image similar with his style easily. That’s will be a amazing job. But now we can made it by the algorithm GANs.</p>
+<h2 id="Basic-idea"><a href="#Basic-idea" class="headerlink" title="Basic idea"></a>Basic idea</h2><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130001221.png" alt=""></p>
+<p>GANs are the algorithms represented for Generative Adversarial Networks.  It is the process of two complex algorithms (neural networks) competing against each other. One algorithms is called <strong>Generator,</strong> the other algorithm is called <strong>Discriminator</strong>.</p>
+<p>The generative model and the discriminant model play a game with each other and learn to produce quite good output. Taking pictures as an example, the main task of the generator is to learn the real picture set, so that the pictures generated by yourself are closer to the real pictures, and the “disguise” discriminator. The main task of the discriminator is to find out the picture generated by the generator, distinguish it from the real picture, and perform true and false discrimination. Throughout the iteration process, the generator continuously strives to make the generated image more and more real, and the discriminator continuously strives to identify the authenticity of the picture. This is similar to the game between the generator and the discriminator. After repeated iterations, the two finally reached a balance: the picture generated by the generator is very close to the real picture, and it is difficult for the discriminator to distinguish the difference between the real and fake pictures. Its performance is that for true and false pictures, the probability output of the discriminator is close to 0.5.</p>
+<p>Let’s still assume an I wants to replicate the style of Picasso. After I have watch all the detail of Picasso’s paintings, I think I have learned a lot. So I find a a collector to help me improve my level. The collector has rich experience and sharp eyes, and the paintings on the market that imitate Picasso cannot escape his eyes. The collector told me a word: when will your painting deceive me, you will be successful.</p>
+<p>Then I give hime this one:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130110753.png" alt=""><br>The collector glanced lightly and was very angry. “0 points! This is also called painting? Too much difference!” After listening to the collector’s words, I began to reflect on myself and did not hesitate to draw, even it is a black image. So I drew another picture:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130110852.png" alt=""></p>
+<p>The collector saw : 1 point ! Repaint! As soon as I thought it was still impossible, the painting was too bad, so I went back to study Picasso’s painting style, and continued to improve and re-create, until one day I showed the new painting to the collector:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130001221.png" alt=""><br>This time, the collector was wearing glasses and carefully analyzing. After a long time, the collector patted my shoulder and said that the painting was very good. Haha, I was so happy to be praised and affirmed by the collector.</p>
+<p>This example is actually a GAN training process. I am a generator, the purpose is to output a picture that can fool collectors, making it difficult for collectors to distinguish between true and false! The collector is the discriminator, the purpose is to identify my painting and judge it to be false! The whole process is a game of “generation-confrontation”. In the end, I (the generator) outputs a picture of “truths and false truths”, and even collectors (the discriminator) can hardly distinguish.</p>
+<h2 id="What’s-GAN-model"><a href="#What’s-GAN-model" class="headerlink" title="What’s GAN model?"></a>What’s GAN model?</h2><p>After we talk about the basic ideal, then let’s see what is the Generative Adversarial Networks(GANs) mathematically.  Generally, GANs are a model architecture for training a generative model, and it is most common to use deep learning models in this architecture.</p>
+<p>The GAN architecture was first described in the 2014 paper by  Ian Goodfellow, et al. titled “Generative Adversarial Networks.” After this paper appeared, there are plenty related paper followed. A standardized approach called Deep Convolutional Generative Adversarial Networks, or DCGAN, that led to more stable models was later formalized by  Alec Radford, et al. in the 2015 paper titled Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks.</p>
+<p>The GAN model architecture involves two sub-models: a  _generator model_  for generating new examples and a  _discriminator model_  for classifying whether generated examples are real, from the domain, or fake, generated by the generator model.</p>
+<ul>
+<li><strong>Generator</strong>. Model that is used to generate new plausible examples from the problem domain.</li>
+<li><strong>Discriminator</strong>. Model that is used to classify examples as real (_from the domain_) or fake (_generated_).</li>
+</ul>
+<blockquote>
+<p>Generative adversarial networks are based on a game theoretic scenario in which the generator network must compete against an adversary. The generator network directly produces samples. Its adversary, the discriminator network, attempts to distinguish between samples drawn from the training data and samples drawn from the generator.</p>
+</blockquote>
+<h3 id="Generator-Model"><a href="#Generator-Model" class="headerlink" title="Generator Model"></a>Generator Model</h3><p>The generator model takes a fixed-length random vector as input and generates a sample in the domain. The vector is drawn from randomly from a Gaussian distribution, and the vector is used to seed the generative process. After training, points in this multidimensional vector space will correspond to points in the problem domain, forming a compressed representation of the data distribution.</p>
+<p>This vector space is referred to as a latent space, or a vector space comprised of  <a href="https://en.wikipedia.org/wiki/Latent_variable" target="_blank" rel="noopener">latent variables</a>. Latent variables, or hidden variables, are those variables that are important for a domain but are not directly observable.</p>
+<p>We often refer to latent variables, or a latent space, as a projection or compression of a data distribution. That is, a latent space provides a compression or high-level concepts of the observed raw data such as the input data distribution. In the case of GANs, the generator model applies meaning to points in a chosen latent space, such that new points drawn from the latent space can be provided to the generator model as input and used to generate new and different output examples.</p>
+<p>After training, the generator model is kept and used to generate new samples.</p>
+<p><img src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-GAN-Generator-Model.png" alt="Example of the GAN Generator Model"></p>
+<p>Example of the GAN Generator Model</p>
+<h3 id="The-Discriminator-Model"><a href="#The-Discriminator-Model" class="headerlink" title="The Discriminator Model"></a>The Discriminator Model</h3><p>The discriminator model takes an example from the domain as input (real or generated) and predicts a binary class label of real or fake (generated).</p>
+<p>The real example comes from the training dataset. The generated examples are output by the generator model.</p>
+<p>The discriminator is a normal (and well understood) classification model.</p>
+<p>After the training process, the discriminator model is discarded as we are interested in the generator.</p>
+<p>Sometimes, the generator can be repurposed as it has learned to effectively extract features from examples in the problem domain. Some or all of the feature extraction layers can be used in transfer learning applications using the same or similar input data.</p>
+<p><img src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-GAN-Discriminator-Model.png" alt="Example of the GAN Discriminator Model"></p>
+<h1 id="Combine-two-parts"><a href="#Combine-two-parts" class="headerlink" title="Combine two parts"></a>Combine two parts</h1><p>Generative modeling is an unsupervised learning problem, as we discussed in the previous section, although a clever property of the GAN architecture is that the training of the generative model is framed as a supervised learning problem. The two models, the generator and discriminator, are trained together. The generator generates a batch of samples, and these, along with real examples from the domain, are provided to the discriminator and classified as real or fake. The discriminator is then updated to get better at discriminating real and fake samples in the next round, and importantly, the generator is updated based on how well, or not, the generated samples fooled the discriminator.</p>
+<p>In this way, the two models are competing against each other, they are adversarial in the game theory sense, and are playing a  zero-sum game. In this case, zero-sum means that when the discriminator successfully identifies real and fake samples, it is rewarded or no change is needed to the model parameters, whereas the generator is penalized with large updates to model parameters. Alternately, when the generator fools the discriminator, it is rewarded, or no change is needed to the model parameters, but the discriminator is penalized and its model parameters are updated.</p>
+<p>At a limit, the generator generates perfect replicas from the input domain every time, and the discriminator cannot tell the difference and predicts “unsure” (e.g. 50% for real and fake) in every case. This is just an example of an idealized case; we do not need to get to this point to arrive at a useful generator model.</p>
+<p><img src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-Generative-Adversarial-Network-Model-Architecture.png" alt="Example of the Generative Adversarial Network Model Architecture"></p>
+<p>Example of the Generative Adversarial Network Model Architecture</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/16/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%91%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0GDBT-XGBOOST-RF/" rel="next" title="集成学习GDBT,XGBOOST,RF">
+                  <i class="fa fa-chevron-left"></i> 集成学习GDBT,XGBOOST,RF
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Generative-Adversarial-Networks-is-so-Easy"><span class="nav-number">1.</span> <span class="nav-text">Generative Adversarial Networks is so Easy</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-idea"><span class="nav-number">1.1.</span> <span class="nav-text">Basic idea</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What’s-GAN-model"><span class="nav-number">1.2.</span> <span class="nav-text">What’s GAN model?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Generator-Model"><span class="nav-number">1.2.1.</span> <span class="nav-text">Generator Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-Discriminator-Model"><span class="nav-number">1.2.2.</span> <span class="nav-text">The Discriminator Model</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Combine-two-parts"><span class="nav-number">2.</span> <span class="nav-text">Combine two parts</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Yuan"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Yuan</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yuan</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.2
+  </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

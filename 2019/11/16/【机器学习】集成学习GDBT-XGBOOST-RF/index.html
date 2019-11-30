@@ -64,7 +64,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116120113.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116121238.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116142330.png">
-<meta property="og:updated_time" content="2019-11-16T07:21:52.498Z">
+<meta property="og:updated_time" content="2019-11-16T07:42:33.602Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116091802.png">
 
@@ -208,7 +208,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2019-11-16 14:58:20 / Modified: 15:21:52" itemprop="dateCreated datePublished" datetime="2019-11-16T14:58:20+08:00">2019-11-16</time>
+              <time title="Created: 2019-11-16 14:58:20 / Modified: 15:42:33" itemprop="dateCreated datePublished" datetime="2019-11-16T14:58:20+08:00">2019-11-16</time>
             </span>
 
           
@@ -229,7 +229,7 @@
 <li>Bagging以及个体学习器间不存在强依赖关系、可同时生成的并行化方法，“随机森林”（Random Forest）。</li>
 </ul>
 <h1 id="1-Bagging"><a href="#1-Bagging" class="headerlink" title="1. Bagging"></a>1. Bagging</h1><p>Bagging：简单放回抽样，多数表决（分类）或简单平均（回归）,同时Bagging的基学习器之间属于并列生成，无依赖关系。</p>
-<h1 id="1-1-随机森林"><a href="#1-1-随机森林" class="headerlink" title="1.1 随机森林"></a>1.1 随机森林</h1><p>Random Forest（随机森林）：Bagging的扩展变体，它在以决策树为基学习器构建Bagging集成的基础上，进一步在决策树的训练过程中引入了随机特征选择，因此可以概括RF包括四个部分：<br>1、随机选择 样本（放回抽样）；<br>2、随机选择 特征；<br>3、构建分类器；如：ID3、C4.5、CART、SVM、Logistic regression等<br>4、投票（平均）</p>
+<h2 id="1-1-随机森林"><a href="#1-1-随机森林" class="headerlink" title="1.1 随机森林"></a>1.1 随机森林</h2><p>Random Forest（随机森林）：Bagging的扩展变体，它在以决策树为基学习器构建Bagging集成的基础上，进一步在决策树的训练过程中引入了随机特征选择，因此可以概括RF包括四个部分：<br>1、随机选择 样本（放回抽样）；<br>2、随机选择 特征；<br>3、构建分类器；如：ID3、C4.5、CART、SVM、Logistic regression等<br>4、投票（平均）</p>
 <p>随机性偏差会有微增（相比于单棵不随机树），‘平均’会使得方差减小更多</p>
 <ul>
 <li>随机森林的优点<br>1、速度快，精度不会很差<br>2、能够处理高维数据，不用特征选择，训练完后，可给出特征重要性；<br>3、可并行化  </li>
@@ -240,7 +240,7 @@
 <p>1 计算这个树的误差率，误差率越高，权重越低<br>2 计算每个样本的错分率，错分的样本，权重越高，之后更容易分对</p>
 </blockquote>
 <p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091802.png" alt=""><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091915.png" alt=""></p>
-<h2 id="2-2-基于残差：GB-GBTD-Xgboost"><a href="#2-2-基于残差：GB-GBTD-Xgboost" class="headerlink" title="2.2 基于残差：GB(GBTD,Xgboost)"></a>2.2 基于残差：GB(GBTD,Xgboost)</h2><h1 id="2-2-1-GBTD"><a href="#2-2-1-GBTD" class="headerlink" title="2.2.1 GBTD"></a>2.2.1 GBTD</h1><p>GBDT只能由回归树组成.</p>
+<h2 id="2-2-基于残差：GB-GBTD-Xgboost"><a href="#2-2-基于残差：GB-GBTD-Xgboost" class="headerlink" title="2.2 基于残差：GB(GBTD,Xgboost)"></a>2.2 基于残差：GB(GBTD,Xgboost)</h2><h3 id="2-2-1-GBTD"><a href="#2-2-1-GBTD" class="headerlink" title="2.2.1 GBTD"></a>2.2.1 GBTD</h3><p>GBDT只能由回归树组成.</p>
 <ul>
 <li>基本思想：<br>在GradientBoost中，每个新的模型的建立是为了使得之前的模型的残差往梯度下降的方法。</li>
 </ul>
@@ -257,7 +257,7 @@
 </blockquote>
 </li>
 </ul>
-<h2 id="2-2-2-xgboost"><a href="#2-2-2-xgboost" class="headerlink" title="2.2.2 xgboost"></a>2.2.2 xgboost</h2><p>当已经生成了一棵树的时候，如何去选择新子树：</p>
+<h3 id="2-2-2-xgboost"><a href="#2-2-2-xgboost" class="headerlink" title="2.2.2 xgboost"></a>2.2.2 xgboost</h3><p>当已经生成了一棵树的时候，如何去选择新子树：</p>
 <ul>
 <li><p>1 目标函数：</p>
 <script type="math/tex; mode=display">Obj=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}\right)+\sum_{k} \Omega\left(f_{k}\right), f_{k} \in \mathcal{F}</script></li>
@@ -301,16 +301,14 @@
 <blockquote>
 <p>也就是通过信息增益去寻找最优分割点。<br>这里有个好处就是如果惩罚大于增益，gain就会为负数，自动停止。</p>
 </blockquote>
-<h2 id="3-模型对比"><a href="#3-模型对比" class="headerlink" title="3 模型对比"></a>3 模型对比</h2><p>3.1 随机森林vsGDBT</p>
-<ul>
+<h1 id="3-模型对比"><a href="#3-模型对比" class="headerlink" title="3 模型对比"></a>3 模型对比</h1><h2 id="3-1-随机森林vsGDBT"><a href="#3-1-随机森林vsGDBT" class="headerlink" title="3.1 随机森林vsGDBT"></a>3.1 随机森林vsGDBT</h2><ul>
 <li>决策树类型：组成随机森林的树可以是分类树，也可以是回归树；而GBDT只能由回归树组成；  </li>
 <li>结果预测：对于最终的输出结果而言，随机森林采用多数投票、简单平均等；而GBDT则是将所有结果累加起来，或者加权累加起来；  </li>
 <li>并行/串行：组成随机森林的树可以并行生成；而GBDT只能是串行生成；  </li>
 <li>异常值：随机森林对异常值不敏感；GBDT对异常值非常敏感；</li>
 <li>方差/偏差：随机森林减少方差；GBDT是通过减少偏差。</li>
 </ul>
-<p>3.2 GDBT vs XGboost</p>
-<ul>
+<h2 id="3-2-GDBT-vs-XGboost"><a href="#3-2-GDBT-vs-XGboost" class="headerlink" title="3.2 GDBT vs XGboost"></a>3.2 GDBT vs XGboost</h2><ul>
 <li>GDBT只支持CATR树，xgboost还支持线性分类器</li>
 <li>GDBT只用了一阶，xgboost泰勒展开，用了二阶</li>
 <li>xgboost有正则项，而且会自动停止生成(依赖参数gamma)。</li>
@@ -348,6 +346,9 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
+                <a href="/2019/11/30/What-is-GAN-basicly/" rel="prev" title="What is GAN basicly?">
+                  What is GAN basicly? <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
       </footer>
@@ -386,7 +387,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Bagging"><span class="nav-number">1.</span> <span class="nav-text">1. Bagging</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-1-随机森林"><span class="nav-number">2.</span> <span class="nav-text">1.1 随机森林</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Boosting"><span class="nav-number">3.</span> <span class="nav-text">2. Boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-基于调整权重-Adaboost"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 基于调整权重 Adaboost</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-基于残差：GB-GBTD-Xgboost"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 基于残差：GB(GBTD,Xgboost)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-2-1-GBTD"><span class="nav-number">4.</span> <span class="nav-text">2.2.1 GBTD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-2-xgboost"><span class="nav-number">4.1.</span> <span class="nav-text">2.2.2 xgboost</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-模型对比"><span class="nav-number">4.2.</span> <span class="nav-text">3 模型对比</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Bagging"><span class="nav-number">1.</span> <span class="nav-text">1. Bagging</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-随机森林"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 随机森林</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Boosting"><span class="nav-number">2.</span> <span class="nav-text">2. Boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-基于调整权重-Adaboost"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 基于调整权重 Adaboost</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-基于残差：GB-GBTD-Xgboost"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 基于残差：GB(GBTD,Xgboost)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-GBTD"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 GBTD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-xgboost"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 xgboost</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-模型对比"><span class="nav-number">3.</span> <span class="nav-text">3 模型对比</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-随机森林vsGDBT"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 随机森林vsGDBT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-GDBT-vs-XGboost"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 GDBT vs XGboost</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -402,7 +403,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
