@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon_ca.jpeg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon_ca.jpeg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon_ca.jpeg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="11月30更新，面试通过。后续更新实习心得。学姐有发消息招腾讯音乐的日常实习，我当天投递简历，当晚组长联系第二天面试。推荐部门，我约的第二天下午三点面试，感觉下午会清醒一点。现在记录一下准备过程。本文没有逻辑，看到哪记到哪。qq音乐推荐现状用户登录之后，默认进入喜好选择页面。Page1：选择喜好的音乐流派，可多选，候选项为常见的流派Page2：选择喜好的歌手，候选项为基于流派里的出名歌星然后在推荐">
+<meta name="keywords" content="技术,学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="准备Q音推荐的笔记">
+<meta property="og:url" content="http:&#x2F;&#x2F;liyuan97.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;%E5%87%86%E5%A4%87Q%E9%9F%B3%E6%8E%A8%E8%8D%90%E7%9A%84%E7%AC%94%E8%AE%B0&#x2F;index.html">
+<meta property="og:site_name" content="元哥的日记">
+<meta property="og:description" content="11月30更新，面试通过。后续更新实习心得。学姐有发消息招腾讯音乐的日常实习，我当天投递简历，当晚组长联系第二天面试。推荐部门，我约的第二天下午三点面试，感觉下午会清醒一点。现在记录一下准备过程。本文没有逻辑，看到哪记到哪。qq音乐推荐现状用户登录之后，默认进入喜好选择页面。Page1：选择喜好的音乐流派，可多选，候选项为常见的流派Page2：选择喜好的歌手，候选项为基于流派里的出名歌星然后在推荐">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191119203521.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191119203536.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191119203705.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191119221035.png">
+<meta property="og:updated_time" content="2019-12-19T15:04:37.038Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191119203521.png">
+
+<link rel="canonical" href="http://liyuan97.github.io/2019/11/30/%E5%87%86%E5%A4%87Q%E9%9F%B3%E6%8E%A8%E8%8D%90%E7%9A%84%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>准备Q音推荐的笔记 | 元哥的日记</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">元哥的日记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">学习笔记&采坑日记</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-所有文章">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>所有文章</a>
+
+  </li>
+        <li class="menu-item menu-item-timeline">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>Timeline</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://liyuan97.github.io/2019/11/30/%E5%87%86%E5%A4%87Q%E9%9F%B3%E6%8E%A8%E8%8D%90%E7%9A%84%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pic03.jpg">
+      <meta itemprop="name" content="Yuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="元哥的日记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          准备Q音推荐的笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-30 23:03:57" itemprop="dateCreated datePublished" datetime="2019-11-30T23:03:57+08:00">2019-11-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-12-19 23:04:37" itemprop="dateModified" datetime="2019-12-19T23:04:37+08:00">2019-12-19</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>11月30更新，面试通过。后续更新实习心得。</p><hr><p>学姐有发消息招腾讯音乐的日常实习，我当天投递简历，当晚组长联系第二天面试。<br>推荐部门，我约的第二天下午三点面试，感觉下午会清醒一点。<br>现在记录一下准备过程。<br>本文没有逻辑，看到哪记到哪。</p><hr><h1 id="qq音乐推荐现状"><a href="#qq音乐推荐现状" class="headerlink" title="qq音乐推荐现状"></a>qq音乐推荐现状</h1><p>用户登录之后，默认进入喜好选择页面。<br>Page1：选择喜好的音乐流派，可多选，候选项为常见的流派<br>Page2：选择喜好的歌手，候选项为基于流派里的出名歌星<br>然后在推荐页，有电台，当天推荐30首，每周新歌推荐；<br>下面可以一直往下拉，有专辑和短视频推荐，短视频自动播放</p><a id="more"></a>
+
+
+
+
+<p>喜好选择可以解决能启动。<br>解决冷启动还能通过：</p>
+<blockquote>
+<p>导入用户在社交网络上的好友信息和公开发布的信息<br>基本信息：（性别、职业、年龄段、地理位置（方言，城市等级，天气）、手机型号，传感器：行为判断运动？散步？休息）<br>关系链：相似好友推荐<br>朋友圈、QQ空间获取初步的用户画像：</p>
+<ul>
+<li>自己：个性签名，朋友圈动态-nlp，cv情感分析</li>
+<li>交互：好友分享，点赞，评论</li>
+</ul>
+</blockquote>
+<hr>
+<h1 id="相似度矩阵思考问题"><a href="#相似度矩阵思考问题" class="headerlink" title="相似度矩阵思考问题"></a>相似度矩阵思考问题</h1><p>链接：<a href="https://link.jianshu.com/?t=https://www.zhihu.com/question/26743347/answer/34542247" target="_blank" rel="noopener">知乎沙克</a>  </p>
+<p>完整的推荐系统体系包括 官方团队推荐（Editorial）、UGC（User-Generated Content）和热门推荐（Top Seller/Trending）的协作。</p>
+<ul>
+<li><strong>相似度矩阵（Similarity Matrix）：</strong><br>大家提的各种算法里面，几乎都是基于相似度的吧 — 无论是CF还是Content based产生的相似度，前者需要用户的行为数据，后者需要歌曲的元数据（metadata），比如旋律、Tag等等。<br>需要避免过多推荐单一歌手，避免过多热门。<br>找到冷门优秀的歌曲。<br>类似与tf-idf，在歌曲对个人的重要性在总榜里的热度乘反比，在个人的喜好程度乘正比。</li>
+</ul>
+<hr>
+<h1 id="userCF算法和itemCF算法的层面"><a href="#userCF算法和itemCF算法的层面" class="headerlink" title="userCF算法和itemCF算法的层面"></a>userCF算法和itemCF算法的层面</h1><blockquote>
+<p>链接：<a href="https://link.jianshu.com?t=https://www.zhihu.com/question/26743347/answer/65777210" target="_blank" rel="noopener">作者：郑昊</a><br>来源：知乎著作权归作者所有，转载请联系作者获得授权。<br>在本文中我们将提到两种方法来实现这个目的，基于用户的协作型过滤和基于物品的协作型过滤。</p>
+</blockquote>
+<h2 id="基于用户的协作型过滤"><a href="#基于用户的协作型过滤" class="headerlink" title="基于用户的协作型过滤"></a>基于用户的协作型过滤</h2><p> 音乐用户甲-&gt;偏好相近用户-&gt;相关歌曲-&gt;推荐列表</p>
+<p>流程至少包括以下四个步骤：<br>建立评价规则<br>搜集用户偏好<br>寻找相近的用户<br>推荐歌曲</p>
+<blockquote>
+<p><strong>1.建立评价规则</strong><br>下图是我随意做的一个评价规则。评价规则应该根据明确的用户行为来建立。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203521.png" alt></p>
+<p>评价规则-随意做的</p>
+<p><strong>2.搜集用户偏好</strong><br>根据评价规则，我们可以得到每个用户和该用户相关的每首歌的一个得分。 下图也是我随意造的数据。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203536.png" alt></p>
+<p>用户偏好</p>
+<p><strong>3.寻找相近的用户</strong><br>常用的计算相似度评价值的体系有两种：欧几里得距离和皮尔逊相关度。</p>
+<p><strong>4.推荐歌曲</strong><br>接下来系统要做的就是，为用户郑昊提供歌曲推荐。我们当然可以查找与郑昊品味最相近的人，从他所喜欢的歌曲中找出一首郑昊可能还未接触过的歌曲。不过，这样的做法未免太随意了。<br>目前最通用的做法是，通过一个经过加权的评价值来为歌曲打分，评分结果即排名结果。为此，我们需要取得所有其他用户的分数，借此得到相关系数后，再乘以他们与相关歌曲的分数，求和之后再除以对应的相关系数总计，便能获得一个我们需要的评价值。在下表中我们给出了具体的做法。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203705.png" alt></p>
+<p>「相关系数」一列来自于皮尔逊相关度评价。「歌名」对应各用户的得分来自评价规则处理后的结果。将前两者一一对应相乘，便是「歌N*相关系数」的值。如此一来，相比于与我们不相近的人，那些与我们相近的人将会对整体评价值拥有更多的贡献。总计一行给出了所有加权评价值的总和。</p>
+<p>我们可以用总计值来计算歌曲排名，但是我们还需要考虑到，这样人数会对一首歌的得分产生正相关影响。为了避免这一问题，我们需要将总计除以相关系数总计。相关系数总计等于所有对这首歌曲有影响的用户的相关系数之和。表中最后一行就是我们所需要的结果。</p>
+</blockquote>
+<h2 id="基于物品的协作型过滤"><a href="#基于物品的协作型过滤" class="headerlink" title="基于物品的协作型过滤"></a>基于物品的协作型过滤</h2><p>1.歌曲A-&gt;相关用户-&gt;相关歌曲-&gt;推荐列表；<br>2.网易云音乐用户甲-&gt;偏好歌曲-&gt;推荐列表。</p>
+<p>1是主要计算过程，2是推荐过程。</p>
+<hr>
+<h1 id="从产品角度思考数据"><a href="#从产品角度思考数据" class="headerlink" title="从产品角度思考数据"></a>从产品角度思考数据</h1><p><a href="http://www.chanpin100.com/article/100147" target="_blank" rel="noopener">链接</a><br>行业分析、市场分析、用户群的划分和分析之外，还考虑未来的发展方向</p>
+<hr>
+<h1 id="实习经历描述"><a href="#实习经历描述" class="headerlink" title="实习经历描述"></a>实习经历描述</h1><p>腾讯 微信事业群 数据分析实习生 用户拉起方向 2019.04-2019.08 l 运用聚类算法对用户来源、拉起特征、活跃企业等属性完成了用户聚类，梳理出用户画像，找到用户拉起的增长点;通过通过漏斗分析，寻找出注册页瓶颈，找到改进措施。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119221035.png" alt></p>
+<p>产品岗，做的杂：捞数据，做报表，策划，数据分析。<br>分析：互通现状。<br>任务：分析现状，梳理出下一步的方向。<br>What：现状是什么？用户增长放缓，发消息加深。<br>思路：用户群的划分→得到比例和画像→比例与市场比较，寻找空间；画像对比我们的目标企业查看问题</p>
+<ul>
+<li><p>用户群怎么划分？<br>1 活跃 62%<br>2 基于产品性质，协同12%，服务50%<br>3 服务类的 基于使用情况，公司规模 大企业10% 小企业40%</p>
+</li>
+<li><p>画像，使用情况：<br>分词去寻找岗位，树状结构去找级别，流失时间点，是否体验了</p>
+</li>
+</ul>
+<p>解决：<br>when：使用互通次日<br>who：IT，零售，物流<br>why：需要客户联系，管理消费者资源<br>how：<br>1 大企业，推联系方式给BD联系主动沟通，拉起使用<br>2 中小企业，非管理员体验，push引导管理员开通客户联系；  管理员体验，企业号推送行业案例，激发兴趣<br>3 未进入的企业，寻找“优质用户”包，在朋友圈广告定向推送互通行业案例<br>4 增加通道：微信个人资料增加企业微信icon，增加曝光</p>
+<hr>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/11/30/What-is-GAN-basicly/" rel="next" title="What is GAN basicly?">
+                  <i class="fa fa-chevron-left"></i> What is GAN basicly?
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#qq音乐推荐现状"><span class="nav-number">1.</span> <span class="nav-text">qq音乐推荐现状</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相似度矩阵思考问题"><span class="nav-number">2.</span> <span class="nav-text">相似度矩阵思考问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#userCF算法和itemCF算法的层面"><span class="nav-number">3.</span> <span class="nav-text">userCF算法和itemCF算法的层面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于用户的协作型过滤"><span class="nav-number">3.1.</span> <span class="nav-text">基于用户的协作型过滤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于物品的协作型过滤"><span class="nav-number">3.2.</span> <span class="nav-text">基于物品的协作型过滤</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从产品角度思考数据"><span class="nav-number">4.</span> <span class="nav-text">从产品角度思考数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实习经历描述"><span class="nav-number">5.</span> <span class="nav-text">实习经历描述</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Yuan"
+    src="/images/pic03.jpg">
+  <p class="site-author-name" itemprop="name">Yuan</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liyuan97" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liyuan97" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yuan</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
