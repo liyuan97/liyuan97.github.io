@@ -24,7 +24,7 @@
     version: '7.4.2',
     exturl: false,
     sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
+    copycode: {"enable":true,"show_result":true,"style":null},
     back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
@@ -50,13 +50,13 @@
   };
 </script>
 
-  <meta name="description" content="集成学习（Ensemble Learning），集成学习的目的是通过结合多个基学习器的预测结果来改善单个学习器的泛化能力和鲁棒性。集成学习致分为两大类： Boosting:即个体学习器之间存在强依赖关系、必须串行生成的序列化方法，Adaboost, GDBT, Xgboost. Bagging以及个体学习器间不存在强依赖关系、可同时生成的并行化方法，“随机森林”（Random Forest）。 1">
+  <meta name="description" content="集成学习（Ensemble Learning），集成学习的目的是通过结合多个基学习器的预测结果来改善单个学习器的泛化能力和鲁棒性。集成学习致分为两大类： Boosting:即个体学习器之间存在强依赖关系、必须串行生成的序列化方法，Adaboost, GDBT, Xgboost. Bagging以及个体学习器间不存在强依赖关系、可同时生成的并行化方法，“随机森林”（Random Forest）。">
 <meta name="keywords" content="技术,学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="集成学习GDBT,XGBOOST,RF">
 <meta property="og:url" content="http:&#x2F;&#x2F;liyuan97.github.io&#x2F;2019&#x2F;11&#x2F;16&#x2F;%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%91%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0GDBT-XGBOOST-RF&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="集成学习（Ensemble Learning），集成学习的目的是通过结合多个基学习器的预测结果来改善单个学习器的泛化能力和鲁棒性。集成学习致分为两大类： Boosting:即个体学习器之间存在强依赖关系、必须串行生成的序列化方法，Adaboost, GDBT, Xgboost. Bagging以及个体学习器间不存在强依赖关系、可同时生成的并行化方法，“随机森林”（Random Forest）。 1">
+<meta property="og:description" content="集成学习（Ensemble Learning），集成学习的目的是通过结合多个基学习器的预测结果来改善单个学习器的泛化能力和鲁棒性。集成学习致分为两大类： Boosting:即个体学习器之间存在强依赖关系、必须串行生成的序列化方法，Adaboost, GDBT, Xgboost. Bagging以及个体学习器间不存在强依赖关系、可同时生成的并行化方法，“随机森林”（Random Forest）。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116091802.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116091915.png">
@@ -160,22 +160,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags<span class="badge">1</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories<span class="badge">0</span></a>
 
   </li>
         <li class="menu-item menu-item-所有文章">
 
     <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>所有文章</a>
-
-  </li>
-        <li class="menu-item menu-item-timeline">
-
-    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>Timeline</a>
 
   </li>
   </ul>
@@ -252,10 +247,10 @@
         <p>集成学习（Ensemble Learning），集成学习的目的是通过结合多个基学习器的预测结果来改善单个学习器的泛化能力和鲁棒性。</p><p>集成学习致分为两大类：</p><ul>
 <li>Boosting:即个体学习器之间存在强依赖关系、必须串行生成的序列化方法，Adaboost, GDBT, Xgboost.</li>
 <li>Bagging以及个体学习器间不存在强依赖关系、可同时生成的并行化方法，“随机森林”（Random Forest）。</li>
-</ul><h1 id="1-Bagging"><a href="#1-Bagging" class="headerlink" title="1. Bagging"></a>1. Bagging</h1><a id="more"></a>
+</ul><a id="more"></a>
 
 
-<p>Bagging：简单放回抽样，多数表决（分类）或简单平均（回归）,同时Bagging的基学习器之间属于并列生成，无依赖关系。</p>
+<h1 id="1-Bagging"><a href="#1-Bagging" class="headerlink" title="1. Bagging"></a>1. Bagging</h1><p>Bagging：简单放回抽样，多数表决（分类）或简单平均（回归）,同时Bagging的基学习器之间属于并列生成，无依赖关系。</p>
 <h2 id="1-1-随机森林"><a href="#1-1-随机森林" class="headerlink" title="1.1 随机森林"></a>1.1 随机森林</h2><p>Random Forest（随机森林）：Bagging的扩展变体，它在以决策树为基学习器构建Bagging集成的基础上，进一步在决策树的训练过程中引入了随机特征选择，因此可以概括RF包括四个部分：<br>1、随机选择 样本（放回抽样）；<br>2、随机选择 特征；<br>3、构建分类器；如：ID3、C4.5、CART、SVM、Logistic regression等<br>4、投票（平均）</p>
 <p>随机性偏差会有微增（相比于单棵不随机树），‘平均’会使得方差减小更多</p>
 <ul>
@@ -442,6 +437,9 @@
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
         <a href="https://github.com/liyuan97" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liyuan97" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/lysysu%20at%20qq.com" title="E-Mail &amp;rarr; lysysu at qq.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
       </span>
   </div>
 
