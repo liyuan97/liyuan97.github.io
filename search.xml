@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>5003总结2 stream&amp;并行计算-例子</title>
+    <url>/2019/12/26/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/</url>
+    <content><![CDATA[<p>Streaming是处理数据流的API。<br>下面直接通过例子，感受streaming的机制。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123213735.png" alt=""><br><a id="more"></a></p>
+<h1 id="例1-从键盘输入文本，统计词频"><a href="#例1-从键盘输入文本，统计词频" class="headerlink" title="例1 从键盘输入文本，统计词频"></a>例1 从键盘输入文本，统计词频</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123220112.png" alt=""></p>
+<h1 id="例2-1-从文件输入，统计词频"><a href="#例2-1-从文件输入，统计词频" class="headerlink" title="例2.1 从文件输入，统计词频"></a>例2.1 从文件输入，统计词频</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123222512.png" alt=""></p>
+<h1 id="例2-2-对词的感情值排序"><a href="#例2-2-对词的感情值排序" class="headerlink" title="例2.2 对词的感情值排序"></a>例2.2 对词的感情值排序</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123230557.png" alt=""></p>
+<h1 id="例2-3-stage，统计所有词频"><a href="#例2-3-stage，统计所有词频" class="headerlink" title="例2.3 stage，统计所有词频"></a>例2.3 stage，统计所有词频</h1><p>上面的例子2.1 仅仅是统计每一个输入部分的词频，意义不大<br>通过<code>updateStateByKey()</code>可以实现对所有数据的统计。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123231336.png" alt=""></p>
+<p><code>updateStateByKey()</code>需要定义一个函数，函数的输入是上次的和这次的rdd，这里的streaming的精髓，需要好好理解。</p>
+<hr>
+<h1 id="算法应用1：蓄水池抽样Reservoir-Sampling"><a href="#算法应用1：蓄水池抽样Reservoir-Sampling" class="headerlink" title="算法应用1：蓄水池抽样Reservoir Sampling"></a>算法应用1：蓄水池抽样Reservoir Sampling</h1><h2 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h2><p>蓄水池采样算法（Reservoir Sampling）了。先说一下算法的过程：</p>
+<ul>
+<li>假设数据序列的规模为  𝑛，需要采样的数量的为  𝑘。</li>
+<li>首先构建一个可容纳  𝑘  个元素的数组，将序列的前  𝑘  个元素放入数组中。</li>
+<li>然后从第  𝑘+1  个元素开始，以  𝑘/𝑛  的概率来决定该元素是否被替换到数组中（数组中的元素被替换的概率是相同的）。 当遍历完所有元素之后，数组中剩下的元素即为所需采取的样本。<blockquote>
+<p>这样就可以对任意长度的数据抽样，可以实现streaming. 不需要考虑文件长度。</p>
+</blockquote>
+</li>
+</ul>
+<p>简单证明：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191124085220.png" alt=""></p>
+<p>完整证明需要用到FIsher-Yates shuffle。</p>
+<h1 id="算法应用2：O-n-时间，O-1-空间，寻找Majority的元素-n-gt-N-2"><a href="#算法应用2：O-n-时间，O-1-空间，寻找Majority的元素-n-gt-N-2" class="headerlink" title="算法应用2：O(n)时间，O(1)空间，寻找Majority的元素(n&gt;N/2)"></a>算法应用2：O(n)时间，O(1)空间，寻找Majority的元素(n&gt;N/2)</h1><p>算法描述：<br>只用空间复杂度O(1)，去寻找数组内有没有出现次数大于一半的元素。</p>
+<p>算法过程：</p>
+<blockquote>
+<p>遍历所有元素：记录新出现元素的次数，如果下一个与记录相同，就＋1，不同就-1，遍历完成，会保留一个候选项<br>遍历所有元素：统计刚才候选项出现的次数n以及N，验证n&gt;N/2则验证成功，如果n&lt;=N/2，则无Majority</p>
+</blockquote>
+<h1 id="算法应用3：GM算法-Heavy-hitters"><a href="#算法应用3：GM算法-Heavy-hitters" class="headerlink" title="算法应用3：GM算法 Heavy hitters"></a>算法应用3：GM算法 Heavy hitters</h1><p>Misra-Gries (MG) algorithm finds up to k items that occur more than 1/k fraction of the time in a stream.<br>找到频率超过1/k的元素.<br>算法：</p>
+<blockquote>
+<p>初始化k个候选项，对之后的每个元素：</p>
+<ul>
+<li>如果元素已经被记录了，count++</li>
+<li>如果没有记录，如果候选项&lt;k，那就记录他</li>
+<li>如果没有记录，如果候选项=k，那就对每个候选项count—</li>
+</ul>
+<p>遍历完成，返回候选项</p>
+</blockquote>
+<h1 id="算法应用4：并行计算TOPn-时间复杂度满足O-n-p-log-k"><a href="#算法应用4：并行计算TOPn-时间复杂度满足O-n-p-log-k" class="headerlink" title="算法应用4：并行计算TOPn, 时间复杂度满足O(n/p*log k)"></a>算法应用4：并行计算TOPn, 时间复杂度满足O(n/p*log k)</h1><p>原题：</p>
+<blockquote>
+<p>Given an RDD storing a list of n integers (unordered), design a divide-and-conquer algorithm to find the k largest integers in the RDD. All workers must run in parallel. For full marks, each worker should run in time O(n/p * log k) time, where p is the number of workers.<br>Hint: Use a priority queue at each worker for maximum efficiency.</p>
+</blockquote>
+<p>当看到log K和priority queue就知道要使用堆排序了。<br>分成p个worker，每个worker有O(n/p)的值，每一个work维护一个最大K堆，时间复杂度是O(log k). </p>
+<p>老师给的答案：</p>
+<blockquote>
+<p>Partition the integers evenly so that each worker receives O(n/p) values. On each worker, maintain a min-heap of size k. Inserting an element to the heap costs O(log k) time.<br>For each value, insert it to the heap if it is larger than the current min of the heap. Pop the minimum item if there are more than k items in the heap. By making one pass over all the values in each worker, we get the k largest integers out of the values of this worker. This can be done in O(n/p log k) time.<br>Then we merge the results by sending the top k of each partition to the same worker, which is at most kp values. The worker finds the largest k integers among these kp values and report it.</p>
+</blockquote>
+<p>代码<br><figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> heapq  <span class="comment"># 引入最大堆的包</span></span><br><span class="line">  </span><br><span class="line">rdd = sc.parallelize(xrange(<span class="number">0</span>,<span class="number">1000</span>,<span class="number">2</span>))   <span class="comment">#生成rdd</span></span><br><span class="line">k = <span class="number">10</span>  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">topk</span><span class="params">(it)</span>:</span>        <span class="comment">#对于每一个分区的n/p个值</span></span><br><span class="line">    h = []  </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> it:     <span class="comment">#遍历每一个值</span></span><br><span class="line">        <span class="comment"># check if we should insert i  </span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">not</span> h) <span class="keyword">or</span> (i &gt; h[<span class="number">0</span>]):   <span class="comment">#如果h为空或者新来的大于h里面最大的</span></span><br><span class="line">            heapq.heappush(h,i)     <span class="comment">#把这个元素插入到h</span></span><br><span class="line">            <span class="keyword">if</span> len(h) &gt; k:          <span class="comment">#长度大于k</span></span><br><span class="line">                heapq.heappop(h)    <span class="comment">#弹出h中最小的</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(len(h)):        <span class="comment">#遍历每一个值</span></span><br><span class="line">        <span class="keyword">yield</span> heapq.heappop(h)      <span class="comment">#从小到大依次弹出返回到上一层</span></span><br><span class="line">        </span><br><span class="line">print(list(topk(rdd.mapPartitions(topk).collect()))) <span class="comment">#对于分区使用，再整体使用</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>用实例总结了几个steaming和并行计算的基础知识点，路漫漫兮。</p>
+]]></content>
+      <tags>
+        <tag>复习</tag>
+        <tag>spark</tag>
+        <tag>并行计算</tag>
+        <tag>5003</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>5003总结1 RDD, Spark Internals</title>
+    <url>/2019/12/21/5003%E6%80%BB%E7%BB%931-RDD-Spark-Internals/</url>
+    <content><![CDATA[<h1 id="5003总结1-RDD-Spark-Internals"><a href="#5003总结1-RDD-Spark-Internals" class="headerlink" title="5003总结1 RDD, Spark Internals"></a>5003总结1 RDD, Spark Internals</h1><p>学习了5003之后，对于RDD和spark两章总结复习，梳理出有关函数的作用。</p><h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><p>resilient Distributed Datasets: 弹性分布式数据库，rdd是spark的基本运行单位<br>使用者作用于RDD，RDD自动进行分区，在不同partitions进行操作<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030092656.png" alt="RDD的操作"></p><a id="more"></a>
+
+<h2 id="rdd是“懒惰的”Lazy，如果只进行Transfomations-，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）"><a href="#rdd是“懒惰的”Lazy，如果只进行Transfomations-，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）" class="headerlink" title="* rdd是“懒惰的”Lazy，如果只进行Transfomations ，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）"></a>* rdd是“懒惰的”Lazy，如果只进行Transfomations ，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）</h2><p><a href="https://haofly.net/spark/" target="_blank" rel="noopener">引用博文 https://haofly.net/spark/</a></p>
+<ul>
+<li><strong>RDD(Resilient Distributed Dataset弹性分布式数据集)</strong>：这是spark的主要数据概念。有多种来源，容错机制，并且能缓存、并行计算。RDD在整个计算流程中会经过不同方式的变换，这种变换关系就是一个有向无环图。</li>
+<li>需要注意的是，所有的方法在定义执行之前都是异步的，所以不能简单地在下面的方法外部添加<code>try...catch...</code>进行异常捕获，最好是在传入的函数里面进行异常的捕获(如果是lambda，请确认lambda不会报错，否则如果lambda报错整个程序都会报错并终止允许)</li>
+<li>Spark应用程序可以使用大多数主流语言编写，这里使用的是python，只<code>pip install pyspark</code>即可</li>
+<li><strong>Stage(调度阶段)</strong>: 每个Job会根据RDD大小切分城多个Stage，每个Stage包含一个TaskSet</li>
+<li><strong>TaskSet(任务集)</strong>: 一组关联的Task集合，不过是没有依赖的</li>
+<li><strong>Task(任务)</strong>: RDD中的一个分区对应一个Task。</li>
+<li><strong>Narrow Dependency(窄依赖)</strong>: 比较简单的一对一依赖和多对一依赖(如union)</li>
+<li><strong>Shuffle Dependency(宽依赖)</strong>: 父RDD的分区被多个子RDD分区所使用，这时父RDD的数据会被再次分割发送给子RDD</li>
+<li><strong>Spark 内存分配</strong>: 分为这三块:<ul>
+<li><strong>execution</strong>: 执行内存，基本的算子都是在这里面执行的，这块内存满了就写入磁盘。</li>
+<li><strong>storage</strong>: 用于存储broadcast, cache, persist</li>
+<li><strong>other</strong>: 程序预留给自己的内存，这个可以不用考虑</li>
+</ul>
+</li>
+<li><strong>Duration</strong><ul>
+<li><strong>batchDuration</strong>: 批次时间</li>
+<li><strong>windowDuration</strong>: 窗口时间，要统计多长时间内的数据，必须是<code>batchDuration</code>的整数倍</li>
+<li><strong>slideDuration</strong>: 滑动时间，窗口多长时间滑动一次，必须是<code>batchDuration</code>的整数倍，一般是跟<code>batchDuration</code>时间相同<h3 id="生成RDD"><a href="#生成RDD" class="headerlink" title="生成RDD"></a>生成RDD</h3>sc.parallelize(xrange(10))<br>sc.textFile(‘../data/fruits.txt’)</li>
+</ul>
+</li>
+</ul>
+<h3 id="基本运算"><a href="#基本运算" class="headerlink" title="基本运算"></a><a href="https://haofly.net/spark/#%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97" target="_blank" rel="noopener" title="基本运算"></a>基本运算</h3><ul>
+<li>下面是所有运算方法的集合，其中有些方法仅用于键值对，有些方法仅用于数据流</li>
+</ul>
+<h4 id="Transformation-转换"><a href="#Transformation-转换" class="headerlink" title="Transformation(转换)"></a><a href="https://haofly.net/spark/#Transformation-%E8%BD%AC%E6%8D%A2" target="_blank" rel="noopener" title="Transformation(转换)"></a>Transformation(转换)</h4><p>这类方法仅仅是定义逻辑，并不会立即执行，即lazy特性。目的是将一个RDD转为新的RDD。</p>
+<ul>
+<li>map(func): 返回一个新的RDD，func会作用于每个map的key，func的返回值即是新的数据。为了便于后面的计算，这一步一般在数据处理的最前面将数据转换为(K, V)的形式，例如计数的过程中首先要<code>datas.map(lambda a, (a, 1))</code>将数据转换成(a, 1)的形式以便后面累加</li>
+<li><p>flatmap： 提取出每个list的所有元素，压成一层</p>
+</li>
+<li><p>mappartitions(func, partition): 和map不同的地方在于map的func应用于每个元素，而这里的<strong>func会应用于每个分区</strong>，能够有效减少调用开销，减少func初始化次数。减少了初始化的内存开销。但是map如果数据量过大，计算后面的时候可以将已经计算过的内存销毁掉，但是mappartitions中如果一个分区太大，一次计算的话可能直接导致内存溢出。</p>
+</li>
+<li>filter(func): 返回一个新的RDD，func会作用于每个map的key，返回的仅仅是返回True的数据组成的集合，返回None或者False或者不返回都表示被过滤掉</li>
+<li>filtMap(func): 返回一个新的RDD，func可以一次返回多个元素，最后形成的是所有返回的元素组成的新的数据集</li>
+<li>mapValues(func): 返回一个新的RDD，对RDD中的每一个value应用函数func。</li>
+<li>distinct(): 去除重复的元素</li>
+<li>subtractByKey(other): 删除在RDD1中的RDD2中key相同的值</li>
+<li>groupByKey(numPartitions=None): 将(K, V)数据集上所有Key相同的数据聚合到一起，得到的结果是(K, (V1, V2…))</li>
+<li>reduceByKey(func, numPartitions=None): 将(K, V)数据集上所有Key相同的数据聚合到一起，func的参数即是每两个K-V中的V。可以使用这个函数来进行计数，例如reduceByKey(lambda a,b:a+b)就是将key相同数据的Value进行相加。</li>
+<li>reduceByKeyAndWindow(func, invFunc, windowdurartion, slideDuration=None, numPartitions=None, filterFunc=None): 与reduceByKey类似，不过它是在一个时间窗口上进行计算，由于时间窗口的移动，有增加也有减少，所以必须提供一个逻辑和func相反的函数invFunc，例如func为(lambda a, b: a+b)，那么invFunc一般为(lambda a, b: a-b)，其中a和b都是key相同的元素的value。另外需要注意的是，程序默认会缓存一个时间窗口内所有的数据以便后续能进行inv操作，所以如果窗口太长，内存占用可能会非常高</li>
+<li>join(other, numPartitions=None): 将(K, V)和(K, W)类型的数据进行类似于SQL的JOIN操作，得到的结果是这样(K, (V, W))</li>
+<li>union(other): 并集运算，简单合并两个RDD</li>
+<li>intersection(other): 交集运算，保留在两个RDD中都有的元素</li>
+<li>leftOuterJoin(other): 左外连接</li>
+<li>rightOuterJoin(other): 右外连接</li>
+</ul>
+<h4 id="Action-执行"><a href="#Action-执行" class="headerlink" title="Action(执行)"></a><a href="https://haofly.net/spark/#Action-%E6%89%A7%E8%A1%8C" target="_blank" rel="noopener" title="Action(执行)"></a>Action(执行)</h4><p>不会产生新的RDD，而是直接运行，得到我们想要的结果。</p>
+<ul>
+<li>collect(): 以数组的形式，返回数据集中所有的元素</li>
+<li>count(): 返回数据集中元素的个数</li>
+<li>take(n): 返回数据集的前N个元素</li>
+<li>takeOrdered(n): 升序排列，取出前N个元素</li>
+<li>takeOrdered(n, lambda x: -x): 降序排列，取出前N个元素</li>
+<li>first(): 返回数据集的第一个元素</li>
+<li>min(): 取出最小值</li>
+<li>max(): 取出最大值</li>
+<li>stdev(): 计算标准差</li>
+<li>sum(): 求和</li>
+<li>mean(): 平均值</li>
+<li>countByKey(): 统计各个key值对应的数据的条数</li>
+<li>lookup(key): 根据传入的key值来查找对应的Value值</li>
+<li>foreach(func): 对集合中每个元素应用func</li>
+</ul>
+<h4 id="Persistence-持久化"><a href="#Persistence-持久化" class="headerlink" title="Persistence(持久化)"></a><a href="https://haofly.net/spark/#Persistence-%E6%8C%81%E4%B9%85%E5%8C%96" target="_blank" rel="noopener" title="Persistence(持久化)"></a>Persistence(持久化)</h4><ul>
+<li>cache()：保存，固定</li>
+<li>persist(): 将数据按默认的方式进行持久化</li>
+<li>unpersist(): 取消持久化</li>
+<li>saveAsTextFile(path): 将数据集保存至文件</li>
+</ul>
+<hr>
+<h2 id="RDD的操作-pyspark"><a href="#RDD的操作-pyspark" class="headerlink" title="RDD的操作 pyspark"></a>RDD的操作 pyspark</h2><figure class="highlight py"><table><tr><td class="code"><pre><span class="line">fruits = sc.textFile(<span class="string">'../data/fruits.txt'</span>) </span><br><span class="line">fruits.collect()</span><br><span class="line"><span class="comment">#读文本，全部显示</span></span><br></pre></td></tr></table></figure>
+<p>累加器的使用：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030104539.png" alt></p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">rdd = sc.parallelize(xrange(<span class="number">10</span>))</span><br><span class="line">accum = sc.accumulator(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">g</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> accum</span><br><span class="line">    accum += x</span><br><span class="line">    <span class="keyword">return</span> x * x</span><br><span class="line"></span><br><span class="line">a = rdd.map(g)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"---------"</span></span><br><span class="line"><span class="keyword">print</span> accum.value</span><br><span class="line"><span class="keyword">print</span> rdd.reduce(<span class="keyword">lambda</span> x, y: x+y)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"---------"</span></span><br><span class="line"><span class="comment">#a.cache()</span></span><br><span class="line">tmp = a.count()</span><br><span class="line"><span class="keyword">print</span> accum.value</span><br><span class="line"><span class="keyword">print</span> rdd.reduce(<span class="keyword">lambda</span> x, y: x+y)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"---------"</span></span><br><span class="line">tmp = a.count()</span><br><span class="line"><span class="keyword">print</span> accum.value</span><br><span class="line"><span class="keyword">print</span> rdd.reduce(<span class="keyword">lambda</span> x, y: x+y)</span><br><span class="line"><span class="comment">#reduce 始终不变，但是如果没有cache accumulator就会反复累加</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">---------</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">45</span></span><br><span class="line">---------</span><br><span class="line"><span class="number">45</span></span><br><span class="line"><span class="number">45</span></span><br><span class="line">---------</span><br><span class="line"><span class="number">90</span></span><br><span class="line"><span class="number">45</span></span><br></pre></td></tr></table></figure>
+<p>展示分区glom（）<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030105120.png" alt><br>mapParttitions 在分区内部执行函数f<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030110438.png" alt></p>
+<p>这里的index就是为了改变每次生成的随机数不一样，否则每个分区算出来是一样的<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030110351.png" alt></p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030111556.png" alt><br>对key相同的值进行操作</p>
+<h4 id="kmeans"><a href="#kmeans" class="headerlink" title="kmeans"></a>kmeans</h4><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030113309.png" alt></p>
+<h4 id="pagerank"><a href="#pagerank" class="headerlink" title="pagerank"></a>pagerank</h4><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031205443.png" alt></p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030113538.png" alt></p>
+<h1 id="Internal-of-Spark"><a href="#Internal-of-Spark" class="headerlink" title="Internal of Spark"></a>Internal of Spark</h1><h2 id="web端监控Spark运行情况"><a href="#web端监控Spark运行情况" class="headerlink" title="web端监控Spark运行情况"></a>web端监控Spark运行情况</h2><p>查看Spark 可视化进程： localhost:4040 4041 4042 …</p>
+<h2 id="partitions-分区"><a href="#partitions-分区" class="headerlink" title="partitions 分区"></a>partitions 分区</h2><p>RDD是储存在不同的partition里的，生成时每个partition平衡的（数量差不多），用于并行计算，但是有可能操作之后，就不平衡了。</p>
+<p>这时候，需要 .repartition(n)</p>
+<h1 id="Hash-vs-Range-partitioning"><a href="#Hash-vs-Range-partitioning" class="headerlink" title="Hash  vs Range partitioning"></a>Hash  vs Range partitioning</h1><ul>
+<li>Hash partitioning<br>通过%N，这样的将相同<strong>余数</strong>放到一个分区。<br>缺点：可能由于原数据余数不平衡，可能分区不平衡</li>
+<li>Range partitioning<br>计算每个分区大小，将连续的数放到一个分区<br>缺点：数值大小不平衡</li>
+</ul>
+<p>例子如下：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031200235.png" alt></p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031201853.png" alt><br>RDD本来没有partitions，当有了shuffle 或者主动生成一个partitions才会有。<br>(这样的好处是，shuffle本身是需要多个partitions一起参与的，如果是线性图（key没有变化），那就只需要在自己的分区内计算，实现并行)</p>
+<p>会继承partitions的3个Operations(key不会改变):</p>
+<ul>
+<li>mapValues  （但是map就不行）<ul>
+<li>flatMapValues </li>
+<li>filter  </li>
+</ul>
+</li>
+</ul>
+<p>其他的Operations都会改变key？ （这里需要考察一下）<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031202823.png" alt></p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031211821.png" alt></p>
+<p>Spark 的 各级目录</p>
+<blockquote>
+<p>application 一个内核&gt;job一次运行 &gt;stage指令下的一个状态&gt;task一个状态的任务</p>
+</blockquote>
+<p>Spark的内存管理</p>
+<ul>
+<li>Two types of memory usages for applications:<br>– Execution memory: for computation in shuffles, joins, sorts and aggregations<br>– Storage memory: for caching and propagating internal data across the cluster</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>复习</tag>
+        <tag>spark</tag>
+        <tag>5003</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>准备Q音推荐实习面试的笔记</title>
+    <url>/2019/11/30/%E5%87%86%E5%A4%87Q%E9%9F%B3%E6%8E%A8%E8%8D%90%E7%9A%84%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>11月30更新，面试通过。后续更新实习心得。</p><hr><p>学姐有发消息招腾讯音乐的日常实习，我当天投递简历，当晚组长联系第二天面试。<br>推荐部门，我约的第二天下午三点面试，感觉下午会清醒一点。<br>现在记录一下准备过程。<br>本文没有逻辑，看到哪记到哪。</p><a id="more"></a>
+
+
+<hr>
+<h1 id="qq音乐推荐现状"><a href="#qq音乐推荐现状" class="headerlink" title="qq音乐推荐现状"></a>qq音乐推荐现状</h1><p>用户登录之后，默认进入喜好选择页面。<br>Page1：选择喜好的音乐流派，可多选，候选项为常见的流派<br>Page2：选择喜好的歌手，候选项为基于流派里的出名歌星<br>然后在推荐页，有电台，当天推荐30首，每周新歌推荐；<br>下面可以一直往下拉，有专辑和短视频推荐，短视频自动播放</p>
+<p>喜好选择可以解决能启动。<br>解决冷启动还能通过：</p>
+<blockquote>
+<p>导入用户在社交网络上的好友信息和公开发布的信息<br>基本信息：（性别、职业、年龄段、地理位置（方言，城市等级，天气）、手机型号，传感器：行为判断运动？散步？休息）<br>关系链：相似好友推荐<br>朋友圈、QQ空间获取初步的用户画像：</p>
+<ul>
+<li>自己：个性签名，朋友圈动态-nlp，cv情感分析</li>
+<li>交互：好友分享，点赞，评论</li>
+</ul>
+</blockquote>
+<hr>
+<h1 id="相似度矩阵思考问题"><a href="#相似度矩阵思考问题" class="headerlink" title="相似度矩阵思考问题"></a>相似度矩阵思考问题</h1><p>链接：<a href="https://link.jianshu.com/?t=https://www.zhihu.com/question/26743347/answer/34542247" target="_blank" rel="noopener">知乎沙克</a>  </p>
+<p>完整的推荐系统体系包括 官方团队推荐（Editorial）、UGC（User-Generated Content）和热门推荐（Top Seller/Trending）的协作。</p>
+<ul>
+<li><strong>相似度矩阵（Similarity Matrix）：</strong><br>大家提的各种算法里面，几乎都是基于相似度的吧 — 无论是CF还是Content based产生的相似度，前者需要用户的行为数据，后者需要歌曲的元数据（metadata），比如旋律、Tag等等。<br>需要避免过多推荐单一歌手，避免过多热门。<br>找到冷门优秀的歌曲。<br>类似与tf-idf，在歌曲对个人的重要性在总榜里的热度乘反比，在个人的喜好程度乘正比。</li>
+</ul>
+<hr>
+<h1 id="userCF算法和itemCF算法的层面"><a href="#userCF算法和itemCF算法的层面" class="headerlink" title="userCF算法和itemCF算法的层面"></a>userCF算法和itemCF算法的层面</h1><blockquote>
+<p>链接：<a href="https://link.jianshu.com?t=https://www.zhihu.com/question/26743347/answer/65777210" target="_blank" rel="noopener">作者：郑昊</a><br>来源：知乎著作权归作者所有，转载请联系作者获得授权。<br>在本文中我们将提到两种方法来实现这个目的，基于用户的协作型过滤和基于物品的协作型过滤。</p>
+</blockquote>
+<h2 id="基于用户的协作型过滤"><a href="#基于用户的协作型过滤" class="headerlink" title="基于用户的协作型过滤"></a>基于用户的协作型过滤</h2><p> 音乐用户甲-&gt;偏好相近用户-&gt;相关歌曲-&gt;推荐列表</p>
+<p>流程至少包括以下四个步骤：<br>建立评价规则<br>搜集用户偏好<br>寻找相近的用户<br>推荐歌曲</p>
+<blockquote>
+<p><strong>1.建立评价规则</strong><br>下图是我随意做的一个评价规则。评价规则应该根据明确的用户行为来建立。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203521.png" alt></p>
+<p>评价规则-随意做的</p>
+<p><strong>2.搜集用户偏好</strong><br>根据评价规则，我们可以得到每个用户和该用户相关的每首歌的一个得分。 下图也是我随意造的数据。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203536.png" alt></p>
+<p>用户偏好</p>
+<p><strong>3.寻找相近的用户</strong><br>常用的计算相似度评价值的体系有两种：欧几里得距离和皮尔逊相关度。</p>
+<p><strong>4.推荐歌曲</strong><br>接下来系统要做的就是，为用户郑昊提供歌曲推荐。我们当然可以查找与郑昊品味最相近的人，从他所喜欢的歌曲中找出一首郑昊可能还未接触过的歌曲。不过，这样的做法未免太随意了。<br>目前最通用的做法是，通过一个经过加权的评价值来为歌曲打分，评分结果即排名结果。为此，我们需要取得所有其他用户的分数，借此得到相关系数后，再乘以他们与相关歌曲的分数，求和之后再除以对应的相关系数总计，便能获得一个我们需要的评价值。在下表中我们给出了具体的做法。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203705.png" alt></p>
+<p>「相关系数」一列来自于皮尔逊相关度评价。「歌名」对应各用户的得分来自评价规则处理后的结果。将前两者一一对应相乘，便是「歌N*相关系数」的值。如此一来，相比于与我们不相近的人，那些与我们相近的人将会对整体评价值拥有更多的贡献。总计一行给出了所有加权评价值的总和。</p>
+<p>我们可以用总计值来计算歌曲排名，但是我们还需要考虑到，这样人数会对一首歌的得分产生正相关影响。为了避免这一问题，我们需要将总计除以相关系数总计。相关系数总计等于所有对这首歌曲有影响的用户的相关系数之和。表中最后一行就是我们所需要的结果。</p>
+</blockquote>
+<h2 id="基于物品的协作型过滤"><a href="#基于物品的协作型过滤" class="headerlink" title="基于物品的协作型过滤"></a>基于物品的协作型过滤</h2><p>1.歌曲A-&gt;相关用户-&gt;相关歌曲-&gt;推荐列表；<br>2.网易云音乐用户甲-&gt;偏好歌曲-&gt;推荐列表。</p>
+<p>1是主要计算过程，2是推荐过程。</p>
+<hr>
+<h1 id="从产品角度思考数据"><a href="#从产品角度思考数据" class="headerlink" title="从产品角度思考数据"></a>从产品角度思考数据</h1><p><a href="http://www.chanpin100.com/article/100147" target="_blank" rel="noopener">链接</a><br>行业分析、市场分析、用户群的划分和分析之外，还考虑未来的发展方向</p>
+<hr>
+<h1 id="实习经历描述"><a href="#实习经历描述" class="headerlink" title="实习经历描述"></a>实习经历描述</h1><p>腾讯 微信事业群 数据分析实习生 用户拉起方向 2019.04-2019.08 l 运用聚类算法对用户来源、拉起特征、活跃企业等属性完成了用户聚类，梳理出用户画像，找到用户拉起的增长点;通过通过漏斗分析，寻找出注册页瓶颈，找到改进措施。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119221035.png" alt></p>
+<p>产品岗，做的杂：捞数据，做报表，策划，数据分析。<br>分析：互通现状。<br>任务：分析现状，梳理出下一步的方向。<br>What：现状是什么？用户增长放缓，发消息加深。<br>思路：用户群的划分→得到比例和画像→比例与市场比较，寻找空间；画像对比我们的目标企业查看问题</p>
+<ul>
+<li><p>用户群怎么划分？<br>1 活跃 62%<br>2 基于产品性质，协同12%，服务50%<br>3 服务类的 基于使用情况，公司规模 大企业10% 小企业40%</p>
+</li>
+<li><p>画像，使用情况：<br>分词去寻找岗位，树状结构去找级别，流失时间点，是否体验了</p>
+</li>
+</ul>
+<p>解决：<br>when：使用互通次日<br>who：IT，零售，物流<br>why：需要客户联系，管理消费者资源<br>how：<br>1 大企业，推联系方式给BD联系主动沟通，拉起使用<br>2 中小企业，非管理员体验，push引导管理员开通客户联系；  管理员体验，企业号推送行业案例，激发兴趣<br>3 未进入的企业，寻找“优质用户”包，在朋友圈广告定向推送互通行业案例<br>4 增加通道：微信个人资料增加企业微信icon，增加曝光</p>
+<hr>
+]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
+      <tags>
+        <tag>实习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>What is GAN basicly?</title>
+    <url>/2019/11/30/What-is-GAN-basicly/</url>
+    <content><![CDATA[<p><strong>MSBD5012 Term Paper</strong></p><p>Due Date: 7 December 2019</p><p>Via Canvas</p><p>As announced by the university administration, there won’t be any proctored examinations this semester and alternative assessment arrangements are to be made by the course instructors. For CSIT6000G/MSBD5012, you are asked to write a term paper in lieu of the final exam.</p><a id="more"></a>
+
+
+
+<p>You need to choose one topic from the following list, and explain it informally:</p>
+<p>· Adversarial attack</p>
+<p>· Variational autoencoders</p>
+<p>· Generative adversarial networks</p>
+<p>· Deep reinforcement learning</p>
+<p>The targeted readers of the paper are computer science students who are about to take the course. In other words,  <strong>you are asked to explain the chosen topic to the past you</strong> at 1 September 2019.  Obviously, there isn’t enough space for you to include all the details. However, you need to cover the<br>key concepts and key ideas.<br> You can follow the outlines of the relevant lectures, and might need to include contents before those lectures as background.</p>
+<p>You can include diagrams and mathematical formulae. However, avoid mathematical formulae as much as possible because  <strong>the purpose is to give informal explanations, not formal proofs.</strong></p>
+<p>The term paper should be no more than 4 pages in length, and the font size of the main text should be 12pt. You are encouraged to use latex  <a href="https://github.com/ICLR/Master-Template/blob/master/archive/iclr2020.zip" target="_blank" rel="noopener">latex template</a> of <a href="https://iclr.cc/Conferences/2020/CallForPapers" target="_blank" rel="noopener">ICLR 2020</a>. Generate a pdf file for submission via Canvas and name your file  “ [Last Name]_ [First Name]_[Student ID].pdf”. Discussions among students are encouraged. However, you need to write up your paper independently.  A plagiarism checker will be run on all submitted reports.</p>
+<p>The term paper will be graded using the following scheme:</p>
+<p>· Overall understanding of the topic:  50%</p>
+<p>· Clarity of explanations:  30%</p>
+<p>· Effort (how polished the report is):  20%</p>
+<p>The term paper is  <strong>due by 23:59 on 7 December</strong>, the scheduled final exam date.  <strong>No late submissions will be accepted</strong>.</p>
+<hr>
+<h1 id="Generative-Adversarial-Networks-is-so-Easy"><a href="#Generative-Adversarial-Networks-is-so-Easy" class="headerlink" title="Generative Adversarial Networks is so Easy"></a>Generative Adversarial Networks is so Easy</h1><p>In machine learning course, we learn how to teach our program to learn the information among the data. There are a lot’s kinds of work can be down, just like classification, regression and generate new data as same as nature. Generating new data is pretty interesting job. Thinking about what if you can teach your program to learn the plot by Picasso’s. The plots by Picasso’s  is very famous and expensive. The most painting by Picasso is _Les femmes d’Alger_  which worth  $179 million.  If we can teach our program to plot a image similar with his style easily. That’s will be a amazing job. But now we can made it by the algorithm GANs.</p>
+<h2 id="Basic-idea"><a href="#Basic-idea" class="headerlink" title="Basic idea"></a>Basic idea</h2><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130001221.png" alt></p>
+<p>GANs are the algorithms represented for Generative Adversarial Networks.  It is the process of two complex algorithms (neural networks) competing against each other. One algorithms is called <strong>Generator,</strong> the other algorithm is called <strong>Discriminator</strong>.</p>
+<p>The generative model and the discriminant model play a game with each other and learn to produce quite good output. Taking pictures as an example, the main task of the generator is to learn the real picture set, so that the pictures generated by yourself are closer to the real pictures, and the “disguise” discriminator. The main task of the discriminator is to find out the picture generated by the generator, distinguish it from the real picture, and perform true and false discrimination. Throughout the iteration process, the generator continuously strives to make the generated image more and more real, and the discriminator continuously strives to identify the authenticity of the picture. This is similar to the game between the generator and the discriminator. After repeated iterations, the two finally reached a balance: the picture generated by the generator is very close to the real picture, and it is difficult for the discriminator to distinguish the difference between the real and fake pictures. Its performance is that for true and false pictures, the probability output of the discriminator is close to 0.5.</p>
+<p>Let’s still assume an I wants to replicate the style of Picasso. After I have watch all the detail of Picasso’s paintings, I think I have learned a lot. So I find a a collector to help me improve my level. The collector has rich experience and sharp eyes, and the paintings on the market that imitate Picasso cannot escape his eyes. The collector told me a word: when will your painting deceive me, you will be successful.</p>
+<p>Then I give hime this one:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130110753.png" alt><br>The collector glanced lightly and was very angry. “0 points! This is also called painting? Too much difference!” After listening to the collector’s words, I began to reflect on myself and did not hesitate to draw, even it is a black image. So I drew another picture:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130110852.png" alt></p>
+<p>The collector saw : 1 point ! Repaint! As soon as I thought it was still impossible, the painting was too bad, so I went back to study Picasso’s painting style, and continued to improve and re-create, until one day I showed the new painting to the collector:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130001221.png" alt><br>This time, the collector was wearing glasses and carefully analyzing. After a long time, the collector patted my shoulder and said that the painting was very good. Haha, I was so happy to be praised and affirmed by the collector.</p>
+<p>This example is actually a GAN training process. I am a generator, the purpose is to output a picture that can fool collectors, making it difficult for collectors to distinguish between true and false! The collector is the discriminator, the purpose is to identify my painting and judge it to be false! The whole process is a game of “generation-confrontation”. In the end, I (the generator) outputs a picture of “truths and false truths”, and even collectors (the discriminator) can hardly distinguish.</p>
+<h2 id="What’s-GAN-model"><a href="#What’s-GAN-model" class="headerlink" title="What’s GAN model?"></a>What’s GAN model?</h2><p>After we talk about the basic ideal, then let’s see what is the Generative Adversarial Networks(GANs) mathematically.  Generally, GANs are a model architecture for training a generative model, and it is most common to use deep learning models in this architecture.</p>
+<p>The GAN architecture was first described in the 2014 paper by  Ian Goodfellow, et al. titled “Generative Adversarial Networks.” After this paper appeared, there are plenty related paper followed. A standardized approach called Deep Convolutional Generative Adversarial Networks, or DCGAN, that led to more stable models was later formalized by  Alec Radford, et al. in the 2015 paper titled Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks.</p>
+<p>The GAN model architecture involves two sub-models: a  _generator model_  for generating new examples and a  _discriminator model_  for classifying whether generated examples are real, from the domain, or fake, generated by the generator model.</p>
+<ul>
+<li><strong>Generator</strong>. Model that is used to generate new plausible examples from the problem domain.</li>
+<li><strong>Discriminator</strong>. Model that is used to classify examples as real (_from the domain_) or fake (_generated_).</li>
+</ul>
+<blockquote>
+<p>Generative adversarial networks are based on a game theoretic scenario in which the generator network must compete against an adversary. The generator network directly produces samples. Its adversary, the discriminator network, attempts to distinguish between samples drawn from the training data and samples drawn from the generator.</p>
+</blockquote>
+<h3 id="Generator-Model"><a href="#Generator-Model" class="headerlink" title="Generator Model"></a>Generator Model</h3><p>The generator model takes a fixed-length random vector as input and generates a sample in the domain. The vector is drawn from randomly from a Gaussian distribution, and the vector is used to seed the generative process. After training, points in this multidimensional vector space will correspond to points in the problem domain, forming a compressed representation of the data distribution.</p>
+<p>This vector space is referred to as a latent space, or a vector space comprised of  <a href="https://en.wikipedia.org/wiki/Latent_variable" target="_blank" rel="noopener">latent variables</a>. Latent variables, or hidden variables, are those variables that are important for a domain but are not directly observable.</p>
+<p>We often refer to latent variables, or a latent space, as a projection or compression of a data distribution. That is, a latent space provides a compression or high-level concepts of the observed raw data such as the input data distribution. In the case of GANs, the generator model applies meaning to points in a chosen latent space, such that new points drawn from the latent space can be provided to the generator model as input and used to generate new and different output examples.</p>
+<p>After training, the generator model is kept and used to generate new samples.</p>
+<p><img src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-GAN-Generator-Model.png" alt="Example of the GAN Generator Model"></p>
+<p>Example of the GAN Generator Model</p>
+<h3 id="The-Discriminator-Model"><a href="#The-Discriminator-Model" class="headerlink" title="The Discriminator Model"></a>The Discriminator Model</h3><p>The discriminator model takes an example from the domain as input (real or generated) and predicts a binary class label of real or fake (generated).</p>
+<p>The real example comes from the training dataset. The generated examples are output by the generator model.</p>
+<p>The discriminator is a normal (and well understood) classification model.</p>
+<p>After the training process, the discriminator model is discarded as we are interested in the generator.</p>
+<p>Sometimes, the generator can be repurposed as it has learned to effectively extract features from examples in the problem domain. Some or all of the feature extraction layers can be used in transfer learning applications using the same or similar input data.</p>
+<p><img src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-GAN-Discriminator-Model.png" alt="Example of the GAN Discriminator Model"></p>
+<h1 id="Combine-two-parts"><a href="#Combine-two-parts" class="headerlink" title="Combine two parts"></a>Combine two parts</h1><p>Generative modeling is an unsupervised learning problem, as we discussed in the previous section, although a clever property of the GAN architecture is that the training of the generative model is framed as a supervised learning problem. The two models, the generator and discriminator, are trained together. The generator generates a batch of samples, and these, along with real examples from the domain, are provided to the discriminator and classified as real or fake. The discriminator is then updated to get better at discriminating real and fake samples in the next round, and importantly, the generator is updated based on how well, or not, the generated samples fooled the discriminator.</p>
+<p>In this way, the two models are competing against each other, they are adversarial in the game theory sense, and are playing a  zero-sum game. In this case, zero-sum means that when the discriminator successfully identifies real and fake samples, it is rewarded or no change is needed to the model parameters, whereas the generator is penalized with large updates to model parameters. Alternately, when the generator fools the discriminator, it is rewarded, or no change is needed to the model parameters, but the discriminator is penalized and its model parameters are updated.</p>
+<p>At a limit, the generator generates perfect replicas from the input domain every time, and the discriminator cannot tell the difference and predicts “unsure” (e.g. 50% for real and fake) in every case. This is just an example of an idealized case; we do not need to get to this point to arrive at a useful generator model.</p>
+<p><img src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-Generative-Adversarial-Network-Model-Architecture.png" alt="Example of the Generative Adversarial Network Model Architecture"></p>
+<p>Example of the Generative Adversarial Network Model Architecture</p>
+]]></content>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>集成学习GDBT,XGBOOST,RF</title>
+    <url>/2019/11/16/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%91%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0GDBT-XGBOOST-RF/</url>
+    <content><![CDATA[<p>集成学习（Ensemble Learning），集成学习的目的是通过结合多个基学习器的预测结果来改善单个学习器的泛化能力和鲁棒性。</p><p>集成学习致分为两大类：</p><ul>
+<li>Boosting:即个体学习器之间存在强依赖关系、必须串行生成的序列化方法，Adaboost, GDBT, Xgboost.</li>
+<li>Bagging以及个体学习器间不存在强依赖关系、可同时生成的并行化方法，“随机森林”（Random Forest）。</li>
+</ul><a id="more"></a>
+
+
+<h1 id="1-Bagging"><a href="#1-Bagging" class="headerlink" title="1. Bagging"></a>1. Bagging</h1><p>Bagging：简单放回抽样，多数表决（分类）或简单平均（回归）,同时Bagging的基学习器之间属于并列生成，无依赖关系。</p>
+<h2 id="1-1-随机森林"><a href="#1-1-随机森林" class="headerlink" title="1.1 随机森林"></a>1.1 随机森林</h2><p>Random Forest（随机森林）：Bagging的扩展变体，它在以决策树为基学习器构建Bagging集成的基础上，进一步在决策树的训练过程中引入了随机特征选择，因此可以概括RF包括四个部分：<br>1、随机选择 样本（放回抽样）；<br>2、随机选择 特征；<br>3、构建分类器；如：ID3、C4.5、CART、SVM、Logistic regression等<br>4、投票（平均）</p>
+<p>随机性偏差会有微增（相比于单棵不随机树），‘平均’会使得方差减小更多</p>
+<ul>
+<li>随机森林的优点<br>1、速度快，精度不会很差<br>2、能够处理高维数据，不用特征选择，训练完后，可给出特征重要性；<br>3、可并行化  </li>
+<li>随机森林的缺点：在噪声较大的分类或者回归问题上回过拟合。</li>
+</ul>
+<h1 id="2-Boosting"><a href="#2-Boosting" class="headerlink" title="2. Boosting"></a>2. Boosting</h1><h2 id="2-1-基于调整权重-Adaboost"><a href="#2-1-基于调整权重-Adaboost" class="headerlink" title="2.1 基于调整权重 Adaboost"></a>2.1 基于调整权重 Adaboost</h2><p>每生成一棵树之后，计算两个权重</p>
+<blockquote>
+<p>1 计算这个树的误差率，误差率越高，权重越低<br>2 计算每个样本的错分率，错分的样本，权重越高，之后更容易分对</p>
+</blockquote>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091802.png" alt><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091915.png" alt></p>
+<h2 id="2-2-基于残差：GB-GBTD-Xgboost"><a href="#2-2-基于残差：GB-GBTD-Xgboost" class="headerlink" title="2.2 基于残差：GB(GBTD,Xgboost)"></a>2.2 基于残差：GB(GBTD,Xgboost)</h2><h3 id="2-2-1-GBTD"><a href="#2-2-1-GBTD" class="headerlink" title="2.2.1 GBTD"></a>2.2.1 GBTD</h3><p>GBDT只能由回归树组成.</p>
+<ul>
+<li>基本思想：<br>在GradientBoost中，每个新的模型的建立是为了使得之前的模型的残差往梯度下降的方法。</li>
+</ul>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116110339.png" alt></p>
+<ul>
+<li>如果是分类树，损失函数是指数损失函数：<br>𝐿(𝑦,𝑓(𝑥))=𝑒𝑥𝑝(−𝑦𝑓(𝑥))</li>
+<li>如果是回归树，损失函数是均方损失（CART）：<br>𝐿(𝑦,𝑓(𝑥))=(𝑦−𝑓(𝑥))^2</li>
+<li>如何防止过拟合？<blockquote>
+<ol>
+<li>步长v(0-1)，权重衰减 𝑓𝑘(𝑥)=𝑓𝑘−1(𝑥)+𝑣 ℎ𝑘(𝑥)，降低新来的分类器的影响力</li>
+<li>子采样比例</li>
+<li>用弱学习器</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-2-2-xgboost"><a href="#2-2-2-xgboost" class="headerlink" title="2.2.2 xgboost"></a>2.2.2 xgboost</h3><p>当已经生成了一棵树的时候，如何去选择新子树：</p>
+<ul>
+<li><p>1 目标函数：</p>
+<script type="math/tex; mode=display">Obj=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}\right)+\sum_{k} \Omega\left(f_{k}\right), f_{k} \in \mathcal{F}</script></li>
+<li><p>1.1 第t轮的时候：</p>
+<script type="math/tex; mode=display">\begin{aligned} O b j^{(t)} 
+&=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}^{(t)}\right)+\sum_{i=1}^{t} \Omega\left(f_{i}\right) 
+\\ & \equiv \sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}^{(t-1)}+f_{t}\left(x_{i}\right)\right)+\Omega\left(f_{t}\right)+c\end{aligned}</script></li>
+<li>这时候需要寻找f_t来让目标函数最小</li>
+</ul>
+<blockquote>
+<p>a. 式子左边，对目标函数在$f_t(x)$上泰勒展开，去二阶，求得近似解：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116120113.png" alt></p>
+<p>b. 式子右边，定义复杂度 $\Omega\left(f_{t}\right)$<br>每颗树，都是由枝干(分类节点)和叶子(树的末端)组成的。<br>定义复杂度为：叶子个个数T, 加上每个叶子的值w平方和（各有系数）。<br>树越复杂，T ↑，w平方和 ↑，复杂度 ↑，惩罚 ↑。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116121238.png" alt></p>
+</blockquote>
+<ul>
+<li>更新目标函数：<script type="math/tex; mode=display">
+\begin{aligned} O b j^{(t)} & \simeq \sum_{i=1}^{n}\left[g_{i} f_{t}\left(x_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(x_{i}\right)\right]+\Omega\left(f_{t}\right) +c\\ &=\sum_{i=1}^{n}\left[g_{i} w_{q\left(x_{i}\right)}+\frac{1}{2} h_{i} w_{q\left(x_{i}\right)}^{2}\right]+\left(\gamma T+\lambda \frac{1}{2} \sum_{j=1}^{T} w_{j}^{2}\right)+c
+\\ &=\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]+\gamma T +c \end{aligned}</script></li>
+</ul>
+<blockquote>
+<ul>
+<li>其中$f_{t}(x)=w_{q(x)}, w \in \mathbf{R}^{T}, q: \mathbf{R}^{d} \rightarrow\{1,2, \cdots, T\}$，表示x→叶节点→对应的值w。目的是统一用$w_{j}$表示树$f_t$。</li>
+<li>第三行的理解，对于示性函数$I_{j}=\left\{i | q\left(x_{i}\right)=j\right\}$，$I_j$表示一个集合在j的叶子节点中。用示性函数求和代替1-n的求和，然后交换求和顺序。</li>
+</ul>
+</blockquote>
+<ul>
+<li>这里发现目标函数是关于$w_{j}$的二次函数，二次函数在对称轴上取极值。<br>简化表达：$G_{j}=\sum_{i \in I_{j}} g_{i} \quad H_{j}=\sum_{i \in I_{j}} h_{i}$得到：<script type="math/tex; mode=display">
+\begin{aligned} O b j^{(t)} =\sum_{j=1}^{T}\left[G_{j} w_{j}+\frac{1}{2}\left(H_{j}+\lambda\right) w_{j}^{2}\right]+\gamma T \end{aligned}</script>二次函数求极值得到：<script type="math/tex; mode=display">
+\begin{array}{c}{w_{j}^{*}=-\frac{G_{j}}{H_{j}+\lambda}} \\ {} \\ {O b j=-\frac{1}{2} \sum_{j=1}^{T} \frac{G_{j}^{2}}{H_{j}+\lambda}+\gamma T}\end{array}</script>w是每一个叶节点值，Obj是这个树的分数，分数越低越好。<br>这样，就可以直接计算出树的分数，可以对于候选进行评比。</li>
+</ul>
+<hr>
+<p>如何生成候选树？</p>
+<ul>
+<li>Enumerate 枚举可能的结构</li>
+<li>通过刚才的式子计算最优分数</li>
+<li>但是问题是有无限的可能性。</li>
+</ul>
+<hr>
+<ul>
+<li>所以通过贪婪学习：（不详细讲）<br>每一次尝试对已有的叶子结点加入一个分割，选择具有最佳增益的分割对结点进行分裂。对于一个具体的分割方案，我们可以获得的增益可以由如下公式计算：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116142330.png" alt></li>
+</ul>
+<blockquote>
+<p>也就是通过信息增益去寻找最优分割点。<br>这里有个好处就是如果惩罚大于增益，gain就会为负数，自动停止。</p>
+</blockquote>
+<h1 id="3-模型对比"><a href="#3-模型对比" class="headerlink" title="3 模型对比"></a>3 模型对比</h1><h2 id="3-1-随机森林vsGDBT"><a href="#3-1-随机森林vsGDBT" class="headerlink" title="3.1 随机森林vsGDBT"></a>3.1 随机森林vsGDBT</h2><ul>
+<li>决策树类型：组成随机森林的树可以是分类树，也可以是回归树；而GBDT只能由回归树组成；  </li>
+<li>结果预测：对于最终的输出结果而言，随机森林采用多数投票、简单平均等；而GBDT则是将所有结果累加起来，或者加权累加起来；  </li>
+<li>并行/串行：组成随机森林的树可以并行生成；而GBDT只能是串行生成；  </li>
+<li>异常值：随机森林对异常值不敏感；GBDT对异常值非常敏感；</li>
+<li>方差/偏差：随机森林减少方差；GBDT是通过减少偏差。</li>
+</ul>
+<h2 id="3-2-GDBT-vs-XGboost"><a href="#3-2-GDBT-vs-XGboost" class="headerlink" title="3.2 GDBT vs XGboost"></a>3.2 GDBT vs XGboost</h2><ul>
+<li>GDBT只支持CATR树，xgboost还支持线性分类器</li>
+<li>GDBT只用了一阶，xgboost泰勒展开，用了二阶</li>
+<li>xgboost有正则项，而且会自动停止生成(依赖参数gamma)。</li>
+<li>xgboost可以列抽样，借鉴了随机森林的做法</li>
+<li>XGBOOST可以自动学习出缺失值的分裂方向</li>
+<li>XGBOOST实现了并行化：每个特征并行计算，每个特征划分也并行计算</li>
+</ul>
+<p>后期实现中，xgboost还有优化，所以很快：</p>
+<ul>
+<li>在寻找分割点，枚举贪心法效率低，xgboost实现近似的算法。大致的思想是根据百分位法列举几个成为分割点的候选者，然后再进一步计算。</li>
+<li>xgboost考虑了训练数据为稀疏值的情况（我也不懂T^T）</li>
+<li>特征列排序后以块的形式存储在内存中，在迭代中可以重复使用；虽然boosting算法迭代必须串行，但是在处理每个特征列时可以做到并行。</li>
+<li>Shrinkage（缩减），相当于学习速率（xgboost中的eta）。xgboost在进行完一次迭代后，会将叶子节点的权重乘上该系数，主要是为了削弱每棵树的影响，让后面有更大的学习空间。实际应用中，一般把eta设置得小一点，然后迭代次数设置得大一点。（补充：传统GBDT的实现也有学习速率）</li>
+</ul>
+<p>总结，一个简单的idel不断优化，借鉴别的想法，优化到了极致，导致xgboost能这么强。</p>
+<p>参考资料：xgboost原文<br><a href="https://blog.csdn.net/weixin_42158523/article/details/81737370" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42158523/article/details/81737370</a><br><a href="https://www.cnblogs.com/aixiao07/p/11375168.html" target="_blank" rel="noopener">https://www.cnblogs.com/aixiao07/p/11375168.html</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>港校msc 互联网找工作时间轴</title>
+    <url>/2019/10/26/Blog2-%E6%B8%AF%E6%A0%A1msc-%E4%BA%92%E8%81%94%E7%BD%91%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%97%B6%E9%97%B4%E8%BD%B4/</url>
+    <content><![CDATA[<h1 id="港校msc-互联网找工作时间轴"><a href="#港校msc-互联网找工作时间轴" class="headerlink" title="港校msc 互联网找工作时间轴"></a>港校msc 互联网找工作时间轴</h1><p><strong>入学前的（大四） 暑期实习</strong> 建议参加<br>3-5月 实习岗位网申开启<br>5-7月 进行网申、面试，发放Offer<br>7-9月 进入公司实习</p><p><strong>入学前的 秋季校招</strong> 建议参加<br>7-8月 互联网大厂的提前批、正式校招开放；<br>9月意向书，10月底谈薪</p><a id="more"></a>
+
+<hr>
+<h2 id="入学"><a href="#入学" class="headerlink" title="入学"></a>入学</h2><p><strong>入学后的</strong> 春季校招 招人较少<br>2-4月 进行网申<br>3-5月 开始笔试、面试<br>5-6月 发Offer入职</p>
+<p><strong>暑假实习</strong> 必参加<br>3-5月 各大行业实习岗位网申开启<br>5-7月 进行网申、面试，发放Offer<br>7-9月 进入公司实习</p>
+<p><strong>秋季校招</strong> 即使拿到实习return也建议参加，有利于argue涨价<br>7-8月 互联网大厂的提前批、正式校招开放；<br>9月意向书，10月底谈薪</p>
+<p>11月毕业-&gt;入职</p>
+<hr>
+<h2 id="成为社畜"><a href="#成为社畜" class="headerlink" title="成为社畜"></a>成为社畜</h2><p>我的个人准备笔试面试时间轴：<br><!-- Table --><br>| 月份| 校内|找工作准备|<br>|—|—|—|<br>| 11月| 各种ddl | 算法基础+数据结构<br>|12月|考试+寒假|剑指offer<br>|1月|寒假| 剑指offer+NLP+整理机器学习+特征工程<br>|2月|开学不忙|leetcode mid+NLP实战+整理深度学习<br>|3月|开始准备期中| leetcode hard+笔试概率题、智商题</p>
+]]></content>
+      <tags>
+        <tag>timeline</tag>
+        <tag>实习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Build by Hexo</title>
+    <url>/2019/10/24/Blog1-Build%20by%20Hexo/</url>
+    <content><![CDATA[<p>本次搭建blog，完全学习于：<a href="https://www.bilibili.com/video/av44544186?from=search&amp;seid=6748505739751413370" target="_blank" rel="noopener">b站up主codesheep视频</a></p><p>下面进入流程：</p><ol>
+<li>sudo su 进入管理员</li>
+<li>安装Node.js，搜索，下载，安装<br>安装之后会有两个工具： node和npm<br>也可以用国内的cnpm</li>
+<li>通过npm安装hexo 博客静态框架<blockquote>
+<p>npm install -g hexo-cli </p>
+</blockquote>
+</li>
+<li>建立一个专有的文件夹，方便管理</li>
+<li>文件夹下运行hexo<blockquote>
+<p>sudo hexo init</p>
+</blockquote>
+</li>
+</ol><a id="more"></a>
+
+
+<p>初始化文件，主要的有_config.yml 配置文件，source内容的文件夹，themes主题文件夹。</p>
+<blockquote>
+<p>hexo s #start 开始<br>hexo n “文章名” #生成文章<br>hexo clean #清理之前的</p>
+<ol>
+<li>部署到github</li>
+</ol>
+</blockquote>
+<p>生成 xxx.github.io（ xxx必须为github的用户名）的项目</p>
+<blockquote>
+<p>npm install —save hexo-deployer-git</p>
+</blockquote>
+<p>下载插件，连接到git</p>
+<p>设置_config.yml最下面</p>
+<blockquote>
+<p>type: git<br>repo: <a href="https://github.com/xxxx/xxxx.github.io" target="_blank" rel="noopener">https://github.com/xxxx/xxxx.github.io</a></p>
+</blockquote>
+<p>推送到远端</p>
+<blockquote>
+<p>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</p>
+</blockquote>
+<p>访问 xxxx.github.io，就可以看到自己的博客啦。</p>
+<hr>
+<p><a href="https://hexo.io/zh-cn/docs/commands.html" target="_blank" rel="noopener">hexo官网</a></p>
+]]></content>
+      <tags>
+        <tag>blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello Blog</title>
+    <url>/2019/10/24/Hello-Blog/</url>
+    <content><![CDATA[<h1 id="Hello-Blog"><a href="#Hello-Blog" class="headerlink" title="Hello Blog."></a>Hello Blog.</h1><p>之前经常会发现大佬有自己的技术博客，之前也尝试着去做一个，但是由于自己的技术水平有限，也没有决定好走技术路线，所以就一直没有开始写技术博客。</p><p>最近比较了算法和产品的待遇，真的差别好大。暂且不说之后的发展会怎样，程序员/技术岗本身是智力和努力的比拼，是硬功夫。有更清晰的发展方向。再加上种种原因，我决定做技术了。</p><a id="more"></a>
+
+<ul>
+<li>所以为什么要写博客呢？<br>（鉴于自己的理解和b站up主<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.bilibili.com%2Fvideo%2Fav56930990%2F%3Fspm_id_from%3D333.788.videocard.2" target="_blank" rel="noopener">codesheep</a> 的介绍，总结如下） <ol>
+<li>博客=输出=实践<br>写博客也是一个技术输出的过程，而当你想输出的时候，你就已经需要整合自己的学习成果，不断的理解技术细节，比如说：神经网络的梯度传到过程，虽然接触很多遍，不动手就很难掌握。</li>
+<li>博客=输出=表达<br>理科出身的我经常给自己找借口，原理我懂就行，表达不清楚就慢慢表达，但实际上，表达不清楚会导致别人不愿意和你交流，从而丧失很多机会。<br>有了输出的过程，就需要去磨炼自己表达的精炼程度，以及练习如何让别人明白，就更容易理解。</li>
+<li>博客=简历=社交<br>有了个人主页，别人就知道你的技术水平，你会什么，你学过什么，一应俱全。是找工作，或者是技术交流的好平台。</li>
+</ol>
+</li>
+<li>担心自己的博客没有技术含量？<br>你觉得没有技术含量的可能会对别人有用，只要可复现，都是有价值的。</li>
+<li>现在写的会晚吗？<br>我知道很多cs的同学大一就开始搭建自己的知识体系，构建专栏，值得敬佩和羡慕。不过人生漫长，任何时候开始干一件事都不晚。</li>
+<li>写什么内容？<ol>
+<li>学习笔记、心得</li>
+<li>生活感悟</li>
+<li>工程排坑</li>
+</ol>
+</li>
+</ul>
+<p>为了混口饭吃，写博客的flag没有任何理由推倒了吧。<br>希望最少保持一个月一篇的频率，正常频率一周一篇。</p>
+]]></content>
+      <tags>
+        <tag>blog</tag>
+      </tags>
+  </entry>
+</search>
