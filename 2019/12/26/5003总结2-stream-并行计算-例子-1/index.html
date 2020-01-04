@@ -51,7 +51,7 @@
 </script>
 
   <meta name="description" content="Streaming是处理数据流的API。下面直接通过例子，感受streaming的机制。">
-<meta name="keywords" content="复习,spark,并行计算,5003">
+<meta name="keywords" content="复习,spark,5003,并行计算">
 <meta property="og:type" content="article">
 <meta property="og:title" content="5003总结2 stream&amp;并行计算-例子">
 <meta property="og:url" content="http:&#x2F;&#x2F;liyuan97.github.io&#x2F;2019&#x2F;12&#x2F;26&#x2F;5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1&#x2F;index.html">
@@ -271,6 +271,20 @@
             <span class="post-meta-item-icon">
             <i class="fa fa-file-word-o"></i></span>字数： 1,086
             </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2019/12/26/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2019/12/26/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -351,8 +365,8 @@
           <div class="post-tags">
               <a href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 复习</a>
               <a href="/tags/spark/" rel="tag"><i class="fa fa-tag"></i> spark</a>
-              <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag"><i class="fa fa-tag"></i> 并行计算</a>
               <a href="/tags/5003/" rel="tag"><i class="fa fa-tag"></i> 5003</a>
+              <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag"><i class="fa fa-tag"></i> 并行计算</a>
           </div>
 
         
@@ -385,6 +399,7 @@
 
           </div>
           
+    <div class="comments" id="comments"></div>
 
         </div>
           
@@ -429,9 +444,8 @@
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-            <a href="/categories/">
         <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">categories</span></a>
+        <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
@@ -581,6 +595,33 @@
   
 
   
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'A5GoUTRq4idamXWBehCLvqte-gzGzoHsz',
+    appKey: 'JrFEFvrLLeuQFvea3ug2dnzy',
+    placeholder: "有啥说啥，唠两句",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-CN' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
 
 </body>
 </html>

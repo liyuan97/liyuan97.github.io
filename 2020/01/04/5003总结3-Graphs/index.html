@@ -51,7 +51,7 @@
 </script>
 
   <meta name="description" content="graphframes是处理图的一个API graphframes官方文档可以和RDD结合，和pyspark结合使用。在Python环境使用需要以下步骤：12345678910111213141516171819**GraphFrames:**-   For pre-installed Spark version ubuntu, to use GraphFrames:    1.  get the">
-<meta name="keywords" content="复习,spark,并行计算,5003">
+<meta name="keywords" content="复习,spark,5003,并行计算">
 <meta property="og:type" content="article">
 <meta property="og:title" content="5003总结3 Graphs">
 <meta property="og:url" content="http:&#x2F;&#x2F;liyuan97.github.io&#x2F;2020&#x2F;01&#x2F;04&#x2F;5003%E6%80%BB%E7%BB%933-Graphs&#x2F;index.html">
@@ -280,6 +280,20 @@
             <span class="post-meta-item-icon">
             <i class="fa fa-file-word-o"></i></span>字数： 892
             </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine: </span>
+    
+    <a title="valine" href="/2020/01/04/5003%E6%80%BB%E7%BB%933-Graphs/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/01/04/5003%E6%80%BB%E7%BB%933-Graphs/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -355,8 +369,8 @@
           <div class="post-tags">
               <a href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 复习</a>
               <a href="/tags/spark/" rel="tag"><i class="fa fa-tag"></i> spark</a>
-              <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag"><i class="fa fa-tag"></i> 并行计算</a>
               <a href="/tags/5003/" rel="tag"><i class="fa fa-tag"></i> 5003</a>
+              <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag"><i class="fa fa-tag"></i> 并行计算</a>
           </div>
 
         
@@ -386,6 +400,7 @@
 
           </div>
           
+    <div class="comments" id="comments"></div>
 
         </div>
           
@@ -430,9 +445,8 @@
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-            <a href="/categories/">
         <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">categories</span></a>
+        <span class="site-state-item-name">categories</span>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
@@ -582,6 +596,33 @@
   
 
   
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'A5GoUTRq4idamXWBehCLvqte-gzGzoHsz',
+    appKey: 'JrFEFvrLLeuQFvea3ug2dnzy',
+    placeholder: "有啥说啥，唠两句",
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: 'zh-CN' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
 
 </body>
 </html>
