@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon_ca.jpeg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon_ca.jpeg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon_ca.jpeg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="graphframes是处理图的一个API graphframes官方文档可以和RDD结合，和pyspark结合使用。在Python环境使用需要以下步骤：12345678910111213141516171819**GraphFrames:**-   For pre-installed Spark version ubuntu, to use GraphFrames:    1.  get the">
+<meta name="keywords" content="复习,spark,并行计算,5003">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5003总结3 Graphs">
+<meta property="og:url" content="http:&#x2F;&#x2F;liyuan97.github.io&#x2F;2020&#x2F;01&#x2F;04&#x2F;5003%E6%80%BB%E7%BB%933-Graphs&#x2F;index.html">
+<meta property="og:site_name" content="元哥的日记">
+<meta property="og:description" content="graphframes是处理图的一个API graphframes官方文档可以和RDD结合，和pyspark结合使用。在Python环境使用需要以下步骤：12345678910111213141516171819**GraphFrames:**-   For pre-installed Spark version ubuntu, to use GraphFrames:    1.  get the">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123161350.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123140805.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123141021.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123144609.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123145700.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123145801.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123150855.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123151645.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123152823.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123153344.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123161040.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123161117.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123170545.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123170704.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123170718.png">
+<meta property="og:updated_time" content="2020-01-04T15:45:34.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123161350.png">
+
+<link rel="canonical" href="http://liyuan97.github.io/2020/01/04/5003%E6%80%BB%E7%BB%933-Graphs/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>5003总结3 Graphs | 元哥的日记</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">元哥的日记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">学习笔记&采坑日记</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/#/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-所有文章">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>所有文章</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于我</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-更多">
+
+    <a href="/more/" rel="section"><i class="fa fa-fw fa-share"></i>更多</a>
+
+  </li>
+
+
+      
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://liyuan97.github.io/2020/01/04/5003%E6%80%BB%E7%BB%933-Graphs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pic03.jpg">
+      <meta itemprop="name" content="Yuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="元哥的日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          5003总结3 Graphs
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-01-04 23:44:44 / Modified: 23:45:34" itemprop="dateCreated datePublished" datetime="2020-01-04T23:44:44+08:00">2020-01-04</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-divider">|</span>
+            <span title="post.wordcount">
+            <span class="post-meta-item-icon">
+            <i class="fa fa-file-word-o"></i></span>字数： 892
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>graphframes是处理图的一个API <a href="https://graphframes.github.io/graphframes/docs/_site/index.html" target="_blank" rel="noopener">graphframes官方文档</a><br>可以和RDD结合，和pyspark结合使用。<br>在Python环境使用需要以下步骤：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">**GraphFrames:**</span><br><span class="line">-   For pre-installed Spark version ubuntu, to use GraphFrames:</span><br><span class="line">    1.  get the jar file:  </span><br><span class="line">        wget http://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.7.0-spark2.4-s_2.11/graphframes-0.7.0-spark2.4-s_2.11.jar</span><br><span class="line">    2.  Load the jar file in the Jupyter notebook  </span><br><span class="line">        sc.addPyFile(&apos;path_to_the_jar_file&apos;)</span><br><span class="line">    You can also refer to &quot;~/Untitled.ipynb&quot;.</span><br><span class="line">-   Using the pyspark shell directly with GraphFrames:</span><br><span class="line">    -   ./bin/pyspark --packages graphframes:graphframes:0.7.0-spark2.4-s_2.11</span><br><span class="line">-   Using Jupyter locally:</span><br><span class="line">    1.  Set the environment variable:  </span><br><span class="line">        export SPARK_OPTS=&quot;--packages graphframes:graphframes:0.7.0-spark2.4-s_2.11&quot;</span><br><span class="line">    2.  get the jar file:  </span><br><span class="line">        wget http://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.7.0-spark2.4-s_2.11/graphframes-0.7.0-spark2.4-s_2.11.jar</span><br><span class="line">    3.  Load the jar file in the Jupyter notebook  </span><br><span class="line">        sc.addPyFile(&apos;path_to_the_jar_file&apos;)</span><br><span class="line">-   In Azure Databricks Service:</span><br><span class="line">    1.  Start the cluster</span><br><span class="line">    2.  Search for &quot;graphframes&apos; and install the library</span><br></pre></td></tr></table></figure></p><a id="more"></a>
+<p>在jupyter里面使用需要引用压缩包，例如：<br><code>sc.addPyFile(&quot;/usr/local/Cellar/apache-spark/2.4.4/libexec/jars/graphframes-0.7.0-spark2.4-s_2.11.jar&quot;)</code></p>
+<hr>
+<h1 id="生成图"><a href="#生成图" class="headerlink" title="生成图"></a>生成图</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">v = spark.createDataFrame([</span><br><span class="line">  (<span class="string">"a"</span>, <span class="string">"Alice"</span>, <span class="number">34</span>),</span><br><span class="line">  (<span class="string">"b"</span>, <span class="string">"Bob"</span>, <span class="number">36</span>),</span><br><span class="line">  (<span class="string">"c"</span>, <span class="string">"Charlie"</span>, <span class="number">37</span>),</span><br><span class="line">  (<span class="string">"d"</span>, <span class="string">"David"</span>, <span class="number">29</span>),</span><br><span class="line">  (<span class="string">"e"</span>, <span class="string">"Esther"</span>, <span class="number">32</span>),</span><br><span class="line">  (<span class="string">"f"</span>, <span class="string">"Fanny"</span>, <span class="number">38</span>),</span><br><span class="line">  (<span class="string">"g"</span>, <span class="string">"Gabby"</span>, <span class="number">60</span>)</span><br><span class="line">], [<span class="string">"id"</span>, <span class="string">"name"</span>, <span class="string">"age"</span>])</span><br><span class="line"><span class="comment"># Edges DataFrame</span></span><br><span class="line">e = spark.createDataFrame([</span><br><span class="line">  (<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"c"</span>, <span class="string">"b"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"f"</span>, <span class="string">"c"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"e"</span>, <span class="string">"f"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"e"</span>, <span class="string">"d"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"d"</span>, <span class="string">"a"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"a"</span>, <span class="string">"e"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"g"</span>, <span class="string">"e"</span>, <span class="string">"follow"</span>)</span><br><span class="line">], [<span class="string">"src"</span>, <span class="string">"dst"</span>, <span class="string">"relationship"</span>])</span><br><span class="line"><span class="comment"># Create a GraphFrame</span></span><br><span class="line">g = GraphFrame(v, e)</span><br><span class="line"></span><br><span class="line">g.vertices.show()</span><br><span class="line">g.edges.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161350.png" alt><br>建立两个dataframe：</p>
+<ul>
+<li>一个储存节点vertices的id+[data]</li>
+<li>另一个储存关系edges的[“src”, “dst”, “relationship”]</li>
+</ul>
+<p>这个图就建立好了。</p>
+<h1 id="图的基本属性"><a href="#图的基本属性" class="headerlink" title="图的基本属性"></a>图的基本属性</h1><p>g.vertices和g.edges是输入的两个v，e 可以使用dataframe的方法筛选过滤统计。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123140805.png" alt></p>
+<p>g.outDegrees或者g.inDegrees可以返回一个dataframe-[id,degree]，自动计算每个节点的出度和入度。</p>
+<ul>
+<li>cache也可用到图上<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123141021.png" alt><br>整个图cache 运用：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123144609.png" alt><h1 id="Motif-finding"><a href="#Motif-finding" class="headerlink" title="Motif finding"></a>Motif finding</h1></li>
+</ul>
+<p>Motif finding refers to searching for structural patterns in a graph.<br>例如：寻找互相关注，寻找三角形关注<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123145700.png" alt><br>寻找单向关注，寻找无人关注<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123145801.png" alt></p>
+<p>另一种方法寻找无人关注的点：</p>
+<ul>
+<li><p>左连接or求差集（先求id的差集，再直接join整张表）<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123150855.png" alt></p>
+<blockquote>
+<p>如果不是左连接，那一行会被删掉</p>
+</blockquote>
+</li>
+<li><p>例子：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123151645.png" alt></p>
+</li>
+</ul>
+<p>先找单向的四人关系，map 相互为friend=1，筛选有2个friend以上的关系链。</p>
+<h1 id="Subgraphs-生成子图"><a href="#Subgraphs-生成子图" class="headerlink" title="Subgraphs 生成子图"></a>Subgraphs 生成子图</h1><ul>
+<li>选择子节点和子边</li>
+<li><p>生成新图<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123152823.png" alt></p>
+</li>
+<li><p>过滤掉多余的部分<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123153344.png" alt><br>这里的leftsemi的join方式：<a href="https://blog.csdn.net/zhaoxz128/article/details/80784188" target="_blank" rel="noopener">leftsemi讲解</a></p>
+<blockquote>
+<p>Hive 当前<strong>没有</strong>实现 IN/EXISTS 子查询，所以你可以用 <strong>LEFT SEMI JOIN 重写你的子查询语句</strong>。LEFT SEMI JOIN 的限制是， JOIN 子句中右边的表只能在  ON 子句中设置过滤条件，在 WHERE 子句、SELECT 子句或其他地方过滤都不行。</p>
+<h1 id="例子：找到最少被两个人关注的人"><a href="#例子：找到最少被两个人关注的人" class="headerlink" title="例子：找到最少被两个人关注的人"></a>例子：找到最少被两个人关注的人</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g.find(<span class="string">"( )-[e]-&gt;(b)"</span>).filter(<span class="string">"e.relationship='follow'"</span>).</span><br><span class="line">groupby(<span class="string">'b'</span>).count().filter(<span class="string">"count&gt;=2"</span>).select(<span class="string">'b.name'</span>).show()</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<h1 id="应用：BFS广度有限搜索"><a href="#应用：BFS广度有限搜索" class="headerlink" title="应用：BFS广度有限搜索"></a>应用：BFS广度有限搜索</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161040.png" alt><br>API自带的接口：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161117.png" alt></p>
+<h1 id="例子-list-rank"><a href="#例子-list-rank" class="headerlink" title="例子 list rank"></a>例子 list rank</h1><p>对于一个链表排序（按照距离尾部节点的距离排序）：<br>暴力算法：遍历n次，每次找到尾部节点，记录并删除 O(n)<br>方法2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Initialize u.d = 0 if u.next = null, else u.d = 1</span><br><span class="line">Run the following for each node u until all next pointers are null:</span><br><span class="line">	if u.next is not null: </span><br><span class="line">		u.d += u.next.d </span><br><span class="line">		u.next = u.next.next</span><br></pre></td></tr></table></figure><br>算法原理如图：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170545.png" alt><br>复杂度O(logn)，每一轮遍历非尾节点都会参与，减少循环次数<br> 实现：<br> <img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170704.png" alt><br> <img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170718.png" alt></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本文总结了pyspark的graph模块基本语法和操作，关于5003的三篇总结到此结束。</p>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相关文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/12/26/5003总结2-stream-并行计算-例子-1/" rel="bookmark">5003总结2 stream&并行计算-例子</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/12/21/5003总结1-RDD-Spark-Internals/" rel="bookmark">5003总结1 RDD, Spark Internals</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 复习</a>
+              <a href="/tags/spark/" rel="tag"><i class="fa fa-tag"></i> spark</a>
+              <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag"><i class="fa fa-tag"></i> 并行计算</a>
+              <a href="/tags/5003/" rel="tag"><i class="fa fa-tag"></i> 5003</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/12/26/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/" rel="next" title="5003总结2 stream&并行计算-例子">
+                  <i class="fa fa-chevron-left"></i> 5003总结2 stream&并行计算-例子
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#生成图"><span class="nav-number">1.</span> <span class="nav-text">生成图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图的基本属性"><span class="nav-number">2.</span> <span class="nav-text">图的基本属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Motif-finding"><span class="nav-number">3.</span> <span class="nav-text">Motif finding</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Subgraphs-生成子图"><span class="nav-number">4.</span> <span class="nav-text">Subgraphs 生成子图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例子：找到最少被两个人关注的人"><span class="nav-number">5.</span> <span class="nav-text">例子：找到最少被两个人关注的人</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用：BFS广度有限搜索"><span class="nav-number">6.</span> <span class="nav-text">应用：BFS广度有限搜索</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例子-list-rank"><span class="nav-number">7.</span> <span class="nav-text">例子 list rank</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Yuan"
+    src="/images/pic03.jpg">
+  <p class="site-author-name" itemprop="name">Yuan</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liyuan97" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liyuan97" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lysysu@qq.com" title="E-Mail &amp;rarr; mailto:lysysu@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Friends Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.yelbee.top/" title="http:&#x2F;&#x2F;www.yelbee.top&#x2F;" rel="noopener" target="_blank">Yellow Bee</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">全站共 10.5k 字</span>
+</div>
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yuan</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

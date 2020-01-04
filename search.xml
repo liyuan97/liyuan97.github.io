@@ -1,6 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>5003总结3 Graphs</title>
+    <url>/2020/01/04/5003%E6%80%BB%E7%BB%933-Graphs/</url>
+    <content><![CDATA[<p>graphframes是处理图的一个API <a href="https://graphframes.github.io/graphframes/docs/_site/index.html" target="_blank" rel="noopener">graphframes官方文档</a><br>可以和RDD结合，和pyspark结合使用。<br>在Python环境使用需要以下步骤：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">**GraphFrames:**</span><br><span class="line">-   For pre-installed Spark version ubuntu, to use GraphFrames:</span><br><span class="line">    1.  get the jar file:  </span><br><span class="line">        wget http://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.7.0-spark2.4-s_2.11/graphframes-0.7.0-spark2.4-s_2.11.jar</span><br><span class="line">    2.  Load the jar file in the Jupyter notebook  </span><br><span class="line">        sc.addPyFile(&apos;path_to_the_jar_file&apos;)</span><br><span class="line">    You can also refer to &quot;~/Untitled.ipynb&quot;.</span><br><span class="line">-   Using the pyspark shell directly with GraphFrames:</span><br><span class="line">    -   ./bin/pyspark --packages graphframes:graphframes:0.7.0-spark2.4-s_2.11</span><br><span class="line">-   Using Jupyter locally:</span><br><span class="line">    1.  Set the environment variable:  </span><br><span class="line">        export SPARK_OPTS=&quot;--packages graphframes:graphframes:0.7.0-spark2.4-s_2.11&quot;</span><br><span class="line">    2.  get the jar file:  </span><br><span class="line">        wget http://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.7.0-spark2.4-s_2.11/graphframes-0.7.0-spark2.4-s_2.11.jar</span><br><span class="line">    3.  Load the jar file in the Jupyter notebook  </span><br><span class="line">        sc.addPyFile(&apos;path_to_the_jar_file&apos;)</span><br><span class="line">-   In Azure Databricks Service:</span><br><span class="line">    1.  Start the cluster</span><br><span class="line">    2.  Search for &quot;graphframes&apos; and install the library</span><br></pre></td></tr></table></figure></p><a id="more"></a>
+<p>在jupyter里面使用需要引用压缩包，例如：<br><code>sc.addPyFile(&quot;/usr/local/Cellar/apache-spark/2.4.4/libexec/jars/graphframes-0.7.0-spark2.4-s_2.11.jar&quot;)</code></p>
+<hr>
+<h1 id="生成图"><a href="#生成图" class="headerlink" title="生成图"></a>生成图</h1><figure class="highlight py"><table><tr><td class="code"><pre><span class="line">v = spark.createDataFrame([</span><br><span class="line">  (<span class="string">"a"</span>, <span class="string">"Alice"</span>, <span class="number">34</span>),</span><br><span class="line">  (<span class="string">"b"</span>, <span class="string">"Bob"</span>, <span class="number">36</span>),</span><br><span class="line">  (<span class="string">"c"</span>, <span class="string">"Charlie"</span>, <span class="number">37</span>),</span><br><span class="line">  (<span class="string">"d"</span>, <span class="string">"David"</span>, <span class="number">29</span>),</span><br><span class="line">  (<span class="string">"e"</span>, <span class="string">"Esther"</span>, <span class="number">32</span>),</span><br><span class="line">  (<span class="string">"f"</span>, <span class="string">"Fanny"</span>, <span class="number">38</span>),</span><br><span class="line">  (<span class="string">"g"</span>, <span class="string">"Gabby"</span>, <span class="number">60</span>)</span><br><span class="line">], [<span class="string">"id"</span>, <span class="string">"name"</span>, <span class="string">"age"</span>])</span><br><span class="line"><span class="comment"># Edges DataFrame</span></span><br><span class="line">e = spark.createDataFrame([</span><br><span class="line">  (<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"c"</span>, <span class="string">"b"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"f"</span>, <span class="string">"c"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"e"</span>, <span class="string">"f"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"e"</span>, <span class="string">"d"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"d"</span>, <span class="string">"a"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"a"</span>, <span class="string">"e"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"g"</span>, <span class="string">"e"</span>, <span class="string">"follow"</span>)</span><br><span class="line">], [<span class="string">"src"</span>, <span class="string">"dst"</span>, <span class="string">"relationship"</span>])</span><br><span class="line"><span class="comment"># Create a GraphFrame</span></span><br><span class="line">g = GraphFrame(v, e)</span><br><span class="line"></span><br><span class="line">g.vertices.show()</span><br><span class="line">g.edges.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161350.png" alt><br>建立两个dataframe：</p>
+<ul>
+<li>一个储存节点vertices的id+[data]</li>
+<li>另一个储存关系edges的[“src”, “dst”, “relationship”]</li>
+</ul>
+<p>这个图就建立好了。</p>
+<h1 id="图的基本属性"><a href="#图的基本属性" class="headerlink" title="图的基本属性"></a>图的基本属性</h1><p>g.vertices和g.edges是输入的两个v，e 可以使用dataframe的方法筛选过滤统计。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123140805.png" alt></p>
+<p>g.outDegrees或者g.inDegrees可以返回一个dataframe-[id,degree]，自动计算每个节点的出度和入度。</p>
+<ul>
+<li>cache也可用到图上<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123141021.png" alt><br>整个图cache 运用：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123144609.png" alt><h1 id="Motif-finding"><a href="#Motif-finding" class="headerlink" title="Motif finding"></a>Motif finding</h1></li>
+</ul>
+<p>Motif finding refers to searching for structural patterns in a graph.<br>例如：寻找互相关注，寻找三角形关注<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123145700.png" alt><br>寻找单向关注，寻找无人关注<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123145801.png" alt></p>
+<p>另一种方法寻找无人关注的点：</p>
+<ul>
+<li><p>左连接or求差集（先求id的差集，再直接join整张表）<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123150855.png" alt></p>
+<blockquote>
+<p>如果不是左连接，那一行会被删掉</p>
+</blockquote>
+</li>
+<li><p>例子：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123151645.png" alt></p>
+</li>
+</ul>
+<p>先找单向的四人关系，map 相互为friend=1，筛选有2个friend以上的关系链。</p>
+<h1 id="Subgraphs-生成子图"><a href="#Subgraphs-生成子图" class="headerlink" title="Subgraphs 生成子图"></a>Subgraphs 生成子图</h1><ul>
+<li>选择子节点和子边</li>
+<li><p>生成新图<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123152823.png" alt></p>
+</li>
+<li><p>过滤掉多余的部分<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123153344.png" alt><br>这里的leftsemi的join方式：<a href="https://blog.csdn.net/zhaoxz128/article/details/80784188" target="_blank" rel="noopener">leftsemi讲解</a></p>
+<blockquote>
+<p>Hive 当前<strong>没有</strong>实现 IN/EXISTS 子查询，所以你可以用 <strong>LEFT SEMI JOIN 重写你的子查询语句</strong>。LEFT SEMI JOIN 的限制是， JOIN 子句中右边的表只能在  ON 子句中设置过滤条件，在 WHERE 子句、SELECT 子句或其他地方过滤都不行。</p>
+<h1 id="例子：找到最少被两个人关注的人"><a href="#例子：找到最少被两个人关注的人" class="headerlink" title="例子：找到最少被两个人关注的人"></a>例子：找到最少被两个人关注的人</h1><figure class="highlight py"><table><tr><td class="code"><pre><span class="line">g.find(<span class="string">"( )-[e]-&gt;(b)"</span>).filter(<span class="string">"e.relationship='follow'"</span>).</span><br><span class="line">groupby(<span class="string">'b'</span>).count().filter(<span class="string">"count&gt;=2"</span>).select(<span class="string">'b.name'</span>).show()</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ul>
+<h1 id="应用：BFS广度有限搜索"><a href="#应用：BFS广度有限搜索" class="headerlink" title="应用：BFS广度有限搜索"></a>应用：BFS广度有限搜索</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161040.png" alt><br>API自带的接口：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161117.png" alt></p>
+<h1 id="例子-list-rank"><a href="#例子-list-rank" class="headerlink" title="例子 list rank"></a>例子 list rank</h1><p>对于一个链表排序（按照距离尾部节点的距离排序）：<br>暴力算法：遍历n次，每次找到尾部节点，记录并删除 O(n)<br>方法2：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Initialize u.d = 0 if u.next = null, else u.d = 1</span><br><span class="line">Run the following for each node u until all next pointers are null:</span><br><span class="line">	if u.next is not null: </span><br><span class="line">		u.d += u.next.d </span><br><span class="line">		u.next = u.next.next</span><br></pre></td></tr></table></figure><br>算法原理如图：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170545.png" alt><br>复杂度O(logn)，每一轮遍历非尾节点都会参与，减少循环次数<br> 实现：<br> <img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170704.png" alt><br> <img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170718.png" alt></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本文总结了pyspark的graph模块基本语法和操作，关于5003的三篇总结到此结束。</p>
+]]></content>
+      <tags>
+        <tag>复习</tag>
+        <tag>spark</tag>
+        <tag>并行计算</tag>
+        <tag>5003</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>5003总结2 stream&amp;并行计算-例子</title>
     <url>/2019/12/26/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/</url>
     <content><![CDATA[<p>Streaming是处理数据流的API。<br>下面直接通过例子，感受streaming的机制。</p>
@@ -54,8 +107,8 @@
       <tags>
         <tag>复习</tag>
         <tag>spark</tag>
-        <tag>5003</tag>
         <tag>并行计算</tag>
+        <tag>5003</tag>
       </tags>
   </entry>
   <entry>
