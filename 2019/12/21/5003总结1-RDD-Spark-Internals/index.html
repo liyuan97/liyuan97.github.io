@@ -422,10 +422,10 @@
   <div class="popular-posts-header">相关文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2019/12/26/5003总结2-stream-并行计算-例子-1/" rel="bookmark">5003总结2 stream&并行计算-例子</a></div>
+      <div class="popular-posts-title"><a href="/2020/01/04/5003总结3-Graphs/" rel="bookmark">5003总结3 Graphs</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/01/04/5003总结3-Graphs/" rel="bookmark">5003总结3 Graphs</a></div>
+      <div class="popular-posts-title"><a href="/2019/12/26/5003总结2-stream-并行计算-例子-1/" rel="bookmark">5003总结2 stream&并行计算-例子</a></div>
     </li>
   </ul>
 
@@ -667,7 +667,7 @@
 
 
 <script>
-NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+NexT.utils.getScript('https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js', () => {
   var GUEST = ['nick', 'mail', 'link'];
   var guest = 'nick,mail,link';
   guest = guest.split(',').filter(item => {
@@ -684,7 +684,7 @@ NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
     meta: guest,
     pageSize: '10' || 10,
     visitor: false,
-    lang: 'zh-CN' || 'zh-cn',
+    lang: 'zh-cn' || 'zh-cn',
     path: location.pathname,
     recordIP: false,
     serverURLs: ''
