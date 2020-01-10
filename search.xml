@@ -153,6 +153,20 @@
 <p>　　　　　可以补齐系统中存在的命令，文件名称，和部分命令的参数；</p>
 <p>　　　　　当一次《tab》补齐不了时，代表以此关键字开头的内容不唯一；</p>
 <p>　　　　　可以使用《tab》两次来列出所有一次关键字开头的内容散</p>
+<h1 id="脚本交互-except工具"><a href="#脚本交互-except工具" class="headerlink" title="脚本交互-except工具"></a>脚本交互-except工具</h1><p>主要用户自动操作，比如说：自动输入密码(最常见)<br>在使用expect时，基本上都是和以下四个命令打交道：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">send	用于向进程发送字符串</span><br><span class="line">expect	从进程接收字符串</span><br><span class="line">spawn	启动新的进程</span><br><span class="line">interact	允许用户交互</span><br></pre></td></tr></table></figure>
+<p>send命令接收一个字符串参数，并将该参数发送到进程。</p>
+<p>expect命令和send命令相反，expect通常用来等待一个进程的反馈，我们根据进程的反馈，再发送对应的交互命令。</p>
+<p>spawn命令用来启动新的进程，spawn后的send和expect命令都是和使用spawn打开的进程进行交互。</p>
+<p>interact命令用的其实不是很多，一般情况下使用spawn、send和expect命令就可以很好的完成我们的任务；但在一些特殊场合下还是需要使用interact命令的，interact命令主要用于退出自动化，进入人工交互。</p>
+<ul>
+<li>例子：链接shh</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!/usr/tcl/bin/expect</span><br><span class="line"></span><br><span class="line">set timeout 30</span><br><span class="line">set host &quot;101.200.241.109&quot;</span><br><span class="line">set username &quot;root&quot;</span><br><span class="line">set password &quot;123456&quot;</span><br><span class="line"></span><br><span class="line">spawn ssh $username@$host</span><br><span class="line">expect &quot;*password*&quot; &#123;send &quot;$password\r&quot;&#125;</span><br><span class="line">interact</span><br></pre></td></tr></table></figure>
+<ul>
+<li>例子：自动切换到sudo 并启动hexo<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!/usr/bin/expect</span><br><span class="line">set timeout 30</span><br><span class="line">spawn sudo -s</span><br><span class="line">expect &quot;Password:&quot;</span><br><span class="line">send &quot;123456\r&quot;</span><br><span class="line">expect &quot;*#&quot;</span><br><span class="line">send &quot;cd hexoblog\r&quot;</span><br><span class="line">expect &quot;*#&quot;</span><br><span class="line">send &quot;hexo s\r&quot;</span><br><span class="line">interact</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 <p>参考：<a href="https://blog.csdn.net/weixin_42442713/article/details/81001753" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42442713/article/details/81001753</a><br><a href="https://www.cnblogs.com/uthnb/p/9320582.html" target="_blank" rel="noopener">https://www.cnblogs.com/uthnb/p/9320582.html</a></p>
 ]]></content>
       <categories>
