@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon_ca.jpeg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon_ca.jpeg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon_ca.jpeg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="认识多年，但我还是不懂你 GIT虽然用github已经很多年了，但是git的各种命令没怎么接触过，能用的也只是简单的clone和pull，也没用真正的理解git的内涵。作为多人合作和版本控制的工具，git强大的一面我还没有接触到。">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git再入门">
+<meta property="og:url" content="http:&#x2F;&#x2F;liyuan97.github.io&#x2F;2020&#x2F;01&#x2F;11&#x2F;Git%E5%86%8D%E5%85%A5%E9%97%A8&#x2F;index.html">
+<meta property="og:site_name" content="元哥的日记">
+<meta property="og:description" content="认识多年，但我还是不懂你 GIT虽然用github已经很多年了，但是git的各种命令没怎么接触过，能用的也只是简单的clone和pull，也没用真正的理解git的内涵。作为多人合作和版本控制的工具，git强大的一面我还没有接触到。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200111202138.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200111202617.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;img2018.cnblogs.com&#x2F;blog&#x2F;1090617&#x2F;201810&#x2F;1090617-20181008212245877-52530897.png">
+<meta property="og:updated_time" content="2020-01-11T12:58:25.225Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200111202138.png">
+
+<link rel="canonical" href="http://liyuan97.github.io/2020/01/11/Git%E5%86%8D%E5%85%A5%E9%97%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Git再入门 | 元哥的日记</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">元哥的日记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">终其一生，我们只不过在寻找自己</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/#/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-所有文章">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>所有文章</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于我</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-更多">
+
+    <a href="/more/" rel="section"><i class="fa fa-fw fa-share"></i>更多</a>
+
+  </li>
+
+
+      
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://liyuan97.github.io/2020/01/11/Git%E5%86%8D%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pic03.jpg">
+      <meta itemprop="name" content="Yuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="元哥的日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          Git再入门
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-01-11 20:57:00 / 修改时间：20:58:25" itemprop="dateCreated datePublished" datetime="2020-01-11T20:57:00+08:00">2020-01-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">工程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="认识多年，但我还是不懂你-GIT"><a href="#认识多年，但我还是不懂你-GIT" class="headerlink" title="认识多年，但我还是不懂你 GIT"></a>认识多年，但我还是不懂你 GIT</h1><p>虽然用github已经很多年了，但是git的各种命令没怎么接触过，能用的也只是简单的clone和pull，也没用真正的理解git的内涵。作为多人合作和版本控制的工具，git强大的一面我还没有接触到。</p><a id="more"></a>
+<p>最近实习的时候需要编写cpp服务，写好了就需要git push 到新的分支去，等待导师code review，然后merge到master，中间遇到很多坑，在此就一篇文章整理完所有git方面的知识。</p>
+<p>刚开始接触git会遇到很多命令，记不住没关系，先花两个小时理解git的概念，之后遇到问题再查。<br>详细教程可以看：<a href="https://www.runoob.com/git/git-tutorial.html" target="_blank" rel="noopener">https://www.runoob.com/git/git-tutorial.html</a></p>
+<h1 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h1><p>版本控制（Revision control）是一种在开发的过程中用于管理我们对文件、目录或工程等内容的修改历史，方便查看更改历史记录，备份以便恢复以前的版本的软件工程技术。</p>
+<ul>
+<li>实现跨区域多人协同开发</li>
+<li>追踪和记载一个或者多个文件的历史记录</li>
+<li>组织和保护你的源代码和文档</li>
+<li>统计工作量</li>
+<li>并行开发、提高开发效率</li>
+<li>跟踪记录整个软件的开发过程</li>
+<li>减轻开发人员的负担，节省时间，同时降低人为错误</li>
+</ul>
+<p><strong>简单说就是用于管理多人协同开发项目的技术。</strong></p>
+<h1 id="git的基本概念"><a href="#git的基本概念" class="headerlink" title="git的基本概念"></a>git的基本概念</h1><h2 id="工作区"><a href="#工作区" class="headerlink" title="工作区"></a>工作区</h2><p>Git本地有四个工作区域：工作目录（Working Directory）、暂存区(Stage/Index)、资源库(Repository或Git Directory)、git仓库(Remote Directory)。文件在这四个区域之间的转换关系如下：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200111202138.png" alt><br><strong>Workspace</strong>： 工作区，就是你平时存放项目代码的地方<br><strong>Index / Stage</strong>： 暂存区，用于临时存放你的改动，事实上它只是一个文件，保存即将提交到文件列表信息<br><strong>Repository</strong>： 仓库区（或版本库），就是安全存放数据的位置，这里面有你提交到所有版本的数据。其中HEAD指向最新放入仓库的版本<br><strong>Remote</strong>： 远程仓库，托管代码的服务器，可以简单的认为是你项目组中的一台电脑用于远程数据交换</p>
+<h1 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h1><ol>
+<li>clone项目或者创建项目Repository</li>
+<li>写代码</li>
+<li>git add 修改了的有价值的代码到index</li>
+<li>index commit提交到本地的项目Repository</li>
+<li>本地改好了就上传到服务器上remote</li>
+</ol>
+<h1 id="文件的四种状态"><a href="#文件的四种状态" class="headerlink" title="文件的四种状态"></a>文件的四种状态</h1><p>版本控制就是对文件的版本控制，要对文件进行修改、提交等操作，首先要知道文件当前在什么状态，不然可能会提交了现在还不想提交的文件，或者要提交的文件没提交上。</p>
+<p>GIT不关心文件两个版本之间的具体差别，而是关心文件的整体是否有改变，若文件被改变，在添加提交时就生成文件新版本的快照，而判断文件整体是否改变的方法就是用SHA-1算法计算文件的校验和。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200111202617.png" alt><br><strong>Untracked:</strong> 未跟踪, 此文件在文件夹中, 但并没有加入到git库, 不参与版本控制. 通过git add 状态变为Staged.</p>
+<p><strong>Unmodify:</strong> 文件已经入库, 未修改, 即版本库中的文件快照内容与文件夹中完全一致. 这种类型的文件有两种去处, 如果它被修改, 而变为Modified. 如果使用git rm移出版本库, 则成为Untracked文件</p>
+<p><strong>Modified:</strong>  文件已修改, 仅仅是修改, 并没有进行其他的操作. 这个文件也有两个去处, 通过git add可进入暂存staged状态, 使用git checkout 则丢弃修改过,返回到unmodify状态, 这个git checkout即从库中取出文件, 覆盖当前修改</p>
+<p><strong>Staged:</strong> 暂存状态. 执行git commit则将修改同步到库中, 这时库中的文件和本地文件又变为一致, 文件为Unmodify状态. 执行git reset HEAD filename取消暂存,文件状态为Modified</p>
+<p>下面的图很好的解释了这四种状态的转变：</p>
+<p><img src="https://img2018.cnblogs.com/blog/1090617/201810/1090617-20181008212245877-52530897.png" alt></p>
+<h1 id="四个区域之间的命令"><a href="#四个区域之间的命令" class="headerlink" title="四个区域之间的命令"></a>四个区域之间的命令</h1><h4 id="1、新建代码库"><a href="#1、新建代码库" class="headerlink" title="1、新建代码库"></a>1、新建代码库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 在当前目录新建一个Git代码库</span><br><span class="line">git init # 新建一个目录，将其初始化为Git代码库</span><br><span class="line">git init [project-name] # 下载一个项目和它的整个代码历史</span><br><span class="line">git clone [url]</span><br></pre></td></tr></table></figure>
+<h4 id="2、查看文件状态"><a href="#2、查看文件状态" class="headerlink" title="2、查看文件状态"></a>2、查看文件状态</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#查看指定文件状态</span><br><span class="line">git status [filename] #查看所有文件状态</span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+<h4 id="3、工作区-lt-—-gt-暂存区"><a href="#3、工作区-lt-—-gt-暂存区" class="headerlink" title="3、工作区&lt;—&gt;暂存区"></a>3、工作区&lt;—&gt;暂存区</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 添加指定文件到暂存区</span><br><span class="line">git add [file1] [file2] ... # 添加指定目录到暂存区，包括子目录</span><br><span class="line">git add [dir] # 添加当前目录的所有文件到暂存区</span><br><span class="line">git add . #当我们需要删除暂存区或分支上的文件, 同时工作区也不需要这个文件了, 可以使用（⚠️）</span><br><span class="line">git rm file_path #当我们需要删除暂存区或分支上的文件, 但本地又需要使用, 这个时候直接push那边这个文件就没有，如果push之前重新add那么还是会有。</span><br><span class="line">git rm --cached file_path #直接加文件名   从暂存区将文件恢复到工作区，如果工作区已经有该文件，则会选择覆盖 #加了【分支名】 +文件名  则表示从分支名为所写的分支名中拉取文件 并覆盖工作区里的文件</span><br><span class="line">git checkout</span><br></pre></td></tr></table></figure>
+<h4 id="4、工作区-lt-—-gt-资源库（版本库）"><a href="#4、工作区-lt-—-gt-资源库（版本库）" class="headerlink" title="4、工作区&lt;—&gt;资源库（版本库）"></a>4、工作区&lt;—&gt;资源库（版本库）</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#将暂存区--&gt;资源库（版本库）</span><br><span class="line">git commit -m &apos;该次提交说明&apos;</span><br><span class="line">#如果出现:将不必要的文件commit 或者 上次提交觉得是错的  或者 不想改变暂存区内容，只是想调整提交的信息</span><br><span class="line">#移除不必要的添加到暂存区的文件</span><br><span class="line">git reset HEAD 文件名 #去掉上一次的提交（会直接变成add之前状态） </span><br><span class="line">git reset HEAD^ </span><br><span class="line">#去掉上一次的提交（变成add之后，commit之前状态） </span><br><span class="line">git reset --soft  HEAD^</span><br></pre></td></tr></table></figure>
+<h4 id="5、远程操作"><a href="#5、远程操作" class="headerlink" title="5、远程操作"></a>5、远程操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 取回远程仓库的变化，并与本地分支合并</span><br><span class="line">git pull # 上传本地指定分支到远程仓库</span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+<h4 id="6、其它常用命令"><a href="#6、其它常用命令" class="headerlink" title="6、其它常用命令"></a>6、其它常用命令</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 显示当前的Git配置</span><br><span class="line">git config --list # 编辑Git配置文件</span><br><span class="line">git config -e [--global] #初次commit之前，需要配置用户邮箱及用户名，使用以下命令：</span><br><span class="line">git config --global user.email &quot;you@example.com&quot;</span><br><span class="line">git config --global user.name &quot;Your Name&quot;</span><br><span class="line">#调出Git的帮助文档</span><br><span class="line">git --help #查看某个具体命令的帮助文档</span><br><span class="line">git +命令 --help #查看git的版本</span><br><span class="line">git --version</span><br></pre></td></tr></table></figure>
+<p>参考：<a href="https://www.cnblogs.com/qdhxhz/p/9757390.html" target="_blank" rel="noopener">https://www.cnblogs.com/qdhxhz/p/9757390.html</a></p>
+
+    </div>
+
+    
+    
+    
+      
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/git/" rel="tag"><i class="fa fa-tag"></i> git</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/01/07/linux%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%86%8D%E5%85%A5%E9%97%A8/" rel="next" title="linux从入门到再入门">
+                  <i class="fa fa-chevron-left"></i> linux从入门到再入门
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#认识多年，但我还是不懂你-GIT"><span class="nav-number">1.</span> <span class="nav-text">认识多年，但我还是不懂你 GIT</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#版本控制"><span class="nav-number">2.</span> <span class="nav-text">版本控制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git的基本概念"><span class="nav-number">3.</span> <span class="nav-text">git的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工作区"><span class="nav-number">3.1.</span> <span class="nav-text">工作区</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工作流程"><span class="nav-number">4.</span> <span class="nav-text">工作流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件的四种状态"><span class="nav-number">5.</span> <span class="nav-text">文件的四种状态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#四个区域之间的命令"><span class="nav-number">6.</span> <span class="nav-text">四个区域之间的命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、新建代码库"><span class="nav-number">6.0.0.1.</span> <span class="nav-text">1、新建代码库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、查看文件状态"><span class="nav-number">6.0.0.2.</span> <span class="nav-text">2、查看文件状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、工作区-lt-—-gt-暂存区"><span class="nav-number">6.0.0.3.</span> <span class="nav-text">3、工作区&lt;—&gt;暂存区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、工作区-lt-—-gt-资源库（版本库）"><span class="nav-number">6.0.0.4.</span> <span class="nav-text">4、工作区&lt;—&gt;资源库（版本库）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、远程操作"><span class="nav-number">6.0.0.5.</span> <span class="nav-text">5、远程操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、其它常用命令"><span class="nav-number">6.0.0.6.</span> <span class="nav-text">6、其它常用命令</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Yuan"
+    src="/images/pic03.jpg">
+  <p class="site-author-name" itemprop="name">Yuan</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liyuan97" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liyuan97" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lysysu@qq.com" title="E-Mail &amp;rarr; mailto:lysysu@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Friends Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.yelbee.top/" title="http:&#x2F;&#x2F;www.yelbee.top&#x2F;" rel="noopener" target="_blank">Yellow Bee</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yuan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">33k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">30 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+  
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"/>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '6e0e8cda3de0989d1085',
+    clientSecret: '3cb5f9a7db98cf1fb0204f8ef83de99e8be2eb66',
+    repo: 'blog-comment',
+    owner: 'liyuan97',
+    admin: ['liyuan97'],
+    id: md5(location.pathname),
+    
+      language: 'zh-CN',
+    
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+  
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"/>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '6e0e8cda3de0989d1085',
+    clientSecret: '3cb5f9a7db98cf1fb0204f8ef83de99e8be2eb66',
+    repo: 'blog-comment',
+    owner: 'liyuan97',
+    admin: ['liyuan97'],
+    id: md5(location.pathname),
+    
+      language: 'zh-CN',
+    
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+</body>
+</html>
