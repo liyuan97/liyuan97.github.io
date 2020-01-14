@@ -2,12 +2,12 @@
 <search>
   <entry>
     <title>深圳和广州 FRESH vs OlDSCHOOH</title>
-    <url>/2020/01/11/%E6%B7%B1%E5%9C%B3%E5%92%8C%E5%B9%BF%E5%B7%9E/</url>
+    <url>/2020/%E6%B7%B1%E5%9C%B3%E5%92%8C%E5%B9%BF%E5%B7%9E/</url>
     <content><![CDATA[<p>虽然之前也来过几次深圳，但是短暂几天，让我无法好好认识这个城市。<br>11月因为香港暴乱，来到了深圳，在Q音实习，一直到现在。<br>所以，终于有机会来说一下结合对比广州，我对深圳的感受。</p><h1 id="深圳第一感-太稀疏"><a href="#深圳第一感-太稀疏" class="headerlink" title="深圳第一感:太稀疏"></a>深圳第一感:太稀疏</h1><p>刚来深圳，我住在南山接近蛇口的位置，科大在北大商学院(在深圳大学城)办了一场学校领导见面会，我发现直接过去公交1h，地铁1h，打车30min。这也太鸡儿远了吧？但是打开地图，发现</p>]]></content>
   </entry>
   <entry>
     <title>2020香港马拉松备赛</title>
-    <url>/2020/01/11/2020%E9%A6%99%E6%B8%AF%E9%A9%AC%E6%8B%89%E6%9D%BE%E5%A4%87%E8%B5%9B/</url>
+    <url>/2020/2020%E9%A6%99%E6%B8%AF%E9%A9%AC%E6%8B%89%E6%9D%BE%E5%A4%87%E8%B5%9B/</url>
     <content><![CDATA[<p>2020香港马拉松倒计时：</p><p>
     <div style="width:100%; height:50px;border:none;text-align:center">
     <center><iframe allowtransparency="yes" frameborder="0" src="/time.html"></iframe></center>
@@ -28,7 +28,7 @@
   </entry>
   <entry>
     <title>Git再入门</title>
-    <url>/2020/01/11/Git%E5%86%8D%E5%85%A5%E9%97%A8/</url>
+    <url>/2020/Git%E5%86%8D%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<h1 id="认识多年，但我还是不懂你—GIT"><a href="#认识多年，但我还是不懂你—GIT" class="headerlink" title="认识多年，但我还是不懂你—GIT"></a>认识多年，但我还是不懂你—GIT</h1><p>虽然用github已经很多年了，但是git的各种命令没怎么接触过，能用的也只是简单的clone和pull，也没用真正的理解git的内涵。作为多人合作和版本控制的工具，git强大的一面我还没有接触到。</p><a id="more"></a>
 <p>最近实习的时候需要编写cpp服务，写好了就需要git push 到新的分支去，等待导师code review，然后merge到master，中间遇到很多坑，在此就一篇文章整理完所有git方面的知识。</p>
 <p>刚开始接触git会遇到很多命令，记不住没关系，先花两个小时理解git的概念，之后遇到问题再查。<br>详细教程可以看：<a href="https://www.runoob.com/git/git-tutorial.html" target="_blank" rel="noopener">https://www.runoob.com/git/git-tutorial.html</a></p>
@@ -76,7 +76,7 @@
   </entry>
   <entry>
     <title>linux从入门到再入门</title>
-    <url>/2020/01/07/linux%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%86%8D%E5%85%A5%E9%97%A8/</url>
+    <url>/2020/linux%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%86%8D%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<h1 id="Linux-工程必备"><a href="#Linux-工程必备" class="headerlink" title="Linux-工程必备"></a>Linux-工程必备</h1><p>一直以来，没有系统的学习过linux，每次遇到工程问题，总是靠着百度和谷歌，效率很低。<br>最近需要部署C++服务，所以需要LINUX环境，在此立帖，持续更新，直到熟练使用linux。</p><h1 id="用户管理"><a href="#用户管理" class="headerlink" title="用户管理"></a>用户管理</h1><a id="more"></a>
 <ul>
 <li>查看当前用户<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ cat /etc/passwd</span><br></pre></td></tr></table></figure></li>
@@ -252,7 +252,7 @@
   </entry>
   <entry>
     <title>5003总结3 Graphs</title>
-    <url>/2020/01/04/5003%E6%80%BB%E7%BB%933-Graphs/</url>
+    <url>/2020/5003%E6%80%BB%E7%BB%933-Graphs/</url>
     <content><![CDATA[<p>graphframes是处理图的一个API <a href="https://graphframes.github.io/graphframes/docs/_site/index.html" target="_blank" rel="noopener">graphframes官方文档</a><br>可以和RDD结合，和pyspark结合使用。<br>在Python环境使用需要以下步骤：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">**GraphFrames:**</span><br><span class="line">-   For pre-installed Spark version ubuntu, to use GraphFrames:</span><br><span class="line">    1.  get the jar file:  </span><br><span class="line">        wget http://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.7.0-spark2.4-s_2.11/graphframes-0.7.0-spark2.4-s_2.11.jar</span><br><span class="line">    2.  Load the jar file in the Jupyter notebook  </span><br><span class="line">        sc.addPyFile(&apos;path_to_the_jar_file&apos;)</span><br><span class="line">    You can also refer to &quot;~/Untitled.ipynb&quot;.</span><br><span class="line">-   Using the pyspark shell directly with GraphFrames:</span><br><span class="line">    -   ./bin/pyspark --packages graphframes:graphframes:0.7.0-spark2.4-s_2.11</span><br><span class="line">-   Using Jupyter locally:</span><br><span class="line">    1.  Set the environment variable:  </span><br><span class="line">        export SPARK_OPTS=&quot;--packages graphframes:graphframes:0.7.0-spark2.4-s_2.11&quot;</span><br><span class="line">    2.  get the jar file:  </span><br><span class="line">        wget http://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.7.0-spark2.4-s_2.11/graphframes-0.7.0-spark2.4-s_2.11.jar</span><br><span class="line">    3.  Load the jar file in the Jupyter notebook  </span><br><span class="line">        sc.addPyFile(&apos;path_to_the_jar_file&apos;)</span><br><span class="line">-   In Azure Databricks Service:</span><br><span class="line">    1.  Start the cluster</span><br><span class="line">    2.  Search for &quot;graphframes&apos; and install the library</span><br></pre></td></tr></table></figure></p><a id="more"></a>
 <p>在jupyter里面使用需要引用压缩包，例如：<br><code>sc.addPyFile(&quot;/usr/local/Cellar/apache-spark/2.4.4/libexec/jars/graphframes-0.7.0-spark2.4-s_2.11.jar&quot;)</code></p>
 <hr>
@@ -299,13 +299,13 @@
       <tags>
         <tag>复习</tag>
         <tag>spark</tag>
-        <tag>5003</tag>
         <tag>并行计算</tag>
+        <tag>5003</tag>
       </tags>
   </entry>
   <entry>
     <title>5003总结2 stream&amp;并行计算-例子</title>
-    <url>/2019/12/26/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/</url>
+    <url>/2019/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/</url>
     <content><![CDATA[<p>Streaming是处理数据流的API。<br>下面直接通过例子，感受streaming的机制。</p>
 <p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123213735.png" alt=""><br><a id="more"></a></p>
 <h1 id="例1-从键盘输入文本，统计词频"><a href="#例1-从键盘输入文本，统计词频" class="headerlink" title="例1 从键盘输入文本，统计词频"></a>例1 从键盘输入文本，统计词频</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123220112.png" alt=""></p>
@@ -357,13 +357,13 @@
       <tags>
         <tag>复习</tag>
         <tag>spark</tag>
-        <tag>5003</tag>
         <tag>并行计算</tag>
+        <tag>5003</tag>
       </tags>
   </entry>
   <entry>
     <title>5003总结1 RDD, Spark Internals</title>
-    <url>/2019/12/21/5003%E6%80%BB%E7%BB%931-RDD-Spark-Internals/</url>
+    <url>/2019/5003%E6%80%BB%E7%BB%931-RDD-Spark-Internals/</url>
     <content><![CDATA[<h1 id="5003总结1-RDD-Spark-Internals"><a href="#5003总结1-RDD-Spark-Internals" class="headerlink" title="5003总结1 RDD, Spark Internals"></a>5003总结1 RDD, Spark Internals</h1><p>学习了5003之后，对于RDD和spark两章总结复习，梳理出有关函数的作用。</p><h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><p>resilient Distributed Datasets: 弹性分布式数据库，rdd是spark的基本运行单位<br>使用者作用于RDD，RDD自动进行分区，在不同partitions进行操作<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030092656.png" alt="RDD的操作"></p><a id="more"></a>
 
 <h2 id="rdd是“懒惰的”Lazy，如果只进行Transfomations-，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）"><a href="#rdd是“懒惰的”Lazy，如果只进行Transfomations-，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）" class="headerlink" title="* rdd是“懒惰的”Lazy，如果只进行Transfomations ，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）"></a>* rdd是“懒惰的”Lazy，如果只进行Transfomations ，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）</h2><p><a href="https://haofly.net/spark/" target="_blank" rel="noopener">引用博文 https://haofly.net/spark/</a></p>
@@ -483,7 +483,7 @@
   </entry>
   <entry>
     <title>准备Q音推荐实习面试的笔记</title>
-    <url>/2019/11/30/%E5%87%86%E5%A4%87Q%E9%9F%B3%E6%8E%A8%E8%8D%90%E7%9A%84%E7%AC%94%E8%AE%B0/</url>
+    <url>/2019/%E5%87%86%E5%A4%87Q%E9%9F%B3%E6%8E%A8%E8%8D%90%E7%9A%84%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p>11月30更新，面试通过。后续更新实习心得。</p><hr><p>学姐有发消息招腾讯音乐的日常实习，我当天投递简历，当晚组长联系第二天面试。<br>推荐部门，我约的第二天下午三点面试，感觉下午会清醒一点。<br>现在记录一下准备过程。<br>本文没有逻辑，看到哪记到哪。</p><a id="more"></a>
 
 
@@ -548,7 +548,7 @@
   </entry>
   <entry>
     <title>What is GAN basicly?</title>
-    <url>/2019/11/30/What-is-GAN-basicly/</url>
+    <url>/2019/What-is-GAN-basicly/</url>
     <content><![CDATA[<p><strong>MSBD5012 Term Paper</strong></p><p>Due Date: 7 December 2019</p><p>Via Canvas</p><p>As announced by the university administration, there won’t be any proctored examinations this semester and alternative assessment arrangements are to be made by the course instructors. For CSIT6000G/MSBD5012, you are asked to write a term paper in lieu of the final exam.</p><a id="more"></a>
 
 
@@ -609,7 +609,7 @@
   </entry>
   <entry>
     <title>集成学习GDBT,XGBOOST,RF</title>
-    <url>/2019/11/16/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%91%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0GDBT-XGBOOST-RF/</url>
+    <url>/2019/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%91%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0GDBT-XGBOOST-RF/</url>
     <content><![CDATA[<p>集成学习（Ensemble Learning），集成学习的目的是通过结合多个基学习器的预测结果来改善单个学习器的泛化能力和鲁棒性。</p><p>集成学习致分为两大类：</p><ul>
 <li>Boosting:即个体学习器之间存在强依赖关系、必须串行生成的序列化方法，Adaboost, GDBT, Xgboost.</li>
 <li>Bagging以及个体学习器间不存在强依赖关系、可同时生成的并行化方法，“随机森林”（Random Forest）。</li>
@@ -717,7 +717,7 @@
   </entry>
   <entry>
     <title>港校msc 互联网找工作时间轴</title>
-    <url>/2019/10/26/Blog2-%E6%B8%AF%E6%A0%A1msc-%E4%BA%92%E8%81%94%E7%BD%91%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%97%B6%E9%97%B4%E8%BD%B4/</url>
+    <url>/2019/Blog2-%E6%B8%AF%E6%A0%A1msc-%E4%BA%92%E8%81%94%E7%BD%91%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%97%B6%E9%97%B4%E8%BD%B4/</url>
     <content><![CDATA[<h1 id="港校msc-互联网找工作时间轴"><a href="#港校msc-互联网找工作时间轴" class="headerlink" title="港校msc 互联网找工作时间轴"></a>港校msc 互联网找工作时间轴</h1><p><strong>入学前的（大四） 暑期实习</strong> 建议参加<br>3-5月 实习岗位网申开启<br>5-7月 进行网申、面试，发放Offer<br>7-9月 进入公司实习</p><p><strong>入学前的 秋季校招</strong> 建议参加<br>7-8月 互联网大厂的提前批、正式校招开放；<br>9月意向书，10月底谈薪</p><a id="more"></a>
 
 <hr>
@@ -735,7 +735,7 @@
   </entry>
   <entry>
     <title>Build by Hexo</title>
-    <url>/2019/10/24/Blog1-Build%20by%20Hexo/</url>
+    <url>/2019/Blog1-Build%20by%20Hexo/</url>
     <content><![CDATA[<p>本次搭建blog，完全学习于：<a href="https://www.bilibili.com/video/av44544186?from=search&amp;seid=6748505739751413370" target="_blank" rel="noopener">b站up主codesheep视频</a></p><p>下面进入流程：</p><ol>
 <li>sudo su 进入管理员</li>
 <li>安装Node.js，搜索，下载，安装<br>安装之后会有两个工具： node和npm<br>也可以用国内的cnpm</li>
@@ -781,7 +781,7 @@
   </entry>
   <entry>
     <title>Hello Blog</title>
-    <url>/2019/10/24/Hello-Blog/</url>
+    <url>/2019/Hello-Blog/</url>
     <content><![CDATA[<h1 id="Hello-Blog"><a href="#Hello-Blog" class="headerlink" title="Hello Blog."></a>Hello Blog.</h1><p>之前经常会发现大佬有自己的技术博客，之前也尝试着去做一个，但是由于自己的技术水平有限，也没有决定好走技术路线，所以就一直没有开始写技术博客。</p><p>最近比较了算法和产品的待遇，真的差别好大。暂且不说之后的发展会怎样，程序员/技术岗本身是智力和努力的比拼，是硬功夫。有更清晰的发展方向。再加上种种原因，我决定做技术了。</p><a id="more"></a>
 
 <ul>

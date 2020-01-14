@@ -54,15 +54,25 @@
   };
 </script>
 
-  <meta name="keywords" content="技术,学习">
-<meta property="og:type" content="website">
-<meta property="og:title" content="元哥的日记">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;archives&#x2F;2019&#x2F;11&#x2F;index.html">
+  <meta name="description" content="Streaming是处理数据流的API。下面直接通过例子，感受streaming的机制。">
+<meta name="keywords" content="复习,spark,并行计算,5003">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5003总结2 stream&amp;并行计算-例子">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2019&#x2F;5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
+<meta property="og:description" content="Streaming是处理数据流的API。下面直接通过例子，感受streaming的机制。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123213735.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123220112.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123222512.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123230557.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123231336.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191124085220.png">
+<meta property="og:updated_time" content="2019-12-26T13:43:57.998Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123213735.png">
 
-<link rel="canonical" href="http://leeee.top/archives/2019/11/">
+<link rel="canonical" href="http://leeee.top/2019/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/">
 
 
 <script id="page-configurations">
@@ -70,13 +80,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
-    isArchive: true
+    isArchive: false
   };
 </script>
 
-  <title>归档 | 元哥的日记</title>
+  <title>5003总结2 stream&并行计算-例子 | 元哥的日记</title>
   
 
 
@@ -234,93 +244,174 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 13 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2019/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pic03.jpg">
+      <meta itemprop="name" content="Yuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="元哥的日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          5003总结2 stream&并行计算-例子
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-12-26 20:43:15 / 修改时间：21:43:57" itemprop="dateCreated datePublished" datetime="2019-12-26T20:43:15+08:00">2019-12-26</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h2 class="collection-header">2019</h2>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-30T23:03:57+08:00"
-              content="2019-11-30">
-          11-30
-        </time>
-      </div>
-
-      <h3 class="post-title">
-          <a class="post-title-link" href="/2019/%E5%87%86%E5%A4%87Q%E9%9F%B3%E6%8E%A8%E8%8D%90%E7%9A%84%E7%AC%94%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">准备Q音推荐实习面试的笔记</span>
-          </a>
-      </h3>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-30T15:13:04+08:00"
-              content="2019-11-30">
-          11-30
-        </time>
-      </div>
-
-      <h3 class="post-title">
-          <a class="post-title-link" href="/2019/What-is-GAN-basicly/" itemprop="url">
-            <span itemprop="name">What is GAN basicly?</span>
-          </a>
-      </h3>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-16T14:58:20+08:00"
-              content="2019-11-16">
-          11-16
-        </time>
-      </div>
-
-      <h3 class="post-title">
-          <a class="post-title-link" href="/2019/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%91%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0GDBT-XGBOOST-RF/" itemprop="url">
-            <span itemprop="name">集成学习GDBT,XGBOOST,RF</span>
-          </a>
-      </h3>
-
-    </header>
-  </article>
-
+        <p>Streaming是处理数据流的API。<br>下面直接通过例子，感受streaming的机制。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123213735.png" alt=""><br><a id="more"></a></p>
+<h1 id="例1-从键盘输入文本，统计词频"><a href="#例1-从键盘输入文本，统计词频" class="headerlink" title="例1 从键盘输入文本，统计词频"></a>例1 从键盘输入文本，统计词频</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123220112.png" alt=""></p>
+<h1 id="例2-1-从文件输入，统计词频"><a href="#例2-1-从文件输入，统计词频" class="headerlink" title="例2.1 从文件输入，统计词频"></a>例2.1 从文件输入，统计词频</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123222512.png" alt=""></p>
+<h1 id="例2-2-对词的感情值排序"><a href="#例2-2-对词的感情值排序" class="headerlink" title="例2.2 对词的感情值排序"></a>例2.2 对词的感情值排序</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123230557.png" alt=""></p>
+<h1 id="例2-3-stage，统计所有词频"><a href="#例2-3-stage，统计所有词频" class="headerlink" title="例2.3 stage，统计所有词频"></a>例2.3 stage，统计所有词频</h1><p>上面的例子2.1 仅仅是统计每一个输入部分的词频，意义不大<br>通过<code>updateStateByKey()</code>可以实现对所有数据的统计。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123231336.png" alt=""></p>
+<p><code>updateStateByKey()</code>需要定义一个函数，函数的输入是上次的和这次的rdd，这里的streaming的精髓，需要好好理解。</p>
+<hr>
+<h1 id="算法应用1：蓄水池抽样Reservoir-Sampling"><a href="#算法应用1：蓄水池抽样Reservoir-Sampling" class="headerlink" title="算法应用1：蓄水池抽样Reservoir Sampling"></a>算法应用1：蓄水池抽样Reservoir Sampling</h1><h2 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h2><p>蓄水池采样算法（Reservoir Sampling）了。先说一下算法的过程：</p>
+<ul>
+<li>假设数据序列的规模为  𝑛，需要采样的数量的为  𝑘。</li>
+<li>首先构建一个可容纳  𝑘  个元素的数组，将序列的前  𝑘  个元素放入数组中。</li>
+<li>然后从第  𝑘+1  个元素开始，以  𝑘/𝑛  的概率来决定该元素是否被替换到数组中（数组中的元素被替换的概率是相同的）。 当遍历完所有元素之后，数组中剩下的元素即为所需采取的样本。<blockquote>
+<p>这样就可以对任意长度的数据抽样，可以实现streaming. 不需要考虑文件长度。</p>
+</blockquote>
+</li>
+</ul>
+<p>简单证明：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191124085220.png" alt=""></p>
+<p>完整证明需要用到FIsher-Yates shuffle。</p>
+<h1 id="算法应用2：O-n-时间，O-1-空间，寻找Majority的元素-n-gt-N-2"><a href="#算法应用2：O-n-时间，O-1-空间，寻找Majority的元素-n-gt-N-2" class="headerlink" title="算法应用2：O(n)时间，O(1)空间，寻找Majority的元素(n&gt;N/2)"></a>算法应用2：O(n)时间，O(1)空间，寻找Majority的元素(n&gt;N/2)</h1><p>算法描述：<br>只用空间复杂度O(1)，去寻找数组内有没有出现次数大于一半的元素。</p>
+<p>算法过程：</p>
+<blockquote>
+<p>遍历所有元素：记录新出现元素的次数，如果下一个与记录相同，就＋1，不同就-1，遍历完成，会保留一个候选项<br>遍历所有元素：统计刚才候选项出现的次数n以及N，验证n&gt;N/2则验证成功，如果n&lt;=N/2，则无Majority</p>
+</blockquote>
+<h1 id="算法应用3：GM算法-Heavy-hitters"><a href="#算法应用3：GM算法-Heavy-hitters" class="headerlink" title="算法应用3：GM算法 Heavy hitters"></a>算法应用3：GM算法 Heavy hitters</h1><p>Misra-Gries (MG) algorithm finds up to k items that occur more than 1/k fraction of the time in a stream.<br>找到频率超过1/k的元素.<br>算法：</p>
+<blockquote>
+<p>初始化k个候选项，对之后的每个元素：</p>
+<ul>
+<li>如果元素已经被记录了，count++</li>
+<li>如果没有记录，如果候选项&lt;k，那就记录他</li>
+<li>如果没有记录，如果候选项=k，那就对每个候选项count—</li>
+</ul>
+<p>遍历完成，返回候选项</p>
+</blockquote>
+<h1 id="算法应用4：并行计算TOPn-时间复杂度满足O-n-p-log-k"><a href="#算法应用4：并行计算TOPn-时间复杂度满足O-n-p-log-k" class="headerlink" title="算法应用4：并行计算TOPn, 时间复杂度满足O(n/p*log k)"></a>算法应用4：并行计算TOPn, 时间复杂度满足O(n/p*log k)</h1><p>原题：</p>
+<blockquote>
+<p>Given an RDD storing a list of n integers (unordered), design a divide-and-conquer algorithm to find the k largest integers in the RDD. All workers must run in parallel. For full marks, each worker should run in time O(n/p * log k) time, where p is the number of workers.<br>Hint: Use a priority queue at each worker for maximum efficiency.</p>
+</blockquote>
+<p>当看到log K和priority queue就知道要使用堆排序了。<br>分成p个worker，每个worker有O(n/p)的值，每一个work维护一个最大K堆，时间复杂度是O(log k). </p>
+<p>老师给的答案：</p>
+<blockquote>
+<p>Partition the integers evenly so that each worker receives O(n/p) values. On each worker, maintain a min-heap of size k. Inserting an element to the heap costs O(log k) time.<br>For each value, insert it to the heap if it is larger than the current min of the heap. Pop the minimum item if there are more than k items in the heap. By making one pass over all the values in each worker, we get the k largest integers out of the values of this worker. This can be done in O(n/p log k) time.<br>Then we merge the results by sending the top k of each partition to the same worker, which is at most kp values. The worker finds the largest k integers among these kp values and report it.</p>
+</blockquote>
+<p>代码<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> heapq  <span class="comment"># 引入最大堆的包</span></span><br><span class="line">  </span><br><span class="line">rdd = sc.parallelize(xrange(<span class="number">0</span>,<span class="number">1000</span>,<span class="number">2</span>))   <span class="comment">#生成rdd</span></span><br><span class="line">k = <span class="number">10</span>  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">topk</span><span class="params">(it)</span>:</span>        <span class="comment">#对于每一个分区的n/p个值</span></span><br><span class="line">    h = []  </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> it:     <span class="comment">#遍历每一个值</span></span><br><span class="line">        <span class="comment"># check if we should insert i  </span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">not</span> h) <span class="keyword">or</span> (i &gt; h[<span class="number">0</span>]):   <span class="comment">#如果h为空或者新来的大于h里面最大的</span></span><br><span class="line">            heapq.heappush(h,i)     <span class="comment">#把这个元素插入到h</span></span><br><span class="line">            <span class="keyword">if</span> len(h) &gt; k:          <span class="comment">#长度大于k</span></span><br><span class="line">                heapq.heappop(h)    <span class="comment">#弹出h中最小的</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(len(h)):        <span class="comment">#遍历每一个值</span></span><br><span class="line">        <span class="keyword">yield</span> heapq.heappop(h)      <span class="comment">#从小到大依次弹出返回到上一层</span></span><br><span class="line">        </span><br><span class="line">print(list(topk(rdd.mapPartitions(topk).collect()))) <span class="comment">#对于分区使用，再整体使用</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<p>用实例总结了几个steaming和并行计算的基础知识点，路漫漫兮。</p>
 
     </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">猜你喜欢</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/5003总结3-Graphs/" rel="bookmark">5003总结3 Graphs</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/5003总结1-RDD-Spark-Internals/" rel="bookmark">5003总结1 RDD, Spark Internals</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 复习</a>
+              <a href="/tags/spark/" rel="tag"><i class="fa fa-tag"></i> spark</a>
+              <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag"><i class="fa fa-tag"></i> 并行计算</a>
+              <a href="/tags/5003/" rel="tag"><i class="fa fa-tag"></i> 5003</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/5003%E6%80%BB%E7%BB%931-RDD-Spark-Internals/" rel="next" title="5003总结1 RDD, Spark Internals">
+                  <i class="fa fa-chevron-left"></i> 5003总结1 RDD, Spark Internals
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/5003%E6%80%BB%E7%BB%933-Graphs/" rel="prev" title="5003总结3 Graphs">
+                  5003总结3 Graphs <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
         </div>
           
@@ -345,6 +436,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#例1-从键盘输入文本，统计词频"><span class="nav-number">1.</span> <span class="nav-text">例1 从键盘输入文本，统计词频</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例2-1-从文件输入，统计词频"><span class="nav-number">2.</span> <span class="nav-text">例2.1 从文件输入，统计词频</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例2-2-对词的感情值排序"><span class="nav-number">3.</span> <span class="nav-text">例2.2 对词的感情值排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例2-3-stage，统计所有词频"><span class="nav-number">4.</span> <span class="nav-text">例2.3 stage，统计所有词频</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法应用1：蓄水池抽样Reservoir-Sampling"><span class="nav-number">5.</span> <span class="nav-text">算法应用1：蓄水池抽样Reservoir Sampling</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法过程"><span class="nav-number">5.1.</span> <span class="nav-text">算法过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法应用2：O-n-时间，O-1-空间，寻找Majority的元素-n-gt-N-2"><span class="nav-number">6.</span> <span class="nav-text">算法应用2：O(n)时间，O(1)空间，寻找Majority的元素(n&gt;N/2)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法应用3：GM算法-Heavy-hitters"><span class="nav-number">7.</span> <span class="nav-text">算法应用3：GM算法 Heavy hitters</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法应用4：并行计算TOPn-时间复杂度满足O-n-p-log-k"><span class="nav-number">8.</span> <span class="nav-text">算法应用4：并行计算TOPn, 时间复杂度满足O(n/p*log k)</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

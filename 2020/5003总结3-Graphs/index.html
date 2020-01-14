@@ -54,29 +54,48 @@
   };
 </script>
 
-  <meta name="keywords" content="技术,学习">
-<meta property="og:type" content="website">
-<meta property="og:title" content="元哥的日记">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;page&#x2F;2&#x2F;index.html">
+  <meta name="description" content="graphframes是处理图的一个API graphframes官方文档可以和RDD结合，和pyspark结合使用。在Python环境使用需要以下步骤：12345678910111213141516171819**GraphFrames:**-   For pre-installed Spark version ubuntu, to use GraphFrames:    1.  get the">
+<meta name="keywords" content="复习,spark,并行计算,5003">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5003总结3 Graphs">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;5003%E6%80%BB%E7%BB%933-Graphs&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
+<meta property="og:description" content="graphframes是处理图的一个API graphframes官方文档可以和RDD结合，和pyspark结合使用。在Python环境使用需要以下步骤：12345678910111213141516171819**GraphFrames:**-   For pre-installed Spark version ubuntu, to use GraphFrames:    1.  get the">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123161350.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123140805.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123141021.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123144609.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123145700.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123145801.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123150855.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123151645.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123152823.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123153344.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123161040.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123161117.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123170545.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123170704.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123170718.png">
+<meta property="og:updated_time" content="2020-01-04T15:45:34.116Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123161350.png">
 
-<link rel="canonical" href="http://leeee.top/page/2/">
+<link rel="canonical" href="http://leeee.top/2020/5003%E6%80%BB%E7%BB%933-Graphs/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false,
+    isHome: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>元哥的日记</title>
+  <title>5003总结3 Graphs | 元哥的日记</title>
   
 
 
@@ -235,11 +254,11 @@
             
 
   <div class="posts-expand">
-        
+      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2019/Blog2-%E6%B8%AF%E6%A0%A1msc-%E4%BA%92%E8%81%94%E7%BD%91%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%97%B6%E9%97%B4%E8%BD%B4/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/5003%E6%80%BB%E7%BB%933-Graphs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/pic03.jpg">
@@ -252,8 +271,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/Blog2-%E6%B8%AF%E6%A0%A1msc-%E4%BA%92%E8%81%94%E7%BD%91%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%97%B6%E9%97%B4%E8%BD%B4/" class="post-title-link" itemprop="url">港校msc 互联网找工作时间轴</a>
+          5003总结3 Graphs
         </h2>
 
         <div class="post-meta">
@@ -262,31 +280,31 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-10-26 08:52:24" itemprop="dateCreated datePublished" datetime="2019-10-26T08:52:24+08:00">2019-10-26</time>
+              <time title="创建时间：2020-01-04 23:44:44 / 修改时间：23:45:34" itemprop="dateCreated datePublished" datetime="2020-01-04T23:44:44+08:00">2020-01-04</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-21 01:42:46" itemprop="dateModified" datetime="2019-12-21T01:42:46+08:00">2019-12-21</time>
-              </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>462</span>
+              <span>2.8k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -298,210 +316,94 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="港校msc-互联网找工作时间轴"><a href="#港校msc-互联网找工作时间轴" class="headerlink" title="港校msc 互联网找工作时间轴"></a>港校msc 互联网找工作时间轴</h1><p><strong>入学前的（大四） 暑期实习</strong> 建议参加<br>3-5月 实习岗位网申开启<br>5-7月 进行网申、面试，发放Offer<br>7-9月 进入公司实习</p><p><strong>入学前的 秋季校招</strong> 建议参加<br>7-8月 互联网大厂的提前批、正式校招开放；<br>9月意向书，10月底谈薪</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/Blog2-%E6%B8%AF%E6%A0%A1msc-%E4%BA%92%E8%81%94%E7%BD%91%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%97%B6%E9%97%B4%E8%BD%B4/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2019/Blog1-Build%20by%20Hexo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/pic03.jpg">
-      <meta itemprop="name" content="Yuan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="元哥的日记">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/Blog1-Build%20by%20Hexo/" class="post-title-link" itemprop="url">Build by Hexo</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-10-24 16:00:23" itemprop="dateCreated datePublished" datetime="2019-10-24T16:00:23+08:00">2019-10-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-21 01:42:58" itemprop="dateModified" datetime="2019-12-21T01:42:58+08:00">2019-12-21</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>499</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本次搭建blog，完全学习于：<a href="https://www.bilibili.com/video/av44544186?from=search&amp;seid=6748505739751413370" target="_blank" rel="noopener">b站up主codesheep视频</a></p><p>下面进入流程：</p><ol>
-<li>sudo su 进入管理员</li>
-<li>安装Node.js，搜索，下载，安装<br>安装之后会有两个工具： node和npm<br>也可以用国内的cnpm</li>
-<li>通过npm安装hexo 博客静态框架<blockquote>
-<p>npm install -g hexo-cli </p>
+        <p>graphframes是处理图的一个API <a href="https://graphframes.github.io/graphframes/docs/_site/index.html" target="_blank" rel="noopener">graphframes官方文档</a><br>可以和RDD结合，和pyspark结合使用。<br>在Python环境使用需要以下步骤：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">**GraphFrames:**</span><br><span class="line">-   For pre-installed Spark version ubuntu, to use GraphFrames:</span><br><span class="line">    1.  get the jar file:  </span><br><span class="line">        wget http://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.7.0-spark2.4-s_2.11/graphframes-0.7.0-spark2.4-s_2.11.jar</span><br><span class="line">    2.  Load the jar file in the Jupyter notebook  </span><br><span class="line">        sc.addPyFile(&apos;path_to_the_jar_file&apos;)</span><br><span class="line">    You can also refer to &quot;~/Untitled.ipynb&quot;.</span><br><span class="line">-   Using the pyspark shell directly with GraphFrames:</span><br><span class="line">    -   ./bin/pyspark --packages graphframes:graphframes:0.7.0-spark2.4-s_2.11</span><br><span class="line">-   Using Jupyter locally:</span><br><span class="line">    1.  Set the environment variable:  </span><br><span class="line">        export SPARK_OPTS=&quot;--packages graphframes:graphframes:0.7.0-spark2.4-s_2.11&quot;</span><br><span class="line">    2.  get the jar file:  </span><br><span class="line">        wget http://dl.bintray.com/spark-packages/maven/graphframes/graphframes/0.7.0-spark2.4-s_2.11/graphframes-0.7.0-spark2.4-s_2.11.jar</span><br><span class="line">    3.  Load the jar file in the Jupyter notebook  </span><br><span class="line">        sc.addPyFile(&apos;path_to_the_jar_file&apos;)</span><br><span class="line">-   In Azure Databricks Service:</span><br><span class="line">    1.  Start the cluster</span><br><span class="line">    2.  Search for &quot;graphframes&apos; and install the library</span><br></pre></td></tr></table></figure></p><a id="more"></a>
+<p>在jupyter里面使用需要引用压缩包，例如：<br><code>sc.addPyFile(&quot;/usr/local/Cellar/apache-spark/2.4.4/libexec/jars/graphframes-0.7.0-spark2.4-s_2.11.jar&quot;)</code></p>
+<hr>
+<h1 id="生成图"><a href="#生成图" class="headerlink" title="生成图"></a>生成图</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">v = spark.createDataFrame([</span><br><span class="line">  (<span class="string">"a"</span>, <span class="string">"Alice"</span>, <span class="number">34</span>),</span><br><span class="line">  (<span class="string">"b"</span>, <span class="string">"Bob"</span>, <span class="number">36</span>),</span><br><span class="line">  (<span class="string">"c"</span>, <span class="string">"Charlie"</span>, <span class="number">37</span>),</span><br><span class="line">  (<span class="string">"d"</span>, <span class="string">"David"</span>, <span class="number">29</span>),</span><br><span class="line">  (<span class="string">"e"</span>, <span class="string">"Esther"</span>, <span class="number">32</span>),</span><br><span class="line">  (<span class="string">"f"</span>, <span class="string">"Fanny"</span>, <span class="number">38</span>),</span><br><span class="line">  (<span class="string">"g"</span>, <span class="string">"Gabby"</span>, <span class="number">60</span>)</span><br><span class="line">], [<span class="string">"id"</span>, <span class="string">"name"</span>, <span class="string">"age"</span>])</span><br><span class="line"><span class="comment"># Edges DataFrame</span></span><br><span class="line">e = spark.createDataFrame([</span><br><span class="line">  (<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"c"</span>, <span class="string">"b"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"f"</span>, <span class="string">"c"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"e"</span>, <span class="string">"f"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"e"</span>, <span class="string">"d"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"d"</span>, <span class="string">"a"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"a"</span>, <span class="string">"e"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"g"</span>, <span class="string">"e"</span>, <span class="string">"follow"</span>)</span><br><span class="line">], [<span class="string">"src"</span>, <span class="string">"dst"</span>, <span class="string">"relationship"</span>])</span><br><span class="line"><span class="comment"># Create a GraphFrame</span></span><br><span class="line">g = GraphFrame(v, e)</span><br><span class="line"></span><br><span class="line">g.vertices.show()</span><br><span class="line">g.edges.show()</span><br></pre></td></tr></table></figure>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161350.png" alt><br>建立两个dataframe：</p>
+<ul>
+<li>一个储存节点vertices的id+[data]</li>
+<li>另一个储存关系edges的[“src”, “dst”, “relationship”]</li>
+</ul>
+<p>这个图就建立好了。</p>
+<h1 id="图的基本属性"><a href="#图的基本属性" class="headerlink" title="图的基本属性"></a>图的基本属性</h1><p>g.vertices和g.edges是输入的两个v，e 可以使用dataframe的方法筛选过滤统计。</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123140805.png" alt></p>
+<p>g.outDegrees或者g.inDegrees可以返回一个dataframe-[id,degree]，自动计算每个节点的出度和入度。</p>
+<ul>
+<li>cache也可用到图上<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123141021.png" alt><br>整个图cache 运用：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123144609.png" alt><h1 id="Motif-finding"><a href="#Motif-finding" class="headerlink" title="Motif finding"></a>Motif finding</h1></li>
+</ul>
+<p>Motif finding refers to searching for structural patterns in a graph.<br>例如：寻找互相关注，寻找三角形关注<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123145700.png" alt><br>寻找单向关注，寻找无人关注<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123145801.png" alt></p>
+<p>另一种方法寻找无人关注的点：</p>
+<ul>
+<li><p>左连接or求差集（先求id的差集，再直接join整张表）<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123150855.png" alt></p>
+<blockquote>
+<p>如果不是左连接，那一行会被删掉</p>
 </blockquote>
 </li>
-<li>建立一个专有的文件夹，方便管理</li>
-<li>文件夹下运行hexo<blockquote>
-<p>sudo hexo init</p>
+<li><p>例子：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123151645.png" alt></p>
+</li>
+</ul>
+<p>先找单向的四人关系，map 相互为friend=1，筛选有2个friend以上的关系链。</p>
+<h1 id="Subgraphs-生成子图"><a href="#Subgraphs-生成子图" class="headerlink" title="Subgraphs 生成子图"></a>Subgraphs 生成子图</h1><ul>
+<li>选择子节点和子边</li>
+<li><p>生成新图<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123152823.png" alt></p>
+</li>
+<li><p>过滤掉多余的部分<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123153344.png" alt><br>这里的leftsemi的join方式：<a href="https://blog.csdn.net/zhaoxz128/article/details/80784188" target="_blank" rel="noopener">leftsemi讲解</a></p>
+<blockquote>
+<p>Hive 当前<strong>没有</strong>实现 IN/EXISTS 子查询，所以你可以用 <strong>LEFT SEMI JOIN 重写你的子查询语句</strong>。LEFT SEMI JOIN 的限制是， JOIN 子句中右边的表只能在  ON 子句中设置过滤条件，在 WHERE 子句、SELECT 子句或其他地方过滤都不行。</p>
+<h1 id="例子：找到最少被两个人关注的人"><a href="#例子：找到最少被两个人关注的人" class="headerlink" title="例子：找到最少被两个人关注的人"></a>例子：找到最少被两个人关注的人</h1><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g.find(<span class="string">"( )-[e]-&gt;(b)"</span>).filter(<span class="string">"e.relationship='follow'"</span>).</span><br><span class="line">groupby(<span class="string">'b'</span>).count().filter(<span class="string">"count&gt;=2"</span>).select(<span class="string">'b.name'</span>).show()</span><br></pre></td></tr></table></figure>
 </blockquote>
 </li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/Blog1-Build%20by%20Hexo/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
+</ul>
+<h1 id="应用：BFS广度有限搜索"><a href="#应用：BFS广度有限搜索" class="headerlink" title="应用：BFS广度有限搜索"></a>应用：BFS广度有限搜索</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161040.png" alt><br>API自带的接口：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161117.png" alt></p>
+<h1 id="例子-list-rank"><a href="#例子-list-rank" class="headerlink" title="例子 list rank"></a>例子 list rank</h1><p>对于一个链表排序（按照距离尾部节点的距离排序）：<br>暴力算法：遍历n次，每次找到尾部节点，记录并删除 O(n)<br>方法2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Initialize u.d = 0 if u.next = null, else u.d = 1</span><br><span class="line">Run the following for each node u until all next pointers are null:</span><br><span class="line">	if u.next is not null: </span><br><span class="line">		u.d += u.next.d </span><br><span class="line">		u.next = u.next.next</span><br></pre></td></tr></table></figure><br>算法原理如图：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170545.png" alt><br>复杂度O(logn)，每一轮遍历非尾节点都会参与，减少循环次数<br> 实现：<br> <img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170704.png" alt><br> <img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170718.png" alt></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本文总结了pyspark的graph模块基本语法和操作，关于5003的三篇总结到此结束。</p>
+
     </div>
 
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
+      
+  <div class="popular-posts-header">猜你喜欢</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/5003总结2-stream-并行计算-例子-1/" rel="bookmark">5003总结2 stream&并行计算-例子</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/5003总结1-RDD-Spark-Internals/" rel="bookmark">5003总结1 RDD, Spark Internals</a></div>
+    </li>
+  </ul>
 
-  
-  
-  
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 复习</a>
+              <a href="/tags/spark/" rel="tag"><i class="fa fa-tag"></i> spark</a>
+              <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag"><i class="fa fa-tag"></i> 并行计算</a>
+              <a href="/tags/5003/" rel="tag"><i class="fa fa-tag"></i> 5003</a>
+          </div>
 
         
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2019/Hello-Blog/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/pic03.jpg">
-      <meta itemprop="name" content="Yuan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="元哥的日记">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/Hello-Blog/" class="post-title-link" itemprop="url">Hello Blog</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-10-24 15:04:38" itemprop="dateCreated datePublished" datetime="2019-10-24T15:04:38+08:00">2019-10-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-12-21 01:42:45" itemprop="dateModified" datetime="2019-12-21T01:42:45+08:00">2019-12-21</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>659</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Hello-Blog"><a href="#Hello-Blog" class="headerlink" title="Hello Blog."></a>Hello Blog.</h1><p>之前经常会发现大佬有自己的技术博客，之前也尝试着去做一个，但是由于自己的技术水平有限，也没有决定好走技术路线，所以就一直没有开始写技术博客。</p><p>最近比较了算法和产品的待遇，真的差别好大。暂且不说之后的发展会怎样，程序员/技术岗本身是智力和努力的比拼，是硬功夫。有更清晰的发展方向。再加上种种原因，我决定做技术了。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/Hello-Blog/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/" rel="next" title="5003总结2 stream&并行计算-例子">
+                  <i class="fa fa-chevron-left"></i> 5003总结2 stream&并行计算-例子
+                </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2020/linux%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%86%8D%E5%85%A5%E9%97%A8/" rel="prev" title="linux从入门到再入门">
+                  linux从入门到再入门 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
       </footer>
+    
   </article>
 
   
@@ -510,15 +412,10 @@
 
   </div>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
-
-
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
         </div>
           
@@ -543,6 +440,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#生成图"><span class="nav-number">1.</span> <span class="nav-text">生成图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#图的基本属性"><span class="nav-number">2.</span> <span class="nav-text">图的基本属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Motif-finding"><span class="nav-number">3.</span> <span class="nav-text">Motif finding</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Subgraphs-生成子图"><span class="nav-number">4.</span> <span class="nav-text">Subgraphs 生成子图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例子：找到最少被两个人关注的人"><span class="nav-number">5.</span> <span class="nav-text">例子：找到最少被两个人关注的人</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#应用：BFS广度有限搜索"><span class="nav-number">6.</span> <span class="nav-text">应用：BFS广度有限搜索</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例子-list-rank"><span class="nav-number">7.</span> <span class="nav-text">例子 list rank</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icon_ca.jpeg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icon_ca.jpeg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icon_ca.jpeg">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="true">
+  <meta name="msvalidate.01" content="true">
+  <meta name="yandex-verification" content="true">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="5003总结1 RDD, Spark Internals学习了5003之后，对于RDD和spark两章总结复习，梳理出有关函数的作用。RDDresilient Distributed Datasets: 弹性分布式数据库，rdd是spark的基本运行单位使用者作用于RDD，RDD自动进行分区，在不同partitions进行操作">
+<meta name="keywords" content="复习,spark,5003">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5003总结1 RDD, Spark Internals">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2019&#x2F;5003%E6%80%BB%E7%BB%931-RDD-Spark-Internals&#x2F;index.html">
+<meta property="og:site_name" content="元哥的日记">
+<meta property="og:description" content="5003总结1 RDD, Spark Internals学习了5003之后，对于RDD和spark两章总结复习，梳理出有关函数的作用。RDDresilient Distributed Datasets: 弹性分布式数据库，rdd是spark的基本运行单位使用者作用于RDD，RDD自动进行分区，在不同partitions进行操作">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191030092656.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191030104539.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191030105120.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191030110438.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191030110351.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191030111556.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191030113309.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191031205443.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191030113538.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191031200235.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191031201853.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191031202823.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191031211821.png">
+<meta property="og:updated_time" content="2019-12-20T17:42:42.980Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191030092656.png">
+
+<link rel="canonical" href="http://leeee.top/2019/5003%E6%80%BB%E7%BB%931-RDD-Spark-Internals/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>5003总结1 RDD, Spark Internals | 元哥的日记</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?567d405f5ec7479a4e2944724d8c336f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">元哥的日记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">终其一生，我们只不过在寻找自己</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/#/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-所有文章">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>所有文章</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-categories"></i>分类</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-更多">
+
+    <a href="/more/" rel="section"><i class="fa fa-fw fa-share"></i>更多</a>
+
+  </li>
+
+
+      
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2019/5003%E6%80%BB%E7%BB%931-RDD-Spark-Internals/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pic03.jpg">
+      <meta itemprop="name" content="Yuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="元哥的日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          5003总结1 RDD, Spark Internals
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-12-21 01:37:50 / 修改时间：01:42:42" itemprop="dateCreated datePublished" datetime="2019-12-21T01:37:50+08:00">2019-12-21</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="5003总结1-RDD-Spark-Internals"><a href="#5003总结1-RDD-Spark-Internals" class="headerlink" title="5003总结1 RDD, Spark Internals"></a>5003总结1 RDD, Spark Internals</h1><p>学习了5003之后，对于RDD和spark两章总结复习，梳理出有关函数的作用。</p><h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><p>resilient Distributed Datasets: 弹性分布式数据库，rdd是spark的基本运行单位<br>使用者作用于RDD，RDD自动进行分区，在不同partitions进行操作<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030092656.png" alt="RDD的操作"></p><a id="more"></a>
+
+<h2 id="rdd是“懒惰的”Lazy，如果只进行Transfomations-，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）"><a href="#rdd是“懒惰的”Lazy，如果只进行Transfomations-，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）" class="headerlink" title="* rdd是“懒惰的”Lazy，如果只进行Transfomations ，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）"></a>* rdd是“懒惰的”Lazy，如果只进行Transfomations ，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）</h2><p><a href="https://haofly.net/spark/" target="_blank" rel="noopener">引用博文 https://haofly.net/spark/</a></p>
+<ul>
+<li><strong>RDD(Resilient Distributed Dataset弹性分布式数据集)</strong>：这是spark的主要数据概念。有多种来源，容错机制，并且能缓存、并行计算。RDD在整个计算流程中会经过不同方式的变换，这种变换关系就是一个有向无环图。</li>
+<li>需要注意的是，所有的方法在定义执行之前都是异步的，所以不能简单地在下面的方法外部添加<code>try...catch...</code>进行异常捕获，最好是在传入的函数里面进行异常的捕获(如果是lambda，请确认lambda不会报错，否则如果lambda报错整个程序都会报错并终止允许)</li>
+<li>Spark应用程序可以使用大多数主流语言编写，这里使用的是python，只<code>pip install pyspark</code>即可</li>
+<li><strong>Stage(调度阶段)</strong>: 每个Job会根据RDD大小切分城多个Stage，每个Stage包含一个TaskSet</li>
+<li><strong>TaskSet(任务集)</strong>: 一组关联的Task集合，不过是没有依赖的</li>
+<li><strong>Task(任务)</strong>: RDD中的一个分区对应一个Task。</li>
+<li><strong>Narrow Dependency(窄依赖)</strong>: 比较简单的一对一依赖和多对一依赖(如union)</li>
+<li><strong>Shuffle Dependency(宽依赖)</strong>: 父RDD的分区被多个子RDD分区所使用，这时父RDD的数据会被再次分割发送给子RDD</li>
+<li><strong>Spark 内存分配</strong>: 分为这三块:<ul>
+<li><strong>execution</strong>: 执行内存，基本的算子都是在这里面执行的，这块内存满了就写入磁盘。</li>
+<li><strong>storage</strong>: 用于存储broadcast, cache, persist</li>
+<li><strong>other</strong>: 程序预留给自己的内存，这个可以不用考虑</li>
+</ul>
+</li>
+<li><strong>Duration</strong><ul>
+<li><strong>batchDuration</strong>: 批次时间</li>
+<li><strong>windowDuration</strong>: 窗口时间，要统计多长时间内的数据，必须是<code>batchDuration</code>的整数倍</li>
+<li><strong>slideDuration</strong>: 滑动时间，窗口多长时间滑动一次，必须是<code>batchDuration</code>的整数倍，一般是跟<code>batchDuration</code>时间相同<h3 id="生成RDD"><a href="#生成RDD" class="headerlink" title="生成RDD"></a>生成RDD</h3>sc.parallelize(xrange(10))<br>sc.textFile(‘../data/fruits.txt’)</li>
+</ul>
+</li>
+</ul>
+<h3 id="基本运算"><a href="#基本运算" class="headerlink" title="基本运算"></a><a href="https://haofly.net/spark/#%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97" target="_blank" rel="noopener" title="基本运算"></a>基本运算</h3><ul>
+<li>下面是所有运算方法的集合，其中有些方法仅用于键值对，有些方法仅用于数据流</li>
+</ul>
+<h4 id="Transformation-转换"><a href="#Transformation-转换" class="headerlink" title="Transformation(转换)"></a><a href="https://haofly.net/spark/#Transformation-%E8%BD%AC%E6%8D%A2" target="_blank" rel="noopener" title="Transformation(转换)"></a>Transformation(转换)</h4><p>这类方法仅仅是定义逻辑，并不会立即执行，即lazy特性。目的是将一个RDD转为新的RDD。</p>
+<ul>
+<li>map(func): 返回一个新的RDD，func会作用于每个map的key，func的返回值即是新的数据。为了便于后面的计算，这一步一般在数据处理的最前面将数据转换为(K, V)的形式，例如计数的过程中首先要<code>datas.map(lambda a, (a, 1))</code>将数据转换成(a, 1)的形式以便后面累加</li>
+<li><p>flatmap： 提取出每个list的所有元素，压成一层</p>
+</li>
+<li><p>mappartitions(func, partition): 和map不同的地方在于map的func应用于每个元素，而这里的<strong>func会应用于每个分区</strong>，能够有效减少调用开销，减少func初始化次数。减少了初始化的内存开销。但是map如果数据量过大，计算后面的时候可以将已经计算过的内存销毁掉，但是mappartitions中如果一个分区太大，一次计算的话可能直接导致内存溢出。</p>
+</li>
+<li>filter(func): 返回一个新的RDD，func会作用于每个map的key，返回的仅仅是返回True的数据组成的集合，返回None或者False或者不返回都表示被过滤掉</li>
+<li>filtMap(func): 返回一个新的RDD，func可以一次返回多个元素，最后形成的是所有返回的元素组成的新的数据集</li>
+<li>mapValues(func): 返回一个新的RDD，对RDD中的每一个value应用函数func。</li>
+<li>distinct(): 去除重复的元素</li>
+<li>subtractByKey(other): 删除在RDD1中的RDD2中key相同的值</li>
+<li>groupByKey(numPartitions=None): 将(K, V)数据集上所有Key相同的数据聚合到一起，得到的结果是(K, (V1, V2…))</li>
+<li>reduceByKey(func, numPartitions=None): 将(K, V)数据集上所有Key相同的数据聚合到一起，func的参数即是每两个K-V中的V。可以使用这个函数来进行计数，例如reduceByKey(lambda a,b:a+b)就是将key相同数据的Value进行相加。</li>
+<li>reduceByKeyAndWindow(func, invFunc, windowdurartion, slideDuration=None, numPartitions=None, filterFunc=None): 与reduceByKey类似，不过它是在一个时间窗口上进行计算，由于时间窗口的移动，有增加也有减少，所以必须提供一个逻辑和func相反的函数invFunc，例如func为(lambda a, b: a+b)，那么invFunc一般为(lambda a, b: a-b)，其中a和b都是key相同的元素的value。另外需要注意的是，程序默认会缓存一个时间窗口内所有的数据以便后续能进行inv操作，所以如果窗口太长，内存占用可能会非常高</li>
+<li>join(other, numPartitions=None): 将(K, V)和(K, W)类型的数据进行类似于SQL的JOIN操作，得到的结果是这样(K, (V, W))</li>
+<li>union(other): 并集运算，简单合并两个RDD</li>
+<li>intersection(other): 交集运算，保留在两个RDD中都有的元素</li>
+<li>leftOuterJoin(other): 左外连接</li>
+<li>rightOuterJoin(other): 右外连接</li>
+</ul>
+<h4 id="Action-执行"><a href="#Action-执行" class="headerlink" title="Action(执行)"></a><a href="https://haofly.net/spark/#Action-%E6%89%A7%E8%A1%8C" target="_blank" rel="noopener" title="Action(执行)"></a>Action(执行)</h4><p>不会产生新的RDD，而是直接运行，得到我们想要的结果。</p>
+<ul>
+<li>collect(): 以数组的形式，返回数据集中所有的元素</li>
+<li>count(): 返回数据集中元素的个数</li>
+<li>take(n): 返回数据集的前N个元素</li>
+<li>takeOrdered(n): 升序排列，取出前N个元素</li>
+<li>takeOrdered(n, lambda x: -x): 降序排列，取出前N个元素</li>
+<li>first(): 返回数据集的第一个元素</li>
+<li>min(): 取出最小值</li>
+<li>max(): 取出最大值</li>
+<li>stdev(): 计算标准差</li>
+<li>sum(): 求和</li>
+<li>mean(): 平均值</li>
+<li>countByKey(): 统计各个key值对应的数据的条数</li>
+<li>lookup(key): 根据传入的key值来查找对应的Value值</li>
+<li>foreach(func): 对集合中每个元素应用func</li>
+</ul>
+<h4 id="Persistence-持久化"><a href="#Persistence-持久化" class="headerlink" title="Persistence(持久化)"></a><a href="https://haofly.net/spark/#Persistence-%E6%8C%81%E4%B9%85%E5%8C%96" target="_blank" rel="noopener" title="Persistence(持久化)"></a>Persistence(持久化)</h4><ul>
+<li>cache()：保存，固定</li>
+<li>persist(): 将数据按默认的方式进行持久化</li>
+<li>unpersist(): 取消持久化</li>
+<li>saveAsTextFile(path): 将数据集保存至文件</li>
+</ul>
+<hr>
+<h2 id="RDD的操作-pyspark"><a href="#RDD的操作-pyspark" class="headerlink" title="RDD的操作 pyspark"></a>RDD的操作 pyspark</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fruits = sc.textFile(<span class="string">'../data/fruits.txt'</span>) </span><br><span class="line">fruits.collect()</span><br><span class="line"><span class="comment">#读文本，全部显示</span></span><br></pre></td></tr></table></figure>
+<p>累加器的使用：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030104539.png" alt></p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">rdd = sc.parallelize(xrange(<span class="number">10</span>))</span><br><span class="line">accum = sc.accumulator(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">g</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> accum</span><br><span class="line">    accum += x</span><br><span class="line">    <span class="keyword">return</span> x * x</span><br><span class="line"></span><br><span class="line">a = rdd.map(g)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"---------"</span></span><br><span class="line"><span class="keyword">print</span> accum.value</span><br><span class="line"><span class="keyword">print</span> rdd.reduce(<span class="keyword">lambda</span> x, y: x+y)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"---------"</span></span><br><span class="line"><span class="comment">#a.cache()</span></span><br><span class="line">tmp = a.count()</span><br><span class="line"><span class="keyword">print</span> accum.value</span><br><span class="line"><span class="keyword">print</span> rdd.reduce(<span class="keyword">lambda</span> x, y: x+y)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"---------"</span></span><br><span class="line">tmp = a.count()</span><br><span class="line"><span class="keyword">print</span> accum.value</span><br><span class="line"><span class="keyword">print</span> rdd.reduce(<span class="keyword">lambda</span> x, y: x+y)</span><br><span class="line"><span class="comment">#reduce 始终不变，但是如果没有cache accumulator就会反复累加</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">---------</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">45</span></span><br><span class="line">---------</span><br><span class="line"><span class="number">45</span></span><br><span class="line"><span class="number">45</span></span><br><span class="line">---------</span><br><span class="line"><span class="number">90</span></span><br><span class="line"><span class="number">45</span></span><br></pre></td></tr></table></figure>
+<p>展示分区glom（）<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030105120.png" alt><br>mapParttitions 在分区内部执行函数f<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030110438.png" alt></p>
+<p>这里的index就是为了改变每次生成的随机数不一样，否则每个分区算出来是一样的<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030110351.png" alt></p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030111556.png" alt><br>对key相同的值进行操作</p>
+<h4 id="kmeans"><a href="#kmeans" class="headerlink" title="kmeans"></a>kmeans</h4><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030113309.png" alt></p>
+<h4 id="pagerank"><a href="#pagerank" class="headerlink" title="pagerank"></a>pagerank</h4><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031205443.png" alt></p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030113538.png" alt></p>
+<h1 id="Internal-of-Spark"><a href="#Internal-of-Spark" class="headerlink" title="Internal of Spark"></a>Internal of Spark</h1><h2 id="web端监控Spark运行情况"><a href="#web端监控Spark运行情况" class="headerlink" title="web端监控Spark运行情况"></a>web端监控Spark运行情况</h2><p>查看Spark 可视化进程： localhost:4040 4041 4042 …</p>
+<h2 id="partitions-分区"><a href="#partitions-分区" class="headerlink" title="partitions 分区"></a>partitions 分区</h2><p>RDD是储存在不同的partition里的，生成时每个partition平衡的（数量差不多），用于并行计算，但是有可能操作之后，就不平衡了。</p>
+<p>这时候，需要 .repartition(n)</p>
+<h1 id="Hash-vs-Range-partitioning"><a href="#Hash-vs-Range-partitioning" class="headerlink" title="Hash  vs Range partitioning"></a>Hash  vs Range partitioning</h1><ul>
+<li>Hash partitioning<br>通过%N，这样的将相同<strong>余数</strong>放到一个分区。<br>缺点：可能由于原数据余数不平衡，可能分区不平衡</li>
+<li>Range partitioning<br>计算每个分区大小，将连续的数放到一个分区<br>缺点：数值大小不平衡</li>
+</ul>
+<p>例子如下：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031200235.png" alt></p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031201853.png" alt><br>RDD本来没有partitions，当有了shuffle 或者主动生成一个partitions才会有。<br>(这样的好处是，shuffle本身是需要多个partitions一起参与的，如果是线性图（key没有变化），那就只需要在自己的分区内计算，实现并行)</p>
+<p>会继承partitions的3个Operations(key不会改变):</p>
+<ul>
+<li>mapValues  （但是map就不行）<ul>
+<li>flatMapValues </li>
+<li>filter  </li>
+</ul>
+</li>
+</ul>
+<p>其他的Operations都会改变key？ （这里需要考察一下）<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031202823.png" alt></p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031211821.png" alt></p>
+<p>Spark 的 各级目录</p>
+<blockquote>
+<p>application 一个内核&gt;job一次运行 &gt;stage指令下的一个状态&gt;task一个状态的任务</p>
+</blockquote>
+<p>Spark的内存管理</p>
+<ul>
+<li>Two types of memory usages for applications:<br>– Execution memory: for computation in shuffles, joins, sorts and aggregations<br>– Storage memory: for caching and propagating internal data across the cluster</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">猜你喜欢</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/5003总结2-stream-并行计算-例子-1/" rel="bookmark">5003总结2 stream&并行计算-例子</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/5003总结3-Graphs/" rel="bookmark">5003总结3 Graphs</a></div>
+    </li>
+  </ul>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 复习</a>
+              <a href="/tags/spark/" rel="tag"><i class="fa fa-tag"></i> spark</a>
+              <a href="/tags/5003/" rel="tag"><i class="fa fa-tag"></i> 5003</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/%E5%87%86%E5%A4%87Q%E9%9F%B3%E6%8E%A8%E8%8D%90%E7%9A%84%E7%AC%94%E8%AE%B0/" rel="next" title="准备Q音推荐实习面试的笔记">
+                  <i class="fa fa-chevron-left"></i> 准备Q音推荐实习面试的笔记
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/" rel="prev" title="5003总结2 stream&并行计算-例子">
+                  5003总结2 stream&并行计算-例子 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#5003总结1-RDD-Spark-Internals"><span class="nav-number">1.</span> <span class="nav-text">5003总结1 RDD, Spark Internals</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RDD"><span class="nav-number">1.1.</span> <span class="nav-text">RDD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rdd是“懒惰的”Lazy，如果只进行Transfomations-，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）"><span class="nav-number">1.2.</span> <span class="nav-text">* rdd是“懒惰的”Lazy，如果只进行Transfomations ，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成RDD"><span class="nav-number">1.2.1.</span> <span class="nav-text">生成RDD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本运算"><span class="nav-number">1.2.2.</span> <span class="nav-text">基本运算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Transformation-转换"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">Transformation(转换)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Action-执行"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">Action(执行)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Persistence-持久化"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">Persistence(持久化)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RDD的操作-pyspark"><span class="nav-number">1.3.</span> <span class="nav-text">RDD的操作 pyspark</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#kmeans"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">kmeans</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pagerank"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">pagerank</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Internal-of-Spark"><span class="nav-number">2.</span> <span class="nav-text">Internal of Spark</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#web端监控Spark运行情况"><span class="nav-number">2.1.</span> <span class="nav-text">web端监控Spark运行情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#partitions-分区"><span class="nav-number">2.2.</span> <span class="nav-text">partitions 分区</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hash-vs-Range-partitioning"><span class="nav-number">3.</span> <span class="nav-text">Hash  vs Range partitioning</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Yuan"
+    src="/images/pic03.jpg">
+  <p class="site-author-name" itemprop="name">Yuan</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liyuan97" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liyuan97" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lysysu@qq.com" title="E-Mail &amp;rarr; mailto:lysysu@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Friends Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.yelbee.top/" title="http:&#x2F;&#x2F;www.yelbee.top&#x2F;" rel="noopener" target="_blank">Yellow Bee</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+      
+      <div style="">
+  <canvas id="canvas" style="width:60%;">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //声明canvas的宽高
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //存储时间数据
+    var data = [];
+    //存储运动的小球
+    var balls = [];
+    //设置粒子半径
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //存储时间数字，由十位小时、个位小时、冒号、十位分钟、个位分钟、冒号、十位秒钟、个位秒钟这7个数字组成
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*生成点阵数字*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*更新时钟*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //时间发生变化
+            if(NewData[i] !== data[i]){
+                //将变化的数字值和在data数组中的索引存储在changeNumArray数组中
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //增加小球
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*更新小球状态*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*增加要运动的小球*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*渲染*/
+    function render(){
+        //重置画布宽度，达到清空画布的效果
+        canvas.height = 100;
+        //渲染时钟
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //渲染小球
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //更新时钟
+        updateDigitTime();
+        //更新小球状态
+        updateBalls();
+        //渲染
+        render();
+    },50);
+}
+
+})();
+</script>
+
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yuan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">34k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">31 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.4.2
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+  
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"/>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '6e0e8cda3de0989d1085',
+    clientSecret: '3cb5f9a7db98cf1fb0204f8ef83de99e8be2eb66',
+    repo: 'liyuan97.github.io',
+    owner: 'liyuan97',
+    admin: ['liyuan97'],
+    id: md5(location.pathname),
+    
+      language: 'zh-CN',
+    
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+  
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"/>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '6e0e8cda3de0989d1085',
+    clientSecret: '3cb5f9a7db98cf1fb0204f8ef83de99e8be2eb66',
+    repo: 'liyuan97.github.io',
+    owner: 'liyuan97',
+    admin: ['liyuan97'],
+    id: md5(location.pathname),
+    
+      language: 'zh-CN',
+    
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+</body>
+</html>
