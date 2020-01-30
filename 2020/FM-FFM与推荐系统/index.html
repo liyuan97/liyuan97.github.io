@@ -54,15 +54,25 @@
   };
 </script>
 
-  <meta name="keywords" content="技术,学习">
-<meta property="og:type" content="website">
-<meta property="og:title" content="元哥的日记">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;archives&#x2F;2019&#x2F;12&#x2F;index.html">
+  <meta name="description" content="最近过年在家因为疫情不能外出，随手抓了本推荐系统开始看。模型部分从传统的邻域（协同过滤）到隐语义模型（LFM）到矩阵分解模型（SVD，SVD++），FM和FFM等遇到颇多问题，在此梳理一下。FMFM的paper地址如下：https:&#x2F;&#x2F;www.csie.ntu.edu.tw&#x2F;~b97053&#x2F;paper&#x2F;Rendle2010FM.pdfFM主要目标是：解决数据稀疏的情况下，特征怎样组合的问题根据pa">
+<meta name="keywords" content="推荐系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FM,FFM,DeepFM ">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;FM-FFM%E4%B8%8E%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
+<meta property="og:description" content="最近过年在家因为疫情不能外出，随手抓了本推荐系统开始看。模型部分从传统的邻域（协同过滤）到隐语义模型（LFM）到矩阵分解模型（SVD，SVD++），FM和FFM等遇到颇多问题，在此梳理一下。FMFM的paper地址如下：https:&#x2F;&#x2F;www.csie.ntu.edu.tw&#x2F;~b97053&#x2F;paper&#x2F;Rendle2010FM.pdfFM主要目标是：解决数据稀疏的情况下，特征怎样组合的问题根据pa">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200129213611.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200130123459.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200130132900.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200130135729.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200130135817.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200130135833.png">
+<meta property="og:updated_time" content="2020-01-30T06:27:24.474Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200129213611.png">
 
-<link rel="canonical" href="http://leeee.top/archives/2019/12/">
+<link rel="canonical" href="http://leeee.top/2020/FM-FFM%E4%B8%8E%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">
 
 
 <script id="page-configurations">
@@ -70,13 +80,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
-    isArchive: true
+    isArchive: false
   };
 </script>
 
-  <title>归档 | 元哥的日记</title>
+  <title>FM,FFM,DeepFM  | 元哥的日记</title>
   
 
 
@@ -229,73 +239,150 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 13 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/FM-FFM%E4%B8%8E%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pic03.jpg">
+      <meta itemprop="name" content="Yuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="元哥的日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          FM,FFM,DeepFM 
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-29 20:35:00" itemprop="dateCreated datePublished" datetime="2020-01-29T20:35:00+08:00">2020-01-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-30 14:27:24" itemprop="dateModified" datetime="2020-01-30T14:27:24+08:00">2020-01-30</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h2 class="collection-header">2019</h2>
-    </div>
+        <p>最近过年在家因为疫情不能外出，随手抓了本推荐系统开始看。模型部分从传统的邻域（协同过滤）到隐语义模型（LFM）到矩阵分解模型（SVD，SVD++），FM和FFM等遇到颇多问题，在此梳理一下。</p><h1 id="FM"><a href="#FM" class="headerlink" title="FM"></a>FM</h1><p>FM的paper地址如下：<a href="https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf" target="_blank" rel="noopener">https://www.csie.ntu.edu.tw/~b97053/paper/Rendle2010FM.pdf</a><br>FM主要目标是：解决数据稀疏的情况下，特征怎样组合的问题<br>根据paper的描述，FM有一下三个优点：</p><a id="more"></a>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-12-26T20:43:15+08:00"
-              content="2019-12-26">
-          12-26
-        </time>
-      </div>
-
-      <h3 class="post-title">
-          <a class="post-title-link" href="/2019/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/" itemprop="url">
-            <span itemprop="name">5003总结2 stream&并行计算-例子</span>
-          </a>
-      </h3>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-12-21T01:37:50+08:00"
-              content="2019-12-21">
-          12-21
-        </time>
-      </div>
-
-      <h3 class="post-title">
-          <a class="post-title-link" href="/2019/5003%E6%80%BB%E7%BB%931-RDD-Spark-Internals/" itemprop="url">
-            <span itemprop="name">5003总结1 RDD, Spark Internals</span>
-          </a>
-      </h3>
-
-    </header>
-  </article>
-
+<ol>
+<li>处理稀疏数据</li>
+<li>FM模型的时间复杂度是线性的</li>
+<li>FM是一个通用模型，它可以用于任何特征为实值的情况</li>
+</ol>
+<ul>
+<li>一般的线性模型：<br>$y=w_{0}+\sum_{i=1}^{n} w_{i} x_{i}$</li>
+</ul>
+<p>从上面的式子中看出，一般的线性模型没有考虑特征之间的关联。</p>
+<ul>
+<li>为了简化，采用最简单的<strong>二阶组合+多项式相乘</strong>作为关联特征的例子。<br>$y=w_{0}+\sum_{i=1}^{n} w_{i} x_{i}+\sum_{i=1}^{n} \sum_{j=i+1}^{n} w_{i j} x_{i} x_{j}$</li>
+</ul>
+<p>该多项是模型与线性模型相比，多了特征组合的部分，特征组合部分的参数有$\frac{n(n-1)}{2}$个($w_{i j}$是对称的)。如果特征非常稀疏且维度很高的话，时间复杂度O(N^2)。<br>所以，通过引入辅助向量lantent vector $V_{i}=\left[v_{i 1}, v_{i 2}, \dots, v_{i k}\right]^{T}$来表示$\frac{n(n-1)}{2}$个参数。（这里借用了FunkSVD(LFM，Latent Factor Model)的思想）    </p>
+<ul>
+<li>FM<br>$y=w_{0}+\sum_{i=1}^{n} w_{i} x_{i}+\sum_{i=1}^{n} \sum_{j=i+1}^{n}<v_{i}, v_{j}>x_{i} x_{j}$</v_{i},></li>
+</ul>
+<p>这里，辅助向量V的长度K一般是远远小于n的，所以参数量从$\frac{n(n-1)}{2}$个变成了$nk$，参数量降低，而且每一个向量V也表示了x的一个维度，有更好的解释性，<strong>本质上是在对特征进行embedding</strong>。且时间复杂度降为O(kN).</p>
+<p>时间复杂度化简后方可看出：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200129213611.png" alt></p>
+<h1 id="FFM-Field-aware-Factorization-Machines"><a href="#FFM-Field-aware-Factorization-Machines" class="headerlink" title="FFM(Field-aware Factorization Machines)"></a>FFM(Field-aware Factorization Machines)</h1><p>FFM是FM的升级版模型，引入了field的概念。FFM把相同性质的特征归于同一个field。在FFM中，每一维特征$x_i$，针对每一种field $f_j$，都会学习到一个隐向量$V_{i,f_j}$，因此，隐向量不仅与特征相关，也与field相关。</p>
+<p>设样本一共有n个特征, f 个field，那么FFM的二次项有nf个隐向量。而在FM模型中，每一维特征的隐向量只有一个。FM可以看做FFM的特例，即把所有特征都归属到同一个field中。</p>
+<p>$y = w_0 + \Sigma_{i=1}^{n}w_{i} x_{i} + \Sigma_{i=1}^{n}\Sigma_{j=i+1}^{n}<v_{i,f_{j}}, v_{j,f_{i}}>x_{i}x_{j}$</v_{i,f_{j}},></p>
+<p>如果隐向量的长度为k，那么FFM的二次项参数数量为nfk，远多于FM模型。此外由于隐向量与field相关，FFM二次项并不能够化简，时间复杂度为$O(kn^2)$。需要注意的是由于FFM中的latent vector只需要学习特定的field，所以通常$K_{FFM} &lt;&lt; K_{FM}$。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130123459.png" alt></p>
+<h1 id="DeepFM"><a href="#DeepFM" class="headerlink" title="DeepFM"></a>DeepFM</h1><p>当理解了FM，deepfm的思路也就很好懂了。</p>
+<p>fm是低阶特征，dnn是高阶特征，把低阶和高阶特征并行就是deepFM<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130132900.png" alt><br>我们先来看一下DeepFM的模型结构：</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130135729.png" alt><br>FM部分是一个因子分解机。关于因子分解机可以参阅文章[Rendle, 2010] Steffen Rendle. Factorization machines. In ICDM, 2010.。因为引入了隐变量的原因，对于几乎不出现或者很少出现的隐变量，FM也可以很好的学习。<br><strong>深度部分</strong><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130135817.png" alt></p>
+<p>深度部分是一个前馈神经网络。与图像或者语音这类输入不同，图像语音的输入一般是连续而且密集的，然而用于CTR的输入一般是及其稀疏的。因此需要重新设计网络结构。具体实现中为，在第一层隐含层之前，引入一个嵌入层来完成将输入向量压缩到低维稠密向量。</p>
+<p>  <img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130135833.png" alt><br>  嵌入层(embedding layer)的结构如上图所示。当前网络结构有两个有趣的特性，1）尽管不同field的输入长度不同，但是embedding之后向量的长度均为K。2)在FM里得到的隐变量Vik现在作为了嵌入层网络的权重。</p>
+<p>这里的第二点如何理解呢，假设我们的k=5，首先，对于输入的一条记录，同一个field 只有一个位置是1，那么在由输入得到dense vector的过程中，输入层只有一个神经元起作用，得到的dense vector其实就是输入层到embedding层该神经元相连的五条线的权重，即vi1，vi2，vi3，vi4，vi5。这五个值组合起来就是我们在FM中所提到的Vi。在FM部分和DNN部分，这一块是共享权重的，对同一个特征来说，得到的Vi是相同的。</p>
+<p>代码地址：<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2FChenglongChen%2Ftensorflow-DeepFM" target="_blank" rel="noopener">https://github.com/ChenglongChen/tensorflow-DeepFM</a></p>
+<p>梳理FM发展历史：<a href="https://zhuanlan.zhihu.com/p/52877868" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/52877868</a><br>参考FM：<a href="https://blog.csdn.net/John_xyz/article/details/78933253" target="_blank" rel="noopener">https://blog.csdn.net/John_xyz/article/details/78933253</a><br>带举例的解释：<a href="https://blog.csdn.net/baymax_007/article/details/83931698" target="_blank" rel="noopener">https://blog.csdn.net/baymax_007/article/details/83931698</a><br>推荐系统遇上深度学习系列1-3：<a href="https://www.jianshu.com/p/6f1c2643d31b" target="_blank" rel="noopener">https://www.jianshu.com/p/6f1c2643d31b</a></p>
 
     </div>
+
+    
+    
+    
+      
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="tag"><i class="fa fa-tag"></i> 推荐系统</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/2020%E9%A6%99%E6%B8%AF%E9%A9%AC%E6%8B%89%E6%9D%BE%E5%A4%87%E8%B5%9B/" rel="next" title="2020香港马拉松备赛">
+                  <i class="fa fa-chevron-left"></i> 2020香港马拉松备赛
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
         </div>
           
@@ -320,6 +407,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#FM"><span class="nav-number">1.</span> <span class="nav-text">FM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FFM-Field-aware-Factorization-Machines"><span class="nav-number">2.</span> <span class="nav-text">FFM(Field-aware Factorization Machines)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DeepFM"><span class="nav-number">3.</span> <span class="nav-text">DeepFM</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
