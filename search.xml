@@ -101,6 +101,12 @@
 <p>通过定义如下的损失函数：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208230330.png" alt></p>
 <p>优点是训练快，小数据集表现好。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208233632.png" alt></p>
 ]]></content>
+      <categories>
+        <category>CS224n</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+      </tags>
   </entry>
   <entry>
     <title>CS224n-1 初步探索，背景介绍  </title>
@@ -486,8 +492,8 @@
       <tags>
         <tag>复习</tag>
         <tag>spark</tag>
-        <tag>5003</tag>
         <tag>并行计算</tag>
+        <tag>5003</tag>
       </tags>
   </entry>
   <entry>
@@ -544,8 +550,8 @@
       <tags>
         <tag>复习</tag>
         <tag>spark</tag>
-        <tag>5003</tag>
         <tag>并行计算</tag>
+        <tag>5003</tag>
       </tags>
   </entry>
   <entry>

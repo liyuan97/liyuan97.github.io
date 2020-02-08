@@ -259,7 +259,18 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-02-08 23:37:47 / 修改时间：23:37:50" itemprop="dateCreated datePublished" datetime="2020-02-08T23:37:47+08:00">2020-02-08</time>
+              <time title="创建时间：2020-02-08 23:37:47 / 修改时间：23:41:37" itemprop="dateCreated datePublished" datetime="2020-02-08T23:37:47+08:00">2020-02-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CS224n/" itemprop="url" rel="index">
+                    <span itemprop="name">CS224n</span>
+                  </a>
+                </span>
             </span>
 
           
@@ -341,7 +352,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-02-08 18:01:00 / 修改时间：18:02:00" itemprop="dateCreated datePublished" datetime="2020-02-08T18:01:00+08:00">2020-02-08</time>
+              <time title="创建时间：2020-02-08 18:01:00 / 修改时间：23:41:46" itemprop="dateCreated datePublished" datetime="2020-02-08T18:01:00+08:00">2020-02-08</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -512,7 +523,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-30 14:27:24" itemprop="dateModified" datetime="2020-01-30T14:27:24+08:00">2020-01-30</time>
+                <time title="修改时间：2020-02-08 23:41:29" itemprop="dateModified" datetime="2020-02-08T23:41:29+08:00">2020-02-08</time>
               </span>
 
           
@@ -1598,6 +1609,54 @@ if(canvas.getContext){
   
 
   
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 
