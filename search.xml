@@ -1,6 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CS224n-2 word2vec, word Senses</title>
+    <url>/2020/CS224n-2-word2vec-word-Senses/</url>
+    <content><![CDATA[<h1 id="CS224n-2-word2vec-word-Senses"><a href="#CS224n-2-word2vec-word-Senses" class="headerlink" title="CS224n-2 word2vec, word Senses"></a>CS224n-2 word2vec, word Senses</h1><h1 id="word-vectors-and-word2vec"><a href="#word-vectors-and-word2vec" class="headerlink" title="word vectors and word2vec"></a>word vectors and word2vec</h1><pre><code>这里我不按课堂讲的，引用一篇[博客](https://www.jianshu.com/p/a6bc14323d77)
+</code></pre><a id="more"></a><h2 id="代表技术之一-word2vec"><a href="#代表技术之一-word2vec" class="headerlink" title="代表技术之一 word2vec"></a>代表技术之一 word2vec</h2><p>2013年，Google团队发表了word2vec工具 [1]。word2vec工具主要包含两个模型：跳字模型（skip-gram）和连续词袋模型（continuous bag of words，简称CBOW），以及两种近似训练法：负采样（negative sampling）和层序softmax（hierarchical softmax）。值得一提的是，word2vec的词向量可以较好地表达不同词之间的相似和类比关系。</p>
+<p>word2vec自提出后被广泛应用在自然语言处理任务中。它的模型和训练方法也启发了很多后续的词嵌入模型。本节将重点介绍word2vec的模型和训练方法。</p>
+<h2 id="Skip-gram模型（跳字模型）："><a href="#Skip-gram模型（跳字模型）：" class="headerlink" title="Skip-gram模型（跳字模型）："></a>Skip-gram模型（跳字模型）：</h2><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208213903.png" alt><br>Skip-gram</p>
+<p>在跳字模型中，我们用一个词来预测它在文本序列周围的词。</p>
+<p>举个例子，假设文本序列是：</p>
+<blockquote>
+<p>“I love you very much”</p>
+</blockquote>
+<p>跳字模型所关心的是，给定“<strong>you</strong>”生成邻近词“I”、“love”、“very”和“much”的条件概率。</p>
+<p>在这个例子中，“you”叫中心词，“I”、“love”、“very”和“much”叫背景词。</p>
+<p>由于“you”只生成与它距离不超过2的背景词，该<strong>时间窗口的大小为2</strong>[与N-gram类似]。</p>
+<p>我们来描述一下跳字模型[用最大似然估计的思想]：</p>
+<p>假设词典索引集V的大小为|V|，且{0,1,…,|V|−1}。给定一个长度为T的文本序列中，文本序列中第t的词为w(t)。当时间窗口大小为m时，跳字模型需要<strong>最大化给定任一中心词生成所有背景词的概率：</strong></p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208213949.png" alt></p>
+<p>上式的<strong>最大似然估计</strong>与<strong>最小化以下损失函数</strong>等价：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1803066-6089ead7ce1ea503.png?imageMogr2/auto-orient/strip|imageView2/2/w/720/format/webp" alt></p>
+<p>我们可以用<strong>v</strong>和<strong>u</strong>分别表示 <strong>中心词</strong> 和 <strong>背景词</strong> 的向量。</p>
+<p>换言之，对于词典中索引为i的词，它在作为中心词和背景词时的向量表示分别是vi和ui。而词典中所有词的这两种向量正是跳字模型所要学习的模型参数。为了将模型参数植入损失函数，我们需要使用模型参数表达损失函数中的给定中心词生成背景词的条件概率。给定中心词，假设生成各个背景词是相互独立的。设中心词wc在词典中索引为c，背景词wo在词典中索引为o，损失函数中的给定中心词生成背景词的<strong>条件概率</strong>可以通过softmax函数定义为：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1803066-69d819ac1e385080.png?imageMogr2/auto-orient/strip|imageView2/2/w/662/format/webp" alt></p>
+<blockquote>
+<p>上式：给定任何一个中心词Wc，产生背景词Wo的概率</p>
+<p>每一个词，在模型中有两个词向量，一个是作为中心词时的词向量，一个是作为背景词时的词向量</p>
+</blockquote>
+<p><strong>利用随机梯度下降求解：</strong></p>
+<p>当序列长度T较大时，我们通常在每次迭代时随机采样一个较短的子序列来计算有关该子序列的损失。然后，根据该损失计算词向量的梯度并迭代词向量。具体算法可以参考<a href="https://links.jianshu.com/go?to=http%3A%2F%2Fzh.gluon.ai%2Fchapter_optimization%2Fgd-sgd-scratch.html" target="_blank" rel="noopener">“梯度下降和随机梯度下降——从零开始”</a>一节。 作为一个具体的例子，下面我们看看如何计算随机采样的子序列的损失有关中心词向量的梯度。和上面提到的长度为T的文本序列的损失函数类似，随机采样的子序列的损失实际上是对子序列中给定中心词生成背景词的条件概率的对数求平均。通过微分，我们可以得到上式中条件概率的对数有关中心词向量vc的<strong>梯度：</strong>  </p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215618.png" alt></p>
+<p><strong>该式也可改写作：</strong></p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215642.png" alt></p>
+<blockquote>
+<p>上面的迭代更新计算开销太大！！每次都需要遍历整个字典，对应的解决方案在后面（这也是word2vec为啥这么牛逼的原因…厉害的不是这个工具本身，而是一种思想的应用）</p>
+</blockquote>
+<p>随机采样的子序列有关其他词向量的梯度同理可得。训练模型时，每一次迭代实际上是用这些梯度来迭代子序列中出现过的中心词和背景词的向量。训练结束后，对于词典中的任一索引为i的词，我们均得到该词作为中心词和背景词的两组词向量vi和ui。在自然语言处理应用中，我们会使用跳字模型的中心词向量。</p>
+<h4 id="求梯度过程"><a href="#求梯度过程" class="headerlink" title="求梯度过程"></a>求梯度过程</h4><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208220835.png" alt></p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208220909.png" alt><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208220919.png" alt><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208220926.png" alt></p>
+<hr>
+<h3 id="CBOW-连续词袋模型"><a href="#CBOW-连续词袋模型" class="headerlink" title="CBOW(连续词袋模型)"></a>CBOW(连续词袋模型)</h3><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215727.png" alt></p>
+<p>CBOW</p>
+<p>连续词袋模型与跳字模型类似,与跳字模型最大的不同是：</p>
+<p>连续词袋模型用一个中心词在文本序列周围的词来预测该中心词。</p>
+<p>举个例子，假设文本序列为：</p>
+<blockquote>
+<p>“I love you very much”</p>
+</blockquote>
+<p>连续词袋模型所关心的是，邻近词“I”、“love”、“very”和“much”一起生成中心词“you”的概率。</p>
+<p>假设词典索引集的大小为V，且V={0,1,…,|V|−1}&lt;/nobr&gt;。给定一个长度为T的文本序列中，文本序列中第t个词为wu(t)。当时间窗口大小为m时，连续词袋模型需要最大化由背景词生成任一中心词的概率</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215738.png" alt></p>
+<p>上式的最大似然估计与最小化以下损失函数等价：</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215749.png" alt></p>
+<p>我们可以用<strong>v</strong>和<strong>u</strong>分别表示背景词和中心词的向量（注意符号和跳字模型中的不同）。换言之，对于词典中索引为i的词，它在作为背景词和中心词时的向量表示分别是vi和ui。而词典中所有词的这两种向量正是连续词袋模型所要学习的模型参数。为了将模型参数植入损失函数，我们需要使用模型参数表达损失函数中的给定背景词生成中心词的概率。设中心词wc在词典中索引为c，背景词wo1、wo2、…wo2m在词典中索引为o1、o2、….o2m-1、o2m，损失函数中的给定背景词生成中心词的概率可以通过softmax函数定义为</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215805.png" alt></p>
+<p>和跳字模型一样，当序列长度T较大时，我们通常在每次迭代时随机采样一个较短的子序列来计算有关该子序列的损失。然后，根据该损失计算词向量的梯度并迭代词向量。 通过微分，我们可以计算出上式中条件概率的对数有关任一背景词向量voi(i=1,2,….2m)的梯度为：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208221019.png" alt></p>
+<p>该式也可写作</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208221029.png" alt></p>
+<p>随机采样的子序列有关其他词向量的梯度同理可得。和跳字模型一样，训练结束后，对于词典中的任一索引为i的词，我们均得到该词作为背景词和中心词的两组词向量vi和ui。<br>在自然语言处理应用中，我们会使用连续词袋模型的背景词向量。</p>
+<hr>
+<h1 id="近似训练法"><a href="#近似训练法" class="headerlink" title="近似训练法"></a>近似训练法</h1><p>我们可以看到，无论是skip-gram(跳字模型)还是CBOW(连续词袋模型)，每一步梯度计算的开销与词典V的大小相关。</p>
+<blockquote>
+<p>因为计算softmax的时考虑了字典上的所有可能性</p>
+</blockquote>
+<p>当词典较大时，例如几十万到上百万，这种训练方法的计算开销会较大。因此，我们将使用近似的方法来计算这些梯度，从而减小计算开销。常用的近似训练法包括负采样和层序softmax。</p>
+<h2 id="1-负采样（Negative-Sample）"><a href="#1-负采样（Negative-Sample）" class="headerlink" title="(1)负采样（Negative Sample）"></a>(1)负采样（Negative Sample）</h2><p>我们以跳字模型为例讨论负采样。</p>
+<p>实际上，词典V的大小之所以会在损失中出现，是因为给定中心词$w_c$生成背景词wo的条件概率$P(w_0∣w_c)$</p>
+<blockquote>
+<p>使用了softmax运算，而softmax运算正是<strong>考虑了背景词可能是词典中的任一词（使用了全部词）</strong>，并体现在分母上。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224459.png" alt></p>
+</blockquote>
+<p>下面，我们可以使用σ(x)=1/(1+exp(−x))函数来表达中心词wc和背景词wo同时出现在该训练数据窗口的概率。</p>
+<blockquote>
+<p>σ(x)属于[0,1]<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224516.png" alt></p>
+</blockquote>
+<p>那么，给定中心词wc生成背景词wo的条件概率的对数可以近似为:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224525.png" alt></p>
+<p>[上式的含义：中心词wc与背景词wo同时出(D=1)现概率，且中心词wc与噪音词wk不同时出现(D=0)的概率。]</p>
+<p>假设噪声词wk在词典中的索引为ik，上式可改写为:</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224609.png" alt></p>
+<p>因此，有关给定中心词wc生成背景词wo的损失是:</p>
+<p>假设词典V很大，每次迭代的计算开销由O(|V|)变为O(|K|)。当我们把K取较小值时，负采样每次迭代的计算开销将较小。</p>
+<p>当然，我们也可以对连续词袋模型进行负采样。有关给定背景词<br>wt-m、wt-m+1、…、wt+m生成中心词wc的损失:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224615.png" alt></p>
+<p>在负采样中可以近似为:</p>
+<p>  <img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224627.png" alt></p>
+<p>同样，当我们把K取较小值时，负采样每次迭代的计算开销将较小。</p>
+<h2 id="2-层序softmax"><a href="#2-层序softmax" class="headerlink" title="(2)层序softmax[]"></a>(2)层序softmax[]</h2><p>层序softmax是另一种常用的近似训练法。它利用了二叉树这一数据结构。树的每个叶子节点代表着词典V中的每个词。  </p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224641.png" alt></p>
+<p>假设L(w)为从二叉树的根节点到词w&lt;的叶子节点的路径（包括根和叶子节点）上的节点数。设n(w,j)为该路径上第j个节点，并设该节点的向量为un(w,j)。以上图为例：L(w3)=4。设词典中的词wi的词向量为vi。那么，跳字模型和连续词袋模型所需要计算的给定词wi生成词w的条件概率为：<img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224651.png" alt><br>其中σ(x)=1/(1+exp(−x))，leftChild(n)是节点n的左孩子节点，如果判断x为真，[x]=1；反之[x]=−1。由于σ(x)+σ(−x)=1，给定词wi生成词典V中任一词的条件概率之和为1这一条件也将满足：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224729.png" alt></p>
+<p>让我们计算给定词wi生成词w3的条件概率。我们需要将wi的词向量vi和根节点到w3路径上的非叶子节点向量一一求内积。由于在二叉树中由根节点到叶子节点w3的路径上需要向左、向右、再向左地遍历，我们得到:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224736.png" alt></p>
+<blockquote>
+<p><strong>整个遍历的路径已经通过Huffman编码唯一的确定了</strong></p>
+</blockquote>
+<p>在使用softmax的跳字模型和连续词袋模型中，词向量和二叉树中非叶子节点向量是需要学习的模型参数。</p>
+<p>假设词典V很大，每次迭代的计算开销由O(|V|)下降至O(log2|V|)。</p>
+<p>推荐资料：<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2Fx-hacker%2FWordEmbedding" target="_blank" rel="noopener">学习word2vec的经典资料</a></p>
+<h1 id="SVD"><a href="#SVD" class="headerlink" title="SVD"></a>SVD</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208225228.png" alt></p>
+<p>分解矩阵，就可以得到embedding，和推荐系统的思路一样。SVD也存在维数问题，以及矩阵分解的困难。</p>
+<h1 id="GloVe算法-基于局部和全局"><a href="#GloVe算法-基于局部和全局" class="headerlink" title="GloVe算法-基于局部和全局"></a>GloVe算法-基于局部和全局</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208225801.png" alt><br>比较SVD这种count based模型与Word2Vec这种direct prediction模型，它们各有优缺点：Count based模型优点是训练快速，并且有效的利用了统计信息，缺点是对于高频词汇较为偏向，并且仅能概括词组的相关性，而且有的时候产生的word vector对于解释词的含义如word analogy等任务效果不好；Direct Prediction优点是可以概括比相关性更为复杂的信息，进行word analogy等任务时效果较好，缺点是对统计信息利用的不够充分。所以Manning教授他们想采取一种方法可以结合两者的优势，并将这种算法命名为GloVe（Global Vectors的缩写），表示他们可以有效的利用全局的统计信息。</p>
+<p>那么如何有效的利用word-word co-occurrence count并能学习到词语背后的含义呢？首先为表述问题简洁需要，先定义一些符号：对于矩阵X，$X_{ij}$代表了单词 i 出现在单词 j 上下文中的次数，则$X_i=\sum_k X_{ij}$<br> 即代表所有出现在单词 i 的上下文中的单词次数。我们用$P_{i j}=P(j | i)=\frac{X_{i j}}{X_{i}}$来代表单词 j 出现在单词 i 上下文中的概率。</p>
+<p>我们用一个小例子来解释如何利用co-occurrence probability来表示词汇含义：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208225816.png" alt><br>例如我们想区分热力学上两种不同状态ice冰与蒸汽steam，它们之间的关系可通过与不同的单词 [公式] 的co-occurrence probability 的比值来描述，例如对于solid固态，虽然 $P(solidice)$ 与 $P(solid∣steam)$本身很小，不能透露有效的信息，但是它们的比值$\frac{P(solid|ice)} {P(solid|steam)}$ 却较大，因为solid更常用来描述ice的状态而不是steam的状态，所以在ice的上下文中出现几率较大，对于gas则恰恰相反，而对于water这种描述ice与steam均可或者fashion这种与两者都没什么联系的单词，则比值接近于1。所以相较于单纯的co-occurrence probability，实际上co-occurrence probability的相对比值更有意义。</p>
+<p>通过定义如下的损失函数：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208230330.png" alt></p>
+<p>优点是训练快，小数据集表现好。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208233632.png" alt></p>
+]]></content>
+  </entry>
+  <entry>
     <title>CS224n-1 初步探索，背景介绍  </title>
     <url>/2020/CS224n-1-%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2%EF%BC%8C%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<p>NLP持续升温，作为入门课程，224n声名远扬。<br>听了10节课之后，果然感觉不愧是斯坦福。<br>这门课逻辑很清晰（遇到什么问题，产生什么思路，做了什么探索模型，怎么解决问题），而不是直接的扔出来一个模型，之前遇到很多老师这样，让人摸不到头脑；这门课会讲如何做一个研究以及如何写一篇paper。这些虽然不是NLP必备，是一些普世的知识，但是课堂上不讲，学生也很难完全了解到，基本上都、是自己摸索。</p><a id="more"></a>
