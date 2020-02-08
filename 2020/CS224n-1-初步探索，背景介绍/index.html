@@ -54,15 +54,25 @@
   };
 </script>
 
-  <meta name="keywords" content="技术,学习">
-<meta property="og:type" content="website">
-<meta property="og:title" content="元哥的日记">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;categories&#x2F;%E5%B7%A5%E7%A8%8B&#x2F;index.html">
+  <meta name="description" content="NLP持续升温，作为入门课程，224n声名远扬。听了10节课之后，果然感觉不愧是斯坦福。这门课逻辑很清晰（遇到什么问题，产生什么思路，做了什么探索模型，怎么解决问题），而不是直接的扔出来一个模型，之前遇到很多老师这样，让人摸不到头脑；这门课会讲如何做一个研究以及如何写一篇paper。这些虽然不是NLP必备，是一些普世的知识，但是课堂上不讲，学生也很难完全了解到，基本上都、是自己摸索。">
+<meta name="keywords" content="NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS224n-1 初步探索，背景介绍  ">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-1-%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2%EF%BC%8C%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
+<meta property="og:description" content="NLP持续升温，作为入门课程，224n声名远扬。听了10节课之后，果然感觉不愧是斯坦福。这门课逻辑很清晰（遇到什么问题，产生什么思路，做了什么探索模型，怎么解决问题），而不是直接的扔出来一个模型，之前遇到很多老师这样，让人摸不到头脑；这门课会讲如何做一个研究以及如何写一篇paper。这些虽然不是NLP必备，是一些普世的知识，但是课堂上不讲，学生也很难完全了解到，基本上都、是自己摸索。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208165156.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208165732.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208170015.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208171649.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208171826.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208172914.png">
+<meta property="og:updated_time" content="2020-02-08T10:02:00.469Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208165156.png">
 
-<link rel="canonical" href="http://leeee.top/categories/%E5%B7%A5%E7%A8%8B/">
+<link rel="canonical" href="http://leeee.top/2020/CS224n-1-%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2%EF%BC%8C%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D/">
 
 
 <script id="page-configurations">
@@ -70,13 +80,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>分类: 工程 | 元哥的日记</title>
+  <title>CS224n-1 初步探索，背景介绍   | 元哥的日记</title>
   
 
 
@@ -229,74 +239,152 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">工程
-          <small>分类</small>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-1-%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2%EF%BC%8C%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/pic03.jpg">
+      <meta itemprop="name" content="Yuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="元哥的日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          CS224n-1 初步探索，背景介绍  
         </h2>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-02-08 18:01:00 / 修改时间：18:02:00" itemprop="dateCreated datePublished" datetime="2020-02-08T18:01:00+08:00">2020-02-08</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CS224n/" itemprop="url" rel="index">
+                    <span itemprop="name">CS224n</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>899</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h2 class="collection-header">2020</h2>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-11T20:57:00+08:00"
-              content="2020-01-11">
-          01-11
-        </time>
-      </div>
-
-      <h3 class="post-title">
-          <a class="post-title-link" href="/2020/Git%E5%86%8D%E5%85%A5%E9%97%A8/" itemprop="url">
-            <span itemprop="name">Git再入门</span>
-          </a>
-      </h3>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-01-07T22:54:00+08:00"
-              content="2020-01-07">
-          01-07
-        </time>
-      </div>
-
-      <h3 class="post-title">
-          <a class="post-title-link" href="/2020/linux%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%86%8D%E5%85%A5%E9%97%A8/" itemprop="url">
-            <span itemprop="name">linux从入门到再入门</span>
-          </a>
-      </h3>
-
-    </header>
-  </article>
+        <p>NLP持续升温，作为入门课程，224n声名远扬。<br>听了10节课之后，果然感觉不愧是斯坦福。<br>这门课逻辑很清晰（遇到什么问题，产生什么思路，做了什么探索模型，怎么解决问题），而不是直接的扔出来一个模型，之前遇到很多老师这样，让人摸不到头脑；这门课会讲如何做一个研究以及如何写一篇paper。这些虽然不是NLP必备，是一些普世的知识，但是课堂上不讲，学生也很难完全了解到，基本上都、是自己摸索。</p><a id="more"></a>
+<p>总的来说，觉得相见恨晚，虽然有点难，但是学的很舒服！现在开始整理每节课的笔记。</p>
+<hr>
+<p>Lecture 1: Introduction and Word Vectors 第一节课主要是介绍背景</p>
+<h1 id="The-course-10-mins"><a href="#The-course-10-mins" class="headerlink" title="The course (10 mins)"></a>The course (10 mins)</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>自然语言处理（NLP）</strong>是计算科学、AI、语言学的交叉学科，其目的是为了让机器能够处理或者是“理解”自然语言，比如可以通过说话让机器为我们定会议、买东西。机器完全理解是不大可能的，完全理解基本等同于AI完全实现了。</p>
+<h2 id="如何表示词义？"><a href="#如何表示词义？" class="headerlink" title="如何表示词义？"></a>如何表示词义？</h2><ul>
+<li><p>Def：meaning：就是人写的，说的，短语句子符号来表达的想法</p>
+<h2 id="如何用计算机表达词义？"><a href="#如何用计算机表达词义？" class="headerlink" title="如何用计算机表达词义？"></a>如何用计算机表达词义？</h2><h3 id="WordNet："><a href="#WordNet：" class="headerlink" title="WordNet："></a>WordNet：</h3><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165156.png" alt></p>
+<p>WordNet是人为的收录了近义词和相似词。<br>存在的问题是：没办法统计到细微差别；没有新词；需要人为的统计输入；不能计算相似度；依赖生成词库的主观。</p>
+</li>
+</ul>
+<h3 id="把词当做离散变量one-hot"><a href="#把词当做离散变量one-hot" class="headerlink" title="把词当做离散变量one-hot"></a>把词当做离散变量one-hot</h3><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165732.png" alt></p>
+<p> 存在的问题是：词库长度太大；不能计算相似度；</p>
+<h3 id="通过上下文表示"><a href="#通过上下文表示" class="headerlink" title="通过上下文表示"></a>通过上下文表示</h3><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208170015.png" alt><br>通过上下文的思路，可以引出主流方法Word vectors（word embeddings or word representations）。<br>每一个词对应一个N维度的向量，N一般几百维。</p>
+<h1 id="Word2vec"><a href="#Word2vec" class="headerlink" title="Word2vec"></a>Word2vec</h1><p>从2013年开始有了Word2vec，如何生成向量的方法逐渐出现。</p>
+<p>思路：</p>
+<ul>
+<li>有一个大的语料库</li>
+<li>每个词都表示成向量</li>
+<li>遍历每个词，中间的词当做c，周围的几个当做o</li>
+<li>通过计算每个词向量和周围词向量出现的概率</li>
+<li>调整词向量，让概率最大</li>
+</ul>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171649.png" alt></p>
+<p>目标函数：</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171826.png" alt></p>
+<p>理解：这里就是对于语料(Data)的每个词t，对应前后j位置的词，是词a和词b的概率P，都乘起来。（这里还是很有统计色彩的)</p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208172914.png" alt><br>注意：这里需要维护两套向量，一套是中间的，一套是周围的。</p>
+<p>其他的都是一些微积分和优化的知识，不做记录了。</p>
 
     </div>
+
+    
+    
+    
+      
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/NLP/" rel="tag"><i class="fa fa-tag"></i> NLP</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/%E5%85%B3%E4%BA%8E%E5%88%B7%E9%A2%98%E7%9A%84%E4%B8%80%E7%82%B9%E7%82%B9%E6%84%9F%E6%82%9F-1/" rel="next" title="关于刷题的一点点感悟">
+                  <i class="fa fa-chevron-left"></i> 关于刷题的一点点感悟
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
         </div>
           
@@ -321,6 +409,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#The-course-10-mins"><span class="nav-number">1.</span> <span class="nav-text">The course (10 mins)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何表示词义？"><span class="nav-number">1.2.</span> <span class="nav-text">如何表示词义？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何用计算机表达词义？"><span class="nav-number">1.3.</span> <span class="nav-text">如何用计算机表达词义？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WordNet："><span class="nav-number">1.3.1.</span> <span class="nav-text">WordNet：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#把词当做离散变量one-hot"><span class="nav-number">1.3.2.</span> <span class="nav-text">把词当做离散变量one-hot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过上下文表示"><span class="nav-number">1.3.3.</span> <span class="nav-text">通过上下文表示</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Word2vec"><span class="nav-number">2.</span> <span class="nav-text">Word2vec</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
