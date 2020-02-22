@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://leeee.top/more/friends/index.html</loc>
+    
+    <lastmod>2020-02-22T15:07:04.764Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://leeee.top/2020/CS224n-3/</loc>
     
     <lastmod>2020-02-22T14:45:10.360Z</lastmod>
@@ -30,13 +37,6 @@
   </url>
   
   <url>
-    <loc>http://leeee.top/2020/%E5%85%B3%E4%BA%8E%E5%88%B7%E9%A2%98%E7%9A%84%E4%B8%80%E7%82%B9%E7%82%B9%E6%84%9F%E6%82%9F-1/</loc>
-    
-    <lastmod>2020-02-01T12:42:31.966Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://leeee.top/2020/2020%E9%A6%99%E6%B8%AF%E9%A9%AC%E6%8B%89%E6%9D%BE%E5%A4%87%E8%B5%9B/</loc>
     
     <lastmod>2020-01-26T03:57:30.326Z</lastmod>
@@ -54,13 +54,6 @@
     <loc>http://leeee.top/more/blog/index.html</loc>
     
     <lastmod>2020-01-11T11:19:42.340Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://leeee.top/more/friends/index.html</loc>
-    
-    <lastmod>2020-01-11T11:15:26.602Z</lastmod>
     
   </url>
   
