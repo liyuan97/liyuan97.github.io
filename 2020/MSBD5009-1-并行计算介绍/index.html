@@ -54,25 +54,20 @@
   };
 </script>
 
-  <meta name="description" content="集成学习（Ensemble Learning），集成学习的目的是通过结合多个基学习器的预测结果来改善单个学习器的泛化能力和鲁棒性。集成学习致分为两大类： Boosting:即个体学习器之间存在强依赖关系、必须串行生成的序列化方法，Adaboost, GDBT, Xgboost. Bagging以及个体学习器间不存在强依赖关系、可同时生成的并行化方法，“随机森林”（Random Forest）。">
-<meta name="keywords" content="技术,学习">
+  <meta name="description" content="并行计算parallel programming选这门课主要是想提高编程能力，顺便了解一下os相关知识，本科没学过操作系统和编译原理什么的，经常遇到了云里雾里的。还有以前还去碰过CUDA，自己瞎研究深度学习的项目，最后连CUDA和TF的版本适配都没解决，害，一把辛酸泪。第一节课遇到各种线程进程cache，中文都不知道是啥，听得云里雾里的。">
+<meta name="keywords" content="并行计算">
 <meta property="og:type" content="article">
-<meta property="og:title" content="集成学习GDBT,XGBOOST,RF">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2019&#x2F;%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%91%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0GDBT-XGBOOST-RF&#x2F;index.html">
+<meta property="og:title" content="MSBD5009-1 并行计算介绍">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;MSBD5009-1-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E4%BB%8B%E7%BB%8D&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="集成学习（Ensemble Learning），集成学习的目的是通过结合多个基学习器的预测结果来改善单个学习器的泛化能力和鲁棒性。集成学习致分为两大类： Boosting:即个体学习器之间存在强依赖关系、必须串行生成的序列化方法，Adaboost, GDBT, Xgboost. Bagging以及个体学习器间不存在强依赖关系、可同时生成的并行化方法，“随机森林”（Random Forest）。">
+<meta property="og:description" content="并行计算parallel programming选这门课主要是想提高编程能力，顺便了解一下os相关知识，本科没学过操作系统和编译原理什么的，经常遇到了云里雾里的。还有以前还去碰过CUDA，自己瞎研究深度学习的项目，最后连CUDA和TF的版本适配都没解决，害，一把辛酸泪。第一节课遇到各种线程进程cache，中文都不知道是啥，听得云里雾里的。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116091802.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116091915.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116110339.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116120113.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116121238.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116142330.png">
-<meta property="og:updated_time" content="2019-11-16T07:42:33.602Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226170253.png">
+<meta property="og:updated_time" content="2020-02-26T09:11:16.243Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191116091802.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226170253.png">
 
-<link rel="canonical" href="http://leeee.top/2019/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%91%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0GDBT-XGBOOST-RF/">
+<link rel="canonical" href="http://leeee.top/2020/MSBD5009-1-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E4%BB%8B%E7%BB%8D/">
 
 
 <script id="page-configurations">
@@ -86,7 +81,7 @@
   };
 </script>
 
-  <title>集成学习GDBT,XGBOOST,RF | 元哥的日记</title>
+  <title>MSBD5009-1 并行计算介绍 | 元哥的日记</title>
   
 
 
@@ -244,7 +239,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2019/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%91%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0GDBT-XGBOOST-RF/">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/MSBD5009-1-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E4%BB%8B%E7%BB%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/pic03.jpg">
@@ -257,7 +252,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          集成学习GDBT,XGBOOST,RF
+          MSBD5009-1 并行计算介绍
         </h2>
 
         <div class="post-meta">
@@ -268,7 +263,18 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2019-11-16 14:58:20 / 修改时间：15:42:33" itemprop="dateCreated datePublished" datetime="2019-11-16T14:58:20+08:00">2019-11-16</time>
+              <time title="创建时间：2020-02-26 17:10:00 / 修改时间：17:11:16" itemprop="dateCreated datePublished" datetime="2020-02-26T17:10:00+08:00">2020-02-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MSBD5009/" itemprop="url" rel="index">
+                    <span itemprop="name">MSBD5009</span>
+                  </a>
+                </span>
             </span>
 
           
@@ -283,7 +289,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.7k</span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -302,109 +308,64 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>集成学习（Ensemble Learning），集成学习的目的是通过结合多个基学习器的预测结果来改善单个学习器的泛化能力和鲁棒性。</p><p>集成学习致分为两大类：</p><ul>
-<li>Boosting:即个体学习器之间存在强依赖关系、必须串行生成的序列化方法，Adaboost, GDBT, Xgboost.</li>
-<li>Bagging以及个体学习器间不存在强依赖关系、可同时生成的并行化方法，“随机森林”（Random Forest）。</li>
-</ul><a id="more"></a>
-
-
-<h1 id="1-Bagging"><a href="#1-Bagging" class="headerlink" title="1. Bagging"></a>1. Bagging</h1><p>Bagging：简单放回抽样，多数表决（分类）或简单平均（回归）,同时Bagging的基学习器之间属于并列生成，无依赖关系。</p>
-<h2 id="1-1-随机森林"><a href="#1-1-随机森林" class="headerlink" title="1.1 随机森林"></a>1.1 随机森林</h2><p>Random Forest（随机森林）：Bagging的扩展变体，它在以决策树为基学习器构建Bagging集成的基础上，进一步在决策树的训练过程中引入了随机特征选择，因此可以概括RF包括四个部分：<br>1、随机选择 样本（放回抽样）；<br>2、随机选择 特征；<br>3、构建分类器；如：ID3、C4.5、CART、SVM、Logistic regression等<br>4、投票（平均）</p>
-<p>随机性偏差会有微增（相比于单棵不随机树），‘平均’会使得方差减小更多</p>
+        <h1 id="并行计算parallel-programming"><a href="#并行计算parallel-programming" class="headerlink" title="并行计算parallel programming"></a>并行计算parallel programming</h1><p>选这门课主要是想提高编程能力，顺便了解一下os相关知识，本科没学过操作系统和编译原理什么的，经常遇到了云里雾里的。<br>还有以前还去碰过CUDA，自己瞎研究深度学习的项目，最后连CUDA和TF的版本适配都没解决，害，一把辛酸泪。<br>第一节课遇到各种线程进程cache，中文都不知道是啥，听得云里雾里的。</p><a id="more"></a>
+<hr>
+<p>这门课的分数构成：<br>50分的三次编程作业，每次作业是对已经有的代码填空。<br>50分的考试，有编程填题，也有简答题。</p>
+<hr>
+<p>三本参考书：</p>
 <ul>
-<li>随机森林的优点<br>1、速度快，精度不会很差<br>2、能够处理高维数据，不用特征选择，训练完后，可给出特征重要性；<br>3、可并行化  </li>
-<li>随机森林的缺点：在噪声较大的分类或者回归问题上回过拟合。</li>
+<li>Introduction to Parallel Computing 2nd edition</li>
+<li>An Introduction to Parallel Programming</li>
+<li>Programming Massively Parallel Processors:<br>A Hands-on Approach 3rdd Edition</li>
 </ul>
-<h1 id="2-Boosting"><a href="#2-Boosting" class="headerlink" title="2. Boosting"></a>2. Boosting</h1><h2 id="2-1-基于调整权重-Adaboost"><a href="#2-1-基于调整权重-Adaboost" class="headerlink" title="2.1 基于调整权重 Adaboost"></a>2.1 基于调整权重 Adaboost</h2><p>每生成一棵树之后，计算两个权重</p>
 <blockquote>
-<p>1 计算这个树的误差率，误差率越高，权重越低<br>2 计算每个样本的错分率，错分的样本，权重越高，之后更容易分对</p>
+<p>不出意外是不会看了🤣，以后需要再说吧。</p>
 </blockquote>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091802.png" alt><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091915.png" alt></p>
-<h2 id="2-2-基于残差：GB-GBTD-Xgboost"><a href="#2-2-基于残差：GB-GBTD-Xgboost" class="headerlink" title="2.2 基于残差：GB(GBTD,Xgboost)"></a>2.2 基于残差：GB(GBTD,Xgboost)</h2><h3 id="2-2-1-GBTD"><a href="#2-2-1-GBTD" class="headerlink" title="2.2.1 GBTD"></a>2.2.1 GBTD</h3><p>GBDT只能由回归树组成.</p>
-<ul>
-<li>基本思想：<br>在GradientBoost中，每个新的模型的建立是为了使得之前的模型的残差往梯度下降的方法。</li>
+<h1 id="并行计算的基本背景"><a href="#并行计算的基本背景" class="headerlink" title="并行计算的基本背景"></a>并行计算的基本背景</h1><h2 id="为什么我们需要一度的提高性能-表现？"><a href="#为什么我们需要一度的提高性能-表现？" class="headerlink" title="为什么我们需要一度的提高性能/表现？"></a>为什么我们需要一度的提高性能/表现？</h2><p>随着数据的增长和计算的需求(基因计算，深度学习，天文计算，天气模型，蛋白质计算等等)增加，cpu的性能越来越不够用，简单的办法就是增加核心数。<br>核心数增加了就需要让程序能充分利用起来各个核心，就像老板跟员工派任务一样，需要充分榨干劳动力。</p>
+<h2 id="为什么需要构建并行系统"><a href="#为什么需要构建并行系统" class="headerlink" title="为什么需要构建并行系统"></a>为什么需要构建并行系统</h2><p>芯片的瓶颈难以突破，只有从系统上高效调用。<br>瓶颈：高密度的晶状体-&gt; 更快的芯片-&gt;增加耗能-&gt;增加发热-&gt;导致芯片不稳定<br>所以需要多核合作。</p>
+<h2 id="为什么需要写并行的程序"><a href="#为什么需要写并行的程序" class="headerlink" title="为什么需要写并行的程序"></a>为什么需要写并行的程序</h2><p>直接改写串行的程序可能会遇到各种复杂的问题，数据结构，算法设计方面的。改写出来的可能依然不高效。</p>
+<h2 id="怎么写并行程序"><a href="#怎么写并行程序" class="headerlink" title="怎么写并行程序"></a>怎么写并行程序</h2><ul>
+<li>任务划分<br>例子：改卷每人改一道题</li>
+<li>数据划分<br>例子：改卷每人改100张卷</li>
 </ul>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116110339.png" alt></p>
+<p>需要解决多核合作的问题：</p>
 <ul>
-<li>如果是分类树，损失函数是指数损失函数：<br>𝐿(𝑦,𝑓(𝑥))=𝑒𝑥𝑝(−𝑦𝑓(𝑥))</li>
-<li>如果是回归树，损失函数是均方损失（CART）：<br>𝐿(𝑦,𝑓(𝑥))=(𝑦−𝑓(𝑥))^2</li>
-<li>如何防止过拟合？<blockquote>
-<ol>
-<li>步长v(0-1)，权重衰减 𝑓𝑘(𝑥)=𝑓𝑘−1(𝑥)+𝑣 ℎ𝑘(𝑥)，降低新来的分类器的影响力</li>
-<li>子采样比例</li>
-<li>用弱学习器</li>
-</ol>
-</blockquote>
+<li><p>Communication – one or more cores send their current partial sums to another core. 相互沟通</p>
+</li>
+<li><p>Load balancing – share the work evenly among the cores so that one is not heavily loaded. 任务量均衡</p>
+</li>
+<li><p>Synchronization – because each core works at its own pace, make sure cores do not get too far ahead of the rest. 齐头并进</p>
 </li>
 </ul>
-<h3 id="2-2-2-xgboost"><a href="#2-2-2-xgboost" class="headerlink" title="2.2.2 xgboost"></a>2.2.2 xgboost</h3><p>当已经生成了一棵树的时候，如何去选择新子树：</p>
-<ul>
-<li><p>1 目标函数：</p>
-<script type="math/tex; mode=display">Obj=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}\right)+\sum_{k} \Omega\left(f_{k}\right), f_{k} \in \mathcal{F}</script></li>
-<li><p>1.1 第t轮的时候：</p>
-<script type="math/tex; mode=display">\begin{aligned} O b j^{(t)} 
-&=\sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}^{(t)}\right)+\sum_{i=1}^{t} \Omega\left(f_{i}\right) 
-\\ & \equiv \sum_{i=1}^{n} l\left(y_{i}, \hat{y}_{i}^{(t-1)}+f_{t}\left(x_{i}\right)\right)+\Omega\left(f_{t}\right)+c\end{aligned}</script></li>
-<li>这时候需要寻找f_t来让目标函数最小</li>
-</ul>
+<h2 id="concurrent-parallel-distributed"><a href="#concurrent-parallel-distributed" class="headerlink" title="concurrent,parallel,distributed"></a>concurrent,parallel,distributed</h2><p>• Concurrent computing – In a program multiple tasks can be in progress at any instant. 程序同时处理多个任务    </p>
+<p>• Parallel computing – In a program multiple tasks cooperate closely to solve a problem.<br>多个任务协作</p>
+<p>• Distributed computing – A program may need to cooperate with other programs to solve a problem.<br>程序之间协作</p>
 <blockquote>
-<p>a. 式子左边，对目标函数在$f_t(x)$上泰勒展开，去二阶，求得近似解：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116120113.png" alt></p>
-<p>b. 式子右边，定义复杂度 $\Omega\left(f_{t}\right)$<br>每颗树，都是由枝干(分类节点)和叶子(树的末端)组成的。<br>定义复杂度为：叶子个个数T, 加上每个叶子的值w平方和（各有系数）。<br>树越复杂，T ↑，w平方和 ↑，复杂度 ↑，惩罚 ↑。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116121238.png" alt></p>
+<p>没搞懂这里的tasks和program之间的区别</p>
 </blockquote>
-<ul>
-<li>更新目标函数：<script type="math/tex; mode=display">
-\begin{aligned} O b j^{(t)} & \simeq \sum_{i=1}^{n}\left[g_{i} f_{t}\left(x_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(x_{i}\right)\right]+\Omega\left(f_{t}\right) +c\\ &=\sum_{i=1}^{n}\left[g_{i} w_{q\left(x_{i}\right)}+\frac{1}{2} h_{i} w_{q\left(x_{i}\right)}^{2}\right]+\left(\gamma T+\lambda \frac{1}{2} \sum_{j=1}^{T} w_{j}^{2}\right)+c
-\\ &=\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]+\gamma T +c \end{aligned}</script></li>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>并行系统是计算趋势</li>
+<li>串行的程序不能用上多核</li>
+<li>要学习如何要调用内核</li>
+<li>也需要可靠的开发技术</li>
 </ul>
-<blockquote>
-<ul>
-<li>其中$f_{t}(x)=w_{q(x)}, w \in \mathbf{R}^{T}, q: \mathbf{R}^{d} \rightarrow\{1,2, \cdots, T\}$，表示x→叶节点→对应的值w。目的是统一用$w_{j}$表示树$f_t$。</li>
-<li>第三行的理解，对于示性函数$I_{j}=\left\{i | q\left(x_{i}\right)=j\right\}$，$I_j$表示一个集合在j的叶子节点中。用示性函数求和代替1-n的求和，然后交换求和顺序。</li>
-</ul>
-</blockquote>
-<ul>
-<li>这里发现目标函数是关于$w_{j}$的二次函数，二次函数在对称轴上取极值。<br>简化表达：$G_{j}=\sum_{i \in I_{j}} g_{i} \quad H_{j}=\sum_{i \in I_{j}} h_{i}$得到：<script type="math/tex; mode=display">
-\begin{aligned} O b j^{(t)} =\sum_{j=1}^{T}\left[G_{j} w_{j}+\frac{1}{2}\left(H_{j}+\lambda\right) w_{j}^{2}\right]+\gamma T \end{aligned}</script>二次函数求极值得到：<script type="math/tex; mode=display">
-\begin{array}{c}{w_{j}^{*}=-\frac{G_{j}}{H_{j}+\lambda}} \\ {} \\ {O b j=-\frac{1}{2} \sum_{j=1}^{T} \frac{G_{j}^{2}}{H_{j}+\lambda}+\gamma T}\end{array}</script>w是每一个叶节点值，Obj是这个树的分数，分数越低越好。<br>这样，就可以直接计算出树的分数，可以对于候选进行评比。</li>
-</ul>
-<hr>
-<p>如何生成候选树？</p>
-<ul>
-<li>Enumerate 枚举可能的结构</li>
-<li>通过刚才的式子计算最优分数</li>
-<li>但是问题是有无限的可能性。</li>
-</ul>
-<hr>
-<ul>
-<li>所以通过贪婪学习：（不详细讲）<br>每一次尝试对已有的叶子结点加入一个分割，选择具有最佳增益的分割对结点进行分裂。对于一个具体的分割方案，我们可以获得的增益可以由如下公式计算：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116142330.png" alt></li>
-</ul>
-<blockquote>
-<p>也就是通过信息增益去寻找最优分割点。<br>这里有个好处就是如果惩罚大于增益，gain就会为负数，自动停止。</p>
-</blockquote>
-<h1 id="3-模型对比"><a href="#3-模型对比" class="headerlink" title="3 模型对比"></a>3 模型对比</h1><h2 id="3-1-随机森林vsGDBT"><a href="#3-1-随机森林vsGDBT" class="headerlink" title="3.1 随机森林vsGDBT"></a>3.1 随机森林vsGDBT</h2><ul>
-<li>决策树类型：组成随机森林的树可以是分类树，也可以是回归树；而GBDT只能由回归树组成；  </li>
-<li>结果预测：对于最终的输出结果而言，随机森林采用多数投票、简单平均等；而GBDT则是将所有结果累加起来，或者加权累加起来；  </li>
-<li>并行/串行：组成随机森林的树可以并行生成；而GBDT只能是串行生成；  </li>
-<li>异常值：随机森林对异常值不敏感；GBDT对异常值非常敏感；</li>
-<li>方差/偏差：随机森林减少方差；GBDT是通过减少偏差。</li>
-</ul>
-<h2 id="3-2-GDBT-vs-XGboost"><a href="#3-2-GDBT-vs-XGboost" class="headerlink" title="3.2 GDBT vs XGboost"></a>3.2 GDBT vs XGboost</h2><ul>
-<li>GDBT只支持CATR树，xgboost还支持线性分类器</li>
-<li>GDBT只用了一阶，xgboost泰勒展开，用了二阶</li>
-<li>xgboost有正则项，而且会自动停止生成(依赖参数gamma)。</li>
-<li>xgboost可以列抽样，借鉴了随机森林的做法</li>
-<li>XGBOOST可以自动学习出缺失值的分裂方向</li>
-<li>XGBOOST实现了并行化：每个特征并行计算，每个特征划分也并行计算</li>
-</ul>
-<p>后期实现中，xgboost还有优化，所以很快：</p>
-<ul>
-<li>在寻找分割点，枚举贪心法效率低，xgboost实现近似的算法。大致的思想是根据百分位法列举几个成为分割点的候选者，然后再进一步计算。</li>
-<li>xgboost考虑了训练数据为稀疏值的情况（我也不懂T^T）</li>
-<li>特征列排序后以块的形式存储在内存中，在迭代中可以重复使用；虽然boosting算法迭代必须串行，但是在处理每个特征列时可以做到并行。</li>
-<li>Shrinkage（缩减），相当于学习速率（xgboost中的eta）。xgboost在进行完一次迭代后，会将叶子节点的权重乘上该系数，主要是为了削弱每棵树的影响，让后面有更大的学习空间。实际应用中，一般把eta设置得小一点，然后迭代次数设置得大一点。（补充：传统GBDT的实现也有学习速率）</li>
-</ul>
-<p>总结，一个简单的idel不断优化，借鉴别的想法，优化到了极致，导致xgboost能这么强。</p>
-<p>参考资料：xgboost原文<br><a href="https://blog.csdn.net/weixin_42158523/article/details/81737370" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42158523/article/details/81737370</a><br><a href="https://www.cnblogs.com/aixiao07/p/11375168.html" target="_blank" rel="noopener">https://www.cnblogs.com/aixiao07/p/11375168.html</a></p>
+<h1 id="硬件和操作系统"><a href="#硬件和操作系统" class="headerlink" title="硬件和操作系统"></a>硬件和操作系统</h1><h2 id="冯·诺伊曼模型"><a href="#冯·诺伊曼模型" class="headerlink" title="冯·诺伊曼模型"></a>冯·诺伊曼模型</h2><p>[百度百科]<br>冯·诺依曼型计算机一般具有以下五个功能：必须具有长期记忆程序、数据、中间结果及最终运算结果的能力；能够完成各种算术、逻辑运算和数据传送等数据加工处理的能力；能够根据需要控制程序走向，并能根据指令控制机器的各部件协调操作；能够按照要求将处理结果输出给用户。</p>
+<p>冯·诺依曼型计算机从本质上讲是采取串行顺序处理的工作机制，即使有关数据巳经准备好，也必须逐条执行指令序列。而提高计算机性能的根本方向之一是并行处理。因此，近年来人们谋求突破传统冯·诺依曼体制的束缚，这种努力被称为非诺依曼化。对所谓非诺依曼化的探讨仍在争议中，一般认为它表现在以下三个方面的努力。<br>　　（1）在冯·诺依曼体制范畴内，对传统冯·诺依曼机进行改造，如采用多个处理部件形成流水处理，依靠时间上的重叠提高处理效率；又如组成阵列机结构，形成单指令流多数据流，提高处理速度。这些方向已比较成熟，成为标准结构；<br>　　（2）用多个冯·诺依曼机组成多机系统，支持并行算法结构。这方面的研究目前比较活跃；<br>　　（3）从根本上改变冯·诺依曼机的控制流驱动方式。例如，采用数据流驱动工作方式的数据流计算机，只要数据已经准备好，有关的指令就可并行地执行。这是真正非诺依曼化的计算机，它为并行处理开辟了新的前景，但由于控制的复杂性，仍处于实验探索之中。</p>
+<h2 id="Central-processing-unit-CPU"><a href="#Central-processing-unit-CPU" class="headerlink" title="Central processing unit (CPU)"></a>Central processing unit (CPU)</h2><p>• Control unit - responsible for deciding which instruction in a program should be executed. (the boss) 控制单元</p>
+<p>• Arithmetic and logic unit (ALU) - responsible for executing the actual instructions. (the worker) 计算单元</p>
+<h2 id="关键terms"><a href="#关键terms" class="headerlink" title="关键terms"></a>关键terms</h2><p>• Register – very fast storage, part of the CPU.</p>
+<p>• Program counter – stores address of the next instruction to be executed.</p>
+<p>• Bus – wires that connect the CPU and memory.</p>
+<p>冯·诺伊曼模型的瓶颈在于CPU和内存的分离，cpu的寄存器太小，必须和内存交换数据，但是互联的速率有限。</p>
+<h2 id="Locality"><a href="#Locality" class="headerlink" title="Locality"></a>Locality</h2><p>• The same or nearby locations are accessed frequently.<br>• Spatial locality – accessing a nearby location.<br>• Temporal locality – accessing in the near future.</p>
+<h2 id="从cpu到cache的问题"><a href="#从cpu到cache的问题" class="headerlink" title="从cpu到cache的问题"></a>从cpu到cache的问题</h2><p>由于cache分三级，很有可能写入不连续。<br>–直写式  通过在写入高速缓存时更新主内存中的数据来处理此问题。<br>–回写式 将缓存cache中的数据标记为脏数据。当高速缓存行由内存中的新高速缓存行替换时，脏行将写入内存。</p>
+<h2 id="缓存映射Cache-Mapping"><a href="#缓存映射Cache-Mapping" class="headerlink" title="缓存映射Cache Mapping"></a>缓存映射Cache Mapping</h2><p>• 完全关联–可以在缓存中的任何位置放置新行。<br>• 直接映射–每条缓存行在缓存中都有一个唯一的位置，将为其分配该位置。<br>• n向集合关联–每个高速缓存行可以放置在高速缓存中n个不同位置之一中。</p>
+<h2 id="缓存逐出Cache-Eviction"><a href="#缓存逐出Cache-Eviction" class="headerlink" title="缓存逐出Cache Eviction"></a>缓存逐出Cache Eviction</h2><p>•缓存比主内存小得多。<br>•当缓存已满时，需要在内存中添加新行以替换或逐出缓存中的行。<br>•常见的缓存逐出策略包括LRU / MRU（最近最少使用/最近使用）和LFU（最近最少使用）。</p>
+<h2 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h2><p>•如果我们运行非常大的程序或访问<strong>非常大</strong>的数据集的程序，则所有指令和数据可能无法放入主存储器。<br>•虚拟内存用作<strong>辅助存储的缓存</strong>。<br>•它利用<strong>时空局部性</strong>原理。<br>•它仅将正在运行的程序的活动部分保留在主存储器中。<br>•<strong>交换空间Swap space</strong>–辅助存储区，用于保持非活动（部分）正在运行的程序。<br>•<strong>虚拟的页page</strong>–数据和指令块。大多数系统具有固定的页面大小，当前范围为4到16 KB。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226170253.png" alt></p>
+<h2 id="虚拟页码"><a href="#虚拟页码" class="headerlink" title="虚拟页码"></a>虚拟页码</h2><p>•编译程序时，其页面为分配的虚拟页码。<br>•运行程序时，将创建一个表，该表将虚拟页码映射到物理地址。<br>•页表用于将虚拟地址转换为物理地址。</p>
+<h2 id="转换后备缓冲器（Translation-lookaside-buffer-TLB）"><a href="#转换后备缓冲器（Translation-lookaside-buffer-TLB）" class="headerlink" title="转换后备缓冲器（Translation-lookaside buffer TLB）"></a>转换后备缓冲器（Translation-lookaside buffer TLB）</h2><p>•使用页表有可能显着增加每个程序的整体运行时间。<br>•TLB是处理器中的特殊地址转换缓存。<br>•它在非常<strong>快的内存中从页表中缓存了少量条目</strong>（通常为16–512）。<br>•页面错误–尝试访问页面表中页面的有效物理地址，但该页面仅存储在磁盘上。</p>
+<h2 id="指令级并行（Instruction-Level-Parallelism-ILP）"><a href="#指令级并行（Instruction-Level-Parallelism-ILP）" class="headerlink" title="指令级并行（Instruction Level Parallelism ILP）"></a>指令级并行（Instruction Level Parallelism ILP）</h2><p>•试图通过使多个处理器组件或功能单元同时执行指令来提高处理器性能。<br>•流水线Pipelining-功能单元是分阶段安排的。<br>•多个问题-可以同时启动多个指令。</p>
+<h2 id="硬件多线程Hardware-multithreading"><a href="#硬件多线程Hardware-multithreading" class="headerlink" title="硬件多线程Hardware multithreading"></a>硬件多线程Hardware multithreading</h2><p>•并非总是有机会同时执行不同的线程。<br>•硬件多线程为系统提供了一种在当前正在执行的任务停滞后继续进行有用工作的方法。<br>– 例如，当前任务必须等待从内存加载数据。<br>•细粒度-处理器在每条指令后在线程之间切换，跳过停滞的线程。<br>–优点：可以避免因停转而浪费机器时间。<br>–缺点：准备好执行长指令序列的线程可能必须等待执行每条指令。<br>•粗粒度-仅切换等待耗时的操作完成而停止的线程。<br>–优点：切换线程几乎不需要即时。<br>–缺点：处理器可以在较短的停顿时间内空闲，并且线程切换也将导致延迟。<br>•同步多线程（SMT）-细粒度多线程的变体。<br>•允许多个线程使用多个功能单元。</p>
 
     </div>
 
@@ -412,25 +373,35 @@
     
     
       
+  <div class="popular-posts-header">猜你喜欢</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/5003总结3-Graphs/" rel="bookmark">5003总结3 Graphs</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/5003总结2-stream-并行计算-例子-1/" rel="bookmark">5003总结2 stream&并行计算-例子</a></div>
+    </li>
+  </ul>
 
 
       <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag"><i class="fa fa-tag"></i> 并行计算</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/Blog2-%E6%B8%AF%E6%A0%A1msc-%E4%BA%92%E8%81%94%E7%BD%91%E6%89%BE%E5%B7%A5%E4%BD%9C%E6%97%B6%E9%97%B4%E8%BD%B4/" rel="next" title="港校msc 互联网找工作时间轴">
-                  <i class="fa fa-chevron-left"></i> 港校msc 互联网找工作时间轴
+                <a href="/2020/CSIT5500-1/" rel="next" title="CSIT5500-1 算法基础">
+                  <i class="fa fa-chevron-left"></i> CSIT5500-1 算法基础
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/What-is-GAN-basicly/" rel="prev" title="What is GAN basicly?">
-                  What is GAN basicly? <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -471,7 +442,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Bagging"><span class="nav-number">1.</span> <span class="nav-text">1. Bagging</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-随机森林"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 随机森林</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Boosting"><span class="nav-number">2.</span> <span class="nav-text">2. Boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-基于调整权重-Adaboost"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 基于调整权重 Adaboost</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-基于残差：GB-GBTD-Xgboost"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 基于残差：GB(GBTD,Xgboost)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-1-GBTD"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 GBTD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-2-xgboost"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 xgboost</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-模型对比"><span class="nav-number">3.</span> <span class="nav-text">3 模型对比</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-随机森林vsGDBT"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 随机森林vsGDBT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-GDBT-vs-XGboost"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 GDBT vs XGboost</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#并行计算parallel-programming"><span class="nav-number">1.</span> <span class="nav-text">并行计算parallel programming</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#并行计算的基本背景"><span class="nav-number">2.</span> <span class="nav-text">并行计算的基本背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么我们需要一度的提高性能-表现？"><span class="nav-number">2.1.</span> <span class="nav-text">为什么我们需要一度的提高性能/表现？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要构建并行系统"><span class="nav-number">2.2.</span> <span class="nav-text">为什么需要构建并行系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要写并行的程序"><span class="nav-number">2.3.</span> <span class="nav-text">为什么需要写并行的程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么写并行程序"><span class="nav-number">2.4.</span> <span class="nav-text">怎么写并行程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#concurrent-parallel-distributed"><span class="nav-number">2.5.</span> <span class="nav-text">concurrent,parallel,distributed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.6.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件和操作系统"><span class="nav-number">3.</span> <span class="nav-text">硬件和操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#冯·诺伊曼模型"><span class="nav-number">3.1.</span> <span class="nav-text">冯·诺伊曼模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Central-processing-unit-CPU"><span class="nav-number">3.2.</span> <span class="nav-text">Central processing unit (CPU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键terms"><span class="nav-number">3.3.</span> <span class="nav-text">关键terms</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Locality"><span class="nav-number">3.4.</span> <span class="nav-text">Locality</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从cpu到cache的问题"><span class="nav-number">3.5.</span> <span class="nav-text">从cpu到cache的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存映射Cache-Mapping"><span class="nav-number">3.6.</span> <span class="nav-text">缓存映射Cache Mapping</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存逐出Cache-Eviction"><span class="nav-number">3.7.</span> <span class="nav-text">缓存逐出Cache Eviction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟内存"><span class="nav-number">3.8.</span> <span class="nav-text">虚拟内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟页码"><span class="nav-number">3.9.</span> <span class="nav-text">虚拟页码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转换后备缓冲器（Translation-lookaside-buffer-TLB）"><span class="nav-number">3.10.</span> <span class="nav-text">转换后备缓冲器（Translation-lookaside buffer TLB）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指令级并行（Instruction-Level-Parallelism-ILP）"><span class="nav-number">3.11.</span> <span class="nav-text">指令级并行（Instruction Level Parallelism ILP）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件多线程Hardware-multithreading"><span class="nav-number">3.12.</span> <span class="nav-text">硬件多线程Hardware multithreading</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -949,54 +920,6 @@ if(canvas.getContext){
   
 
   
-      
-<script type="text/x-mathjax-config">
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
-</script>
-
-    
 
   
 

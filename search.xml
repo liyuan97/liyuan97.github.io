@@ -1,17 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>MSBD5009-1 并行计算介绍</title>
+    <url>/2020/MSBD5009-1-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E4%BB%8B%E7%BB%8D/</url>
+    <content><![CDATA[<h1 id="并行计算parallel-programming"><a href="#并行计算parallel-programming" class="headerlink" title="并行计算parallel programming"></a>并行计算parallel programming</h1><p>选这门课主要是想提高编程能力，顺便了解一下os相关知识，本科没学过操作系统和编译原理什么的，经常遇到了云里雾里的。<br>还有以前还去碰过CUDA，自己瞎研究深度学习的项目，最后连CUDA和TF的版本适配都没解决，害，一把辛酸泪。<br>第一节课遇到各种线程进程cache，中文都不知道是啥，听得云里雾里的。</p><a id="more"></a>
+<hr>
+<p>这门课的分数构成：<br>50分的三次编程作业，每次作业是对已经有的代码填空。<br>50分的考试，有编程填题，也有简答题。</p>
+<hr>
+<p>三本参考书：</p>
+<ul>
+<li>Introduction to Parallel Computing 2nd edition</li>
+<li>An Introduction to Parallel Programming</li>
+<li>Programming Massively Parallel Processors:<br>A Hands-on Approach 3rdd Edition</li>
+</ul>
+<blockquote>
+<p>不出意外是不会看了🤣，以后需要再说吧。</p>
+</blockquote>
+<h1 id="并行计算的基本背景"><a href="#并行计算的基本背景" class="headerlink" title="并行计算的基本背景"></a>并行计算的基本背景</h1><h2 id="为什么我们需要一度的提高性能-表现？"><a href="#为什么我们需要一度的提高性能-表现？" class="headerlink" title="为什么我们需要一度的提高性能/表现？"></a>为什么我们需要一度的提高性能/表现？</h2><p>随着数据的增长和计算的需求(基因计算，深度学习，天文计算，天气模型，蛋白质计算等等)增加，cpu的性能越来越不够用，简单的办法就是增加核心数。<br>核心数增加了就需要让程序能充分利用起来各个核心，就像老板跟员工派任务一样，需要充分榨干劳动力。</p>
+<h2 id="为什么需要构建并行系统"><a href="#为什么需要构建并行系统" class="headerlink" title="为什么需要构建并行系统"></a>为什么需要构建并行系统</h2><p>芯片的瓶颈难以突破，只有从系统上高效调用。<br>瓶颈：高密度的晶状体-&gt; 更快的芯片-&gt;增加耗能-&gt;增加发热-&gt;导致芯片不稳定<br>所以需要多核合作。</p>
+<h2 id="为什么需要写并行的程序"><a href="#为什么需要写并行的程序" class="headerlink" title="为什么需要写并行的程序"></a>为什么需要写并行的程序</h2><p>直接改写串行的程序可能会遇到各种复杂的问题，数据结构，算法设计方面的。改写出来的可能依然不高效。</p>
+<h2 id="怎么写并行程序"><a href="#怎么写并行程序" class="headerlink" title="怎么写并行程序"></a>怎么写并行程序</h2><ul>
+<li>任务划分<br>例子：改卷每人改一道题</li>
+<li>数据划分<br>例子：改卷每人改100张卷</li>
+</ul>
+<p>需要解决多核合作的问题：</p>
+<ul>
+<li><p>Communication – one or more cores send their current partial sums to another core. 相互沟通</p>
+</li>
+<li><p>Load balancing – share the work evenly among the cores so that one is not heavily loaded. 任务量均衡</p>
+</li>
+<li><p>Synchronization – because each core works at its own pace, make sure cores do not get too far ahead of the rest. 齐头并进</p>
+</li>
+</ul>
+<h2 id="concurrent-parallel-distributed"><a href="#concurrent-parallel-distributed" class="headerlink" title="concurrent,parallel,distributed"></a>concurrent,parallel,distributed</h2><p>• Concurrent computing – In a program multiple tasks can be in progress at any instant. 程序同时处理多个任务    </p>
+<p>• Parallel computing – In a program multiple tasks cooperate closely to solve a problem.<br>多个任务协作</p>
+<p>• Distributed computing – A program may need to cooperate with other programs to solve a problem.<br>程序之间协作</p>
+<blockquote>
+<p>没搞懂这里的tasks和program之间的区别</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>并行系统是计算趋势</li>
+<li>串行的程序不能用上多核</li>
+<li>要学习如何要调用内核</li>
+<li>也需要可靠的开发技术</li>
+</ul>
+<h1 id="硬件和操作系统"><a href="#硬件和操作系统" class="headerlink" title="硬件和操作系统"></a>硬件和操作系统</h1><h2 id="冯·诺伊曼模型"><a href="#冯·诺伊曼模型" class="headerlink" title="冯·诺伊曼模型"></a>冯·诺伊曼模型</h2><p>[百度百科]<br>冯·诺依曼型计算机一般具有以下五个功能：必须具有长期记忆程序、数据、中间结果及最终运算结果的能力；能够完成各种算术、逻辑运算和数据传送等数据加工处理的能力；能够根据需要控制程序走向，并能根据指令控制机器的各部件协调操作；能够按照要求将处理结果输出给用户。</p>
+<p>冯·诺依曼型计算机从本质上讲是采取串行顺序处理的工作机制，即使有关数据巳经准备好，也必须逐条执行指令序列。而提高计算机性能的根本方向之一是并行处理。因此，近年来人们谋求突破传统冯·诺依曼体制的束缚，这种努力被称为非诺依曼化。对所谓非诺依曼化的探讨仍在争议中，一般认为它表现在以下三个方面的努力。<br>　　（1）在冯·诺依曼体制范畴内，对传统冯·诺依曼机进行改造，如采用多个处理部件形成流水处理，依靠时间上的重叠提高处理效率；又如组成阵列机结构，形成单指令流多数据流，提高处理速度。这些方向已比较成熟，成为标准结构；<br>　　（2）用多个冯·诺依曼机组成多机系统，支持并行算法结构。这方面的研究目前比较活跃；<br>　　（3）从根本上改变冯·诺依曼机的控制流驱动方式。例如，采用数据流驱动工作方式的数据流计算机，只要数据已经准备好，有关的指令就可并行地执行。这是真正非诺依曼化的计算机，它为并行处理开辟了新的前景，但由于控制的复杂性，仍处于实验探索之中。</p>
+<h2 id="Central-processing-unit-CPU"><a href="#Central-processing-unit-CPU" class="headerlink" title="Central processing unit (CPU)"></a>Central processing unit (CPU)</h2><p>• Control unit - responsible for deciding which instruction in a program should be executed. (the boss) 控制单元</p>
+<p>• Arithmetic and logic unit (ALU) - responsible for executing the actual instructions. (the worker) 计算单元</p>
+<h2 id="关键terms"><a href="#关键terms" class="headerlink" title="关键terms"></a>关键terms</h2><p>• Register – very fast storage, part of the CPU.</p>
+<p>• Program counter – stores address of the next instruction to be executed.</p>
+<p>• Bus – wires that connect the CPU and memory.</p>
+<p>冯·诺伊曼模型的瓶颈在于CPU和内存的分离，cpu的寄存器太小，必须和内存交换数据，但是互联的速率有限。</p>
+<h2 id="Locality"><a href="#Locality" class="headerlink" title="Locality"></a>Locality</h2><p>• The same or nearby locations are accessed frequently.<br>• Spatial locality – accessing a nearby location.<br>• Temporal locality – accessing in the near future.</p>
+<h2 id="从cpu到cache的问题"><a href="#从cpu到cache的问题" class="headerlink" title="从cpu到cache的问题"></a>从cpu到cache的问题</h2><p>由于cache分三级，很有可能写入不连续。<br>–直写式  通过在写入高速缓存时更新主内存中的数据来处理此问题。<br>–回写式 将缓存cache中的数据标记为脏数据。当高速缓存行由内存中的新高速缓存行替换时，脏行将写入内存。</p>
+<h2 id="缓存映射Cache-Mapping"><a href="#缓存映射Cache-Mapping" class="headerlink" title="缓存映射Cache Mapping"></a>缓存映射Cache Mapping</h2><p>• 完全关联–可以在缓存中的任何位置放置新行。<br>• 直接映射–每条缓存行在缓存中都有一个唯一的位置，将为其分配该位置。<br>• n向集合关联–每个高速缓存行可以放置在高速缓存中n个不同位置之一中。</p>
+<h2 id="缓存逐出Cache-Eviction"><a href="#缓存逐出Cache-Eviction" class="headerlink" title="缓存逐出Cache Eviction"></a>缓存逐出Cache Eviction</h2><p>•缓存比主内存小得多。<br>•当缓存已满时，需要在内存中添加新行以替换或逐出缓存中的行。<br>•常见的缓存逐出策略包括LRU / MRU（最近最少使用/最近使用）和LFU（最近最少使用）。</p>
+<h2 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h2><p>•如果我们运行非常大的程序或访问<strong>非常大</strong>的数据集的程序，则所有指令和数据可能无法放入主存储器。<br>•虚拟内存用作<strong>辅助存储的缓存</strong>。<br>•它利用<strong>时空局部性</strong>原理。<br>•它仅将正在运行的程序的活动部分保留在主存储器中。<br>•<strong>交换空间Swap space</strong>–辅助存储区，用于保持非活动（部分）正在运行的程序。<br>•<strong>虚拟的页page</strong>–数据和指令块。大多数系统具有固定的页面大小，当前范围为4到16 KB。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226170253.png" alt></p>
+<h2 id="虚拟页码"><a href="#虚拟页码" class="headerlink" title="虚拟页码"></a>虚拟页码</h2><p>•编译程序时，其页面为分配的虚拟页码。<br>•运行程序时，将创建一个表，该表将虚拟页码映射到物理地址。<br>•页表用于将虚拟地址转换为物理地址。</p>
+<h2 id="转换后备缓冲器（Translation-lookaside-buffer-TLB）"><a href="#转换后备缓冲器（Translation-lookaside-buffer-TLB）" class="headerlink" title="转换后备缓冲器（Translation-lookaside buffer TLB）"></a>转换后备缓冲器（Translation-lookaside buffer TLB）</h2><p>•使用页表有可能显着增加每个程序的整体运行时间。<br>•TLB是处理器中的特殊地址转换缓存。<br>•它在非常<strong>快的内存中从页表中缓存了少量条目</strong>（通常为16–512）。<br>•页面错误–尝试访问页面表中页面的有效物理地址，但该页面仅存储在磁盘上。</p>
+<h2 id="指令级并行（Instruction-Level-Parallelism-ILP）"><a href="#指令级并行（Instruction-Level-Parallelism-ILP）" class="headerlink" title="指令级并行（Instruction Level Parallelism ILP）"></a>指令级并行（Instruction Level Parallelism ILP）</h2><p>•试图通过使多个处理器组件或功能单元同时执行指令来提高处理器性能。<br>•流水线Pipelining-功能单元是分阶段安排的。<br>•多个问题-可以同时启动多个指令。</p>
+<h2 id="硬件多线程Hardware-multithreading"><a href="#硬件多线程Hardware-multithreading" class="headerlink" title="硬件多线程Hardware multithreading"></a>硬件多线程Hardware multithreading</h2><p>•并非总是有机会同时执行不同的线程。<br>•硬件多线程为系统提供了一种在当前正在执行的任务停滞后继续进行有用工作的方法。<br>– 例如，当前任务必须等待从内存加载数据。<br>•细粒度-处理器在每条指令后在线程之间切换，跳过停滞的线程。<br>–优点：可以避免因停转而浪费机器时间。<br>–缺点：准备好执行长指令序列的线程可能必须等待执行每条指令。<br>•粗粒度-仅切换等待耗时的操作完成而停止的线程。<br>–优点：切换线程几乎不需要即时。<br>–缺点：处理器可以在较短的停顿时间内空闲，并且线程切换也将导致延迟。<br>•同步多线程（SMT）-细粒度多线程的变体。<br>•允许多个线程使用多个功能单元。</p>
+]]></content>
+      <categories>
+        <category>MSBD5009</category>
+      </categories>
+      <tags>
+        <tag>并行计算</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSIT5500-1 算法基础</title>
+    <url>/2020/CSIT5500-1/</url>
+    <content><![CDATA[<p>这是学校csit5500的一门课，听着名字就知道很经典。第一节课主要是算法评估，排序，搜索树，红黑树</p><h1 id="算法评估"><a href="#算法评估" class="headerlink" title="算法评估"></a>算法评估</h1><p>这一节就解释，为什么用O(n)来表示算法的复杂度。</p><ul>
+<li>不能简单用cpu的时间，因为不固定</li>
+<li>不同级数之间差异大，同一个级数内差异不大</li>
+</ul><a id="more"></a>
+
+
+<p>其他的点：</p>
+<ul>
+<li>比复杂度的时候，只看最高阶；</li>
+<li>对数的级数都是一样的；loga n = logb n/(logb a)</li>
+</ul>
+<p>算法需要最差评估复杂度，一般不用证明，举例就行。</p>
+<p>eg：Worst-Case Analysis of Binary Search<br>二分搜索最差的情况就是一直排除到最后一半只有一个元素的时候。<br>复杂度如下：</p>
+<script type="math/tex; mode=display">
+\begin{aligned} T(n) & \leq T(n / 2)+O(1) \\ & \leq T(n / 4)+O(1)+O(1) \\ & \leq T\left(n / 2^{k}\right)+k \cdot O(1) \end{aligned}</script><p>k可以人为指定成log2(n)</p>
+<script type="math/tex; mode=display">
+\begin{aligned} T(n) & \leq T(1)+\log _{2} n \cdot O(1) \\ &=O(1)+O(\log n) \\ &=O(\log n) \end{aligned}</script><h1 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h1><p>又到了经典的排序环节，直接引用我觉得写得最完整的两个博文<a href="https://www.cnblogs.com/onepixel/articles/7674659.html" target="_blank" rel="noopener">十大排序动图演示</a><br><a href="https://leetcode.com/problems/sort-an-array/discuss/276916/Python-bubble-insertion-selection-quick-merge-heap-objects" target="_blank" rel="noopener">python十大排序</a> </p>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200225022848.png" alt></p>
+<p>课上跳过了最简单的主要讲了O(nlogn)的三个，并归，快速，堆。</p>
+<h2 id="并归merge"><a href="#并归merge" class="headerlink" title="并归merge"></a>并归merge</h2><p>简单的dc思路，先对数组分成两半，左右各自排序，然后用两个指针同时扫一遍，合起来。<br>这个过程递归到，两半只有一个元素的时候，就可以了。</p>
+<ul>
+<li>最坏情况复杂度<br>并归有两个过程，第一，遍历数组，统计长度，复杂度O(N).<br>第二，merge.<br>最好情况是，左：12345 右：6789，这样复杂度是O(N/2)=O(N).<br>最差情况是，左：13579 右：2468，这样复杂度也是O(N).<br>所以，两个过程加起来也是O(N)。</li>
+</ul>
+<p>然后进入到递归的过程：与二分搜索相似</p>
+<script type="math/tex; mode=display">
+\begin{aligned} T(n) & \leq 2 T(n / 2)+O(n) \\ & \leq 2(2 T(n / 4)+O(n / 2))+O(n) \\ & \leq 4 T(n / 4)+O(n)+O(n) \\ & \leq 2^{k} T\left(n / 2^{k}\right)+k \cdot O(n) \end{aligned}</script><p>直接取k=log2n</p>
+<script type="math/tex; mode=display">
+\begin{aligned} T(n) & \leq 2^{\log _{2} n} T(1)+\log _{2} n \cdot O(n) \\ & \leq O(n)+O(n \log n) \\ & \leq O(n \log n) \end{aligned}</script><p>所以最坏情况也是这个，并归排序复杂度是稳定的。<br><figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="comment"># @mergeSort</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">mergeSort</span><span class="params">(self, nums)</span>:</span> </span><br><span class="line">       <span class="keyword">if</span> len(nums) &gt; <span class="number">1</span>: </span><br><span class="line">           mid = len(nums)//<span class="number">2</span></span><br><span class="line">           L = nums[:mid] </span><br><span class="line">           R = nums[mid:] </span><br><span class="line"></span><br><span class="line">           self.mergeSort(L)</span><br><span class="line">           self.mergeSort(R)</span><br><span class="line"></span><br><span class="line">           i = j = k = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">           <span class="keyword">while</span> i &lt; len(L) <span class="keyword">and</span> j &lt; len(R): </span><br><span class="line">               <span class="keyword">if</span> L[i] &lt; R[j]: </span><br><span class="line">                   nums[k] = L[i] </span><br><span class="line">                   i+=<span class="number">1</span></span><br><span class="line">               <span class="keyword">else</span>: </span><br><span class="line">                   nums[k] = R[j] </span><br><span class="line">                   j+=<span class="number">1</span></span><br><span class="line">               k+=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">           <span class="keyword">while</span> i &lt; len(L): </span><br><span class="line">               nums[k] = L[i] </span><br><span class="line">               i+=<span class="number">1</span></span><br><span class="line">               k+=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">           <span class="keyword">while</span> j &lt; len(R): </span><br><span class="line">               nums[k] = R[j] </span><br><span class="line">               j+=<span class="number">1</span></span><br><span class="line">               k+=<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="快速"><a href="#快速" class="headerlink" title="快速"></a>快速</h2><p>快排的思路是任选一个元素，然后把数组分成两半，再分别对两半进行这个过程。也是dc的思路。</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">	<span class="comment"># @quickSort</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quickSort</span><span class="params">(array)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> len(array) &lt; <span class="number">2</span>:  <span class="comment"># 基线条件（停止递归的条件）</span></span><br><span class="line">		<span class="keyword">return</span> array</span><br><span class="line">	<span class="keyword">else</span>:  <span class="comment"># 递归条件</span></span><br><span class="line">		baseValue = array[<span class="number">0</span>]  <span class="comment"># 选择基准# 由所有小于基准值的元素组成的子数组</span></span><br><span class="line">		less = [m <span class="keyword">for</span> m <span class="keyword">in</span> array[<span class="number">1</span>:] <span class="keyword">if</span> m &lt; baseValue]<span class="comment"># 包括基准在内的同时和基准相等的元素，在上一个版本的百科当中，并没有考虑相等元素</span></span><br><span class="line">		equal = [w <span class="keyword">for</span> w <span class="keyword">in</span> array <span class="keyword">if</span> w ==baseValue]<span class="comment"># 由所有大于基准值的元素组成的子数组</span></span><br><span class="line">		greater = [n <span class="keyword">for</span> n <span class="keyword">in</span> array[<span class="number">1</span>:] <span class="keyword">if</span> n &gt; baseValue]</span><br><span class="line">	<span class="keyword">return</span> quickSort(less) + equal + quickSort(greater)</span><br></pre></td></tr></table></figure>
+<h1 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h1><p>堆排序就高端一点，用了根堆(heap)的结构。<br>巧妙的是，通过利用完全二叉树的结构，通过数组的位置，就实现了这个根堆的过程。</p>
+<h2 id="复习树🌲的知识："><a href="#复习树🌲的知识：" class="headerlink" title="复习树🌲的知识："></a>复习树🌲的知识：</h2><ul>
+<li>二叉树：每一个节点最多两个孩子</li>
+<li>满二叉树Full binary tree：每个子节点都有两个元素</li>
+<li>完美二叉树Perfect binary tree：每一层都填满了</li>
+<li>完全二叉树Complete binary tree：除了最后一层其他每一层都是完全填满的，而最后一层从左往右依次排列</li>
+</ul>
+<h2 id="堆排序的过程"><a href="#堆排序的过程" class="headerlink" title="堆排序的过程"></a>堆排序的过程</h2><ul>
+<li>def: 小(大)根堆：完全二叉树 + 每个节点小于(大于)他的子节点。<blockquote>
+<p>先把数组构造成最小根堆(最大或者最小都行)<br>while 根堆还有元素:<br>——-弹出顶部最大值<br>——-重新构造最小根堆</p>
+</blockquote>
+</li>
+</ul>
+<p>所以堆排序的过程主要是构造(初始化)根堆，和弹出最小值之后再构建根堆(重新维持稳定)根堆。初始化等于一个一个元素插入，重新维持相当于从堆中删除元素。<br>所以，主要是两个步骤：插入和删除。</p>
+<h3 id="插入节点："><a href="#插入节点：" class="headerlink" title="插入节点："></a>插入节点：</h3><blockquote>
+<p>插入到完全二叉树的最后<br>如果有父节点&amp;&amp;父节点比自己小：<br>——-两个节点交换位置</p>
+</blockquote>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226151338.png" alt><br>移动次数=层数 所以插入的时间复杂度O(log n)</p>
+<h3 id="删除节点："><a href="#删除节点：" class="headerlink" title="删除节点："></a>删除节点：</h3><blockquote>
+<p>删除根节点，让末尾最大的值成为新的根节点<br>如果有子节点&amp;&amp;子节点比自己小：<br>——-选择子节点中小的那个，两个节点交换位置</p>
+</blockquote>
+<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226151835.png" alt></p>
+<p>移动次数=层数 所以删除的时间复杂度O(log n)</p>
+<h3 id="完全二叉树和数值的索引对应关系"><a href="#完全二叉树和数值的索引对应关系" class="headerlink" title="完全二叉树和数值的索引对应关系"></a>完全二叉树和数值的索引对应关系</h3><p>父节点 i 找子节点：2i+1 , 2i+2<br>子节点找父节点： [(i-1)/2]   向下取整<br><figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="comment"># @heapSort</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">heapSort</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">heapify</span><span class="params">(nums, n, i)</span>:</span> </span><br><span class="line">         largest = i</span><br><span class="line">         l = <span class="number">2</span> * i + <span class="number">1</span></span><br><span class="line">         r = <span class="number">2</span> * i + <span class="number">2</span></span><br><span class="line">         </span><br><span class="line">         <span class="keyword">if</span> l &lt; n <span class="keyword">and</span> nums[i] &lt; nums[l]: </span><br><span class="line">             largest = l </span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span> r &lt; n <span class="keyword">and</span> nums[largest] &lt; nums[r]: </span><br><span class="line">             largest = r </span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span> largest != i: </span><br><span class="line">             nums[i], nums[largest] = nums[largest], nums[i]</span><br><span class="line">             </span><br><span class="line">             heapify(nums, n, largest)</span><br><span class="line">             </span><br><span class="line">     n = len(nums) </span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span> i <span class="keyword">in</span> range(n, <span class="number">-1</span>, <span class="number">-1</span>): </span><br><span class="line">         heapify(nums, n, i) </span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span> i <span class="keyword">in</span> range(n<span class="number">-1</span>, <span class="number">0</span>, <span class="number">-1</span>): </span><br><span class="line">         nums[i], nums[<span class="number">0</span>] = nums[<span class="number">0</span>], nums[i]</span><br><span class="line">         heapify(nums, i, <span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
+<h1 id="二叉搜索树-BST博客"><a href="#二叉搜索树-BST博客" class="headerlink" title="二叉搜索树 BST博客"></a>二叉搜索树 <a href="https://blog.csdn.net/csdn0123zl/article/details/81253648" target="_blank" rel="noopener">BST博客</a></h1><ul>
+<li>Def: 任何一个节点，小于右子节点，大于左子节点<br>条件不够苛刻，二叉搜索树不唯一。</li>
+</ul>
+<h2 id="节点的后继："><a href="#节点的后继：" class="headerlink" title="节点的后继："></a>节点的后继：</h2><p>大于这个节点的最小的值。<br>分两种情况，如果这个节点x有右子树，那么这个继承者就是右子树的最小值。<br>如果没有右子树，那么就是这个节点一直往上，第一个向右走的父节点。<br>如图。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160114.png" alt><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160138.png" alt></p>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入很简单，就和查找一样，找到一个位置塞进去就好了。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160354.png" alt></p>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p>删除分情况</p>
+<ol>
+<li>如果0个孩子，直接删</li>
+<li>如果1个孩子，用孩子代替这个位置</li>
+<li>如果2个孩子，删除孩子的后继，用后继补充这个位置</li>
+</ol>
+]]></content>
+      <categories>
+        <category>CSIT5500</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Q音算法实习复盘</title>
     <url>/2020/Q%E9%9F%B3%E7%AE%97%E6%B3%95%E5%AE%9E%E4%B9%A0%E5%A4%8D%E7%9B%98/</url>
     <content><![CDATA[<p>在11月底面试通过（面试参考之前的<a href="https://leeee.top/2019/%E5%87%86%E5%A4%87Q%E9%9F%B3%E6%8E%A8%E8%8D%90%E7%9A%84%E7%AC%94%E8%AE%B0/">准备Q音推荐实习面试的笔记</a>），开始到腾讯音乐推荐组实习，到上周离职，总共历时2个月3周，排除过年放假的两周，工作9周，50天左右。对于我来说，这是第一次技术岗的实习，虽然大二的时候去YY也做过技术岗，不过那个时候就是写SQL，而且也写得不好😂，算不上技术岗。</p><a id="more"></a>
 <p>实习结束整体感受良好，感受到了自己的技术薄弱，熟悉了推荐的相关逻辑，有导师每日交流指点，收获还是很大的。“说说技术上的困难吧，其实还是没经验、熟练度低，一个很简单的事情自己可能要想很久做很久，有时可能还会有疏漏，可能前辈一个小时干的事情，我要几个小时甚至好几天，虽然前辈在给我分配任务的时候可能考虑到这个问题，但其实在我看来感觉还是差的太远，非常愧疚，离职返校后现在还在补充基础知识，c++，还有一些建模熟练度的练习，都有坚持在弄。”</p>
 <h1 id="氛围-amp-办公环境"><a href="#氛围-amp-办公环境" class="headerlink" title="氛围&amp;办公环境"></a>氛围&amp;办公环境</h1><p>刚去实习的时候，发现每天需要开晨会，每周需要开周会，周会是投屏展示，感觉压力贼大，加上刚入职的几天啥权限都没有，晨会的时候听着正式员工做了balabala，自己没做出来什么，就很尴尬。不过到后来就好了，可能是因为脸厚了🤫。<br>整体的节奏比较快，团队目标明确，一个季度会有一次OKR的会议(类似与KPI)，每周都会review OKR的完成度，好处是我觉得压力大成长快，不好的地方在于，大家都太忙了，专注于自己的okr，团队之间的闲聊较少，遇到各种小问题就不好问，还好有几个实习生同学，大家可以一起讨论细节问题。</p>
 <p>办公环境不咋地，尤其是对比WXG。第一次去的时候没有工位，是一张临时的桌子。到后来，搬了工位，有了稍微大一点的空间，还好点。但是地理位置处于腾大旁边，周围都是写字楼，没有生活气息；再加上深圳，尤其是南山区给我的印象就是到处修修建建，感觉噪音比较大，对于环境不太满意。不过之后去了一趟附近的公园，就感觉心灵有了一片栖息地，有所改观。对比在广州的时候，我感觉珠江一直是我的栖息地，夜跑上班都是走珠江边，会心旷神怡。</p>
-<h1 id="实习内容"><a href="#实习内容" class="headerlink" title="实习内容"></a>实习内容</h1><p>实习的任务是实现某推荐点位(过敏处理)的留存增长，前期主要熟悉现有逻辑，后期上线三个实现，由于逻辑简单，实验也都获得了正向的反馈。🥰<br>（其实“留存增长”对于算法来说，不好直接优化，不是模型输出的直接指标，更没办法写出来loss function，要做的就是完善推荐策略或者模型就好）</p>
+<h1 id="实习内容"><a href="#实习内容" class="headerlink" title="实习内容"></a>实习内容</h1><p>实习的任务是实现某推荐点位(脱敏)的留存增长，前期主要熟悉现有逻辑，后期上线三个实现，由于逻辑简单，实验也都获得了正向的反馈。🥰<br>（其实“留存增长”对于算法来说，不好直接优化，不是模型输出的直接指标，更没办法写出来loss function，要做的就是完善推荐策略或者模型就好）</p>
 <ul>
 <li>实验一：对于召回降级池的年龄划分<br>降级池也叫兜底池，其实用户量不大，但是这一块之前没有做细，就留下了空间，我简单的通过年龄的分层就实现了20%的时长增长。年龄分层就可以理解为一层决策树，所以完全可以用树模型训练一版召回，可能是这里用户量不大，前辈也不想做了。<br>涉及工具：主要是SQL定时任务，计算一个新的榜单，线上的rpc服务用之前写好的。</li>
-<li>实验二：增加某个召回策略A的比例<br>前期发现某个召回策略的最终表现较好，但是投放量不大。(🤣我第一反应是只采用这一个召回策略，实际上忽略了太多客观因素) 但是前辈解释策略之后，其实就还有增加召回数量的空间。就简单调整了一下策略，开始做C++服务的改进。<br>涉及工具：C++，git，linux。大一学过C，但是学的也不深；虽然开发逻辑很简单，还是花了不少时间。</li>
-<li>实验三：增加排序的图像特征<br>我只做了离线的验证图像特征有效性。图像特征当然不是我自己跑的啦，准备好数据集，发送给对应做CV的同事，然后用训练好的模型返回数据。拼接到现有的数据集上，跑了xgboost和RankNet两个模型，最后还真的有效果，auc有客观的提升。不错不错。🤤<br>涉及工具：python，拼接特征，然后大概看了看模型的结构。</li>
+<li>实验二：增加某个召回策略A的比例<br>前期发现某个召回策略的最终表现较好，但是投放量不大。(🤣我第一反应是只采用这一个召回策略，实际上忽略了太多客观因素) 但是前辈解释策略之后，其实就还有增加召回数量的空间。就简单调整了一下策略，开始做C++服务的改进。<br>涉及工具：C++，git（博文<a href="https://leeee.top/2020/Git%E5%86%8D%E5%85%A5%E9%97%A8/">Git再入门</a>），linux（博文<a href="https://leeee.top/2020/linux%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%86%8D%E5%85%A5%E9%97%A8/">linux从入门到再入门</a>）。大一学过C，但是学的也不深；虽然开发逻辑很简单，还是花了不少时间。</li>
+<li>实验三：增加排序的图像特征<br>我只做了离线的验证图像特征有效性。图像特征当然不是我自己跑的啦，准备好数据集，发送给对应做CV的同学，然后用训练好的模型返回数据。拼接到现有的数据集上，跑了xgboost和RankNet两个模型，最后还真的有效果，auc有客观的提升。不错不错。🤤<br>涉及工具：python，拼接特征，然后大概看了看模型的结构。</li>
 </ul>
 <p>整体来说熟悉开发环境，申请各种权限，了解现有逻辑，熟悉别人代码，占据了主要的时间。😢</p>
 <h1 id="杂乱的感悟"><a href="#杂乱的感悟" class="headerlink" title="杂乱的感悟"></a>杂乱的感悟</h1><p>由于思考的过程都很琐碎，就不刻意串起来了，简单罗列。</p>
@@ -113,8 +258,8 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
   <entry>
     <title>CS224n-2 word2vec, word Senses</title>
     <url>/2020/CS224n-2-word2vec-word-Senses/</url>
-    <content><![CDATA[<h1 id="CS224n-2-word2vec-word-Senses"><a href="#CS224n-2-word2vec-word-Senses" class="headerlink" title="CS224n-2 word2vec, word Senses"></a>CS224n-2 word2vec, word Senses</h1><h1 id="word-vectors-and-word2vec"><a href="#word-vectors-and-word2vec" class="headerlink" title="word vectors and word2vec"></a>word vectors and word2vec</h1><pre><code>这里我不按课堂讲的，引用一篇[博客](https://www.jianshu.com/p/a6bc14323d77)
-</code></pre><a id="more"></a><h2 id="代表技术之一-word2vec"><a href="#代表技术之一-word2vec" class="headerlink" title="代表技术之一 word2vec"></a>代表技术之一 word2vec</h2><p>2013年，Google团队发表了word2vec工具 [1]。word2vec工具主要包含两个模型：跳字模型（skip-gram）和连续词袋模型（continuous bag of words，简称CBOW），以及两种近似训练法：负采样（negative sampling）和层序softmax（hierarchical softmax）。值得一提的是，word2vec的词向量可以较好地表达不同词之间的相似和类比关系。</p>
+    <content><![CDATA[<h1 id="CS224n-2-word2vec-word-Senses"><a href="#CS224n-2-word2vec-word-Senses" class="headerlink" title="CS224n-2 word2vec, word Senses"></a>CS224n-2 word2vec, word Senses</h1><p>这节课我不按课堂讲的，引用一篇<a href="https://www.jianshu.com/p/a6bc14323d77" target="_blank" rel="noopener">博客</a></p><h1 id="word-vectors-and-word2vec"><a href="#word-vectors-and-word2vec" class="headerlink" title="word vectors and word2vec"></a>word vectors and word2vec</h1><h2 id="代表技术之一-word2vec"><a href="#代表技术之一-word2vec" class="headerlink" title="代表技术之一 word2vec"></a>代表技术之一 word2vec</h2><p>2013年，Google团队发表了word2vec工具 [1]。word2vec工具主要包含两个模型：跳字模型（skip-gram）和连续词袋模型（continuous bag of words，简称CBOW），以及两种近似训练法：负采样（negative sampling）和层序softmax（hierarchical softmax）。值得一提的是，word2vec的词向量可以较好地表达不同词之间的相似和类比关系。</p><a id="more"></a>
+
 <p>word2vec自提出后被广泛应用在自然语言处理任务中。它的模型和训练方法也启发了很多后续的词嵌入模型。本节将重点介绍word2vec的模型和训练方法。</p>
 <h2 id="Skip-gram模型（跳字模型）："><a href="#Skip-gram模型（跳字模型）：" class="headerlink" title="Skip-gram模型（跳字模型）："></a>Skip-gram模型（跳字模型）：</h2><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208213903.png" alt><br>Skip-gram</p>
 <p>在跳字模型中，我们用一个词来预测它在文本序列周围的词。</p>
