@@ -1203,7 +1203,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #41ff55;
+  background: #86ffff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2726,7 +2726,7 @@ mjx-container + br {
   opacity: 0.9;
 }
 .site-brand-container {
-  background: url("../images/header-bg.png");
+  background: url("https://s2.ax1x.com/2020/02/27/3aoLsx.md.png");
   background-position: 70% 20%;
   background-size: cover;
 }
