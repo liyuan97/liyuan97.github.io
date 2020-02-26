@@ -54,30 +54,15 @@
   };
 </script>
 
-  <meta name="description" content="本节课主要是：分类器回顾，神经网络回顾，NER  Named Entity Recognition，窗口词分类，矩阵计算回顾。总体是回顾旧知识，以及nlp任务的举例，快速过一下。分类分类问题很常见了，对于NLP来说：">
-<meta name="keywords" content="NLP">
-<meta property="og:type" content="article">
-<meta property="og:title" content="CS224n-3 回顾神经网络，文本分类介绍">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-3&#x2F;index.html">
+  <meta name="keywords" content="技术,学习">
+<meta property="og:type" content="website">
+<meta property="og:title" content="元哥的日记">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;tags&#x2F;hexo&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="本节课主要是：分类器回顾，神经网络回顾，NER  Named Entity Recognition，窗口词分类，矩阵计算回顾。总体是回顾旧知识，以及nlp任务的举例，快速过一下。分类分类问题很常见了，对于NLP来说：">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222013518.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222014539.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222014651.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222214054.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222214634.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222215915.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222220647.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222221411.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222222311.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222222558.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222223106.png">
-<meta property="og:updated_time" content="2020-02-22T14:45:10.360Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222013518.png">
 
-<link rel="canonical" href="http://leeee.top/2020/CS224n-3/">
+<link rel="canonical" href="http://leeee.top/tags/hexo/">
 
 
 <script id="page-configurations">
@@ -85,13 +70,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: true,
+    isPost: false,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>CS224n-3 回顾神经网络，文本分类介绍 | 元哥的日记</title>
+  <title>标签: hexo | 元哥的日记</title>
   
 
 
@@ -244,197 +229,54 @@
           <div class="content">
             
 
-  <div class="posts-expand">
-      
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/pic03.jpg">
-      <meta itemprop="name" content="Yuan">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="元哥的日记">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          CS224n-3 回顾神经网络，文本分类介绍
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <h2 class="collection-header">hexo
+          <small>标签</small>
         </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-02-15 23:37:47" itemprop="dateCreated datePublished" datetime="2020-02-15T23:37:47+08:00">2020-02-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 22:45:10" itemprop="dateModified" datetime="2020-02-22T22:45:10+08:00">2020-02-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CS224n/" itemprop="url" rel="index">
-                    <span itemprop="name">CS224n</span>
-                  </a>
-                </span>
-            </span>
-
-          
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-file-word-o"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-clock-o"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+      </div>
 
       
-        <p>本节课主要是：<br>分类器回顾，神经网络回顾，NER  Named Entity Recognition，窗口词分类，矩阵计算回顾。总体是回顾旧知识，以及nlp任务的举例，快速过一下。</p><h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><p>分类问题很常见了，对于NLP来说：</p><a id="more"></a>
-
-<ul>
-<li>x ： 单词，句子，文章</li>
-<li>y ：情感，是否NER，决策判别，是否人话</li>
-</ul>
-<h2 id="回顾softmax："><a href="#回顾softmax：" class="headerlink" title="回顾softmax："></a>回顾softmax：</h2><script type="math/tex; mode=display">
-p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} \cdot x\right)}</script><p>分子：输入向量和矩阵的一行相乘<br>分母：所有相乘，归一化</p>
-<p>训练可以直接最大化概率，或者最小化负log概率。</p>
-<script type="math/tex; mode=display">p(y_j = 1|x) = \frac{\exp(W_{j\cdot}x)}{\sum_{c=1}^C\exp(W_{c\cdot}x)}</script><p>但是，巧合的是，最小化负log概率对于softmax等同于cross entropy。</p>
-<blockquote>
-<p> 回顾cross entropy：<br>交叉熵来源于信息论，对于对于c情况真实概率p，模型计算的概率q，那么交叉熵计算为：$H(p, q)=-\sum_{c=1}^{C} p(c) \log q(c)$</p>
-</blockquote>
-<p>对于softmax的交叉熵来说：</p>
-<script type="math/tex; mode=display">
-\begin{aligned} H(\hat{y}, y) &=-\sum_{j=1}^{|V|} y_{j} \log \left(\hat{y}_{j}\right) \\ &=-\sum_{j=1}^{C} y_{j} \log \left(p\left(y_{j}=1 | x\right)\right) \\ &=-\sum_{j=1}^{C} y_{j} \log \left(\frac{\exp \left(W_{j}, x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} \cdot x\right)}\right) \\ &=-y_{i} \log \left(\hat{y}_{i}\right) \end{aligned}</script><p>最后一个等号的求和去掉是因为，只有当$y_i$预测对了，才会累加，否则都是0.</p>
-<p>所以，交叉熵和负对数概率是等价的。</p>
-<p>对于有N个样本的数据集，整体的损失就是：</p>
-<script type="math/tex; mode=display">
--\sum_{i=1}^{N} \log \left(\frac{\exp \left(W_{k(i)} \cdot x^{(i)}\right)}{\sum_{c=1}^{C} \exp \left(W_{c} \cdot x^{(i)}\right)}\right)</script><blockquote>
-<p>括号里就是对于每一个样本x的预测值概率大小，所有都猜对的话，概率是1，整体损失就是0；当没猜对，概率在0-1，-log(0. xxx)就是很小，损失就多。</p>
-</blockquote>
-<p>一般的ML问题中，参数由权值矩阵的列组成维度不会太大。而在词向量或其他深度学习中，需要同时学习权值矩阵和词向量。参数一多，就容易过拟合：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222013518.png" alt></p>
-<h1 id="神经元的本质"><a href="#神经元的本质" class="headerlink" title="神经元的本质"></a>神经元的本质</h1><p>如果损失函数用sigmoid，单个神经元就是逻辑回归：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222014539.png" alt></p>
-<p>而神经网络，就是多个逻辑回归同时计算，如图：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222014651.png" alt><br>上图就是四个逻辑回归(经过4次激活函数)</p>
-<h1 id="Named-Entity-Recognition-NER"><a href="#Named-Entity-Recognition-NER" class="headerlink" title="Named Entity Recognition (NER)"></a>Named Entity Recognition (NER)</h1><p>实体识别就是把句子里的实物名字找出来，并且进行分类，比如说组织单位，个人名字，电器名字，软件名字，地点之类的。<br>用途：</p>
-<ul>
-<li>定位前文的主语</li>
-<li>问答系统需要实体</li>
-<li>信息一般都与实体相关</li>
-<li>slot-filling 填空问题</li>
-</ul>
-<p>由于自然语言中，大部分实体模糊不清，代词也会干扰，所以不简单。</p>
-<blockquote>
-<p>实体识别就是把句子里是实物找出来</p>
-</blockquote>
-<h1 id="窗口单词分类Binary-word-window-classification"><a href="#窗口单词分类Binary-word-window-classification" class="headerlink" title="窗口单词分类Binary word window classification"></a>窗口单词分类Binary word window classification</h1><p>单独对于一个单词分类很难，所以简单思路就是取前后的四五个单词窗口，取平均（或者把向量串起来），然后再进行分类。</p>
-<p>但是有一个问题，平均会丢失单词在窗口里的位置。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222214054.png" alt></p>
-<p>对于位置问题，可以通过打分来解决（回归）。让位置在中间的样本y高，不在中间的样本（打乱顺序）对应的yscore低。如图。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222214634.png" alt></p>
-<h1 id="间隔最大化目标函数"><a href="#间隔最大化目标函数" class="headerlink" title="间隔最大化目标函数"></a>间隔最大化目标函数</h1><p>这里上课老师跳过了，没看懂先挖个坑<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222215915.png" alt></p>
-<h1 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h1><p>求导，链式法则，老生常谈了。</p>
-<p>关注一下矩阵的求导：</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222220647.png" alt></p>
-<p>对于一个m输出，n输入的函数，求导就是对于m行，每行求对应位置输入x_j的导数。</p>
-<p>n个输入n个输出：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222221411.png" alt><br>所以，可以得到一个只有对角线元素上有导数，其他位置为0的矩阵。</p>
-<p>所以，最后可以得到s（最后的分数）对b(线性计算加的那个偏置)的导数：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222222311.png" alt></p>
-<p>上图中，如果同时对w和b求导可以发现：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222222558.png" alt></p>
-<p>观察出，b的导数就是信号的损失</p>
-<p>上图第一行，z对w的求导就是x。所以可以得到s对于w的导数，其实就是delt损失和x相乘。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222223106.png" alt></p>
-<p>所以导数也是n*m的。</p>
-<blockquote>
-<p>这里没讲完就下课了…，主要是想展示计算过程吧。</p>
-</blockquote>
-
+    <div class="collection-year">
+      <h2 class="collection-header">2020</h2>
     </div>
 
-    
-    
-    
-      
-  <div class="popular-posts-header">猜你喜欢</div>
-  <ul class="popular-posts">
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-1-初步探索，背景介绍/" rel="bookmark">CS224n-1 初步探索，背景介绍  </a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-2-word2vec-word-Senses/" rel="bookmark">CS224n-2 word2vec, word Senses</a></div>
-    </li>
-  </ul>
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2020-02-26T18:10:00+08:00"
+              content="2020-02-26">
+          02-26
+        </time>
+      </div>
 
-      <footer class="post-footer">
-          
-          <div class="post-tags">
-              <a href="/tags/NLP/" rel="tag"><i class="fa fa-tag"></i> NLP</a>
-          </div>
+      <h3 class="post-title">
+          <a class="post-title-link" href="/2020/github-ssh/" itemprop="url">
+            <span itemprop="name">通过ssh免密部署github</span>
+          </a>
+      </h3>
 
-        
-
-          <div class="post-nav">
-            <div class="post-nav-next post-nav-item">
-                <a href="/2020/CS224n-2-word2vec-word-Senses/" rel="next" title="CS224n-2 word2vec, word Senses">
-                  <i class="fa fa-chevron-left"></i> CS224n-2 word2vec, word Senses
-                </a>
-            </div>
-
-            <span class="post-nav-divider"></span>
-
-            <div class="post-nav-prev post-nav-item">
-                <a href="/2020/Q%E9%9F%B3%E7%AE%97%E6%B3%95%E5%AE%9E%E4%B9%A0%E5%A4%8D%E7%9B%98/" rel="prev" title="Q音算法实习复盘">
-                  Q音算法实习复盘 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-      </footer>
-    
+    </header>
   </article>
 
+    </div>
+  </div>
   
   
   
 
-  </div>
+  
+
 
 
           </div>
           
-    <div class="comments" id="gitalk-container"></div>
 
         </div>
           
@@ -459,7 +301,6 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分类"><span class="nav-number">1.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#回顾softmax："><span class="nav-number">1.1.</span> <span class="nav-text">回顾softmax：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#神经元的本质"><span class="nav-number">2.</span> <span class="nav-text">神经元的本质</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Named-Entity-Recognition-NER"><span class="nav-number">3.</span> <span class="nav-text">Named Entity Recognition (NER)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#窗口单词分类Binary-word-window-classification"><span class="nav-number">4.</span> <span class="nav-text">窗口单词分类Binary word window classification</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#间隔最大化目标函数"><span class="nav-number">5.</span> <span class="nav-text">间隔最大化目标函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#反向传播"><span class="nav-number">6.</span> <span class="nav-text">反向传播</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -937,54 +778,6 @@ if(canvas.getContext){
   
 
   
-      
-<script type="text/x-mathjax-config">
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
-</script>
-
-    
 
   
 

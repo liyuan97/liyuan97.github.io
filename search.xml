@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>通过ssh免密部署github</title>
+    <url>/2020/github-ssh/</url>
+    <content><![CDATA[<p>之前在部署博客到github page的时候每当遇到hexo deploy，都遇到了<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git@github.com: Permission denied (publickey).</span><br><span class="line">fatal: 无法读取远程仓库。</span><br><span class="line">请确认您有正确的访问权限并且仓库存在。</span><br></pre></td></tr></table></figure><br>搞的我百思不得其解，之前ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能是因为用了zsh的shell之后，和之前bash的路径不对？算了，这篇就总结一下ssh的过程。</p><a id="more"></a>
+<p>具体怎么搞ssh参考这篇<a href="https://blog.csdn.net/u013778905/article/details/83501204" target="_blank" rel="noopener">GitHub如何配置SSH Key</a>。</p>
+<h1 id="设置git的user-name和email"><a href="#设置git的user-name和email" class="headerlink" title="设置git的user name和email"></a>设置git的user name和email</h1><p>如果你是第一次使用，或者还没有配置过的话需要操作一下命令，自行替换相应字段。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;xxxxxx&quot;</span><br><span class="line">git config --global user.email  &quot;xxxxx@gmail.com&quot;</span><br></pre></td></tr></table></figure><br>说明：git config —list 查看当前Git环境所有配置，还可以配置一些命令别名之类的</p>
+<h1 id="检查-生成ssh-key"><a href="#检查-生成ssh-key" class="headerlink" title="检查/生成ssh key"></a>检查/生成ssh key</h1><p>ssh key 由一个公钥(id_rsa.pub)和私钥(id_rsa)组成，构成ssh通道的安全。<br>可以通过cd ~/.ssh   然后ls  查看。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226175214.png" alt><br>上图中，我有两组ssh key。<br>如果没有，就生成一下。</p>
+<blockquote>
+<p>ssh-keygen -t rsa -C “xxxxxxx@qq.com”</p>
+</blockquote>
+<h1 id="获取公钥添加到github里"><a href="#获取公钥添加到github里" class="headerlink" title="获取公钥添加到github里"></a>获取公钥添加到github里</h1><blockquote>
+<p>cat id_rsa.pub<br>然后复制到github -&gt; settting -&gt; ssh and GPG keys -&gt; new SSHkey</p>
+</blockquote>
+<p>然后拷贝进去。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226175610.png" alt></p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><div class="note primary">
+            <blockquote><p>$ ssh -T git@github.com<br>Hi ! You’ve successfully authenticated, but GitHub does not provide shell access.</p></blockquote>
+          </div>
+<p>说明运行成功，恭喜你拜托了https步入SSH时代。</p>
+<h1 id="解决多个秘钥ssh权限问题"><a href="#解决多个秘钥ssh权限问题" class="headerlink" title="解决多个秘钥ssh权限问题"></a>解决多个秘钥ssh权限问题</h1><p>通常一台电脑生成一个ssh不会有这个问题，当一台电脑生成多个ssh的时候，就可能遇到这个问题，解决步骤如下：</p>
+<h2 id="查看系统ssh-key代理-执行如下命令"><a href="#查看系统ssh-key代理-执行如下命令" class="headerlink" title="查看系统ssh-key代理,执行如下命令"></a>查看系统ssh-key代理,执行如下命令</h2><p><code>$ ssh-add -l</code></p>
+<p>　　以上命令如果输出 The agent has no identities. 则表示没有代理。如果系统有代理，可以执行下面的命令清除代理:<br><code>$ ssh-add -D</code></p>
+<h2 id="然后依次将不同的ssh添加代理，执行命令如下："><a href="#然后依次将不同的ssh添加代理，执行命令如下：" class="headerlink" title="然后依次将不同的ssh添加代理，执行命令如下："></a>然后依次将不同的ssh添加代理，执行命令如下：</h2><p><code>$ ssh-add ~/.ssh/id_rsa</code><br><code>$ ssh-add ~/.ssh/aysee</code></p>
+<p>　你会分别得到如下提示：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">2048 8e:71:ad:88:78:80:b2:d9:e1:2d:1d:e4:be:6b:db:8e /Users/aysee/.ssh/id_rsa (RSA)</span><br><span class="line">2048 8e:71:ad:88:78:80:b2:d9:e1:2d:1d:e4:be:6b:db:8e /Users/aysee/.ssh/id_rsa (RSA)</span><br></pre></td></tr></table></figure><br>　　如果使用 ssh-add ~/.ssh/id_rsa的时候报如下错误，则需要先运行一下 ssh-agent bash 命令后再执行 ssh-add …等命令<br><code>Could not open a connection to your authentication agent.</code></p>
+<h2 id="配置-ssh-config-文件"><a href="#配置-ssh-config-文件" class="headerlink" title="配置 ~/.ssh/config 文件"></a>配置 ~/.ssh/config 文件</h2><p>　　如果没有就在~/.ssh目录创建config文件，该文件用于配置私钥对应的服务器<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Default github user(first@mail.com)</span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">User git</span><br><span class="line">IdentityFile C:/Users/username/.ssh/id_rsa</span><br><span class="line"># aysee (company_email@mail.com)</span><br><span class="line">Host github-aysee</span><br><span class="line">`HostName github.com</span><br><span class="line">User git</span><br><span class="line">IdentityFile C:/Users/username/.ssh/aysee</span><br></pre></td></tr></table></figure><br>Host随意即可，方便自己记忆，后续在添加remote是还需要用到。 配置完成后，在连接非默认帐号的github仓库时，远程库的地址要对应地做一些修改，比如现在添加second帐号下的一个仓库test，则需要这样添加：</p>
+<p><code>git remote add test git@github-aysee:ay-seeing/test.git</code><br><code>#并非原来的git@github.com:ay-seeing/test.git</code><br>ay-seeing 是github的用户名</p>
+<h2 id="测试-ssh"><a href="#测试-ssh" class="headerlink" title="测试 ssh"></a>测试 ssh</h2><p><code>ssh -T git@github.com</code><br>你会得到如下提示，表示这个ssh公钥已经获得了权限<br><code>Hi USERNAME! You&#39;ve successfully authenticated, but github does not provide shell access.</code></p>
+<p>参考：<a href="https://www.cnblogs.com/ayseeing/p/4445194.html" target="_blank" rel="noopener">https://www.cnblogs.com/ayseeing/p/4445194.html</a></p>
+]]></content>
+      <tags>
+        <tag>linux</tag>
+        <tag>ssh</tag>
+        <tag>github</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MSBD5009-1 并行计算介绍</title>
     <url>/2020/MSBD5009-1-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E4%BB%8B%E7%BB%8D/</url>
     <content><![CDATA[<h1 id="并行计算parallel-programming"><a href="#并行计算parallel-programming" class="headerlink" title="并行计算parallel programming"></a>并行计算parallel programming</h1><p>选这门课主要是想提高编程能力，顺便了解一下os相关知识，本科没学过操作系统和编译原理什么的，经常遇到了云里雾里的。<br>还有以前还去碰过CUDA，自己瞎研究深度学习的项目，最后连CUDA和TF的版本适配都没解决，害，一把辛酸泪。<br>第一节课遇到各种线程进程cache，中文都不知道是啥，听得云里雾里的。</p><a id="more"></a>

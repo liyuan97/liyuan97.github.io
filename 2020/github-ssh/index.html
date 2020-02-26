@@ -54,30 +54,21 @@
   };
 </script>
 
-  <meta name="description" content="本节课主要是：分类器回顾，神经网络回顾，NER  Named Entity Recognition，窗口词分类，矩阵计算回顾。总体是回顾旧知识，以及nlp任务的举例，快速过一下。分类分类问题很常见了，对于NLP来说：">
-<meta name="keywords" content="NLP">
+  <meta name="description" content="之前在部署博客到github page的时候每当遇到hexo deploy，都遇到了123git@github.com: Permission denied (publickey).fatal: 无法读取远程仓库。请确认您有正确的访问权限并且仓库存在。搞的我百思不得其解，之前ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能">
+<meta name="keywords" content="linux,ssh,github,hexo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CS224n-3 回顾神经网络，文本分类介绍">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-3&#x2F;index.html">
+<meta property="og:title" content="通过ssh免密部署github">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;github-ssh&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="本节课主要是：分类器回顾，神经网络回顾，NER  Named Entity Recognition，窗口词分类，矩阵计算回顾。总体是回顾旧知识，以及nlp任务的举例，快速过一下。分类分类问题很常见了，对于NLP来说：">
+<meta property="og:description" content="之前在部署博客到github page的时候每当遇到hexo deploy，都遇到了123git@github.com: Permission denied (publickey).fatal: 无法读取远程仓库。请确认您有正确的访问权限并且仓库存在。搞的我百思不得其解，之前ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222013518.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222014539.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222014651.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222214054.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222214634.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222215915.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222220647.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222221411.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222222311.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222222558.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222223106.png">
-<meta property="og:updated_time" content="2020-02-22T14:45:10.360Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226175214.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226175610.png">
+<meta property="og:updated_time" content="2020-02-26T10:15:15.266Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200222013518.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226175214.png">
 
-<link rel="canonical" href="http://leeee.top/2020/CS224n-3/">
+<link rel="canonical" href="http://leeee.top/2020/github-ssh/">
 
 
 <script id="page-configurations">
@@ -91,7 +82,7 @@
   };
 </script>
 
-  <title>CS224n-3 回顾神经网络，文本分类介绍 | 元哥的日记</title>
+  <title>通过ssh免密部署github | 元哥的日记</title>
   
 
 
@@ -249,7 +240,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-3/">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/github-ssh/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/pic03.jpg">
@@ -262,7 +253,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          CS224n-3 回顾神经网络，文本分类介绍
+          通过ssh免密部署github
         </h2>
 
         <div class="post-meta">
@@ -271,26 +262,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-02-15 23:37:47" itemprop="dateCreated datePublished" datetime="2020-02-15T23:37:47+08:00">2020-02-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-22 22:45:10" itemprop="dateModified" datetime="2020-02-22T22:45:10+08:00">2020-02-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CS224n/" itemprop="url" rel="index">
-                    <span itemprop="name">CS224n</span>
-                  </a>
-                </span>
+              <time title="创建时间：2020-02-26 18:10:00 / 修改时间：18:15:15" itemprop="dateCreated datePublished" datetime="2020-02-26T18:10:00+08:00">2020-02-26</time>
             </span>
 
           
@@ -305,7 +279,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -324,62 +298,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>本节课主要是：<br>分类器回顾，神经网络回顾，NER  Named Entity Recognition，窗口词分类，矩阵计算回顾。总体是回顾旧知识，以及nlp任务的举例，快速过一下。</p><h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><p>分类问题很常见了，对于NLP来说：</p><a id="more"></a>
-
-<ul>
-<li>x ： 单词，句子，文章</li>
-<li>y ：情感，是否NER，决策判别，是否人话</li>
-</ul>
-<h2 id="回顾softmax："><a href="#回顾softmax：" class="headerlink" title="回顾softmax："></a>回顾softmax：</h2><script type="math/tex; mode=display">
-p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} \cdot x\right)}</script><p>分子：输入向量和矩阵的一行相乘<br>分母：所有相乘，归一化</p>
-<p>训练可以直接最大化概率，或者最小化负log概率。</p>
-<script type="math/tex; mode=display">p(y_j = 1|x) = \frac{\exp(W_{j\cdot}x)}{\sum_{c=1}^C\exp(W_{c\cdot}x)}</script><p>但是，巧合的是，最小化负log概率对于softmax等同于cross entropy。</p>
+        <p>之前在部署博客到github page的时候每当遇到hexo deploy，都遇到了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git@github.com: Permission denied (publickey).</span><br><span class="line">fatal: 无法读取远程仓库。</span><br><span class="line">请确认您有正确的访问权限并且仓库存在。</span><br></pre></td></tr></table></figure><br>搞的我百思不得其解，之前ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能是因为用了zsh的shell之后，和之前bash的路径不对？算了，这篇就总结一下ssh的过程。</p><a id="more"></a>
+<p>具体怎么搞ssh参考这篇<a href="https://blog.csdn.net/u013778905/article/details/83501204" target="_blank" rel="noopener">GitHub如何配置SSH Key</a>。</p>
+<h1 id="设置git的user-name和email"><a href="#设置git的user-name和email" class="headerlink" title="设置git的user name和email"></a>设置git的user name和email</h1><p>如果你是第一次使用，或者还没有配置过的话需要操作一下命令，自行替换相应字段。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;xxxxxx&quot;</span><br><span class="line">git config --global user.email  &quot;xxxxx@gmail.com&quot;</span><br></pre></td></tr></table></figure><br>说明：git config —list 查看当前Git环境所有配置，还可以配置一些命令别名之类的</p>
+<h1 id="检查-生成ssh-key"><a href="#检查-生成ssh-key" class="headerlink" title="检查/生成ssh key"></a>检查/生成ssh key</h1><p>ssh key 由一个公钥(id_rsa.pub)和私钥(id_rsa)组成，构成ssh通道的安全。<br>可以通过cd ~/.ssh   然后ls  查看。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226175214.png" alt><br>上图中，我有两组ssh key。<br>如果没有，就生成一下。</p>
 <blockquote>
-<p> 回顾cross entropy：<br>交叉熵来源于信息论，对于对于c情况真实概率p，模型计算的概率q，那么交叉熵计算为：$H(p, q)=-\sum_{c=1}^{C} p(c) \log q(c)$</p>
+<p>ssh-keygen -t rsa -C “xxxxxxx@qq.com”</p>
 </blockquote>
-<p>对于softmax的交叉熵来说：</p>
-<script type="math/tex; mode=display">
-\begin{aligned} H(\hat{y}, y) &=-\sum_{j=1}^{|V|} y_{j} \log \left(\hat{y}_{j}\right) \\ &=-\sum_{j=1}^{C} y_{j} \log \left(p\left(y_{j}=1 | x\right)\right) \\ &=-\sum_{j=1}^{C} y_{j} \log \left(\frac{\exp \left(W_{j}, x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} \cdot x\right)}\right) \\ &=-y_{i} \log \left(\hat{y}_{i}\right) \end{aligned}</script><p>最后一个等号的求和去掉是因为，只有当$y_i$预测对了，才会累加，否则都是0.</p>
-<p>所以，交叉熵和负对数概率是等价的。</p>
-<p>对于有N个样本的数据集，整体的损失就是：</p>
-<script type="math/tex; mode=display">
--\sum_{i=1}^{N} \log \left(\frac{\exp \left(W_{k(i)} \cdot x^{(i)}\right)}{\sum_{c=1}^{C} \exp \left(W_{c} \cdot x^{(i)}\right)}\right)</script><blockquote>
-<p>括号里就是对于每一个样本x的预测值概率大小，所有都猜对的话，概率是1，整体损失就是0；当没猜对，概率在0-1，-log(0. xxx)就是很小，损失就多。</p>
+<h1 id="获取公钥添加到github里"><a href="#获取公钥添加到github里" class="headerlink" title="获取公钥添加到github里"></a>获取公钥添加到github里</h1><blockquote>
+<p>cat id_rsa.pub<br>然后复制到github -&gt; settting -&gt; ssh and GPG keys -&gt; new SSHkey</p>
 </blockquote>
-<p>一般的ML问题中，参数由权值矩阵的列组成维度不会太大。而在词向量或其他深度学习中，需要同时学习权值矩阵和词向量。参数一多，就容易过拟合：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222013518.png" alt></p>
-<h1 id="神经元的本质"><a href="#神经元的本质" class="headerlink" title="神经元的本质"></a>神经元的本质</h1><p>如果损失函数用sigmoid，单个神经元就是逻辑回归：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222014539.png" alt></p>
-<p>而神经网络，就是多个逻辑回归同时计算，如图：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222014651.png" alt><br>上图就是四个逻辑回归(经过4次激活函数)</p>
-<h1 id="Named-Entity-Recognition-NER"><a href="#Named-Entity-Recognition-NER" class="headerlink" title="Named Entity Recognition (NER)"></a>Named Entity Recognition (NER)</h1><p>实体识别就是把句子里的实物名字找出来，并且进行分类，比如说组织单位，个人名字，电器名字，软件名字，地点之类的。<br>用途：</p>
-<ul>
-<li>定位前文的主语</li>
-<li>问答系统需要实体</li>
-<li>信息一般都与实体相关</li>
-<li>slot-filling 填空问题</li>
-</ul>
-<p>由于自然语言中，大部分实体模糊不清，代词也会干扰，所以不简单。</p>
-<blockquote>
-<p>实体识别就是把句子里是实物找出来</p>
-</blockquote>
-<h1 id="窗口单词分类Binary-word-window-classification"><a href="#窗口单词分类Binary-word-window-classification" class="headerlink" title="窗口单词分类Binary word window classification"></a>窗口单词分类Binary word window classification</h1><p>单独对于一个单词分类很难，所以简单思路就是取前后的四五个单词窗口，取平均（或者把向量串起来），然后再进行分类。</p>
-<p>但是有一个问题，平均会丢失单词在窗口里的位置。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222214054.png" alt></p>
-<p>对于位置问题，可以通过打分来解决（回归）。让位置在中间的样本y高，不在中间的样本（打乱顺序）对应的yscore低。如图。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222214634.png" alt></p>
-<h1 id="间隔最大化目标函数"><a href="#间隔最大化目标函数" class="headerlink" title="间隔最大化目标函数"></a>间隔最大化目标函数</h1><p>这里上课老师跳过了，没看懂先挖个坑<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222215915.png" alt></p>
-<h1 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h1><p>求导，链式法则，老生常谈了。</p>
-<p>关注一下矩阵的求导：</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222220647.png" alt></p>
-<p>对于一个m输出，n输入的函数，求导就是对于m行，每行求对应位置输入x_j的导数。</p>
-<p>n个输入n个输出：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222221411.png" alt><br>所以，可以得到一个只有对角线元素上有导数，其他位置为0的矩阵。</p>
-<p>所以，最后可以得到s（最后的分数）对b(线性计算加的那个偏置)的导数：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222222311.png" alt></p>
-<p>上图中，如果同时对w和b求导可以发现：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222222558.png" alt></p>
-<p>观察出，b的导数就是信号的损失</p>
-<p>上图第一行，z对w的求导就是x。所以可以得到s对于w的导数，其实就是delt损失和x相乘。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222223106.png" alt></p>
-<p>所以导数也是n*m的。</p>
-<blockquote>
-<p>这里没讲完就下课了…，主要是想展示计算过程吧。</p>
-</blockquote>
+<p>然后拷贝进去。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226175610.png" alt></p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><div class="note primary">
+            <blockquote><p>$ ssh -T git@github.com<br>Hi ! You’ve successfully authenticated, but GitHub does not provide shell access.</p></blockquote>
+          </div>
+<p>说明运行成功，恭喜你拜托了https步入SSH时代。</p>
+<h1 id="解决多个秘钥ssh权限问题"><a href="#解决多个秘钥ssh权限问题" class="headerlink" title="解决多个秘钥ssh权限问题"></a>解决多个秘钥ssh权限问题</h1><p>通常一台电脑生成一个ssh不会有这个问题，当一台电脑生成多个ssh的时候，就可能遇到这个问题，解决步骤如下：</p>
+<h2 id="查看系统ssh-key代理-执行如下命令"><a href="#查看系统ssh-key代理-执行如下命令" class="headerlink" title="查看系统ssh-key代理,执行如下命令"></a>查看系统ssh-key代理,执行如下命令</h2><p><code>$ ssh-add -l</code></p>
+<p>　　以上命令如果输出 The agent has no identities. 则表示没有代理。如果系统有代理，可以执行下面的命令清除代理:<br><code>$ ssh-add -D</code></p>
+<h2 id="然后依次将不同的ssh添加代理，执行命令如下："><a href="#然后依次将不同的ssh添加代理，执行命令如下：" class="headerlink" title="然后依次将不同的ssh添加代理，执行命令如下："></a>然后依次将不同的ssh添加代理，执行命令如下：</h2><p><code>$ ssh-add ~/.ssh/id_rsa</code><br><code>$ ssh-add ~/.ssh/aysee</code></p>
+<p>　你会分别得到如下提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2048 8e:71:ad:88:78:80:b2:d9:e1:2d:1d:e4:be:6b:db:8e /Users/aysee/.ssh/id_rsa (RSA)</span><br><span class="line">2048 8e:71:ad:88:78:80:b2:d9:e1:2d:1d:e4:be:6b:db:8e /Users/aysee/.ssh/id_rsa (RSA)</span><br></pre></td></tr></table></figure><br>　　如果使用 ssh-add ~/.ssh/id_rsa的时候报如下错误，则需要先运行一下 ssh-agent bash 命令后再执行 ssh-add …等命令<br><code>Could not open a connection to your authentication agent.</code></p>
+<h2 id="配置-ssh-config-文件"><a href="#配置-ssh-config-文件" class="headerlink" title="配置 ~/.ssh/config 文件"></a>配置 ~/.ssh/config 文件</h2><p>　　如果没有就在~/.ssh目录创建config文件，该文件用于配置私钥对应的服务器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># Default github user(first@mail.com)</span><br><span class="line">Host github.com</span><br><span class="line">HostName github.com</span><br><span class="line">User git</span><br><span class="line">IdentityFile C:/Users/username/.ssh/id_rsa</span><br><span class="line"># aysee (company_email@mail.com)</span><br><span class="line">Host github-aysee</span><br><span class="line">`HostName github.com</span><br><span class="line">User git</span><br><span class="line">IdentityFile C:/Users/username/.ssh/aysee</span><br></pre></td></tr></table></figure><br>Host随意即可，方便自己记忆，后续在添加remote是还需要用到。 配置完成后，在连接非默认帐号的github仓库时，远程库的地址要对应地做一些修改，比如现在添加second帐号下的一个仓库test，则需要这样添加：</p>
+<p><code>git remote add test git@github-aysee:ay-seeing/test.git</code><br><code>#并非原来的git@github.com:ay-seeing/test.git</code><br>ay-seeing 是github的用户名</p>
+<h2 id="测试-ssh"><a href="#测试-ssh" class="headerlink" title="测试 ssh"></a>测试 ssh</h2><p><code>ssh -T git@github.com</code><br>你会得到如下提示，表示这个ssh公钥已经获得了权限<br><code>Hi USERNAME! You&#39;ve successfully authenticated, but github does not provide shell access.</code></p>
+<p>参考：<a href="https://www.cnblogs.com/ayseeing/p/4445194.html" target="_blank" rel="noopener">https://www.cnblogs.com/ayseeing/p/4445194.html</a></p>
 
     </div>
 
@@ -390,10 +332,7 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
   <div class="popular-posts-header">猜你喜欢</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-1-初步探索，背景介绍/" rel="bookmark">CS224n-1 初步探索，背景介绍  </a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-2-word2vec-word-Senses/" rel="bookmark">CS224n-2 word2vec, word Senses</a></div>
+      <div class="popular-posts-title"><a href="/2020/linux从入门到再入门/" rel="bookmark">linux从入门到再入门</a></div>
     </li>
   </ul>
 
@@ -401,24 +340,24 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/NLP/" rel="tag"><i class="fa fa-tag"></i> NLP</a>
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+              <a href="/tags/ssh/" rel="tag"><i class="fa fa-tag"></i> ssh</a>
+              <a href="/tags/github/" rel="tag"><i class="fa fa-tag"></i> github</a>
+              <a href="/tags/hexo/" rel="tag"><i class="fa fa-tag"></i> hexo</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/CS224n-2-word2vec-word-Senses/" rel="next" title="CS224n-2 word2vec, word Senses">
-                  <i class="fa fa-chevron-left"></i> CS224n-2 word2vec, word Senses
+                <a href="/2020/MSBD5009-1-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E4%BB%8B%E7%BB%8D/" rel="next" title="MSBD5009-1 并行计算介绍">
+                  <i class="fa fa-chevron-left"></i> MSBD5009-1 并行计算介绍
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/Q%E9%9F%B3%E7%AE%97%E6%B3%95%E5%AE%9E%E4%B9%A0%E5%A4%8D%E7%9B%98/" rel="prev" title="Q音算法实习复盘">
-                  Q音算法实习复盘 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -459,7 +398,7 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分类"><span class="nav-number">1.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#回顾softmax："><span class="nav-number">1.1.</span> <span class="nav-text">回顾softmax：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#神经元的本质"><span class="nav-number">2.</span> <span class="nav-text">神经元的本质</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Named-Entity-Recognition-NER"><span class="nav-number">3.</span> <span class="nav-text">Named Entity Recognition (NER)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#窗口单词分类Binary-word-window-classification"><span class="nav-number">4.</span> <span class="nav-text">窗口单词分类Binary word window classification</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#间隔最大化目标函数"><span class="nav-number">5.</span> <span class="nav-text">间隔最大化目标函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#反向传播"><span class="nav-number">6.</span> <span class="nav-text">反向传播</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#设置git的user-name和email"><span class="nav-number">1.</span> <span class="nav-text">设置git的user name和email</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#检查-生成ssh-key"><span class="nav-number">2.</span> <span class="nav-text">检查/生成ssh key</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获取公钥添加到github里"><span class="nav-number">3.</span> <span class="nav-text">获取公钥添加到github里</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决多个秘钥ssh权限问题"><span class="nav-number">5.</span> <span class="nav-text">解决多个秘钥ssh权限问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看系统ssh-key代理-执行如下命令"><span class="nav-number">5.1.</span> <span class="nav-text">查看系统ssh-key代理,执行如下命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#然后依次将不同的ssh添加代理，执行命令如下："><span class="nav-number">5.2.</span> <span class="nav-text">然后依次将不同的ssh添加代理，执行命令如下：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-ssh-config-文件"><span class="nav-number">5.3.</span> <span class="nav-text">配置 ~/.ssh/config 文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试-ssh"><span class="nav-number">5.4.</span> <span class="nav-text">测试 ssh</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -937,54 +876,6 @@ if(canvas.getContext){
   
 
   
-      
-<script type="text/x-mathjax-config">
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
-</script>
-
-    
 
   
 
