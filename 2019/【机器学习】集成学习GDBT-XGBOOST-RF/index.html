@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -35,7 +35,7 @@
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -327,12 +327,12 @@
 <blockquote>
 <p>1 计算这个树的误差率，误差率越高，权重越低<br>2 计算每个样本的错分率，错分的样本，权重越高，之后更容易分对</p>
 </blockquote>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091802.png" alt><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091915.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091802.png"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091915.png"></p>
 <h2 id="2-2-基于残差：GB-GBTD-Xgboost"><a href="#2-2-基于残差：GB-GBTD-Xgboost" class="headerlink" title="2.2 基于残差：GB(GBTD,Xgboost)"></a>2.2 基于残差：GB(GBTD,Xgboost)</h2><h3 id="2-2-1-GBTD"><a href="#2-2-1-GBTD" class="headerlink" title="2.2.1 GBTD"></a>2.2.1 GBTD</h3><p>GBDT只能由回归树组成.</p>
 <ul>
 <li>基本思想：<br>在GradientBoost中，每个新的模型的建立是为了使得之前的模型的残差往梯度下降的方法。</li>
 </ul>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116110339.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116110339.png"></p>
 <ul>
 <li>如果是分类树，损失函数是指数损失函数：<br>𝐿(𝑦,𝑓(𝑥))=𝑒𝑥𝑝(−𝑦𝑓(𝑥))</li>
 <li>如果是回归树，损失函数是均方损失（CART）：<br>𝐿(𝑦,𝑓(𝑥))=(𝑦−𝑓(𝑥))^2</li>
@@ -356,8 +356,8 @@
 <li>这时候需要寻找f_t来让目标函数最小</li>
 </ul>
 <blockquote>
-<p>a. 式子左边，对目标函数在$f_t(x)$上泰勒展开，去二阶，求得近似解：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116120113.png" alt></p>
-<p>b. 式子右边，定义复杂度 $\Omega\left(f_{t}\right)$<br>每颗树，都是由枝干(分类节点)和叶子(树的末端)组成的。<br>定义复杂度为：叶子个个数T, 加上每个叶子的值w平方和（各有系数）。<br>树越复杂，T ↑，w平方和 ↑，复杂度 ↑，惩罚 ↑。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116121238.png" alt></p>
+<p>a. 式子左边，对目标函数在$f_t(x)$上泰勒展开，去二阶，求得近似解：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116120113.png"></p>
+<p>b. 式子右边，定义复杂度 $\Omega\left(f_{t}\right)$<br>每颗树，都是由枝干(分类节点)和叶子(树的末端)组成的。<br>定义复杂度为：叶子个个数T, 加上每个叶子的值w平方和（各有系数）。<br>树越复杂，T ↑，w平方和 ↑，复杂度 ↑，惩罚 ↑。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116121238.png"></p>
 </blockquote>
 <ul>
 <li>更新目标函数：<script type="math/tex; mode=display">
@@ -384,7 +384,7 @@
 </ul>
 <hr>
 <ul>
-<li>所以通过贪婪学习：（不详细讲）<br>每一次尝试对已有的叶子结点加入一个分割，选择具有最佳增益的分割对结点进行分裂。对于一个具体的分割方案，我们可以获得的增益可以由如下公式计算：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116142330.png" alt></li>
+<li>所以通过贪婪学习：（不详细讲）<br>每一次尝试对已有的叶子结点加入一个分割，选择具有最佳增益的分割对结点进行分裂。对于一个具体的分割方案，我们可以获得的增益可以由如下公式计算：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116142330.png"></li>
 </ul>
 <blockquote>
 <p>也就是通过信息增益去寻找最优分割点。<br>这里有个好处就是如果惩罚大于增益，gain就会为负数，自动停止。</p>
@@ -886,6 +886,7 @@ if(canvas.getContext){
   
   <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

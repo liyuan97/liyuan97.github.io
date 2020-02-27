@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -35,7 +35,7 @@
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -326,13 +326,13 @@
 <h1 id="The-course-10-mins"><a href="#The-course-10-mins" class="headerlink" title="The course (10 mins)"></a>The course (10 mins)</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>自然语言处理（NLP）</strong>是计算科学、AI、语言学的交叉学科，其目的是为了让机器能够处理或者是“理解”自然语言，比如可以通过说话让机器为我们定会议、买东西。机器完全理解是不大可能的，完全理解基本等同于AI完全实现了。</p>
 <h2 id="如何表示词义？"><a href="#如何表示词义？" class="headerlink" title="如何表示词义？"></a>如何表示词义？</h2><ul>
 <li><p>Def：meaning：就是人写的，说的，短语句子符号来表达的想法</p>
-<h2 id="如何用计算机表达词义？"><a href="#如何用计算机表达词义？" class="headerlink" title="如何用计算机表达词义？"></a>如何用计算机表达词义？</h2><h3 id="WordNet："><a href="#WordNet：" class="headerlink" title="WordNet："></a>WordNet：</h3><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165156.png" alt></p>
+<h2 id="如何用计算机表达词义？"><a href="#如何用计算机表达词义？" class="headerlink" title="如何用计算机表达词义？"></a>如何用计算机表达词义？</h2><h3 id="WordNet："><a href="#WordNet：" class="headerlink" title="WordNet："></a>WordNet：</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165156.png"></p>
 <p>WordNet是人为的收录了近义词和相似词。<br>存在的问题是：没办法统计到细微差别；没有新词；需要人为的统计输入；不能计算相似度；依赖生成词库的主观。</p>
 </li>
 </ul>
-<h3 id="把词当做离散变量one-hot"><a href="#把词当做离散变量one-hot" class="headerlink" title="把词当做离散变量one-hot"></a>把词当做离散变量one-hot</h3><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165732.png" alt></p>
+<h3 id="把词当做离散变量one-hot"><a href="#把词当做离散变量one-hot" class="headerlink" title="把词当做离散变量one-hot"></a>把词当做离散变量one-hot</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165732.png"></p>
 <p> 存在的问题是：词库长度太大；不能计算相似度；</p>
-<h3 id="通过上下文表示"><a href="#通过上下文表示" class="headerlink" title="通过上下文表示"></a>通过上下文表示</h3><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208170015.png" alt><br>通过上下文的思路，可以引出主流方法Word vectors（word embeddings or word representations）。<br>每一个词对应一个N维度的向量，N一般几百维。</p>
+<h3 id="通过上下文表示"><a href="#通过上下文表示" class="headerlink" title="通过上下文表示"></a>通过上下文表示</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208170015.png"><br>通过上下文的思路，可以引出主流方法Word vectors（word embeddings or word representations）。<br>每一个词对应一个N维度的向量，N一般几百维。</p>
 <h1 id="Word2vec"><a href="#Word2vec" class="headerlink" title="Word2vec"></a>Word2vec</h1><p>从2013年开始有了Word2vec，如何生成向量的方法逐渐出现。</p>
 <p>思路：</p>
 <ul>
@@ -342,11 +342,11 @@
 <li>通过计算每个词向量和周围词向量出现的概率</li>
 <li>调整词向量，让概率最大</li>
 </ul>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171649.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171649.png"></p>
 <p>目标函数：</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171826.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171826.png"></p>
 <p>理解：这里就是对于语料(Data)的每个词t，对应前后j位置的词，是词a和词b的概率P，都乘起来。（这里还是很有统计色彩的)</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208172914.png" alt><br>注意：这里需要维护两套向量，一套是中间的，一套是周围的。</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208172914.png"><br>注意：这里需要维护两套向量，一套是中间的，一套是周围的。</p>
 <p>其他的都是一些微积分和优化的知识，不做记录了。</p>
 
     </div>
@@ -834,6 +834,7 @@ if(canvas.getContext){
   
   <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

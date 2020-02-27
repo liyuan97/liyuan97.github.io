@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -35,7 +35,7 @@
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -330,7 +330,7 @@
 <li>减轻开发人员的负担，节省时间，同时降低人为错误</li>
 </ul>
 <p><strong>简单说就是用于管理多人协同开发项目的技术。</strong></p>
-<h1 id="git的基本概念"><a href="#git的基本概念" class="headerlink" title="git的基本概念"></a>git的基本概念</h1><h2 id="工作区"><a href="#工作区" class="headerlink" title="工作区"></a>工作区</h2><p>Git本地有四个工作区域：工作目录（Working Directory）、暂存区(Stage/Index)、资源库(Repository或Git Directory)、git仓库(Remote Directory)。文件在这四个区域之间的转换关系如下：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200111202138.png" alt><br><strong>Workspace</strong>： 工作区，就是你平时存放项目代码的地方<br><strong>Index / Stage</strong>： 暂存区，用于临时存放你的改动，事实上它只是一个文件，保存即将提交到文件列表信息<br><strong>Repository</strong>： 仓库区（或版本库），就是安全存放数据的位置，这里面有你提交到所有版本的数据。其中HEAD指向最新放入仓库的版本<br><strong>Remote</strong>： 远程仓库，托管代码的服务器，可以简单的认为是你项目组中的一台电脑用于远程数据交换</p>
+<h1 id="git的基本概念"><a href="#git的基本概念" class="headerlink" title="git的基本概念"></a>git的基本概念</h1><h2 id="工作区"><a href="#工作区" class="headerlink" title="工作区"></a>工作区</h2><p>Git本地有四个工作区域：工作目录（Working Directory）、暂存区(Stage/Index)、资源库(Repository或Git Directory)、git仓库(Remote Directory)。文件在这四个区域之间的转换关系如下：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200111202138.png"><br><strong>Workspace</strong>： 工作区，就是你平时存放项目代码的地方<br><strong>Index / Stage</strong>： 暂存区，用于临时存放你的改动，事实上它只是一个文件，保存即将提交到文件列表信息<br><strong>Repository</strong>： 仓库区（或版本库），就是安全存放数据的位置，这里面有你提交到所有版本的数据。其中HEAD指向最新放入仓库的版本<br><strong>Remote</strong>： 远程仓库，托管代码的服务器，可以简单的认为是你项目组中的一台电脑用于远程数据交换</p>
 <h1 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h1><ol>
 <li>clone项目或者创建项目Repository</li>
 <li>写代码</li>
@@ -340,12 +340,12 @@
 </ol>
 <h1 id="文件的四种状态"><a href="#文件的四种状态" class="headerlink" title="文件的四种状态"></a>文件的四种状态</h1><p>版本控制就是对文件的版本控制，要对文件进行修改、提交等操作，首先要知道文件当前在什么状态，不然可能会提交了现在还不想提交的文件，或者要提交的文件没提交上。</p>
 <p>GIT不关心文件两个版本之间的具体差别，而是关心文件的整体是否有改变，若文件被改变，在添加提交时就生成文件新版本的快照，而判断文件整体是否改变的方法就是用SHA-1算法计算文件的校验和。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200111202617.png" alt><br><strong>Untracked:</strong> 未跟踪, 此文件在文件夹中, 但并没有加入到git库, 不参与版本控制. 通过git add 状态变为Staged.</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200111202617.png"><br><strong>Untracked:</strong> 未跟踪, 此文件在文件夹中, 但并没有加入到git库, 不参与版本控制. 通过git add 状态变为Staged.</p>
 <p><strong>Unmodify:</strong> 文件已经入库, 未修改, 即版本库中的文件快照内容与文件夹中完全一致. 这种类型的文件有两种去处, 如果它被修改, 而变为Modified. 如果使用git rm移出版本库, 则成为Untracked文件</p>
 <p><strong>Modified:</strong>  文件已修改, 仅仅是修改, 并没有进行其他的操作. 这个文件也有两个去处, 通过git add可进入暂存staged状态, 使用git checkout 则丢弃修改过,返回到unmodify状态, 这个git checkout即从库中取出文件, 覆盖当前修改</p>
 <p><strong>Staged:</strong> 暂存状态. 执行git commit则将修改同步到库中, 这时库中的文件和本地文件又变为一致, 文件为Unmodify状态. 执行git reset HEAD filename取消暂存,文件状态为Modified</p>
 <p>下面的图很好的解释了这四种状态的转变：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1090617/201810/1090617-20181008212245877-52530897.png" alt></p>
+<p><img alt data-src="https://img2018.cnblogs.com/blog/1090617/201810/1090617-20181008212245877-52530897.png"></p>
 <h1 id="四个区域之间的命令"><a href="#四个区域之间的命令" class="headerlink" title="四个区域之间的命令"></a>四个区域之间的命令</h1><h4 id="1、新建代码库"><a href="#1、新建代码库" class="headerlink" title="1、新建代码库"></a>1、新建代码库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 在当前目录新建一个Git代码库</span><br><span class="line">git init # 新建一个目录，将其初始化为Git代码库</span><br><span class="line">git init [project-name] # 下载一个项目和它的整个代码历史</span><br><span class="line">git clone [url]</span><br></pre></td></tr></table></figure>
 <h4 id="2、查看文件状态"><a href="#2、查看文件状态" class="headerlink" title="2、查看文件状态"></a>2、查看文件状态</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#查看指定文件状态</span><br><span class="line">git status [filename] #查看所有文件状态</span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
 <h4 id="3、工作区-lt-—-gt-暂存区"><a href="#3、工作区-lt-—-gt-暂存区" class="headerlink" title="3、工作区&lt;—&gt;暂存区"></a>3、工作区&lt;—&gt;暂存区</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 添加指定文件到暂存区</span><br><span class="line">git add [file1] [file2] ... # 添加指定目录到暂存区，包括子目录</span><br><span class="line">git add [dir] # 添加当前目录的所有文件到暂存区</span><br><span class="line">git add . #当我们需要删除暂存区或分支上的文件, 同时工作区也不需要这个文件了, 可以使用（⚠️）</span><br><span class="line">git rm file_path #当我们需要删除暂存区或分支上的文件, 但本地又需要使用, 这个时候直接push那边这个文件就没有，如果push之前重新add那么还是会有。</span><br><span class="line">git rm --cached file_path #直接加文件名   从暂存区将文件恢复到工作区，如果工作区已经有该文件，则会选择覆盖 #加了【分支名】 +文件名  则表示从分支名为所写的分支名中拉取文件 并覆盖工作区里的文件</span><br><span class="line">git checkout</span><br></pre></td></tr></table></figure>
@@ -830,6 +830,7 @@ if(canvas.getContext){
   
   <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

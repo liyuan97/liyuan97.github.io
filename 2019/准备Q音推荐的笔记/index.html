@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -35,7 +35,7 @@
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -341,14 +341,14 @@
 <p>流程至少包括以下四个步骤：<br>建立评价规则<br>搜集用户偏好<br>寻找相近的用户<br>推荐歌曲</p>
 <blockquote>
 <p><strong>1.建立评价规则</strong><br>下图是我随意做的一个评价规则。评价规则应该根据明确的用户行为来建立。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203521.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203521.png"></p>
 <p>评价规则-随意做的</p>
 <p><strong>2.搜集用户偏好</strong><br>根据评价规则，我们可以得到每个用户和该用户相关的每首歌的一个得分。 下图也是我随意造的数据。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203536.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203536.png"></p>
 <p>用户偏好</p>
 <p><strong>3.寻找相近的用户</strong><br>常用的计算相似度评价值的体系有两种：欧几里得距离和皮尔逊相关度。</p>
 <p><strong>4.推荐歌曲</strong><br>接下来系统要做的就是，为用户郑昊提供歌曲推荐。我们当然可以查找与郑昊品味最相近的人，从他所喜欢的歌曲中找出一首郑昊可能还未接触过的歌曲。不过，这样的做法未免太随意了。<br>目前最通用的做法是，通过一个经过加权的评价值来为歌曲打分，评分结果即排名结果。为此，我们需要取得所有其他用户的分数，借此得到相关系数后，再乘以他们与相关歌曲的分数，求和之后再除以对应的相关系数总计，便能获得一个我们需要的评价值。在下表中我们给出了具体的做法。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203705.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203705.png"></p>
 <p>「相关系数」一列来自于皮尔逊相关度评价。「歌名」对应各用户的得分来自评价规则处理后的结果。将前两者一一对应相乘，便是「歌N*相关系数」的值。如此一来，相比于与我们不相近的人，那些与我们相近的人将会对整体评价值拥有更多的贡献。总计一行给出了所有加权评价值的总和。</p>
 <p>我们可以用总计值来计算歌曲排名，但是我们还需要考虑到，这样人数会对一首歌的得分产生正相关影响。为了避免这一问题，我们需要将总计除以相关系数总计。相关系数总计等于所有对这首歌曲有影响的用户的相关系数之和。表中最后一行就是我们所需要的结果。</p>
 </blockquote>
@@ -358,7 +358,7 @@
 <h1 id="从产品角度思考数据"><a href="#从产品角度思考数据" class="headerlink" title="从产品角度思考数据"></a>从产品角度思考数据</h1><p><a href="http://www.chanpin100.com/article/100147" target="_blank" rel="noopener">链接</a><br>行业分析、市场分析、用户群的划分和分析之外，还考虑未来的发展方向</p>
 <hr>
 <h1 id="实习经历描述"><a href="#实习经历描述" class="headerlink" title="实习经历描述"></a>实习经历描述</h1><p>腾讯 微信事业群 数据分析实习生 用户拉起方向 2019.04-2019.08 l 运用聚类算法对用户来源、拉起特征、活跃企业等属性完成了用户聚类，梳理出用户画像，找到用户拉起的增长点;通过通过漏斗分析，寻找出注册页瓶颈，找到改进措施。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119221035.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119221035.png"></p>
 <p>产品岗，做的杂：捞数据，做报表，策划，数据分析。<br>分析：互通现状。<br>任务：分析现状，梳理出下一步的方向。<br>What：现状是什么？用户增长放缓，发消息加深。<br>思路：用户群的划分→得到比例和画像→比例与市场比较，寻找空间；画像对比我们的目标企业查看问题</p>
 <ul>
 <li><p>用户群怎么划分？<br>1 活跃 62%<br>2 基于产品性质，协同12%，服务50%<br>3 服务类的 基于使用情况，公司规模 大企业10% 小企业40%</p>
@@ -855,6 +855,7 @@ if(canvas.getContext){
   
   <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

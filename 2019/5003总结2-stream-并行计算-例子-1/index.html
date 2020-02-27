@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -35,7 +35,7 @@
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -311,12 +311,12 @@
 
       
         <p>Streaming是处理数据流的API。<br>下面直接通过例子，感受streaming的机制。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123213735.png" alt=""><br><a id="more"></a></p>
-<h1 id="例1-从键盘输入文本，统计词频"><a href="#例1-从键盘输入文本，统计词频" class="headerlink" title="例1 从键盘输入文本，统计词频"></a>例1 从键盘输入文本，统计词频</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123220112.png" alt=""></p>
-<h1 id="例2-1-从文件输入，统计词频"><a href="#例2-1-从文件输入，统计词频" class="headerlink" title="例2.1 从文件输入，统计词频"></a>例2.1 从文件输入，统计词频</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123222512.png" alt=""></p>
-<h1 id="例2-2-对词的感情值排序"><a href="#例2-2-对词的感情值排序" class="headerlink" title="例2.2 对词的感情值排序"></a>例2.2 对词的感情值排序</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123230557.png" alt=""></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123213735.png"><br><a id="more"></a></p>
+<h1 id="例1-从键盘输入文本，统计词频"><a href="#例1-从键盘输入文本，统计词频" class="headerlink" title="例1 从键盘输入文本，统计词频"></a>例1 从键盘输入文本，统计词频</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123220112.png"></p>
+<h1 id="例2-1-从文件输入，统计词频"><a href="#例2-1-从文件输入，统计词频" class="headerlink" title="例2.1 从文件输入，统计词频"></a>例2.1 从文件输入，统计词频</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123222512.png"></p>
+<h1 id="例2-2-对词的感情值排序"><a href="#例2-2-对词的感情值排序" class="headerlink" title="例2.2 对词的感情值排序"></a>例2.2 对词的感情值排序</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123230557.png"></p>
 <h1 id="例2-3-stage，统计所有词频"><a href="#例2-3-stage，统计所有词频" class="headerlink" title="例2.3 stage，统计所有词频"></a>例2.3 stage，统计所有词频</h1><p>上面的例子2.1 仅仅是统计每一个输入部分的词频，意义不大<br>通过<code>updateStateByKey()</code>可以实现对所有数据的统计。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123231336.png" alt=""></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123231336.png"></p>
 <p><code>updateStateByKey()</code>需要定义一个函数，函数的输入是上次的和这次的rdd，这里的streaming的精髓，需要好好理解。</p>
 <hr>
 <h1 id="算法应用1：蓄水池抽样Reservoir-Sampling"><a href="#算法应用1：蓄水池抽样Reservoir-Sampling" class="headerlink" title="算法应用1：蓄水池抽样Reservoir Sampling"></a>算法应用1：蓄水池抽样Reservoir Sampling</h1><h2 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h2><p>蓄水池采样算法（Reservoir Sampling）了。先说一下算法的过程：</p>
@@ -328,7 +328,7 @@
 </blockquote>
 </li>
 </ul>
-<p>简单证明：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191124085220.png" alt=""></p>
+<p>简单证明：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191124085220.png"></p>
 <p>完整证明需要用到FIsher-Yates shuffle。</p>
 <h1 id="算法应用2：O-n-时间，O-1-空间，寻找Majority的元素-n-gt-N-2"><a href="#算法应用2：O-n-时间，O-1-空间，寻找Majority的元素-n-gt-N-2" class="headerlink" title="算法应用2：O(n)时间，O(1)空间，寻找Majority的元素(n&gt;N/2)"></a>算法应用2：O(n)时间，O(1)空间，寻找Majority的元素(n&gt;N/2)</h1><p>算法描述：<br>只用空间复杂度O(1)，去寻找数组内有没有出现次数大于一半的元素。</p>
 <p>算法过程：</p>
@@ -849,6 +849,7 @@ if(canvas.getContext){
   
   <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

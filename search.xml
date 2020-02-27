@@ -3,17 +3,17 @@
   <entry>
     <title>通过ssh免密部署github</title>
     <url>/2020/github-ssh/</url>
-    <content><![CDATA[<p>之前在部署博客到github page的时候每当遇到hexo deploy，都遇到了<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git@github.com: Permission denied (publickey).</span><br><span class="line">fatal: 无法读取远程仓库。</span><br><span class="line">请确认您有正确的访问权限并且仓库存在。</span><br></pre></td></tr></table></figure><br>搞的我百思不得其解，之前ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能是因为用了zsh的shell之后，和之前bash的路径不对？算了，这篇就总结一下ssh的过程。</p><a id="more"></a>
+    <content><![CDATA[<p>之前在部署博客到github page的时候每当遇到hexo deploy，遇到了<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git@github.com: Permission denied (publickey).</span><br><span class="line">fatal: 无法读取远程仓库。</span><br><span class="line">请确认您有正确的访问权限并且仓库存在。</span><br></pre></td></tr></table></figure><br>搞的我百思不得其解，ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能是因为用了zsh的shell之后，和之前bash的路径不对？算了，这篇就总结搭载ssh的过程。</p><a id="more"></a>
 <p>具体怎么搞ssh参考这篇<a href="https://blog.csdn.net/u013778905/article/details/83501204" target="_blank" rel="noopener">GitHub如何配置SSH Key</a>。</p>
 <h1 id="设置git的user-name和email"><a href="#设置git的user-name和email" class="headerlink" title="设置git的user name和email"></a>设置git的user name和email</h1><p>如果你是第一次使用，或者还没有配置过的话需要操作一下命令，自行替换相应字段。<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;xxxxxx&quot;</span><br><span class="line">git config --global user.email  &quot;xxxxx@gmail.com&quot;</span><br></pre></td></tr></table></figure><br>说明：git config —list 查看当前Git环境所有配置，还可以配置一些命令别名之类的</p>
-<h1 id="检查-生成ssh-key"><a href="#检查-生成ssh-key" class="headerlink" title="检查/生成ssh key"></a>检查/生成ssh key</h1><p>ssh key 由一个公钥(id_rsa.pub)和私钥(id_rsa)组成，构成ssh通道的安全。<br>可以通过cd ~/.ssh   然后ls  查看。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226175214.png" alt><br>上图中，我有两组ssh key。<br>如果没有，就生成一下。</p>
+<h1 id="检查-生成ssh-key"><a href="#检查-生成ssh-key" class="headerlink" title="检查/生成ssh key"></a>检查/生成ssh key</h1><p>ssh key 由一个公钥(id_rsa.pub)和私钥(id_rsa)组成，构成ssh通道的安全。<br>可以通过cd ~/.ssh   然后ls  查看。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226175214.png"><br>上图中，我有两组ssh key。<br>如果没有，就生成一下。</p>
 <blockquote>
 <p>ssh-keygen -t rsa -C “xxxxxxx@qq.com”</p>
 </blockquote>
 <h1 id="获取公钥添加到github里"><a href="#获取公钥添加到github里" class="headerlink" title="获取公钥添加到github里"></a>获取公钥添加到github里</h1><blockquote>
 <p>cat id_rsa.pub<br>然后复制到github -&gt; settting -&gt; ssh and GPG keys -&gt; new SSHkey</p>
 </blockquote>
-<p>然后拷贝进去。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226175610.png" alt></p>
+<p>然后拷贝进去。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226175610.png"></p>
 <h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><div class="note primary">
             <blockquote><p>$ ssh -T git@github.com<br>Hi ! You’ve successfully authenticated, but GitHub does not provide shell access.</p></blockquote>
           </div>
@@ -28,6 +28,9 @@
 <h2 id="测试-ssh"><a href="#测试-ssh" class="headerlink" title="测试 ssh"></a>测试 ssh</h2><p><code>ssh -T git@github.com</code><br>你会得到如下提示，表示这个ssh公钥已经获得了权限<br><code>Hi USERNAME! You&#39;ve successfully authenticated, but github does not provide shell access.</code></p>
 <p>参考：<a href="https://www.cnblogs.com/ayseeing/p/4445194.html" target="_blank" rel="noopener">https://www.cnblogs.com/ayseeing/p/4445194.html</a></p>
 ]]></content>
+      <categories>
+        <category>工程</category>
+      </categories>
       <tags>
         <tag>ssh</tag>
         <tag>github</tag>
@@ -91,7 +94,7 @@
 <h2 id="从cpu到cache的问题"><a href="#从cpu到cache的问题" class="headerlink" title="从cpu到cache的问题"></a>从cpu到cache的问题</h2><p>由于cache分三级，很有可能写入不连续。<br>–直写式  通过在写入高速缓存时更新主内存中的数据来处理此问题。<br>–回写式 将缓存cache中的数据标记为脏数据。当高速缓存行由内存中的新高速缓存行替换时，脏行将写入内存。</p>
 <h2 id="缓存映射Cache-Mapping"><a href="#缓存映射Cache-Mapping" class="headerlink" title="缓存映射Cache Mapping"></a>缓存映射Cache Mapping</h2><p>• 完全关联–可以在缓存中的任何位置放置新行。<br>• 直接映射–每条缓存行在缓存中都有一个唯一的位置，将为其分配该位置。<br>• n向集合关联–每个高速缓存行可以放置在高速缓存中n个不同位置之一中。</p>
 <h2 id="缓存逐出Cache-Eviction"><a href="#缓存逐出Cache-Eviction" class="headerlink" title="缓存逐出Cache Eviction"></a>缓存逐出Cache Eviction</h2><p>•缓存比主内存小得多。<br>•当缓存已满时，需要在内存中添加新行以替换或逐出缓存中的行。<br>•常见的缓存逐出策略包括LRU / MRU（最近最少使用/最近使用）和LFU（最近最少使用）。</p>
-<h2 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h2><p>•如果我们运行非常大的程序或访问<strong>非常大</strong>的数据集的程序，则所有指令和数据可能无法放入主存储器。<br>•虚拟内存用作<strong>辅助存储的缓存</strong>。<br>•它利用<strong>时空局部性</strong>原理。<br>•它仅将正在运行的程序的活动部分保留在主存储器中。<br>•<strong>交换空间Swap space</strong>–辅助存储区，用于保持非活动（部分）正在运行的程序。<br>•<strong>虚拟的页page</strong>–数据和指令块。大多数系统具有固定的页面大小，当前范围为4到16 KB。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226170253.png" alt></p>
+<h2 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h2><p>•如果我们运行非常大的程序或访问<strong>非常大</strong>的数据集的程序，则所有指令和数据可能无法放入主存储器。<br>•虚拟内存用作<strong>辅助存储的缓存</strong>。<br>•它利用<strong>时空局部性</strong>原理。<br>•它仅将正在运行的程序的活动部分保留在主存储器中。<br>•<strong>交换空间Swap space</strong>–辅助存储区，用于保持非活动（部分）正在运行的程序。<br>•<strong>虚拟的页page</strong>–数据和指令块。大多数系统具有固定的页面大小，当前范围为4到16 KB。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226170253.png"></p>
 <h2 id="虚拟页码"><a href="#虚拟页码" class="headerlink" title="虚拟页码"></a>虚拟页码</h2><p>•编译程序时，其页面为分配的虚拟页码。<br>•运行程序时，将创建一个表，该表将虚拟页码映射到物理地址。<br>•页表用于将虚拟地址转换为物理地址。</p>
 <h2 id="转换后备缓冲器（Translation-lookaside-buffer-TLB）"><a href="#转换后备缓冲器（Translation-lookaside-buffer-TLB）" class="headerlink" title="转换后备缓冲器（Translation-lookaside buffer TLB）"></a>转换后备缓冲器（Translation-lookaside buffer TLB）</h2><p>•使用页表有可能显着增加每个程序的整体运行时间。<br>•TLB是处理器中的特殊地址转换缓存。<br>•它在非常<strong>快的内存中从页表中缓存了少量条目</strong>（通常为16–512）。<br>•页面错误–尝试访问页面表中页面的有效物理地址，但该页面仅存储在磁盘上。</p>
 <h2 id="指令级并行（Instruction-Level-Parallelism-ILP）"><a href="#指令级并行（Instruction-Level-Parallelism-ILP）" class="headerlink" title="指令级并行（Instruction Level Parallelism ILP）"></a>指令级并行（Instruction Level Parallelism ILP）</h2><p>•试图通过使多个处理器组件或功能单元同时执行指令来提高处理器性能。<br>•流水线Pipelining-功能单元是分阶段安排的。<br>•多个问题-可以同时启动多个指令。</p>
@@ -124,7 +127,7 @@
 \begin{aligned} T(n) & \leq T(n / 2)+O(1) \\ & \leq T(n / 4)+O(1)+O(1) \\ & \leq T\left(n / 2^{k}\right)+k \cdot O(1) \end{aligned}</script><p>k可以人为指定成log2(n)</p>
 <script type="math/tex; mode=display">
 \begin{aligned} T(n) & \leq T(1)+\log _{2} n \cdot O(1) \\ &=O(1)+O(\log n) \\ &=O(\log n) \end{aligned}</script><h1 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h1><p>又到了经典的排序环节，直接引用我觉得写得最完整的两个博文<a href="https://www.cnblogs.com/onepixel/articles/7674659.html" target="_blank" rel="noopener">十大排序动图演示</a><br><a href="https://leetcode.com/problems/sort-an-array/discuss/276916/Python-bubble-insertion-selection-quick-merge-heap-objects" target="_blank" rel="noopener">python十大排序</a> </p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200225022848.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200225022848.png"></p>
 <p>课上跳过了最简单的主要讲了O(nlogn)的三个，并归，快速，堆。</p>
 <h2 id="并归merge"><a href="#并归merge" class="headerlink" title="并归merge"></a>并归merge</h2><p>简单的dc思路，先对数组分成两半，左右各自排序，然后用两个指针同时扫一遍，合起来。<br>这个过程递归到，两半只有一个元素的时候，就可以了。</p>
 <ul>
@@ -154,18 +157,18 @@
 <h3 id="插入节点："><a href="#插入节点：" class="headerlink" title="插入节点："></a>插入节点：</h3><blockquote>
 <p>插入到完全二叉树的最后<br>如果有父节点&amp;&amp;父节点比自己小：<br>——-两个节点交换位置</p>
 </blockquote>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226151338.png" alt><br>移动次数=层数 所以插入的时间复杂度O(log n)</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226151338.png"><br>移动次数=层数 所以插入的时间复杂度O(log n)</p>
 <h3 id="删除节点："><a href="#删除节点：" class="headerlink" title="删除节点："></a>删除节点：</h3><blockquote>
 <p>删除根节点，让末尾最大的值成为新的根节点<br>如果有子节点&amp;&amp;子节点比自己小：<br>——-选择子节点中小的那个，两个节点交换位置</p>
 </blockquote>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226151835.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226151835.png"></p>
 <p>移动次数=层数 所以删除的时间复杂度O(log n)</p>
 <h3 id="完全二叉树和数值的索引对应关系"><a href="#完全二叉树和数值的索引对应关系" class="headerlink" title="完全二叉树和数值的索引对应关系"></a>完全二叉树和数值的索引对应关系</h3><p>父节点 i 找子节点：2i+1 , 2i+2<br>子节点找父节点： [(i-1)/2]   向下取整<br><figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="comment"># @heapSort</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">heapSort</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">heapify</span><span class="params">(nums, n, i)</span>:</span> </span><br><span class="line">         largest = i</span><br><span class="line">         l = <span class="number">2</span> * i + <span class="number">1</span></span><br><span class="line">         r = <span class="number">2</span> * i + <span class="number">2</span></span><br><span class="line">         </span><br><span class="line">         <span class="keyword">if</span> l &lt; n <span class="keyword">and</span> nums[i] &lt; nums[l]: </span><br><span class="line">             largest = l </span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span> r &lt; n <span class="keyword">and</span> nums[largest] &lt; nums[r]: </span><br><span class="line">             largest = r </span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span> largest != i: </span><br><span class="line">             nums[i], nums[largest] = nums[largest], nums[i]</span><br><span class="line">             </span><br><span class="line">             heapify(nums, n, largest)</span><br><span class="line">             </span><br><span class="line">     n = len(nums) </span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span> i <span class="keyword">in</span> range(n, <span class="number">-1</span>, <span class="number">-1</span>): </span><br><span class="line">         heapify(nums, n, i) </span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span> i <span class="keyword">in</span> range(n<span class="number">-1</span>, <span class="number">0</span>, <span class="number">-1</span>): </span><br><span class="line">         nums[i], nums[<span class="number">0</span>] = nums[<span class="number">0</span>], nums[i]</span><br><span class="line">         heapify(nums, i, <span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
 <h1 id="二叉搜索树-BST博客"><a href="#二叉搜索树-BST博客" class="headerlink" title="二叉搜索树 BST博客"></a>二叉搜索树 <a href="https://blog.csdn.net/csdn0123zl/article/details/81253648" target="_blank" rel="noopener">BST博客</a></h1><ul>
 <li>Def: 任何一个节点，小于右子节点，大于左子节点<br>条件不够苛刻，二叉搜索树不唯一。</li>
 </ul>
-<h2 id="节点的后继："><a href="#节点的后继：" class="headerlink" title="节点的后继："></a>节点的后继：</h2><p>大于这个节点的最小的值。<br>分两种情况，如果这个节点x有右子树，那么这个继承者就是右子树的最小值。<br>如果没有右子树，那么就是这个节点一直往上，第一个向右走的父节点。<br>如图。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160114.png" alt><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160138.png" alt></p>
-<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入很简单，就和查找一样，找到一个位置塞进去就好了。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160354.png" alt></p>
+<h2 id="节点的后继："><a href="#节点的后继：" class="headerlink" title="节点的后继："></a>节点的后继：</h2><p>大于这个节点的最小的值。<br>分两种情况，如果这个节点x有右子树，那么这个继承者就是右子树的最小值。<br>如果没有右子树，那么就是这个节点一直往上，第一个向右走的父节点。<br>如图。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160114.png"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160138.png"></p>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入很简单，就和查找一样，找到一个位置塞进去就好了。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160354.png"></p>
 <h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p>删除分情况</p>
 <ol>
 <li>如果0个孩子，直接删</li>
@@ -248,9 +251,9 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 -\sum_{i=1}^{N} \log \left(\frac{\exp \left(W_{k(i)} \cdot x^{(i)}\right)}{\sum_{c=1}^{C} \exp \left(W_{c} \cdot x^{(i)}\right)}\right)</script><blockquote>
 <p>括号里就是对于每一个样本x的预测值概率大小，所有都猜对的话，概率是1，整体损失就是0；当没猜对，概率在0-1，-log(0. xxx)就是很小，损失就多。</p>
 </blockquote>
-<p>一般的ML问题中，参数由权值矩阵的列组成维度不会太大。而在词向量或其他深度学习中，需要同时学习权值矩阵和词向量。参数一多，就容易过拟合：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222013518.png" alt></p>
-<h1 id="神经元的本质"><a href="#神经元的本质" class="headerlink" title="神经元的本质"></a>神经元的本质</h1><p>如果损失函数用sigmoid，单个神经元就是逻辑回归：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222014539.png" alt></p>
-<p>而神经网络，就是多个逻辑回归同时计算，如图：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222014651.png" alt><br>上图就是四个逻辑回归(经过4次激活函数)</p>
+<p>一般的ML问题中，参数由权值矩阵的列组成维度不会太大。而在词向量或其他深度学习中，需要同时学习权值矩阵和词向量。参数一多，就容易过拟合：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222013518.png"></p>
+<h1 id="神经元的本质"><a href="#神经元的本质" class="headerlink" title="神经元的本质"></a>神经元的本质</h1><p>如果损失函数用sigmoid，单个神经元就是逻辑回归：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222014539.png"></p>
+<p>而神经网络，就是多个逻辑回归同时计算，如图：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222014651.png"><br>上图就是四个逻辑回归(经过4次激活函数)</p>
 <h1 id="Named-Entity-Recognition-NER"><a href="#Named-Entity-Recognition-NER" class="headerlink" title="Named Entity Recognition (NER)"></a>Named Entity Recognition (NER)</h1><p>实体识别就是把句子里的实物名字找出来，并且进行分类，比如说组织单位，个人名字，电器名字，软件名字，地点之类的。<br>用途：</p>
 <ul>
 <li>定位前文的主语</li>
@@ -264,20 +267,20 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 </blockquote>
 <h1 id="窗口单词分类Binary-word-window-classification"><a href="#窗口单词分类Binary-word-window-classification" class="headerlink" title="窗口单词分类Binary word window classification"></a>窗口单词分类Binary word window classification</h1><p>单独对于一个单词分类很难，所以简单思路就是取前后的四五个单词窗口，取平均（或者把向量串起来），然后再进行分类。</p>
 <p>但是有一个问题，平均会丢失单词在窗口里的位置。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222214054.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222214054.png"></p>
 <p>对于位置问题，可以通过打分来解决（回归）。让位置在中间的样本y高，不在中间的样本（打乱顺序）对应的yscore低。如图。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222214634.png" alt></p>
-<h1 id="间隔最大化目标函数"><a href="#间隔最大化目标函数" class="headerlink" title="间隔最大化目标函数"></a>间隔最大化目标函数</h1><p>这里上课老师跳过了，没看懂先挖个坑<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222215915.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222214634.png"></p>
+<h1 id="间隔最大化目标函数"><a href="#间隔最大化目标函数" class="headerlink" title="间隔最大化目标函数"></a>间隔最大化目标函数</h1><p>这里上课老师跳过了，没看懂先挖个坑<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222215915.png"></p>
 <h1 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h1><p>求导，链式法则，老生常谈了。</p>
 <p>关注一下矩阵的求导：</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222220647.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222220647.png"></p>
 <p>对于一个m输出，n输入的函数，求导就是对于m行，每行求对应位置输入x_j的导数。</p>
-<p>n个输入n个输出：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222221411.png" alt><br>所以，可以得到一个只有对角线元素上有导数，其他位置为0的矩阵。</p>
-<p>所以，最后可以得到s（最后的分数）对b(线性计算加的那个偏置)的导数：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222222311.png" alt></p>
-<p>上图中，如果同时对w和b求导可以发现：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222222558.png" alt></p>
+<p>n个输入n个输出：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222221411.png"><br>所以，可以得到一个只有对角线元素上有导数，其他位置为0的矩阵。</p>
+<p>所以，最后可以得到s（最后的分数）对b(线性计算加的那个偏置)的导数：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222222311.png"></p>
+<p>上图中，如果同时对w和b求导可以发现：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222222558.png"></p>
 <p>观察出，b的导数就是信号的损失</p>
 <p>上图第一行，z对w的求导就是x。所以可以得到s对于w的导数，其实就是delt损失和x相乘。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222223106.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222223106.png"></p>
 <p>所以导数也是n*m的。</p>
 <blockquote>
 <p>这里没讲完就下课了…，主要是想展示计算过程吧。</p>
@@ -296,7 +299,7 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
     <content><![CDATA[<h1 id="CS224n-2-word2vec-word-Senses"><a href="#CS224n-2-word2vec-word-Senses" class="headerlink" title="CS224n-2 word2vec, word Senses"></a>CS224n-2 word2vec, word Senses</h1><p>这节课我不按课堂讲的，引用一篇<a href="https://www.jianshu.com/p/a6bc14323d77" target="_blank" rel="noopener">博客</a></p><h1 id="word-vectors-and-word2vec"><a href="#word-vectors-and-word2vec" class="headerlink" title="word vectors and word2vec"></a>word vectors and word2vec</h1><h2 id="代表技术之一-word2vec"><a href="#代表技术之一-word2vec" class="headerlink" title="代表技术之一 word2vec"></a>代表技术之一 word2vec</h2><p>2013年，Google团队发表了word2vec工具 [1]。word2vec工具主要包含两个模型：跳字模型（skip-gram）和连续词袋模型（continuous bag of words，简称CBOW），以及两种近似训练法：负采样（negative sampling）和层序softmax（hierarchical softmax）。值得一提的是，word2vec的词向量可以较好地表达不同词之间的相似和类比关系。</p><a id="more"></a>
 
 <p>word2vec自提出后被广泛应用在自然语言处理任务中。它的模型和训练方法也启发了很多后续的词嵌入模型。本节将重点介绍word2vec的模型和训练方法。</p>
-<h2 id="Skip-gram模型（跳字模型）："><a href="#Skip-gram模型（跳字模型）：" class="headerlink" title="Skip-gram模型（跳字模型）："></a>Skip-gram模型（跳字模型）：</h2><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208213903.png" alt><br>Skip-gram</p>
+<h2 id="Skip-gram模型（跳字模型）："><a href="#Skip-gram模型（跳字模型）：" class="headerlink" title="Skip-gram模型（跳字模型）："></a>Skip-gram模型（跳字模型）：</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208213903.png"><br>Skip-gram</p>
 <p>在跳字模型中，我们用一个词来预测它在文本序列周围的词。</p>
 <p>举个例子，假设文本序列是：</p>
 <blockquote>
@@ -307,29 +310,29 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p>由于“you”只生成与它距离不超过2的背景词，该<strong>时间窗口的大小为2</strong>[与N-gram类似]。</p>
 <p>我们来描述一下跳字模型[用最大似然估计的思想]：</p>
 <p>假设词典索引集V的大小为|V|，且{0,1,…,|V|−1}。给定一个长度为T的文本序列中，文本序列中第t的词为w(t)。当时间窗口大小为m时，跳字模型需要<strong>最大化给定任一中心词生成所有背景词的概率：</strong></p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208213949.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208213949.png"></p>
 <p>上式的<strong>最大似然估计</strong>与<strong>最小化以下损失函数</strong>等价：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1803066-6089ead7ce1ea503.png?imageMogr2/auto-orient/strip|imageView2/2/w/720/format/webp" alt></p>
+<p><img alt data-src="https://upload-images.jianshu.io/upload_images/1803066-6089ead7ce1ea503.png?imageMogr2/auto-orient/strip|imageView2/2/w/720/format/webp"></p>
 <p>我们可以用<strong>v</strong>和<strong>u</strong>分别表示 <strong>中心词</strong> 和 <strong>背景词</strong> 的向量。</p>
 <p>换言之，对于词典中索引为i的词，它在作为中心词和背景词时的向量表示分别是vi和ui。而词典中所有词的这两种向量正是跳字模型所要学习的模型参数。为了将模型参数植入损失函数，我们需要使用模型参数表达损失函数中的给定中心词生成背景词的条件概率。给定中心词，假设生成各个背景词是相互独立的。设中心词wc在词典中索引为c，背景词wo在词典中索引为o，损失函数中的给定中心词生成背景词的<strong>条件概率</strong>可以通过softmax函数定义为：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1803066-69d819ac1e385080.png?imageMogr2/auto-orient/strip|imageView2/2/w/662/format/webp" alt></p>
+<p><img alt data-src="https://upload-images.jianshu.io/upload_images/1803066-69d819ac1e385080.png?imageMogr2/auto-orient/strip|imageView2/2/w/662/format/webp"></p>
 <blockquote>
 <p>上式：给定任何一个中心词Wc，产生背景词Wo的概率</p>
 <p>每一个词，在模型中有两个词向量，一个是作为中心词时的词向量，一个是作为背景词时的词向量</p>
 </blockquote>
 <p><strong>利用随机梯度下降求解：</strong></p>
 <p>当序列长度T较大时，我们通常在每次迭代时随机采样一个较短的子序列来计算有关该子序列的损失。然后，根据该损失计算词向量的梯度并迭代词向量。具体算法可以参考<a href="https://links.jianshu.com/go?to=http%3A%2F%2Fzh.gluon.ai%2Fchapter_optimization%2Fgd-sgd-scratch.html" target="_blank" rel="noopener">“梯度下降和随机梯度下降——从零开始”</a>一节。 作为一个具体的例子，下面我们看看如何计算随机采样的子序列的损失有关中心词向量的梯度。和上面提到的长度为T的文本序列的损失函数类似，随机采样的子序列的损失实际上是对子序列中给定中心词生成背景词的条件概率的对数求平均。通过微分，我们可以得到上式中条件概率的对数有关中心词向量vc的<strong>梯度：</strong>  </p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215618.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215618.png"></p>
 <p><strong>该式也可改写作：</strong></p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215642.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215642.png"></p>
 <blockquote>
 <p>上面的迭代更新计算开销太大！！每次都需要遍历整个字典，对应的解决方案在后面（这也是word2vec为啥这么牛逼的原因…厉害的不是这个工具本身，而是一种思想的应用）</p>
 </blockquote>
 <p>随机采样的子序列有关其他词向量的梯度同理可得。训练模型时，每一次迭代实际上是用这些梯度来迭代子序列中出现过的中心词和背景词的向量。训练结束后，对于词典中的任一索引为i的词，我们均得到该词作为中心词和背景词的两组词向量vi和ui。在自然语言处理应用中，我们会使用跳字模型的中心词向量。</p>
-<h4 id="求梯度过程"><a href="#求梯度过程" class="headerlink" title="求梯度过程"></a>求梯度过程</h4><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208220835.png" alt></p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208220909.png" alt><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208220919.png" alt><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208220926.png" alt></p>
+<h4 id="求梯度过程"><a href="#求梯度过程" class="headerlink" title="求梯度过程"></a>求梯度过程</h4><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208220835.png"></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208220909.png"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208220919.png"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208220926.png"></p>
 <hr>
-<h3 id="CBOW-连续词袋模型"><a href="#CBOW-连续词袋模型" class="headerlink" title="CBOW(连续词袋模型)"></a>CBOW(连续词袋模型)</h3><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215727.png" alt></p>
+<h3 id="CBOW-连续词袋模型"><a href="#CBOW-连续词袋模型" class="headerlink" title="CBOW(连续词袋模型)"></a>CBOW(连续词袋模型)</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215727.png"></p>
 <p>CBOW</p>
 <p>连续词袋模型与跳字模型类似,与跳字模型最大的不同是：</p>
 <p>连续词袋模型用一个中心词在文本序列周围的词来预测该中心词。</p>
@@ -339,14 +342,14 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 </blockquote>
 <p>连续词袋模型所关心的是，邻近词“I”、“love”、“very”和“much”一起生成中心词“you”的概率。</p>
 <p>假设词典索引集的大小为V，且V={0,1,…,|V|−1}&lt;/nobr&gt;。给定一个长度为T的文本序列中，文本序列中第t个词为wu(t)。当时间窗口大小为m时，连续词袋模型需要最大化由背景词生成任一中心词的概率</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215738.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215738.png"></p>
 <p>上式的最大似然估计与最小化以下损失函数等价：</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215749.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215749.png"></p>
 <p>我们可以用<strong>v</strong>和<strong>u</strong>分别表示背景词和中心词的向量（注意符号和跳字模型中的不同）。换言之，对于词典中索引为i的词，它在作为背景词和中心词时的向量表示分别是vi和ui。而词典中所有词的这两种向量正是连续词袋模型所要学习的模型参数。为了将模型参数植入损失函数，我们需要使用模型参数表达损失函数中的给定背景词生成中心词的概率。设中心词wc在词典中索引为c，背景词wo1、wo2、…wo2m在词典中索引为o1、o2、….o2m-1、o2m，损失函数中的给定背景词生成中心词的概率可以通过softmax函数定义为</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215805.png" alt></p>
-<p>和跳字模型一样，当序列长度T较大时，我们通常在每次迭代时随机采样一个较短的子序列来计算有关该子序列的损失。然后，根据该损失计算词向量的梯度并迭代词向量。 通过微分，我们可以计算出上式中条件概率的对数有关任一背景词向量voi(i=1,2,….2m)的梯度为：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208221019.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208215805.png"></p>
+<p>和跳字模型一样，当序列长度T较大时，我们通常在每次迭代时随机采样一个较短的子序列来计算有关该子序列的损失。然后，根据该损失计算词向量的梯度并迭代词向量。 通过微分，我们可以计算出上式中条件概率的对数有关任一背景词向量voi(i=1,2,….2m)的梯度为：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208221019.png"></p>
 <p>该式也可写作</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208221029.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208221029.png"></p>
 <p>随机采样的子序列有关其他词向量的梯度同理可得。和跳字模型一样，训练结束后，对于词典中的任一索引为i的词，我们均得到该词作为背景词和中心词的两组词向量vi和ui。<br>在自然语言处理应用中，我们会使用连续词袋模型的背景词向量。</p>
 <hr>
 <h1 id="近似训练法"><a href="#近似训练法" class="headerlink" title="近似训练法"></a>近似训练法</h1><p>我们可以看到，无论是skip-gram(跳字模型)还是CBOW(连续词袋模型)，每一步梯度计算的开销与词典V的大小相关。</p>
@@ -357,39 +360,39 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <h2 id="1-负采样（Negative-Sample）"><a href="#1-负采样（Negative-Sample）" class="headerlink" title="(1)负采样（Negative Sample）"></a>(1)负采样（Negative Sample）</h2><p>我们以跳字模型为例讨论负采样。</p>
 <p>实际上，词典V的大小之所以会在损失中出现，是因为给定中心词$w_c$生成背景词wo的条件概率$P(w_0∣w_c)$</p>
 <blockquote>
-<p>使用了softmax运算，而softmax运算正是<strong>考虑了背景词可能是词典中的任一词（使用了全部词）</strong>，并体现在分母上。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224459.png" alt></p>
+<p>使用了softmax运算，而softmax运算正是<strong>考虑了背景词可能是词典中的任一词（使用了全部词）</strong>，并体现在分母上。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224459.png"></p>
 </blockquote>
 <p>下面，我们可以使用σ(x)=1/(1+exp(−x))函数来表达中心词wc和背景词wo同时出现在该训练数据窗口的概率。</p>
 <blockquote>
-<p>σ(x)属于[0,1]<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224516.png" alt></p>
+<p>σ(x)属于[0,1]<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224516.png"></p>
 </blockquote>
-<p>那么，给定中心词wc生成背景词wo的条件概率的对数可以近似为:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224525.png" alt></p>
+<p>那么，给定中心词wc生成背景词wo的条件概率的对数可以近似为:<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224525.png"></p>
 <p>[上式的含义：中心词wc与背景词wo同时出(D=1)现概率，且中心词wc与噪音词wk不同时出现(D=0)的概率。]</p>
 <p>假设噪声词wk在词典中的索引为ik，上式可改写为:</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224609.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224609.png"></p>
 <p>因此，有关给定中心词wc生成背景词wo的损失是:</p>
 <p>假设词典V很大，每次迭代的计算开销由O(|V|)变为O(|K|)。当我们把K取较小值时，负采样每次迭代的计算开销将较小。</p>
-<p>当然，我们也可以对连续词袋模型进行负采样。有关给定背景词<br>wt-m、wt-m+1、…、wt+m生成中心词wc的损失:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224615.png" alt></p>
+<p>当然，我们也可以对连续词袋模型进行负采样。有关给定背景词<br>wt-m、wt-m+1、…、wt+m生成中心词wc的损失:<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224615.png"></p>
 <p>在负采样中可以近似为:</p>
-<p>  <img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224627.png" alt></p>
+<p>  <img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224627.png"></p>
 <p>同样，当我们把K取较小值时，负采样每次迭代的计算开销将较小。</p>
 <h2 id="2-层序softmax"><a href="#2-层序softmax" class="headerlink" title="(2)层序softmax[]"></a>(2)层序softmax[]</h2><p>层序softmax是另一种常用的近似训练法。它利用了二叉树这一数据结构。树的每个叶子节点代表着词典V中的每个词。  </p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224641.png" alt></p>
-<p>假设L(w)为从二叉树的根节点到词w&lt;的叶子节点的路径（包括根和叶子节点）上的节点数。设n(w,j)为该路径上第j个节点，并设该节点的向量为un(w,j)。以上图为例：L(w3)=4。设词典中的词wi的词向量为vi。那么，跳字模型和连续词袋模型所需要计算的给定词wi生成词w的条件概率为：<img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224651.png" alt><br>其中σ(x)=1/(1+exp(−x))，leftChild(n)是节点n的左孩子节点，如果判断x为真，[x]=1；反之[x]=−1。由于σ(x)+σ(−x)=1，给定词wi生成词典V中任一词的条件概率之和为1这一条件也将满足：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224729.png" alt></p>
-<p>让我们计算给定词wi生成词w3的条件概率。我们需要将wi的词向量vi和根节点到w3路径上的非叶子节点向量一一求内积。由于在二叉树中由根节点到叶子节点w3的路径上需要向左、向右、再向左地遍历，我们得到:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224736.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224641.png"></p>
+<p>假设L(w)为从二叉树的根节点到词w&lt;的叶子节点的路径（包括根和叶子节点）上的节点数。设n(w,j)为该路径上第j个节点，并设该节点的向量为un(w,j)。以上图为例：L(w3)=4。设词典中的词wi的词向量为vi。那么，跳字模型和连续词袋模型所需要计算的给定词wi生成词w的条件概率为：<img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224651.png"><br>其中σ(x)=1/(1+exp(−x))，leftChild(n)是节点n的左孩子节点，如果判断x为真，[x]=1；反之[x]=−1。由于σ(x)+σ(−x)=1，给定词wi生成词典V中任一词的条件概率之和为1这一条件也将满足：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224729.png"></p>
+<p>让我们计算给定词wi生成词w3的条件概率。我们需要将wi的词向量vi和根节点到w3路径上的非叶子节点向量一一求内积。由于在二叉树中由根节点到叶子节点w3的路径上需要向左、向右、再向左地遍历，我们得到:<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208224736.png"></p>
 <blockquote>
 <p><strong>整个遍历的路径已经通过Huffman编码唯一的确定了</strong></p>
 </blockquote>
 <p>在使用softmax的跳字模型和连续词袋模型中，词向量和二叉树中非叶子节点向量是需要学习的模型参数。</p>
 <p>假设词典V很大，每次迭代的计算开销由O(|V|)下降至O(log2|V|)。</p>
 <p>推荐资料：<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2Fx-hacker%2FWordEmbedding" target="_blank" rel="noopener">学习word2vec的经典资料</a></p>
-<h1 id="SVD"><a href="#SVD" class="headerlink" title="SVD"></a>SVD</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208225228.png" alt></p>
+<h1 id="SVD"><a href="#SVD" class="headerlink" title="SVD"></a>SVD</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208225228.png"></p>
 <p>分解矩阵，就可以得到embedding，和推荐系统的思路一样。SVD也存在维数问题，以及矩阵分解的困难。</p>
-<h1 id="GloVe算法-基于局部和全局"><a href="#GloVe算法-基于局部和全局" class="headerlink" title="GloVe算法-基于局部和全局"></a>GloVe算法-基于局部和全局</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208225801.png" alt><br>比较SVD这种count based模型与Word2Vec这种direct prediction模型，它们各有优缺点：Count based模型优点是训练快速，并且有效的利用了统计信息，缺点是对于高频词汇较为偏向，并且仅能概括词组的相关性，而且有的时候产生的word vector对于解释词的含义如word analogy等任务效果不好；Direct Prediction优点是可以概括比相关性更为复杂的信息，进行word analogy等任务时效果较好，缺点是对统计信息利用的不够充分。所以Manning教授他们想采取一种方法可以结合两者的优势，并将这种算法命名为GloVe（Global Vectors的缩写），表示他们可以有效的利用全局的统计信息。</p>
+<h1 id="GloVe算法-基于局部和全局"><a href="#GloVe算法-基于局部和全局" class="headerlink" title="GloVe算法-基于局部和全局"></a>GloVe算法-基于局部和全局</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208225801.png"><br>比较SVD这种count based模型与Word2Vec这种direct prediction模型，它们各有优缺点：Count based模型优点是训练快速，并且有效的利用了统计信息，缺点是对于高频词汇较为偏向，并且仅能概括词组的相关性，而且有的时候产生的word vector对于解释词的含义如word analogy等任务效果不好；Direct Prediction优点是可以概括比相关性更为复杂的信息，进行word analogy等任务时效果较好，缺点是对统计信息利用的不够充分。所以Manning教授他们想采取一种方法可以结合两者的优势，并将这种算法命名为GloVe（Global Vectors的缩写），表示他们可以有效的利用全局的统计信息。</p>
 <p>那么如何有效的利用word-word co-occurrence count并能学习到词语背后的含义呢？首先为表述问题简洁需要，先定义一些符号：对于矩阵X，$X_{ij}$代表了单词 i 出现在单词 j 上下文中的次数，则$X_i=\sum_k X_{ij}$<br> 即代表所有出现在单词 i 的上下文中的单词次数。我们用$P_{i j}=P(j | i)=\frac{X_{i j}}{X_{i}}$来代表单词 j 出现在单词 i 上下文中的概率。</p>
-<p>我们用一个小例子来解释如何利用co-occurrence probability来表示词汇含义：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208225816.png" alt><br>例如我们想区分热力学上两种不同状态ice冰与蒸汽steam，它们之间的关系可通过与不同的单词 [公式] 的co-occurrence probability 的比值来描述，例如对于solid固态，虽然 $P(solidice)$ 与 $P(solid∣steam)$本身很小，不能透露有效的信息，但是它们的比值$\frac{P(solid|ice)} {P(solid|steam)}$ 却较大，因为solid更常用来描述ice的状态而不是steam的状态，所以在ice的上下文中出现几率较大，对于gas则恰恰相反，而对于water这种描述ice与steam均可或者fashion这种与两者都没什么联系的单词，则比值接近于1。所以相较于单纯的co-occurrence probability，实际上co-occurrence probability的相对比值更有意义。</p>
-<p>通过定义如下的损失函数：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208230330.png" alt></p>
-<p>优点是训练快，小数据集表现好。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208233632.png" alt></p>
+<p>我们用一个小例子来解释如何利用co-occurrence probability来表示词汇含义：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208225816.png"><br>例如我们想区分热力学上两种不同状态ice冰与蒸汽steam，它们之间的关系可通过与不同的单词 [公式] 的co-occurrence probability 的比值来描述，例如对于solid固态，虽然 $P(solidice)$ 与 $P(solid∣steam)$本身很小，不能透露有效的信息，但是它们的比值$\frac{P(solid|ice)} {P(solid|steam)}$ 却较大，因为solid更常用来描述ice的状态而不是steam的状态，所以在ice的上下文中出现几率较大，对于gas则恰恰相反，而对于water这种描述ice与steam均可或者fashion这种与两者都没什么联系的单词，则比值接近于1。所以相较于单纯的co-occurrence probability，实际上co-occurrence probability的相对比值更有意义。</p>
+<p>通过定义如下的损失函数：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208230330.png"></p>
+<p>优点是训练快，小数据集表现好。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208233632.png"></p>
 ]]></content>
       <categories>
         <category>CS224n</category>
@@ -408,13 +411,13 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <h1 id="The-course-10-mins"><a href="#The-course-10-mins" class="headerlink" title="The course (10 mins)"></a>The course (10 mins)</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>自然语言处理（NLP）</strong>是计算科学、AI、语言学的交叉学科，其目的是为了让机器能够处理或者是“理解”自然语言，比如可以通过说话让机器为我们定会议、买东西。机器完全理解是不大可能的，完全理解基本等同于AI完全实现了。</p>
 <h2 id="如何表示词义？"><a href="#如何表示词义？" class="headerlink" title="如何表示词义？"></a>如何表示词义？</h2><ul>
 <li><p>Def：meaning：就是人写的，说的，短语句子符号来表达的想法</p>
-<h2 id="如何用计算机表达词义？"><a href="#如何用计算机表达词义？" class="headerlink" title="如何用计算机表达词义？"></a>如何用计算机表达词义？</h2><h3 id="WordNet："><a href="#WordNet：" class="headerlink" title="WordNet："></a>WordNet：</h3><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165156.png" alt></p>
+<h2 id="如何用计算机表达词义？"><a href="#如何用计算机表达词义？" class="headerlink" title="如何用计算机表达词义？"></a>如何用计算机表达词义？</h2><h3 id="WordNet："><a href="#WordNet：" class="headerlink" title="WordNet："></a>WordNet：</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165156.png"></p>
 <p>WordNet是人为的收录了近义词和相似词。<br>存在的问题是：没办法统计到细微差别；没有新词；需要人为的统计输入；不能计算相似度；依赖生成词库的主观。</p>
 </li>
 </ul>
-<h3 id="把词当做离散变量one-hot"><a href="#把词当做离散变量one-hot" class="headerlink" title="把词当做离散变量one-hot"></a>把词当做离散变量one-hot</h3><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165732.png" alt></p>
+<h3 id="把词当做离散变量one-hot"><a href="#把词当做离散变量one-hot" class="headerlink" title="把词当做离散变量one-hot"></a>把词当做离散变量one-hot</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165732.png"></p>
 <p> 存在的问题是：词库长度太大；不能计算相似度；</p>
-<h3 id="通过上下文表示"><a href="#通过上下文表示" class="headerlink" title="通过上下文表示"></a>通过上下文表示</h3><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208170015.png" alt><br>通过上下文的思路，可以引出主流方法Word vectors（word embeddings or word representations）。<br>每一个词对应一个N维度的向量，N一般几百维。</p>
+<h3 id="通过上下文表示"><a href="#通过上下文表示" class="headerlink" title="通过上下文表示"></a>通过上下文表示</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208170015.png"><br>通过上下文的思路，可以引出主流方法Word vectors（word embeddings or word representations）。<br>每一个词对应一个N维度的向量，N一般几百维。</p>
 <h1 id="Word2vec"><a href="#Word2vec" class="headerlink" title="Word2vec"></a>Word2vec</h1><p>从2013年开始有了Word2vec，如何生成向量的方法逐渐出现。</p>
 <p>思路：</p>
 <ul>
@@ -424,11 +427,11 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <li>通过计算每个词向量和周围词向量出现的概率</li>
 <li>调整词向量，让概率最大</li>
 </ul>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171649.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171649.png"></p>
 <p>目标函数：</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171826.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171826.png"></p>
 <p>理解：这里就是对于语料(Data)的每个词t，对应前后j位置的词，是词a和词b的概率P，都乘起来。（这里还是很有统计色彩的)</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208172914.png" alt><br>注意：这里需要维护两套向量，一套是中间的，一套是周围的。</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208172914.png"><br>注意：这里需要维护两套向量，一套是中间的，一套是周围的。</p>
 <p>其他的都是一些微积分和优化的知识，不做记录了。</p>
 ]]></content>
       <categories>
@@ -460,16 +463,16 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <li>FM<br>$y=w_{0}+\sum_{i=1}^{n} w_{i} x_{i}+\sum_{i=1}^{n} \sum_{j=i+1}^{n}<v_{i}, v_{j}>x_{i} x_{j}$</v_{i},></li>
 </ul>
 <p>这里，辅助向量V的长度K一般是远远小于n的，所以参数量从$\frac{n(n-1)}{2}$个变成了$nk$，参数量降低，而且每一个向量V也表示了x的一个维度，有更好的解释性，<strong>本质上是在对特征进行embedding</strong>。且时间复杂度降为O(kN).</p>
-<p>时间复杂度化简后方可看出：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200129213611.png" alt></p>
+<p>时间复杂度化简后方可看出：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200129213611.png"></p>
 <h1 id="FFM-Field-aware-Factorization-Machines"><a href="#FFM-Field-aware-Factorization-Machines" class="headerlink" title="FFM(Field-aware Factorization Machines)"></a>FFM(Field-aware Factorization Machines)</h1><p>FFM是FM的升级版模型，引入了field的概念。FFM把相同性质的特征归于同一个field。在FFM中，每一维特征$x_i$，针对每一种field $f_j$，都会学习到一个隐向量$V_{i,f_j}$，因此，隐向量不仅与特征相关，也与field相关。</p>
 <p>设样本一共有n个特征, f 个field，那么FFM的二次项有nf个隐向量。而在FM模型中，每一维特征的隐向量只有一个。FM可以看做FFM的特例，即把所有特征都归属到同一个field中。</p>
 <p>$y = w_0 + \Sigma_{i=1}^{n}w_{i} x_{i} + \Sigma_{i=1}^{n}\Sigma_{j=i+1}^{n}<v_{i,f_{j}}, v_{j,f_{i}}>x_{i}x_{j}$</v_{i,f_{j}},></p>
-<p>如果隐向量的长度为k，那么FFM的二次项参数数量为nfk，远多于FM模型。此外由于隐向量与field相关，FFM二次项并不能够化简，时间复杂度为$O(kn^2)$。需要注意的是由于FFM中的latent vector只需要学习特定的field，所以通常$K_{FFM} &lt;&lt; K_{FM}$。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130123459.png" alt></p>
+<p>如果隐向量的长度为k，那么FFM的二次项参数数量为nfk，远多于FM模型。此外由于隐向量与field相关，FFM二次项并不能够化简，时间复杂度为$O(kn^2)$。需要注意的是由于FFM中的latent vector只需要学习特定的field，所以通常$K_{FFM} &lt;&lt; K_{FM}$。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130123459.png"></p>
 <h1 id="DeepFM"><a href="#DeepFM" class="headerlink" title="DeepFM"></a>DeepFM</h1><p>当理解了FM，deepfm的思路也就很好懂了。</p>
-<p>fm是低阶特征，dnn是高阶特征，把低阶和高阶特征并行就是deepFM<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130132900.png" alt><br>我们先来看一下DeepFM的模型结构：</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130135729.png" alt><br>FM部分是一个因子分解机。关于因子分解机可以参阅文章[Rendle, 2010] Steffen Rendle. Factorization machines. In ICDM, 2010.。因为引入了隐变量的原因，对于几乎不出现或者很少出现的隐变量，FM也可以很好的学习。<br><strong>深度部分</strong><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130135817.png" alt></p>
+<p>fm是低阶特征，dnn是高阶特征，把低阶和高阶特征并行就是deepFM<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130132900.png"><br>我们先来看一下DeepFM的模型结构：</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130135729.png"><br>FM部分是一个因子分解机。关于因子分解机可以参阅文章[Rendle, 2010] Steffen Rendle. Factorization machines. In ICDM, 2010.。因为引入了隐变量的原因，对于几乎不出现或者很少出现的隐变量，FM也可以很好的学习。<br><strong>深度部分</strong><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130135817.png"></p>
 <p>深度部分是一个前馈神经网络。与图像或者语音这类输入不同，图像语音的输入一般是连续而且密集的，然而用于CTR的输入一般是及其稀疏的。因此需要重新设计网络结构。具体实现中为，在第一层隐含层之前，引入一个嵌入层来完成将输入向量压缩到低维稠密向量。</p>
-<p>  <img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130135833.png" alt><br>  嵌入层(embedding layer)的结构如上图所示。当前网络结构有两个有趣的特性，1）尽管不同field的输入长度不同，但是embedding之后向量的长度均为K。2)在FM里得到的隐变量Vik现在作为了嵌入层网络的权重。</p>
+<p>  <img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200130135833.png"><br>  嵌入层(embedding layer)的结构如上图所示。当前网络结构有两个有趣的特性，1）尽管不同field的输入长度不同，但是embedding之后向量的长度均为K。2)在FM里得到的隐变量Vik现在作为了嵌入层网络的权重。</p>
 <p>这里的第二点如何理解呢，假设我们的k=5，首先，对于输入的一条记录，同一个field 只有一个位置是1，那么在由输入得到dense vector的过程中，输入层只有一个神经元起作用，得到的dense vector其实就是输入层到embedding层该神经元相连的五条线的权重，即vi1，vi2，vi3，vi4，vi5。这五个值组合起来就是我们在FM中所提到的Vi。在FM部分和DNN部分，这一块是共享权重的，对同一个特征来说，得到的Vi是相同的。</p>
 <p>代码地址：<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2FChenglongChen%2Ftensorflow-DeepFM" target="_blank" rel="noopener">https://github.com/ChenglongChen/tensorflow-DeepFM</a></p>
 <p>梳理FM发展历史：<a href="https://zhuanlan.zhihu.com/p/52877868" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/52877868</a><br>参考FM：<a href="https://blog.csdn.net/John_xyz/article/details/78933253" target="_blank" rel="noopener">https://blog.csdn.net/John_xyz/article/details/78933253</a><br>带举例的解释：<a href="https://blog.csdn.net/baymax_007/article/details/83931698" target="_blank" rel="noopener">https://blog.csdn.net/baymax_007/article/details/83931698</a><br>推荐系统遇上深度学习系列1-3：<a href="https://www.jianshu.com/p/6f1c2643d31b" target="_blank" rel="noopener">https://www.jianshu.com/p/6f1c2643d31b</a></p>
@@ -485,7 +488,7 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
     <div style="width:100%; height:50px;border:none;text-align:center">
     <center><iframe allowtransparency="yes" frameborder="0" src="/time.html"></iframe></center>
     </div>
-</p><hr><p>备赛日记</p><h1 id="1月26日"><a href="#1月26日" class="headerlink" title="1月26日"></a>1月26日</h1><p>因为肺炎，大赛取消。 渣马有缘再见。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200126115659.png" alt></p><h1 id="1月14日"><a href="#1月14日" class="headerlink" title="1月14日"></a>1月14日</h1><p>早上跑了5公里，公园高低起伏，上坡下坡很不舒服。速度也提不上来，就当是第一次热身了。</p><a id="more"></a>
+</p><hr><p>备赛日记</p><h1 id="1月26日"><a href="#1月26日" class="headerlink" title="1月26日"></a>1月26日</h1><p>因为肺炎，大赛取消。 渣马有缘再见。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200126115659.png"></p><h1 id="1月14日"><a href="#1月14日" class="headerlink" title="1月14日"></a>1月14日</h1><p>早上跑了5公里，公园高低起伏，上坡下坡很不舒服。速度也提不上来，就当是第一次热身了。</p><a id="more"></a>
 
 
 
@@ -517,7 +520,7 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <li>减轻开发人员的负担，节省时间，同时降低人为错误</li>
 </ul>
 <p><strong>简单说就是用于管理多人协同开发项目的技术。</strong></p>
-<h1 id="git的基本概念"><a href="#git的基本概念" class="headerlink" title="git的基本概念"></a>git的基本概念</h1><h2 id="工作区"><a href="#工作区" class="headerlink" title="工作区"></a>工作区</h2><p>Git本地有四个工作区域：工作目录（Working Directory）、暂存区(Stage/Index)、资源库(Repository或Git Directory)、git仓库(Remote Directory)。文件在这四个区域之间的转换关系如下：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200111202138.png" alt><br><strong>Workspace</strong>： 工作区，就是你平时存放项目代码的地方<br><strong>Index / Stage</strong>： 暂存区，用于临时存放你的改动，事实上它只是一个文件，保存即将提交到文件列表信息<br><strong>Repository</strong>： 仓库区（或版本库），就是安全存放数据的位置，这里面有你提交到所有版本的数据。其中HEAD指向最新放入仓库的版本<br><strong>Remote</strong>： 远程仓库，托管代码的服务器，可以简单的认为是你项目组中的一台电脑用于远程数据交换</p>
+<h1 id="git的基本概念"><a href="#git的基本概念" class="headerlink" title="git的基本概念"></a>git的基本概念</h1><h2 id="工作区"><a href="#工作区" class="headerlink" title="工作区"></a>工作区</h2><p>Git本地有四个工作区域：工作目录（Working Directory）、暂存区(Stage/Index)、资源库(Repository或Git Directory)、git仓库(Remote Directory)。文件在这四个区域之间的转换关系如下：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200111202138.png"><br><strong>Workspace</strong>： 工作区，就是你平时存放项目代码的地方<br><strong>Index / Stage</strong>： 暂存区，用于临时存放你的改动，事实上它只是一个文件，保存即将提交到文件列表信息<br><strong>Repository</strong>： 仓库区（或版本库），就是安全存放数据的位置，这里面有你提交到所有版本的数据。其中HEAD指向最新放入仓库的版本<br><strong>Remote</strong>： 远程仓库，托管代码的服务器，可以简单的认为是你项目组中的一台电脑用于远程数据交换</p>
 <h1 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h1><ol>
 <li>clone项目或者创建项目Repository</li>
 <li>写代码</li>
@@ -527,12 +530,12 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 </ol>
 <h1 id="文件的四种状态"><a href="#文件的四种状态" class="headerlink" title="文件的四种状态"></a>文件的四种状态</h1><p>版本控制就是对文件的版本控制，要对文件进行修改、提交等操作，首先要知道文件当前在什么状态，不然可能会提交了现在还不想提交的文件，或者要提交的文件没提交上。</p>
 <p>GIT不关心文件两个版本之间的具体差别，而是关心文件的整体是否有改变，若文件被改变，在添加提交时就生成文件新版本的快照，而判断文件整体是否改变的方法就是用SHA-1算法计算文件的校验和。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200111202617.png" alt><br><strong>Untracked:</strong> 未跟踪, 此文件在文件夹中, 但并没有加入到git库, 不参与版本控制. 通过git add 状态变为Staged.</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200111202617.png"><br><strong>Untracked:</strong> 未跟踪, 此文件在文件夹中, 但并没有加入到git库, 不参与版本控制. 通过git add 状态变为Staged.</p>
 <p><strong>Unmodify:</strong> 文件已经入库, 未修改, 即版本库中的文件快照内容与文件夹中完全一致. 这种类型的文件有两种去处, 如果它被修改, 而变为Modified. 如果使用git rm移出版本库, 则成为Untracked文件</p>
 <p><strong>Modified:</strong>  文件已修改, 仅仅是修改, 并没有进行其他的操作. 这个文件也有两个去处, 通过git add可进入暂存staged状态, 使用git checkout 则丢弃修改过,返回到unmodify状态, 这个git checkout即从库中取出文件, 覆盖当前修改</p>
 <p><strong>Staged:</strong> 暂存状态. 执行git commit则将修改同步到库中, 这时库中的文件和本地文件又变为一致, 文件为Unmodify状态. 执行git reset HEAD filename取消暂存,文件状态为Modified</p>
 <p>下面的图很好的解释了这四种状态的转变：</p>
-<p><img src="https://img2018.cnblogs.com/blog/1090617/201810/1090617-20181008212245877-52530897.png" alt></p>
+<p><img alt data-src="https://img2018.cnblogs.com/blog/1090617/201810/1090617-20181008212245877-52530897.png"></p>
 <h1 id="四个区域之间的命令"><a href="#四个区域之间的命令" class="headerlink" title="四个区域之间的命令"></a>四个区域之间的命令</h1><h4 id="1、新建代码库"><a href="#1、新建代码库" class="headerlink" title="1、新建代码库"></a>1、新建代码库</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 在当前目录新建一个Git代码库</span><br><span class="line">git init # 新建一个目录，将其初始化为Git代码库</span><br><span class="line">git init [project-name] # 下载一个项目和它的整个代码历史</span><br><span class="line">git clone [url]</span><br></pre></td></tr></table></figure>
 <h4 id="2、查看文件状态"><a href="#2、查看文件状态" class="headerlink" title="2、查看文件状态"></a>2、查看文件状态</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#查看指定文件状态</span><br><span class="line">git status [filename] #查看所有文件状态</span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
 <h4 id="3、工作区-lt-—-gt-暂存区"><a href="#3、工作区-lt-—-gt-暂存区" class="headerlink" title="3、工作区&lt;—&gt;暂存区"></a>3、工作区&lt;—&gt;暂存区</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 添加指定文件到暂存区</span><br><span class="line">git add [file1] [file2] ... # 添加指定目录到暂存区，包括子目录</span><br><span class="line">git add [dir] # 添加当前目录的所有文件到暂存区</span><br><span class="line">git add . #当我们需要删除暂存区或分支上的文件, 同时工作区也不需要这个文件了, 可以使用（⚠️）</span><br><span class="line">git rm file_path #当我们需要删除暂存区或分支上的文件, 但本地又需要使用, 这个时候直接push那边这个文件就没有，如果push之前重新add那么还是会有。</span><br><span class="line">git rm --cached file_path #直接加文件名   从暂存区将文件恢复到工作区，如果工作区已经有该文件，则会选择覆盖 #加了【分支名】 +文件名  则表示从分支名为所写的分支名中拉取文件 并覆盖工作区里的文件</span><br><span class="line">git checkout</span><br></pre></td></tr></table></figure>
@@ -567,8 +570,8 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <li>删除账号<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ userdel 选项(建议-r） 账户名</span><br><span class="line">-r 可以把主目录一起删除</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h1 id="文件权限与访问控制"><a href="#文件权限与访问控制" class="headerlink" title="文件权限与访问控制"></a>文件权限与访问控制</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200107231346.png" alt><br>Linux文件系统权限：</p>
-<p><img src="https://img-blog.csdn.net/20180711160810276?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjQ0MjcxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt></p>
+<h1 id="文件权限与访问控制"><a href="#文件权限与访问控制" class="headerlink" title="文件权限与访问控制"></a>文件权限与访问控制</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200107231346.png"><br>Linux文件系统权限：</p>
+<p><img alt data-src="https://img-blog.csdn.net/20180711160810276?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjQ0MjcxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"></p>
 <h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><p><strong>一、Linux系统的结构</strong></p>
 <p>　　1、Linux是一个倒树型结构，最大的目录名称为“/”（根目录）</p>
 <p>　　2、Linux系统的二级目录</p>
@@ -582,37 +585,37 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p>　　　　mtime　：文件内容被修改的时间标识</p>
 <p>　　　　ctime　 ：文件属性或文件内容被修改的时间标识</p>
 <p>　　实例：使用<strong><em> touch file </em></strong> 建立一个名为file的文件，并使用stat命令进行查看</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716191242211-1069722524.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716191242211-1069722524.png"></p>
 <ul>
 <li>　若进行文件的查看后，则访问时间将会被改变，结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716191629214-2046658304.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716191629214-2046658304.png"></p>
 <ul>
 <li>　若文件进行编辑后，则访问时间、修改时间和文件改变时间三者均会变化，结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716192012796-193555712.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716192012796-193555712.png"></p>
 <p>　　注意：使用<strong><em> touch —help </em></strong>进行其他参数的查看</p>
 <p>　　2、目录的建立</p>
 <p>　　命令：mkdir　directory　　　　　　　　## 用来建立名为directory的目录</p>
 <p>　　　　 mkdir　-p　test/redcat/linux　　 ## -p 进行多级目录的创建</p>
 <p>　　注释：也可使用 mkdir —help命令进行参数的查看</p>
 <p>　　实例：使用<strong><em> mkdir niu </em></strong>创建一个目录名为niu，结果如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716192938835-574407116.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716192938835-574407116.png"></p>
 <ul>
 <li>　多级目录创建结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716193136101-657056986.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716193136101-657056986.png"></p>
 <p>　　3、文件的删除</p>
 <p>　　命令：rm 　file　　　　 ## 进行文件的删除</p>
 <p>　　　　 rm 　-f 　test　　## -f 为强行删除文件</p>
 <p>　　实例：使用<strong><em> ls file </em></strong>命令删除文件file，结果如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716193719450-1436996021.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716193719450-1436996021.png"></p>
 <p>　　4、目录的删除</p>
 <p>　　命令：rm 　-r 　directory　　## -r表示递归删除所有内容</p>
 <p>　　　　 rm　 -r　-f 　dir　　　## 删除目录不再提示</p>
 <p>　　　　 rm 　-rf　　dir　　　 ## j结果与上一个相同，且有 -a -b -c= - abc = - cba　</p>
 <p>　　实例：使用<strong><em> rm -rf test</em></strong> 删除test目录以及test目录下的所有内容，结果如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716194551519-1288801399.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716194551519-1288801399.png"></p>
 <p>　　5、文件编辑</p>
 <ul>
 <li>　gedit 编辑器</li>
@@ -623,14 +626,14 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 </ul>
 <p>　　　　　命令：vim　file ———&gt; 按 i 进入insert 模式 ———&gt; 书写内容 ———&gt; esc退出insert模式 - ——-&gt; wq退出并保存</p>
 <p>　　 实例：gedit使用（使用以下命令即可打开file文件，并进行编辑）</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716195422572-1655897153.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716195422572-1655897153.png"></p>
 <ul>
 <li>　使用vim.tiny实例应用如下：（vim 和vim.tiny功能类似）</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716195752419-614443396.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716195752419-614443396.png"></p>
 <p>　　###### 使用vim 会出现异常情况 ######</p>
 <p>　　当vim异常退出时，会生成.file.swp文件（原因是修改文件未保存）</p>
-<p>　　当helloc未保存后再次打开时，会出现以下情况：（下面文字接着图的more）<br>　 <img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716200340278-2049532639.png" alt></p>
+<p>　　当helloc未保存后再次打开时，会出现以下情况：（下面文字接着图的more）<br>　 <img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716200340278-2049532639.png"></p>
 <p>　　Swap file “.hello.swp” already exists!</p>
 <p>　　[O]pen Read-Only, (E)dit anyway, (R)ecover, (D)elete it,　　 (Q)uit, (A)bort:<br>　　　　只读打开 　　　 继续编辑 　 恢复数据 　 删除swap文件 退出<br>　　分析：无论按【o】【e】【r】【q】【a】任何一个都不会删除.swp文件，再次打开还会</p>
 <p>　　　　　有这样的这个问题，直到按【D】后，.swp被删除，vim恢复正常。  </p>
@@ -640,28 +643,28 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p>　　　　　cp 　源文件1　源文件2　目的地目录　　 　　## 目的地目录必须存在</p>
 <p>　　　　　cp 　-r 　源目录1　源目录2　目的地目录　　 ## 目的地目录必须存在</p>
 <p>　　实例：把file文件中的内容复制到file1中，结果如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716202413095-1447577145.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716202413095-1447577145.png"></p>
 <ul>
 <li>　使用 <strong><em> cp -r test　test1 </em></strong>命令把test目录下内容复制到test1目录中，结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716203157814-1198844011.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716203157814-1198844011.png"></p>
 <ul>
 <li>　使用 <strong><em> cp file1 file2 dir </em></strong>命令，把file1和file2文件复制到目录dir下，结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716203804044-2015492922.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716203804044-2015492922.png"></p>
 <ul>
 <li>　使用<strong><em> cp -r dir dir1 dir2 </em></strong>把目录dir1和dir2复制到目录dir3下，结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716204213938-2053126740.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716204213938-2053126740.png"></p>
 <p>　　7、文件的移动</p>
 <p>　　命令：mv 　源文件　　目的地文件　　　　## 重命名</p>
 <p>　　　　　mv　 源目录　　目的地目录</p>
 <p>　　实例：使用<strong><em> mv file file1</em></strong>命令，把file重命名为file1，结果如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716204620780-1893321132.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716204620780-1893321132.png"></p>
 <p>　　使用<strong><em> mv niu/file test/ </em></strong>把niu目录下的file文件移动到test目录中，结果如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716204956300-1776343291.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716204956300-1776343291.png"></p>
 <p>　　（.代表当前目录）例：把test目录下的file1复制到当前目录下，命令如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716205318027-1553458611.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716205318027-1553458611.png"></p>
 <p>　　注意：相同磁盘的文件移动是重命名的过程，不用磁盘的移动是复制删除的过程。</p>
 <p>　　8、文件的查看</p>
 <p>　　命令：cat　filename　　　　## 表示查看文件的全部内容</p>
@@ -673,11 +676,11 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p>　　　　　v　　　　　　　　　　## 进入vim模式，然后按i进行编辑，返回vim模式按esc</p>
 <p>　　　　　q　　　　　　　　　　##退出vim模式</p>
 <p>　　实例：使用<strong><em> cat file1</em></strong>命令查看file1中的内容，结果入下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716212743634-353476679.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716212743634-353476679.png"></p>
 <ul>
 <li>　查看内容并显示行号，结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716212922248-1273385407.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716212922248-1273385407.png"></p>
 <ul>
 <li>　less 命令既修改文件中的内容，也可以使用快捷键进行查找，在此就不放截图了。</li>
 </ul>
@@ -731,43 +734,43 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p>在jupyter里面使用需要引用压缩包，例如：<br><code>sc.addPyFile(&quot;/usr/local/Cellar/apache-spark/2.4.4/libexec/jars/graphframes-0.7.0-spark2.4-s_2.11.jar&quot;)</code></p>
 <hr>
 <h1 id="生成图"><a href="#生成图" class="headerlink" title="生成图"></a>生成图</h1><figure class="highlight py"><table><tr><td class="code"><pre><span class="line">v = spark.createDataFrame([</span><br><span class="line">  (<span class="string">"a"</span>, <span class="string">"Alice"</span>, <span class="number">34</span>),</span><br><span class="line">  (<span class="string">"b"</span>, <span class="string">"Bob"</span>, <span class="number">36</span>),</span><br><span class="line">  (<span class="string">"c"</span>, <span class="string">"Charlie"</span>, <span class="number">37</span>),</span><br><span class="line">  (<span class="string">"d"</span>, <span class="string">"David"</span>, <span class="number">29</span>),</span><br><span class="line">  (<span class="string">"e"</span>, <span class="string">"Esther"</span>, <span class="number">32</span>),</span><br><span class="line">  (<span class="string">"f"</span>, <span class="string">"Fanny"</span>, <span class="number">38</span>),</span><br><span class="line">  (<span class="string">"g"</span>, <span class="string">"Gabby"</span>, <span class="number">60</span>)</span><br><span class="line">], [<span class="string">"id"</span>, <span class="string">"name"</span>, <span class="string">"age"</span>])</span><br><span class="line"><span class="comment"># Edges DataFrame</span></span><br><span class="line">e = spark.createDataFrame([</span><br><span class="line">  (<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"c"</span>, <span class="string">"b"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"f"</span>, <span class="string">"c"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"e"</span>, <span class="string">"f"</span>, <span class="string">"follow"</span>),</span><br><span class="line">  (<span class="string">"e"</span>, <span class="string">"d"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"d"</span>, <span class="string">"a"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"a"</span>, <span class="string">"e"</span>, <span class="string">"friend"</span>),</span><br><span class="line">  (<span class="string">"g"</span>, <span class="string">"e"</span>, <span class="string">"follow"</span>)</span><br><span class="line">], [<span class="string">"src"</span>, <span class="string">"dst"</span>, <span class="string">"relationship"</span>])</span><br><span class="line"><span class="comment"># Create a GraphFrame</span></span><br><span class="line">g = GraphFrame(v, e)</span><br><span class="line"></span><br><span class="line">g.vertices.show()</span><br><span class="line">g.edges.show()</span><br></pre></td></tr></table></figure>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161350.png" alt><br>建立两个dataframe：</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161350.png"><br>建立两个dataframe：</p>
 <ul>
 <li>一个储存节点vertices的id+[data]</li>
 <li>另一个储存关系edges的[“src”, “dst”, “relationship”]</li>
 </ul>
 <p>这个图就建立好了。</p>
 <h1 id="图的基本属性"><a href="#图的基本属性" class="headerlink" title="图的基本属性"></a>图的基本属性</h1><p>g.vertices和g.edges是输入的两个v，e 可以使用dataframe的方法筛选过滤统计。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123140805.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123140805.png"></p>
 <p>g.outDegrees或者g.inDegrees可以返回一个dataframe-[id,degree]，自动计算每个节点的出度和入度。</p>
 <ul>
-<li>cache也可用到图上<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123141021.png" alt><br>整个图cache 运用：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123144609.png" alt><h1 id="Motif-finding"><a href="#Motif-finding" class="headerlink" title="Motif finding"></a>Motif finding</h1></li>
+<li>cache也可用到图上<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123141021.png"><br>整个图cache 运用：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123144609.png"><h1 id="Motif-finding"><a href="#Motif-finding" class="headerlink" title="Motif finding"></a>Motif finding</h1></li>
 </ul>
-<p>Motif finding refers to searching for structural patterns in a graph.<br>例如：寻找互相关注，寻找三角形关注<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123145700.png" alt><br>寻找单向关注，寻找无人关注<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123145801.png" alt></p>
+<p>Motif finding refers to searching for structural patterns in a graph.<br>例如：寻找互相关注，寻找三角形关注<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123145700.png"><br>寻找单向关注，寻找无人关注<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123145801.png"></p>
 <p>另一种方法寻找无人关注的点：</p>
 <ul>
-<li><p>左连接or求差集（先求id的差集，再直接join整张表）<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123150855.png" alt></p>
+<li><p>左连接or求差集（先求id的差集，再直接join整张表）<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123150855.png"></p>
 <blockquote>
 <p>如果不是左连接，那一行会被删掉</p>
 </blockquote>
 </li>
-<li><p>例子：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123151645.png" alt></p>
+<li><p>例子：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123151645.png"></p>
 </li>
 </ul>
 <p>先找单向的四人关系，map 相互为friend=1，筛选有2个friend以上的关系链。</p>
 <h1 id="Subgraphs-生成子图"><a href="#Subgraphs-生成子图" class="headerlink" title="Subgraphs 生成子图"></a>Subgraphs 生成子图</h1><ul>
 <li>选择子节点和子边</li>
-<li><p>生成新图<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123152823.png" alt></p>
+<li><p>生成新图<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123152823.png"></p>
 </li>
-<li><p>过滤掉多余的部分<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123153344.png" alt><br>这里的leftsemi的join方式：<a href="https://blog.csdn.net/zhaoxz128/article/details/80784188" target="_blank" rel="noopener">leftsemi讲解</a></p>
+<li><p>过滤掉多余的部分<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123153344.png"><br>这里的leftsemi的join方式：<a href="https://blog.csdn.net/zhaoxz128/article/details/80784188" target="_blank" rel="noopener">leftsemi讲解</a></p>
 <blockquote>
 <p>Hive 当前<strong>没有</strong>实现 IN/EXISTS 子查询，所以你可以用 <strong>LEFT SEMI JOIN 重写你的子查询语句</strong>。LEFT SEMI JOIN 的限制是， JOIN 子句中右边的表只能在  ON 子句中设置过滤条件，在 WHERE 子句、SELECT 子句或其他地方过滤都不行。</p>
 <h1 id="例子：找到最少被两个人关注的人"><a href="#例子：找到最少被两个人关注的人" class="headerlink" title="例子：找到最少被两个人关注的人"></a>例子：找到最少被两个人关注的人</h1><figure class="highlight py"><table><tr><td class="code"><pre><span class="line">g.find(<span class="string">"( )-[e]-&gt;(b)"</span>).filter(<span class="string">"e.relationship='follow'"</span>).</span><br><span class="line">groupby(<span class="string">'b'</span>).count().filter(<span class="string">"count&gt;=2"</span>).select(<span class="string">'b.name'</span>).show()</span><br></pre></td></tr></table></figure>
 </blockquote>
 </li>
 </ul>
-<h1 id="应用：BFS广度有限搜索"><a href="#应用：BFS广度有限搜索" class="headerlink" title="应用：BFS广度有限搜索"></a>应用：BFS广度有限搜索</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161040.png" alt><br>API自带的接口：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161117.png" alt></p>
-<h1 id="例子-list-rank"><a href="#例子-list-rank" class="headerlink" title="例子 list rank"></a>例子 list rank</h1><p>对于一个链表排序（按照距离尾部节点的距离排序）：<br>暴力算法：遍历n次，每次找到尾部节点，记录并删除 O(n)<br>方法2：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Initialize u.d = 0 if u.next = null, else u.d = 1</span><br><span class="line">Run the following for each node u until all next pointers are null:</span><br><span class="line">	if u.next is not null: </span><br><span class="line">		u.d += u.next.d </span><br><span class="line">		u.next = u.next.next</span><br></pre></td></tr></table></figure><br>算法原理如图：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170545.png" alt><br>复杂度O(logn)，每一轮遍历非尾节点都会参与，减少循环次数<br> 实现：<br> <img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170704.png" alt><br> <img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170718.png" alt></p>
+<h1 id="应用：BFS广度有限搜索"><a href="#应用：BFS广度有限搜索" class="headerlink" title="应用：BFS广度有限搜索"></a>应用：BFS广度有限搜索</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161040.png"><br>API自带的接口：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123161117.png"></p>
+<h1 id="例子-list-rank"><a href="#例子-list-rank" class="headerlink" title="例子 list rank"></a>例子 list rank</h1><p>对于一个链表排序（按照距离尾部节点的距离排序）：<br>暴力算法：遍历n次，每次找到尾部节点，记录并删除 O(n)<br>方法2：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Initialize u.d = 0 if u.next = null, else u.d = 1</span><br><span class="line">Run the following for each node u until all next pointers are null:</span><br><span class="line">	if u.next is not null: </span><br><span class="line">		u.d += u.next.d </span><br><span class="line">		u.next = u.next.next</span><br></pre></td></tr></table></figure><br>算法原理如图：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170545.png"><br>复杂度O(logn)，每一轮遍历非尾节点都会参与，减少循环次数<br> 实现：<br> <img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170704.png"><br> <img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170718.png"></p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本文总结了pyspark的graph模块基本语法和操作，关于5003的三篇总结到此结束。</p>
 ]]></content>
       <tags>
@@ -781,12 +784,12 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
     <title>5003总结2 stream&amp;并行计算-例子</title>
     <url>/2019/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/</url>
     <content><![CDATA[<p>Streaming是处理数据流的API。<br>下面直接通过例子，感受streaming的机制。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123213735.png" alt=""><br><a id="more"></a></p>
-<h1 id="例1-从键盘输入文本，统计词频"><a href="#例1-从键盘输入文本，统计词频" class="headerlink" title="例1 从键盘输入文本，统计词频"></a>例1 从键盘输入文本，统计词频</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123220112.png" alt=""></p>
-<h1 id="例2-1-从文件输入，统计词频"><a href="#例2-1-从文件输入，统计词频" class="headerlink" title="例2.1 从文件输入，统计词频"></a>例2.1 从文件输入，统计词频</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123222512.png" alt=""></p>
-<h1 id="例2-2-对词的感情值排序"><a href="#例2-2-对词的感情值排序" class="headerlink" title="例2.2 对词的感情值排序"></a>例2.2 对词的感情值排序</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123230557.png" alt=""></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123213735.png"><br><a id="more"></a></p>
+<h1 id="例1-从键盘输入文本，统计词频"><a href="#例1-从键盘输入文本，统计词频" class="headerlink" title="例1 从键盘输入文本，统计词频"></a>例1 从键盘输入文本，统计词频</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123220112.png"></p>
+<h1 id="例2-1-从文件输入，统计词频"><a href="#例2-1-从文件输入，统计词频" class="headerlink" title="例2.1 从文件输入，统计词频"></a>例2.1 从文件输入，统计词频</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123222512.png"></p>
+<h1 id="例2-2-对词的感情值排序"><a href="#例2-2-对词的感情值排序" class="headerlink" title="例2.2 对词的感情值排序"></a>例2.2 对词的感情值排序</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123230557.png"></p>
 <h1 id="例2-3-stage，统计所有词频"><a href="#例2-3-stage，统计所有词频" class="headerlink" title="例2.3 stage，统计所有词频"></a>例2.3 stage，统计所有词频</h1><p>上面的例子2.1 仅仅是统计每一个输入部分的词频，意义不大<br>通过<code>updateStateByKey()</code>可以实现对所有数据的统计。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123231336.png" alt=""></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123231336.png"></p>
 <p><code>updateStateByKey()</code>需要定义一个函数，函数的输入是上次的和这次的rdd，这里的streaming的精髓，需要好好理解。</p>
 <hr>
 <h1 id="算法应用1：蓄水池抽样Reservoir-Sampling"><a href="#算法应用1：蓄水池抽样Reservoir-Sampling" class="headerlink" title="算法应用1：蓄水池抽样Reservoir Sampling"></a>算法应用1：蓄水池抽样Reservoir Sampling</h1><h2 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h2><p>蓄水池采样算法（Reservoir Sampling）了。先说一下算法的过程：</p>
@@ -798,7 +801,7 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 </blockquote>
 </li>
 </ul>
-<p>简单证明：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191124085220.png" alt=""></p>
+<p>简单证明：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191124085220.png"></p>
 <p>完整证明需要用到FIsher-Yates shuffle。</p>
 <h1 id="算法应用2：O-n-时间，O-1-空间，寻找Majority的元素-n-gt-N-2"><a href="#算法应用2：O-n-时间，O-1-空间，寻找Majority的元素-n-gt-N-2" class="headerlink" title="算法应用2：O(n)时间，O(1)空间，寻找Majority的元素(n&gt;N/2)"></a>算法应用2：O(n)时间，O(1)空间，寻找Majority的元素(n&gt;N/2)</h1><p>算法描述：<br>只用空间复杂度O(1)，去寻找数组内有没有出现次数大于一半的元素。</p>
 <p>算法过程：</p>
@@ -838,7 +841,7 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
   <entry>
     <title>5003总结1 RDD, Spark Internals</title>
     <url>/2019/5003%E6%80%BB%E7%BB%931-RDD-Spark-Internals/</url>
-    <content><![CDATA[<h1 id="5003总结1-RDD-Spark-Internals"><a href="#5003总结1-RDD-Spark-Internals" class="headerlink" title="5003总结1 RDD, Spark Internals"></a>5003总结1 RDD, Spark Internals</h1><p>学习了5003之后，对于RDD和spark两章总结复习，梳理出有关函数的作用。</p><h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><p>resilient Distributed Datasets: 弹性分布式数据库，rdd是spark的基本运行单位<br>使用者作用于RDD，RDD自动进行分区，在不同partitions进行操作<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030092656.png" alt="RDD的操作"></p><a id="more"></a>
+    <content><![CDATA[<h1 id="5003总结1-RDD-Spark-Internals"><a href="#5003总结1-RDD-Spark-Internals" class="headerlink" title="5003总结1 RDD, Spark Internals"></a>5003总结1 RDD, Spark Internals</h1><p>学习了5003之后，对于RDD和spark两章总结复习，梳理出有关函数的作用。</p><h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><p>resilient Distributed Datasets: 弹性分布式数据库，rdd是spark的基本运行单位<br>使用者作用于RDD，RDD自动进行分区，在不同partitions进行操作<br><img alt="RDD的操作" data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030092656.png"></p><a id="more"></a>
 
 <h2 id="rdd是“懒惰的”Lazy，如果只进行Transfomations-，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）"><a href="#rdd是“懒惰的”Lazy，如果只进行Transfomations-，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）" class="headerlink" title="* rdd是“懒惰的”Lazy，如果只进行Transfomations ，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）"></a>* rdd是“懒惰的”Lazy，如果只进行Transfomations ，RDD不会进行实际运算，会等待actions操作才会实际运算。（理解起来就是，如果每Transfomations一次就要运算，就需要操作一下等一次；而且Transfomations之间可能有优化的空间；所以如果没有Actions就意味着不需要输出，就先记住步骤不执行）</h2><p><a href="https://haofly.net/spark/" target="_blank" rel="noopener">引用博文 https://haofly.net/spark/</a></p>
 <ul>
@@ -912,15 +915,15 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 </ul>
 <hr>
 <h2 id="RDD的操作-pyspark"><a href="#RDD的操作-pyspark" class="headerlink" title="RDD的操作 pyspark"></a>RDD的操作 pyspark</h2><figure class="highlight py"><table><tr><td class="code"><pre><span class="line">fruits = sc.textFile(<span class="string">'../data/fruits.txt'</span>) </span><br><span class="line">fruits.collect()</span><br><span class="line"><span class="comment">#读文本，全部显示</span></span><br></pre></td></tr></table></figure>
-<p>累加器的使用：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030104539.png" alt></p>
+<p>累加器的使用：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030104539.png"></p>
 <figure class="highlight py"><table><tr><td class="code"><pre><span class="line">rdd = sc.parallelize(xrange(<span class="number">10</span>))</span><br><span class="line">accum = sc.accumulator(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">g</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> accum</span><br><span class="line">    accum += x</span><br><span class="line">    <span class="keyword">return</span> x * x</span><br><span class="line"></span><br><span class="line">a = rdd.map(g)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"---------"</span></span><br><span class="line"><span class="keyword">print</span> accum.value</span><br><span class="line"><span class="keyword">print</span> rdd.reduce(<span class="keyword">lambda</span> x, y: x+y)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"---------"</span></span><br><span class="line"><span class="comment">#a.cache()</span></span><br><span class="line">tmp = a.count()</span><br><span class="line"><span class="keyword">print</span> accum.value</span><br><span class="line"><span class="keyword">print</span> rdd.reduce(<span class="keyword">lambda</span> x, y: x+y)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"---------"</span></span><br><span class="line">tmp = a.count()</span><br><span class="line"><span class="keyword">print</span> accum.value</span><br><span class="line"><span class="keyword">print</span> rdd.reduce(<span class="keyword">lambda</span> x, y: x+y)</span><br><span class="line"><span class="comment">#reduce 始终不变，但是如果没有cache accumulator就会反复累加</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight py"><table><tr><td class="code"><pre><span class="line">---------</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">45</span></span><br><span class="line">---------</span><br><span class="line"><span class="number">45</span></span><br><span class="line"><span class="number">45</span></span><br><span class="line">---------</span><br><span class="line"><span class="number">90</span></span><br><span class="line"><span class="number">45</span></span><br></pre></td></tr></table></figure>
-<p>展示分区glom（）<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030105120.png" alt><br>mapParttitions 在分区内部执行函数f<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030110438.png" alt></p>
-<p>这里的index就是为了改变每次生成的随机数不一样，否则每个分区算出来是一样的<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030110351.png" alt></p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030111556.png" alt><br>对key相同的值进行操作</p>
-<h4 id="kmeans"><a href="#kmeans" class="headerlink" title="kmeans"></a>kmeans</h4><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030113309.png" alt></p>
-<h4 id="pagerank"><a href="#pagerank" class="headerlink" title="pagerank"></a>pagerank</h4><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031205443.png" alt></p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030113538.png" alt></p>
+<p>展示分区glom（）<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030105120.png"><br>mapParttitions 在分区内部执行函数f<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030110438.png"></p>
+<p>这里的index就是为了改变每次生成的随机数不一样，否则每个分区算出来是一样的<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030110351.png"></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030111556.png"><br>对key相同的值进行操作</p>
+<h4 id="kmeans"><a href="#kmeans" class="headerlink" title="kmeans"></a>kmeans</h4><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030113309.png"></p>
+<h4 id="pagerank"><a href="#pagerank" class="headerlink" title="pagerank"></a>pagerank</h4><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031205443.png"></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030113538.png"></p>
 <h1 id="Internal-of-Spark"><a href="#Internal-of-Spark" class="headerlink" title="Internal of Spark"></a>Internal of Spark</h1><h2 id="web端监控Spark运行情况"><a href="#web端监控Spark运行情况" class="headerlink" title="web端监控Spark运行情况"></a>web端监控Spark运行情况</h2><p>查看Spark 可视化进程： localhost:4040 4041 4042 …</p>
 <h2 id="partitions-分区"><a href="#partitions-分区" class="headerlink" title="partitions 分区"></a>partitions 分区</h2><p>RDD是储存在不同的partition里的，生成时每个partition平衡的（数量差不多），用于并行计算，但是有可能操作之后，就不平衡了。</p>
 <p>这时候，需要 .repartition(n)</p>
@@ -928,8 +931,8 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <li>Hash partitioning<br>通过%N，这样的将相同<strong>余数</strong>放到一个分区。<br>缺点：可能由于原数据余数不平衡，可能分区不平衡</li>
 <li>Range partitioning<br>计算每个分区大小，将连续的数放到一个分区<br>缺点：数值大小不平衡</li>
 </ul>
-<p>例子如下：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031200235.png" alt></p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031201853.png" alt><br>RDD本来没有partitions，当有了shuffle 或者主动生成一个partitions才会有。<br>(这样的好处是，shuffle本身是需要多个partitions一起参与的，如果是线性图（key没有变化），那就只需要在自己的分区内计算，实现并行)</p>
+<p>例子如下：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031200235.png"></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031201853.png"><br>RDD本来没有partitions，当有了shuffle 或者主动生成一个partitions才会有。<br>(这样的好处是，shuffle本身是需要多个partitions一起参与的，如果是线性图（key没有变化），那就只需要在自己的分区内计算，实现并行)</p>
 <p>会继承partitions的3个Operations(key不会改变):</p>
 <ul>
 <li>mapValues  （但是map就不行）<ul>
@@ -938,8 +941,8 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 </ul>
 </li>
 </ul>
-<p>其他的Operations都会改变key？ （这里需要考察一下）<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031202823.png" alt></p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031211821.png" alt></p>
+<p>其他的Operations都会改变key？ （这里需要考察一下）<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031202823.png"></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191031211821.png"></p>
 <p>Spark 的 各级目录</p>
 <blockquote>
 <p>application 一个内核&gt;job一次运行 &gt;stage指令下的一个状态&gt;task一个状态的任务</p>
@@ -985,14 +988,14 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p>流程至少包括以下四个步骤：<br>建立评价规则<br>搜集用户偏好<br>寻找相近的用户<br>推荐歌曲</p>
 <blockquote>
 <p><strong>1.建立评价规则</strong><br>下图是我随意做的一个评价规则。评价规则应该根据明确的用户行为来建立。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203521.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203521.png"></p>
 <p>评价规则-随意做的</p>
 <p><strong>2.搜集用户偏好</strong><br>根据评价规则，我们可以得到每个用户和该用户相关的每首歌的一个得分。 下图也是我随意造的数据。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203536.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203536.png"></p>
 <p>用户偏好</p>
 <p><strong>3.寻找相近的用户</strong><br>常用的计算相似度评价值的体系有两种：欧几里得距离和皮尔逊相关度。</p>
 <p><strong>4.推荐歌曲</strong><br>接下来系统要做的就是，为用户郑昊提供歌曲推荐。我们当然可以查找与郑昊品味最相近的人，从他所喜欢的歌曲中找出一首郑昊可能还未接触过的歌曲。不过，这样的做法未免太随意了。<br>目前最通用的做法是，通过一个经过加权的评价值来为歌曲打分，评分结果即排名结果。为此，我们需要取得所有其他用户的分数，借此得到相关系数后，再乘以他们与相关歌曲的分数，求和之后再除以对应的相关系数总计，便能获得一个我们需要的评价值。在下表中我们给出了具体的做法。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203705.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119203705.png"></p>
 <p>「相关系数」一列来自于皮尔逊相关度评价。「歌名」对应各用户的得分来自评价规则处理后的结果。将前两者一一对应相乘，便是「歌N*相关系数」的值。如此一来，相比于与我们不相近的人，那些与我们相近的人将会对整体评价值拥有更多的贡献。总计一行给出了所有加权评价值的总和。</p>
 <p>我们可以用总计值来计算歌曲排名，但是我们还需要考虑到，这样人数会对一首歌的得分产生正相关影响。为了避免这一问题，我们需要将总计除以相关系数总计。相关系数总计等于所有对这首歌曲有影响的用户的相关系数之和。表中最后一行就是我们所需要的结果。</p>
 </blockquote>
@@ -1002,7 +1005,7 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <h1 id="从产品角度思考数据"><a href="#从产品角度思考数据" class="headerlink" title="从产品角度思考数据"></a>从产品角度思考数据</h1><p><a href="http://www.chanpin100.com/article/100147" target="_blank" rel="noopener">链接</a><br>行业分析、市场分析、用户群的划分和分析之外，还考虑未来的发展方向</p>
 <hr>
 <h1 id="实习经历描述"><a href="#实习经历描述" class="headerlink" title="实习经历描述"></a>实习经历描述</h1><p>腾讯 微信事业群 数据分析实习生 用户拉起方向 2019.04-2019.08 l 运用聚类算法对用户来源、拉起特征、活跃企业等属性完成了用户聚类，梳理出用户画像，找到用户拉起的增长点;通过通过漏斗分析，寻找出注册页瓶颈，找到改进措施。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119221035.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191119221035.png"></p>
 <p>产品岗，做的杂：捞数据，做报表，策划，数据分析。<br>分析：互通现状。<br>任务：分析现状，梳理出下一步的方向。<br>What：现状是什么？用户增长放缓，发消息加深。<br>思路：用户群的划分→得到比例和画像→比例与市场比较，寻找空间；画像对比我们的目标企业查看问题</p>
 <ul>
 <li><p>用户群怎么划分？<br>1 活跃 62%<br>2 基于产品性质，协同12%，服务50%<br>3 服务类的 基于使用情况，公司规模 大企业10% 小企业40%</p>
@@ -1040,12 +1043,12 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p>The term paper is  <strong>due by 23:59 on 7 December</strong>, the scheduled final exam date.  <strong>No late submissions will be accepted</strong>.</p>
 <hr>
 <h1 id="Generative-Adversarial-Networks-is-so-Easy"><a href="#Generative-Adversarial-Networks-is-so-Easy" class="headerlink" title="Generative Adversarial Networks is so Easy"></a>Generative Adversarial Networks is so Easy</h1><p>In machine learning course, we learn how to teach our program to learn the information among the data. There are a lot’s kinds of work can be down, just like classification, regression and generate new data as same as nature. Generating new data is pretty interesting job. Thinking about what if you can teach your program to learn the plot by Picasso’s. The plots by Picasso’s  is very famous and expensive. The most painting by Picasso is _Les femmes d’Alger_  which worth  $179 million.  If we can teach our program to plot a image similar with his style easily. That’s will be a amazing job. But now we can made it by the algorithm GANs.</p>
-<h2 id="Basic-idea"><a href="#Basic-idea" class="headerlink" title="Basic idea"></a>Basic idea</h2><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130001221.png" alt></p>
+<h2 id="Basic-idea"><a href="#Basic-idea" class="headerlink" title="Basic idea"></a>Basic idea</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130001221.png"></p>
 <p>GANs are the algorithms represented for Generative Adversarial Networks.  It is the process of two complex algorithms (neural networks) competing against each other. One algorithms is called <strong>Generator,</strong> the other algorithm is called <strong>Discriminator</strong>.</p>
 <p>The generative model and the discriminant model play a game with each other and learn to produce quite good output. Taking pictures as an example, the main task of the generator is to learn the real picture set, so that the pictures generated by yourself are closer to the real pictures, and the “disguise” discriminator. The main task of the discriminator is to find out the picture generated by the generator, distinguish it from the real picture, and perform true and false discrimination. Throughout the iteration process, the generator continuously strives to make the generated image more and more real, and the discriminator continuously strives to identify the authenticity of the picture. This is similar to the game between the generator and the discriminator. After repeated iterations, the two finally reached a balance: the picture generated by the generator is very close to the real picture, and it is difficult for the discriminator to distinguish the difference between the real and fake pictures. Its performance is that for true and false pictures, the probability output of the discriminator is close to 0.5.</p>
 <p>Let’s still assume an I wants to replicate the style of Picasso. After I have watch all the detail of Picasso’s paintings, I think I have learned a lot. So I find a a collector to help me improve my level. The collector has rich experience and sharp eyes, and the paintings on the market that imitate Picasso cannot escape his eyes. The collector told me a word: when will your painting deceive me, you will be successful.</p>
-<p>Then I give hime this one:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130110753.png" alt><br>The collector glanced lightly and was very angry. “0 points! This is also called painting? Too much difference!” After listening to the collector’s words, I began to reflect on myself and did not hesitate to draw, even it is a black image. So I drew another picture:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130110852.png" alt></p>
-<p>The collector saw : 1 point ! Repaint! As soon as I thought it was still impossible, the painting was too bad, so I went back to study Picasso’s painting style, and continued to improve and re-create, until one day I showed the new painting to the collector:<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130001221.png" alt><br>This time, the collector was wearing glasses and carefully analyzing. After a long time, the collector patted my shoulder and said that the painting was very good. Haha, I was so happy to be praised and affirmed by the collector.</p>
+<p>Then I give hime this one:<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130110753.png"><br>The collector glanced lightly and was very angry. “0 points! This is also called painting? Too much difference!” After listening to the collector’s words, I began to reflect on myself and did not hesitate to draw, even it is a black image. So I drew another picture:<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130110852.png"></p>
+<p>The collector saw : 1 point ! Repaint! As soon as I thought it was still impossible, the painting was too bad, so I went back to study Picasso’s painting style, and continued to improve and re-create, until one day I showed the new painting to the collector:<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191130001221.png"><br>This time, the collector was wearing glasses and carefully analyzing. After a long time, the collector patted my shoulder and said that the painting was very good. Haha, I was so happy to be praised and affirmed by the collector.</p>
 <p>This example is actually a GAN training process. I am a generator, the purpose is to output a picture that can fool collectors, making it difficult for collectors to distinguish between true and false! The collector is the discriminator, the purpose is to identify my painting and judge it to be false! The whole process is a game of “generation-confrontation”. In the end, I (the generator) outputs a picture of “truths and false truths”, and even collectors (the discriminator) can hardly distinguish.</p>
 <h2 id="What’s-GAN-model"><a href="#What’s-GAN-model" class="headerlink" title="What’s GAN model?"></a>What’s GAN model?</h2><p>After we talk about the basic ideal, then let’s see what is the Generative Adversarial Networks(GANs) mathematically.  Generally, GANs are a model architecture for training a generative model, and it is most common to use deep learning models in this architecture.</p>
 <p>The GAN architecture was first described in the 2014 paper by  Ian Goodfellow, et al. titled “Generative Adversarial Networks.” After this paper appeared, there are plenty related paper followed. A standardized approach called Deep Convolutional Generative Adversarial Networks, or DCGAN, that led to more stable models was later formalized by  Alec Radford, et al. in the 2015 paper titled Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks.</p>
@@ -1061,18 +1064,18 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p>This vector space is referred to as a latent space, or a vector space comprised of  <a href="https://en.wikipedia.org/wiki/Latent_variable" target="_blank" rel="noopener">latent variables</a>. Latent variables, or hidden variables, are those variables that are important for a domain but are not directly observable.</p>
 <p>We often refer to latent variables, or a latent space, as a projection or compression of a data distribution. That is, a latent space provides a compression or high-level concepts of the observed raw data such as the input data distribution. In the case of GANs, the generator model applies meaning to points in a chosen latent space, such that new points drawn from the latent space can be provided to the generator model as input and used to generate new and different output examples.</p>
 <p>After training, the generator model is kept and used to generate new samples.</p>
-<p><img src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-GAN-Generator-Model.png" alt="Example of the GAN Generator Model"></p>
+<p><img alt="Example of the GAN Generator Model" data-src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-GAN-Generator-Model.png"></p>
 <p>Example of the GAN Generator Model</p>
 <h3 id="The-Discriminator-Model"><a href="#The-Discriminator-Model" class="headerlink" title="The Discriminator Model"></a>The Discriminator Model</h3><p>The discriminator model takes an example from the domain as input (real or generated) and predicts a binary class label of real or fake (generated).</p>
 <p>The real example comes from the training dataset. The generated examples are output by the generator model.</p>
 <p>The discriminator is a normal (and well understood) classification model.</p>
 <p>After the training process, the discriminator model is discarded as we are interested in the generator.</p>
 <p>Sometimes, the generator can be repurposed as it has learned to effectively extract features from examples in the problem domain. Some or all of the feature extraction layers can be used in transfer learning applications using the same or similar input data.</p>
-<p><img src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-GAN-Discriminator-Model.png" alt="Example of the GAN Discriminator Model"></p>
+<p><img alt="Example of the GAN Discriminator Model" data-src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-GAN-Discriminator-Model.png"></p>
 <h1 id="Combine-two-parts"><a href="#Combine-two-parts" class="headerlink" title="Combine two parts"></a>Combine two parts</h1><p>Generative modeling is an unsupervised learning problem, as we discussed in the previous section, although a clever property of the GAN architecture is that the training of the generative model is framed as a supervised learning problem. The two models, the generator and discriminator, are trained together. The generator generates a batch of samples, and these, along with real examples from the domain, are provided to the discriminator and classified as real or fake. The discriminator is then updated to get better at discriminating real and fake samples in the next round, and importantly, the generator is updated based on how well, or not, the generated samples fooled the discriminator.</p>
 <p>In this way, the two models are competing against each other, they are adversarial in the game theory sense, and are playing a  zero-sum game. In this case, zero-sum means that when the discriminator successfully identifies real and fake samples, it is rewarded or no change is needed to the model parameters, whereas the generator is penalized with large updates to model parameters. Alternately, when the generator fools the discriminator, it is rewarded, or no change is needed to the model parameters, but the discriminator is penalized and its model parameters are updated.</p>
 <p>At a limit, the generator generates perfect replicas from the input domain every time, and the discriminator cannot tell the difference and predicts “unsure” (e.g. 50% for real and fake) in every case. This is just an example of an idealized case; we do not need to get to this point to arrive at a useful generator model.</p>
-<p><img src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-Generative-Adversarial-Network-Model-Architecture.png" alt="Example of the Generative Adversarial Network Model Architecture"></p>
+<p><img alt="Example of the Generative Adversarial Network Model Architecture" data-src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-Generative-Adversarial-Network-Model-Architecture.png"></p>
 <p>Example of the Generative Adversarial Network Model Architecture</p>
 ]]></content>
       <tags>
@@ -1099,12 +1102,12 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <blockquote>
 <p>1 计算这个树的误差率，误差率越高，权重越低<br>2 计算每个样本的错分率，错分的样本，权重越高，之后更容易分对</p>
 </blockquote>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091802.png" alt><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091915.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091802.png"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116091915.png"></p>
 <h2 id="2-2-基于残差：GB-GBTD-Xgboost"><a href="#2-2-基于残差：GB-GBTD-Xgboost" class="headerlink" title="2.2 基于残差：GB(GBTD,Xgboost)"></a>2.2 基于残差：GB(GBTD,Xgboost)</h2><h3 id="2-2-1-GBTD"><a href="#2-2-1-GBTD" class="headerlink" title="2.2.1 GBTD"></a>2.2.1 GBTD</h3><p>GBDT只能由回归树组成.</p>
 <ul>
 <li>基本思想：<br>在GradientBoost中，每个新的模型的建立是为了使得之前的模型的残差往梯度下降的方法。</li>
 </ul>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116110339.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116110339.png"></p>
 <ul>
 <li>如果是分类树，损失函数是指数损失函数：<br>𝐿(𝑦,𝑓(𝑥))=𝑒𝑥𝑝(−𝑦𝑓(𝑥))</li>
 <li>如果是回归树，损失函数是均方损失（CART）：<br>𝐿(𝑦,𝑓(𝑥))=(𝑦−𝑓(𝑥))^2</li>
@@ -1128,8 +1131,8 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <li>这时候需要寻找f_t来让目标函数最小</li>
 </ul>
 <blockquote>
-<p>a. 式子左边，对目标函数在$f_t(x)$上泰勒展开，去二阶，求得近似解：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116120113.png" alt></p>
-<p>b. 式子右边，定义复杂度 $\Omega\left(f_{t}\right)$<br>每颗树，都是由枝干(分类节点)和叶子(树的末端)组成的。<br>定义复杂度为：叶子个个数T, 加上每个叶子的值w平方和（各有系数）。<br>树越复杂，T ↑，w平方和 ↑，复杂度 ↑，惩罚 ↑。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116121238.png" alt></p>
+<p>a. 式子左边，对目标函数在$f_t(x)$上泰勒展开，去二阶，求得近似解：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116120113.png"></p>
+<p>b. 式子右边，定义复杂度 $\Omega\left(f_{t}\right)$<br>每颗树，都是由枝干(分类节点)和叶子(树的末端)组成的。<br>定义复杂度为：叶子个个数T, 加上每个叶子的值w平方和（各有系数）。<br>树越复杂，T ↑，w平方和 ↑，复杂度 ↑，惩罚 ↑。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116121238.png"></p>
 </blockquote>
 <ul>
 <li>更新目标函数：<script type="math/tex; mode=display">
@@ -1156,7 +1159,7 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 </ul>
 <hr>
 <ul>
-<li>所以通过贪婪学习：（不详细讲）<br>每一次尝试对已有的叶子结点加入一个分割，选择具有最佳增益的分割对结点进行分裂。对于一个具体的分割方案，我们可以获得的增益可以由如下公式计算：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116142330.png" alt></li>
+<li>所以通过贪婪学习：（不详细讲）<br>每一次尝试对已有的叶子结点加入一个分割，选择具有最佳增益的分割对结点进行分裂。对于一个具体的分割方案，我们可以获得的增益可以由如下公式计算：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191116142330.png"></li>
 </ul>
 <blockquote>
 <p>也就是通过信息增益去寻找最优分割点。<br>这里有个好处就是如果惩罚大于增益，gain就会为负数，自动停止。</p>

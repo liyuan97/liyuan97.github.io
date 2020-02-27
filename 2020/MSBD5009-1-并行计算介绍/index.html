@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -35,7 +35,7 @@
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -367,7 +367,7 @@
 <h2 id="从cpu到cache的问题"><a href="#从cpu到cache的问题" class="headerlink" title="从cpu到cache的问题"></a>从cpu到cache的问题</h2><p>由于cache分三级，很有可能写入不连续。<br>–直写式  通过在写入高速缓存时更新主内存中的数据来处理此问题。<br>–回写式 将缓存cache中的数据标记为脏数据。当高速缓存行由内存中的新高速缓存行替换时，脏行将写入内存。</p>
 <h2 id="缓存映射Cache-Mapping"><a href="#缓存映射Cache-Mapping" class="headerlink" title="缓存映射Cache Mapping"></a>缓存映射Cache Mapping</h2><p>• 完全关联–可以在缓存中的任何位置放置新行。<br>• 直接映射–每条缓存行在缓存中都有一个唯一的位置，将为其分配该位置。<br>• n向集合关联–每个高速缓存行可以放置在高速缓存中n个不同位置之一中。</p>
 <h2 id="缓存逐出Cache-Eviction"><a href="#缓存逐出Cache-Eviction" class="headerlink" title="缓存逐出Cache Eviction"></a>缓存逐出Cache Eviction</h2><p>•缓存比主内存小得多。<br>•当缓存已满时，需要在内存中添加新行以替换或逐出缓存中的行。<br>•常见的缓存逐出策略包括LRU / MRU（最近最少使用/最近使用）和LFU（最近最少使用）。</p>
-<h2 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h2><p>•如果我们运行非常大的程序或访问<strong>非常大</strong>的数据集的程序，则所有指令和数据可能无法放入主存储器。<br>•虚拟内存用作<strong>辅助存储的缓存</strong>。<br>•它利用<strong>时空局部性</strong>原理。<br>•它仅将正在运行的程序的活动部分保留在主存储器中。<br>•<strong>交换空间Swap space</strong>–辅助存储区，用于保持非活动（部分）正在运行的程序。<br>•<strong>虚拟的页page</strong>–数据和指令块。大多数系统具有固定的页面大小，当前范围为4到16 KB。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226170253.png" alt></p>
+<h2 id="虚拟内存"><a href="#虚拟内存" class="headerlink" title="虚拟内存"></a>虚拟内存</h2><p>•如果我们运行非常大的程序或访问<strong>非常大</strong>的数据集的程序，则所有指令和数据可能无法放入主存储器。<br>•虚拟内存用作<strong>辅助存储的缓存</strong>。<br>•它利用<strong>时空局部性</strong>原理。<br>•它仅将正在运行的程序的活动部分保留在主存储器中。<br>•<strong>交换空间Swap space</strong>–辅助存储区，用于保持非活动（部分）正在运行的程序。<br>•<strong>虚拟的页page</strong>–数据和指令块。大多数系统具有固定的页面大小，当前范围为4到16 KB。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226170253.png"></p>
 <h2 id="虚拟页码"><a href="#虚拟页码" class="headerlink" title="虚拟页码"></a>虚拟页码</h2><p>•编译程序时，其页面为分配的虚拟页码。<br>•运行程序时，将创建一个表，该表将虚拟页码映射到物理地址。<br>•页表用于将虚拟地址转换为物理地址。</p>
 <h2 id="转换后备缓冲器（Translation-lookaside-buffer-TLB）"><a href="#转换后备缓冲器（Translation-lookaside-buffer-TLB）" class="headerlink" title="转换后备缓冲器（Translation-lookaside buffer TLB）"></a>转换后备缓冲器（Translation-lookaside buffer TLB）</h2><p>•使用页表有可能显着增加每个程序的整体运行时间。<br>•TLB是处理器中的特殊地址转换缓存。<br>•它在非常<strong>快的内存中从页表中缓存了少量条目</strong>（通常为16–512）。<br>•页面错误–尝试访问页面表中页面的有效物理地址，但该页面仅存储在磁盘上。</p>
 <h2 id="指令级并行（Instruction-Level-Parallelism-ILP）"><a href="#指令级并行（Instruction-Level-Parallelism-ILP）" class="headerlink" title="指令级并行（Instruction Level Parallelism ILP）"></a>指令级并行（Instruction Level Parallelism ILP）</h2><p>•试图通过使多个处理器组件或功能单元同时执行指令来提高处理器性能。<br>•流水线Pipelining-功能单元是分阶段安排的。<br>•多个问题-可以同时启动多个指令。</p>
@@ -858,6 +858,7 @@ if(canvas.getContext){
   
   <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

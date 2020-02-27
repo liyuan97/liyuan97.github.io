@@ -2,16 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://leeee.top/more/friends/index.html</loc>
+    <loc>http://leeee.top/2020/github-ssh/</loc>
     
-    <lastmod>2020-02-26T14:46:43.426Z</lastmod>
+    <lastmod>2020-02-27T03:01:56.209Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://leeee.top/more/friends/friendslist1.json</loc>
+    <loc>http://leeee.top/more/friends/index.html</loc>
     
-    <lastmod>2020-02-26T14:24:30.993Z</lastmod>
+    <lastmod>2020-02-27T02:50:48.731Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://leeee.top/more/friends/friendslist.json</loc>
+    
+    <lastmod>2020-02-27T02:46:03.375Z</lastmod>
     
   </url>
   
@@ -26,13 +33,6 @@
     <loc>http://leeee.top/categories/index.html</loc>
     
     <lastmod>2020-02-26T14:05:51.522Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://leeee.top/2020/github-ssh/</loc>
-    
-    <lastmod>2020-02-26T10:15:15.266Z</lastmod>
     
   </url>
   
@@ -54,13 +54,6 @@
     <loc>http://leeee.top/2020/CSIT5500-1/</loc>
     
     <lastmod>2020-02-26T08:18:53.099Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://leeee.top/more/friends/friendslist.json</loc>
-    
-    <lastmod>2020-02-25T20:15:04.000Z</lastmod>
     
   </url>
   

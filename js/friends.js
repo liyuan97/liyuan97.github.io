@@ -1,7 +1,7 @@
 friend = {
     init: function () {
         var that = this;
-        $.getJSON("/about/friends/friendslist.json", function (data) {
+        $.getJSON("/more/friends/friendslist.json", function (data) {
             that.render(data);
         });
     },

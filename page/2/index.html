@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -35,7 +35,7 @@
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -553,7 +553,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="5003总结1-RDD-Spark-Internals"><a href="#5003总结1-RDD-Spark-Internals" class="headerlink" title="5003总结1 RDD, Spark Internals"></a>5003总结1 RDD, Spark Internals</h1><p>学习了5003之后，对于RDD和spark两章总结复习，梳理出有关函数的作用。</p><h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><p>resilient Distributed Datasets: 弹性分布式数据库，rdd是spark的基本运行单位<br>使用者作用于RDD，RDD自动进行分区，在不同partitions进行操作<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030092656.png" alt="RDD的操作"></p>
+          <h1 id="5003总结1-RDD-Spark-Internals"><a href="#5003总结1-RDD-Spark-Internals" class="headerlink" title="5003总结1 RDD, Spark Internals"></a>5003总结1 RDD, Spark Internals</h1><p>学习了5003之后，对于RDD和spark两章总结复习，梳理出有关函数的作用。</p><h2 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h2><p>resilient Distributed Datasets: 弹性分布式数据库，rdd是spark的基本运行单位<br>使用者作用于RDD，RDD自动进行分区，在不同partitions进行操作<br><img alt="RDD的操作" data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191030092656.png"></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/5003%E6%80%BB%E7%BB%931-RDD-Spark-Internals/#more" rel="contents">
@@ -1549,6 +1549,7 @@ if(canvas.getContext){
   
   <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

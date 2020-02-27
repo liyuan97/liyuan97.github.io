@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -35,7 +35,7 @@
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -352,9 +352,9 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 -\sum_{i=1}^{N} \log \left(\frac{\exp \left(W_{k(i)} \cdot x^{(i)}\right)}{\sum_{c=1}^{C} \exp \left(W_{c} \cdot x^{(i)}\right)}\right)</script><blockquote>
 <p>括号里就是对于每一个样本x的预测值概率大小，所有都猜对的话，概率是1，整体损失就是0；当没猜对，概率在0-1，-log(0. xxx)就是很小，损失就多。</p>
 </blockquote>
-<p>一般的ML问题中，参数由权值矩阵的列组成维度不会太大。而在词向量或其他深度学习中，需要同时学习权值矩阵和词向量。参数一多，就容易过拟合：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222013518.png" alt></p>
-<h1 id="神经元的本质"><a href="#神经元的本质" class="headerlink" title="神经元的本质"></a>神经元的本质</h1><p>如果损失函数用sigmoid，单个神经元就是逻辑回归：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222014539.png" alt></p>
-<p>而神经网络，就是多个逻辑回归同时计算，如图：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222014651.png" alt><br>上图就是四个逻辑回归(经过4次激活函数)</p>
+<p>一般的ML问题中，参数由权值矩阵的列组成维度不会太大。而在词向量或其他深度学习中，需要同时学习权值矩阵和词向量。参数一多，就容易过拟合：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222013518.png"></p>
+<h1 id="神经元的本质"><a href="#神经元的本质" class="headerlink" title="神经元的本质"></a>神经元的本质</h1><p>如果损失函数用sigmoid，单个神经元就是逻辑回归：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222014539.png"></p>
+<p>而神经网络，就是多个逻辑回归同时计算，如图：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222014651.png"><br>上图就是四个逻辑回归(经过4次激活函数)</p>
 <h1 id="Named-Entity-Recognition-NER"><a href="#Named-Entity-Recognition-NER" class="headerlink" title="Named Entity Recognition (NER)"></a>Named Entity Recognition (NER)</h1><p>实体识别就是把句子里的实物名字找出来，并且进行分类，比如说组织单位，个人名字，电器名字，软件名字，地点之类的。<br>用途：</p>
 <ul>
 <li>定位前文的主语</li>
@@ -368,20 +368,20 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 </blockquote>
 <h1 id="窗口单词分类Binary-word-window-classification"><a href="#窗口单词分类Binary-word-window-classification" class="headerlink" title="窗口单词分类Binary word window classification"></a>窗口单词分类Binary word window classification</h1><p>单独对于一个单词分类很难，所以简单思路就是取前后的四五个单词窗口，取平均（或者把向量串起来），然后再进行分类。</p>
 <p>但是有一个问题，平均会丢失单词在窗口里的位置。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222214054.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222214054.png"></p>
 <p>对于位置问题，可以通过打分来解决（回归）。让位置在中间的样本y高，不在中间的样本（打乱顺序）对应的yscore低。如图。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222214634.png" alt></p>
-<h1 id="间隔最大化目标函数"><a href="#间隔最大化目标函数" class="headerlink" title="间隔最大化目标函数"></a>间隔最大化目标函数</h1><p>这里上课老师跳过了，没看懂先挖个坑<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222215915.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222214634.png"></p>
+<h1 id="间隔最大化目标函数"><a href="#间隔最大化目标函数" class="headerlink" title="间隔最大化目标函数"></a>间隔最大化目标函数</h1><p>这里上课老师跳过了，没看懂先挖个坑<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222215915.png"></p>
 <h1 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h1><p>求导，链式法则，老生常谈了。</p>
 <p>关注一下矩阵的求导：</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222220647.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222220647.png"></p>
 <p>对于一个m输出，n输入的函数，求导就是对于m行，每行求对应位置输入x_j的导数。</p>
-<p>n个输入n个输出：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222221411.png" alt><br>所以，可以得到一个只有对角线元素上有导数，其他位置为0的矩阵。</p>
-<p>所以，最后可以得到s（最后的分数）对b(线性计算加的那个偏置)的导数：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222222311.png" alt></p>
-<p>上图中，如果同时对w和b求导可以发现：<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222222558.png" alt></p>
+<p>n个输入n个输出：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222221411.png"><br>所以，可以得到一个只有对角线元素上有导数，其他位置为0的矩阵。</p>
+<p>所以，最后可以得到s（最后的分数）对b(线性计算加的那个偏置)的导数：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222222311.png"></p>
+<p>上图中，如果同时对w和b求导可以发现：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222222558.png"></p>
 <p>观察出，b的导数就是信号的损失</p>
 <p>上图第一行，z对w的求导就是x。所以可以得到s对于w的导数，其实就是delt损失和x相乘。</p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222223106.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200222223106.png"></p>
 <p>所以导数也是n*m的。</p>
 <blockquote>
 <p>这里没讲完就下课了…，主要是想展示计算过程吧。</p>
@@ -872,6 +872,7 @@ if(canvas.getContext){
   
   <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -35,7 +35,7 @@
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -56,17 +56,17 @@
   };
 </script>
 
-  <meta name="description" content="之前在部署博客到github page的时候每当遇到hexo deploy，都遇到了123git@github.com: Permission denied (publickey).fatal: 无法读取远程仓库。请确认您有正确的访问权限并且仓库存在。搞的我百思不得其解，之前ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能">
+  <meta name="description" content="之前在部署博客到github page的时候每当遇到hexo deploy，遇到了123git@github.com: Permission denied (publickey).fatal: 无法读取远程仓库。请确认您有正确的访问权限并且仓库存在。搞的我百思不得其解，ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能是因为">
 <meta name="keywords" content="ssh,github,hexo,linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通过ssh免密部署github">
 <meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;github-ssh&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="之前在部署博客到github page的时候每当遇到hexo deploy，都遇到了123git@github.com: Permission denied (publickey).fatal: 无法读取远程仓库。请确认您有正确的访问权限并且仓库存在。搞的我百思不得其解，之前ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能">
+<meta property="og:description" content="之前在部署博客到github page的时候每当遇到hexo deploy，遇到了123git@github.com: Permission denied (publickey).fatal: 无法读取远程仓库。请确认您有正确的访问权限并且仓库存在。搞的我百思不得其解，ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能是因为">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226175214.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226175610.png">
-<meta property="og:updated_time" content="2020-02-26T10:15:15.266Z">
+<meta property="og:updated_time" content="2020-02-27T03:01:56.209Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226175214.png">
 
@@ -269,9 +269,24 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-02-26 18:10:00 / 修改时间：18:15:15" itemprop="dateCreated datePublished" datetime="2020-02-26T18:10:00+08:00">2020-02-26</time>
+              <time title="创建时间：2020-02-26 18:10:00" itemprop="dateCreated datePublished" datetime="2020-02-26T18:10:00+08:00">2020-02-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-27 11:01:56" itemprop="dateModified" datetime="2020-02-27T11:01:56+08:00">2020-02-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工程</span></a>
+                </span>
             </span>
 
           
@@ -306,17 +321,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>之前在部署博客到github page的时候每当遇到hexo deploy，都遇到了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git@github.com: Permission denied (publickey).</span><br><span class="line">fatal: 无法读取远程仓库。</span><br><span class="line">请确认您有正确的访问权限并且仓库存在。</span><br></pre></td></tr></table></figure><br>搞的我百思不得其解，之前ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能是因为用了zsh的shell之后，和之前bash的路径不对？算了，这篇就总结一下ssh的过程。</p><a id="more"></a>
+        <p>之前在部署博客到github page的时候每当遇到hexo deploy，遇到了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git@github.com: Permission denied (publickey).</span><br><span class="line">fatal: 无法读取远程仓库。</span><br><span class="line">请确认您有正确的访问权限并且仓库存在。</span><br></pre></td></tr></table></figure><br>搞的我百思不得其解，ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能是因为用了zsh的shell之后，和之前bash的路径不对？算了，这篇就总结搭载ssh的过程。</p><a id="more"></a>
 <p>具体怎么搞ssh参考这篇<a href="https://blog.csdn.net/u013778905/article/details/83501204" target="_blank" rel="noopener">GitHub如何配置SSH Key</a>。</p>
 <h1 id="设置git的user-name和email"><a href="#设置git的user-name和email" class="headerlink" title="设置git的user name和email"></a>设置git的user name和email</h1><p>如果你是第一次使用，或者还没有配置过的话需要操作一下命令，自行替换相应字段。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;xxxxxx&quot;</span><br><span class="line">git config --global user.email  &quot;xxxxx@gmail.com&quot;</span><br></pre></td></tr></table></figure><br>说明：git config —list 查看当前Git环境所有配置，还可以配置一些命令别名之类的</p>
-<h1 id="检查-生成ssh-key"><a href="#检查-生成ssh-key" class="headerlink" title="检查/生成ssh key"></a>检查/生成ssh key</h1><p>ssh key 由一个公钥(id_rsa.pub)和私钥(id_rsa)组成，构成ssh通道的安全。<br>可以通过cd ~/.ssh   然后ls  查看。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226175214.png" alt><br>上图中，我有两组ssh key。<br>如果没有，就生成一下。</p>
+<h1 id="检查-生成ssh-key"><a href="#检查-生成ssh-key" class="headerlink" title="检查/生成ssh key"></a>检查/生成ssh key</h1><p>ssh key 由一个公钥(id_rsa.pub)和私钥(id_rsa)组成，构成ssh通道的安全。<br>可以通过cd ~/.ssh   然后ls  查看。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226175214.png"><br>上图中，我有两组ssh key。<br>如果没有，就生成一下。</p>
 <blockquote>
 <p>ssh-keygen -t rsa -C “xxxxxxx@qq.com”</p>
 </blockquote>
 <h1 id="获取公钥添加到github里"><a href="#获取公钥添加到github里" class="headerlink" title="获取公钥添加到github里"></a>获取公钥添加到github里</h1><blockquote>
 <p>cat id_rsa.pub<br>然后复制到github -&gt; settting -&gt; ssh and GPG keys -&gt; new SSHkey</p>
 </blockquote>
-<p>然后拷贝进去。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226175610.png" alt></p>
+<p>然后拷贝进去。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226175610.png"></p>
 <h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><div class="note primary">
             <blockquote><p>$ ssh -T git@github.com<br>Hi ! You’ve successfully authenticated, but GitHub does not provide shell access.</p></blockquote>
           </div>
@@ -813,6 +828,7 @@ if(canvas.getContext){
   
   <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

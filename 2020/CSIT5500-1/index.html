@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -35,7 +35,7 @@
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -336,7 +336,7 @@
 \begin{aligned} T(n) & \leq T(n / 2)+O(1) \\ & \leq T(n / 4)+O(1)+O(1) \\ & \leq T\left(n / 2^{k}\right)+k \cdot O(1) \end{aligned}</script><p>k可以人为指定成log2(n)</p>
 <script type="math/tex; mode=display">
 \begin{aligned} T(n) & \leq T(1)+\log _{2} n \cdot O(1) \\ &=O(1)+O(\log n) \\ &=O(\log n) \end{aligned}</script><h1 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h1><p>又到了经典的排序环节，直接引用我觉得写得最完整的两个博文<a href="https://www.cnblogs.com/onepixel/articles/7674659.html" target="_blank" rel="noopener">十大排序动图演示</a><br><a href="https://leetcode.com/problems/sort-an-array/discuss/276916/Python-bubble-insertion-selection-quick-merge-heap-objects" target="_blank" rel="noopener">python十大排序</a> </p>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200225022848.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200225022848.png"></p>
 <p>课上跳过了最简单的主要讲了O(nlogn)的三个，并归，快速，堆。</p>
 <h2 id="并归merge"><a href="#并归merge" class="headerlink" title="并归merge"></a>并归merge</h2><p>简单的dc思路，先对数组分成两半，左右各自排序，然后用两个指针同时扫一遍，合起来。<br>这个过程递归到，两半只有一个元素的时候，就可以了。</p>
 <ul>
@@ -366,18 +366,18 @@
 <h3 id="插入节点："><a href="#插入节点：" class="headerlink" title="插入节点："></a>插入节点：</h3><blockquote>
 <p>插入到完全二叉树的最后<br>如果有父节点&amp;&amp;父节点比自己小：<br>——-两个节点交换位置</p>
 </blockquote>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226151338.png" alt><br>移动次数=层数 所以插入的时间复杂度O(log n)</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226151338.png"><br>移动次数=层数 所以插入的时间复杂度O(log n)</p>
 <h3 id="删除节点："><a href="#删除节点：" class="headerlink" title="删除节点："></a>删除节点：</h3><blockquote>
 <p>删除根节点，让末尾最大的值成为新的根节点<br>如果有子节点&amp;&amp;子节点比自己小：<br>——-选择子节点中小的那个，两个节点交换位置</p>
 </blockquote>
-<p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226151835.png" alt></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226151835.png"></p>
 <p>移动次数=层数 所以删除的时间复杂度O(log n)</p>
 <h3 id="完全二叉树和数值的索引对应关系"><a href="#完全二叉树和数值的索引对应关系" class="headerlink" title="完全二叉树和数值的索引对应关系"></a>完全二叉树和数值的索引对应关系</h3><p>父节点 i 找子节点：2i+1 , 2i+2<br>子节点找父节点： [(i-1)/2]   向下取整<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># @heapSort</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">heapSort</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">heapify</span><span class="params">(nums, n, i)</span>:</span> </span><br><span class="line">         largest = i</span><br><span class="line">         l = <span class="number">2</span> * i + <span class="number">1</span></span><br><span class="line">         r = <span class="number">2</span> * i + <span class="number">2</span></span><br><span class="line">         </span><br><span class="line">         <span class="keyword">if</span> l &lt; n <span class="keyword">and</span> nums[i] &lt; nums[l]: </span><br><span class="line">             largest = l </span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span> r &lt; n <span class="keyword">and</span> nums[largest] &lt; nums[r]: </span><br><span class="line">             largest = r </span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span> largest != i: </span><br><span class="line">             nums[i], nums[largest] = nums[largest], nums[i]</span><br><span class="line">             </span><br><span class="line">             heapify(nums, n, largest)</span><br><span class="line">             </span><br><span class="line">     n = len(nums) </span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span> i <span class="keyword">in</span> range(n, <span class="number">-1</span>, <span class="number">-1</span>): </span><br><span class="line">         heapify(nums, n, i) </span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span> i <span class="keyword">in</span> range(n<span class="number">-1</span>, <span class="number">0</span>, <span class="number">-1</span>): </span><br><span class="line">         nums[i], nums[<span class="number">0</span>] = nums[<span class="number">0</span>], nums[i]</span><br><span class="line">         heapify(nums, i, <span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
 <h1 id="二叉搜索树-BST博客"><a href="#二叉搜索树-BST博客" class="headerlink" title="二叉搜索树 BST博客"></a>二叉搜索树 <a href="https://blog.csdn.net/csdn0123zl/article/details/81253648" target="_blank" rel="noopener">BST博客</a></h1><ul>
 <li>Def: 任何一个节点，小于右子节点，大于左子节点<br>条件不够苛刻，二叉搜索树不唯一。</li>
 </ul>
-<h2 id="节点的后继："><a href="#节点的后继：" class="headerlink" title="节点的后继："></a>节点的后继：</h2><p>大于这个节点的最小的值。<br>分两种情况，如果这个节点x有右子树，那么这个继承者就是右子树的最小值。<br>如果没有右子树，那么就是这个节点一直往上，第一个向右走的父节点。<br>如图。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160114.png" alt><br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160138.png" alt></p>
-<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入很简单，就和查找一样，找到一个位置塞进去就好了。<br><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160354.png" alt></p>
+<h2 id="节点的后继："><a href="#节点的后继：" class="headerlink" title="节点的后继："></a>节点的后继：</h2><p>大于这个节点的最小的值。<br>分两种情况，如果这个节点x有右子树，那么这个继承者就是右子树的最小值。<br>如果没有右子树，那么就是这个节点一直往上，第一个向右走的父节点。<br>如图。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160114.png"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160138.png"></p>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入很简单，就和查找一样，找到一个位置塞进去就好了。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160354.png"></p>
 <h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p>删除分情况</p>
 <ol>
 <li>如果0个孩子，直接删</li>
@@ -861,6 +861,7 @@ if(canvas.getContext){
   
   <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>

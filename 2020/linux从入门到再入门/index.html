@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" href="/css/main.css">
 
-<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
@@ -35,7 +35,7 @@
     bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
     mediumzoom: false,
-    lazyload: false,
+    lazyload: true,
     pangu: false,
     algolia: {
       appID: '',
@@ -356,8 +356,8 @@
 <li>删除账号<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ userdel 选项(建议-r） 账户名</span><br><span class="line">-r 可以把主目录一起删除</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<h1 id="文件权限与访问控制"><a href="#文件权限与访问控制" class="headerlink" title="文件权限与访问控制"></a>文件权限与访问控制</h1><p><img src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200107231346.png" alt><br>Linux文件系统权限：</p>
-<p><img src="https://img-blog.csdn.net/20180711160810276?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjQ0MjcxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt></p>
+<h1 id="文件权限与访问控制"><a href="#文件权限与访问控制" class="headerlink" title="文件权限与访问控制"></a>文件权限与访问控制</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200107231346.png"><br>Linux文件系统权限：</p>
+<p><img alt data-src="https://img-blog.csdn.net/20180711160810276?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MjQ0MjcxMw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70"></p>
 <h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><p><strong>一、Linux系统的结构</strong></p>
 <p>　　1、Linux是一个倒树型结构，最大的目录名称为“/”（根目录）</p>
 <p>　　2、Linux系统的二级目录</p>
@@ -371,37 +371,37 @@
 <p>　　　　mtime　：文件内容被修改的时间标识</p>
 <p>　　　　ctime　 ：文件属性或文件内容被修改的时间标识</p>
 <p>　　实例：使用<strong><em> touch file </em></strong> 建立一个名为file的文件，并使用stat命令进行查看</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716191242211-1069722524.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716191242211-1069722524.png"></p>
 <ul>
 <li>　若进行文件的查看后，则访问时间将会被改变，结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716191629214-2046658304.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716191629214-2046658304.png"></p>
 <ul>
 <li>　若文件进行编辑后，则访问时间、修改时间和文件改变时间三者均会变化，结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716192012796-193555712.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716192012796-193555712.png"></p>
 <p>　　注意：使用<strong><em> touch —help </em></strong>进行其他参数的查看</p>
 <p>　　2、目录的建立</p>
 <p>　　命令：mkdir　directory　　　　　　　　## 用来建立名为directory的目录</p>
 <p>　　　　 mkdir　-p　test/redcat/linux　　 ## -p 进行多级目录的创建</p>
 <p>　　注释：也可使用 mkdir —help命令进行参数的查看</p>
 <p>　　实例：使用<strong><em> mkdir niu </em></strong>创建一个目录名为niu，结果如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716192938835-574407116.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716192938835-574407116.png"></p>
 <ul>
 <li>　多级目录创建结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716193136101-657056986.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716193136101-657056986.png"></p>
 <p>　　3、文件的删除</p>
 <p>　　命令：rm 　file　　　　 ## 进行文件的删除</p>
 <p>　　　　 rm 　-f 　test　　## -f 为强行删除文件</p>
 <p>　　实例：使用<strong><em> ls file </em></strong>命令删除文件file，结果如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716193719450-1436996021.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716193719450-1436996021.png"></p>
 <p>　　4、目录的删除</p>
 <p>　　命令：rm 　-r 　directory　　## -r表示递归删除所有内容</p>
 <p>　　　　 rm　 -r　-f 　dir　　　## 删除目录不再提示</p>
 <p>　　　　 rm 　-rf　　dir　　　 ## j结果与上一个相同，且有 -a -b -c= - abc = - cba　</p>
 <p>　　实例：使用<strong><em> rm -rf test</em></strong> 删除test目录以及test目录下的所有内容，结果如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716194551519-1288801399.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716194551519-1288801399.png"></p>
 <p>　　5、文件编辑</p>
 <ul>
 <li>　gedit 编辑器</li>
@@ -412,14 +412,14 @@
 </ul>
 <p>　　　　　命令：vim　file ———&gt; 按 i 进入insert 模式 ———&gt; 书写内容 ———&gt; esc退出insert模式 - ——-&gt; wq退出并保存</p>
 <p>　　 实例：gedit使用（使用以下命令即可打开file文件，并进行编辑）</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716195422572-1655897153.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716195422572-1655897153.png"></p>
 <ul>
 <li>　使用vim.tiny实例应用如下：（vim 和vim.tiny功能类似）</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716195752419-614443396.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716195752419-614443396.png"></p>
 <p>　　###### 使用vim 会出现异常情况 ######</p>
 <p>　　当vim异常退出时，会生成.file.swp文件（原因是修改文件未保存）</p>
-<p>　　当helloc未保存后再次打开时，会出现以下情况：（下面文字接着图的more）<br>　 <img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716200340278-2049532639.png" alt></p>
+<p>　　当helloc未保存后再次打开时，会出现以下情况：（下面文字接着图的more）<br>　 <img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716200340278-2049532639.png"></p>
 <p>　　Swap file “.hello.swp” already exists!</p>
 <p>　　[O]pen Read-Only, (E)dit anyway, (R)ecover, (D)elete it,　　 (Q)uit, (A)bort:<br>　　　　只读打开 　　　 继续编辑 　 恢复数据 　 删除swap文件 退出<br>　　分析：无论按【o】【e】【r】【q】【a】任何一个都不会删除.swp文件，再次打开还会</p>
 <p>　　　　　有这样的这个问题，直到按【D】后，.swp被删除，vim恢复正常。  </p>
@@ -429,28 +429,28 @@
 <p>　　　　　cp 　源文件1　源文件2　目的地目录　　 　　## 目的地目录必须存在</p>
 <p>　　　　　cp 　-r 　源目录1　源目录2　目的地目录　　 ## 目的地目录必须存在</p>
 <p>　　实例：把file文件中的内容复制到file1中，结果如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716202413095-1447577145.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716202413095-1447577145.png"></p>
 <ul>
 <li>　使用 <strong><em> cp -r test　test1 </em></strong>命令把test目录下内容复制到test1目录中，结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716203157814-1198844011.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716203157814-1198844011.png"></p>
 <ul>
 <li>　使用 <strong><em> cp file1 file2 dir </em></strong>命令，把file1和file2文件复制到目录dir下，结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716203804044-2015492922.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716203804044-2015492922.png"></p>
 <ul>
 <li>　使用<strong><em> cp -r dir dir1 dir2 </em></strong>把目录dir1和dir2复制到目录dir3下，结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716204213938-2053126740.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716204213938-2053126740.png"></p>
 <p>　　7、文件的移动</p>
 <p>　　命令：mv 　源文件　　目的地文件　　　　## 重命名</p>
 <p>　　　　　mv　 源目录　　目的地目录</p>
 <p>　　实例：使用<strong><em> mv file file1</em></strong>命令，把file重命名为file1，结果如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716204620780-1893321132.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716204620780-1893321132.png"></p>
 <p>　　使用<strong><em> mv niu/file test/ </em></strong>把niu目录下的file文件移动到test目录中，结果如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716204956300-1776343291.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716204956300-1776343291.png"></p>
 <p>　　（.代表当前目录）例：把test目录下的file1复制到当前目录下，命令如下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716205318027-1553458611.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716205318027-1553458611.png"></p>
 <p>　　注意：相同磁盘的文件移动是重命名的过程，不用磁盘的移动是复制删除的过程。</p>
 <p>　　8、文件的查看</p>
 <p>　　命令：cat　filename　　　　## 表示查看文件的全部内容</p>
@@ -462,11 +462,11 @@
 <p>　　　　　v　　　　　　　　　　## 进入vim模式，然后按i进行编辑，返回vim模式按esc</p>
 <p>　　　　　q　　　　　　　　　　##退出vim模式</p>
 <p>　　实例：使用<strong><em> cat file1</em></strong>命令查看file1中的内容，结果入下：</p>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716212743634-353476679.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716212743634-353476679.png"></p>
 <ul>
 <li>　查看内容并显示行号，结果如下：</li>
 </ul>
-<p>　　<img src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716212922248-1273385407.png" alt></p>
+<p>　　<img alt data-src="https://images2018.cnblogs.com/blog/1438668/201807/1438668-20180716212922248-1273385407.png"></p>
 <ul>
 <li>　less 命令既修改文件中的内容，也可以使用快捷键进行查找，在此就不放截图了。</li>
 </ul>
@@ -988,6 +988,7 @@ if(canvas.getContext){
   
   <script color='255,140,0' opacity='1' zIndex='-1' count='99' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
   <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
 <script src="/js/utils.js"></script><script src="/js/motion.js"></script>
