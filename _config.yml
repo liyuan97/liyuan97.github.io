@@ -125,7 +125,7 @@ backup:
   theme: next
   message: Back up my leeee.top blog
   repository:
-    github: git@github.com:liyuan97/liyuan97.github.io.git,back_up
+    github: git@github.com:liyuan97/R-SDSS.git,back_up
 
 admin:
   deployCommand: './push.sh'
