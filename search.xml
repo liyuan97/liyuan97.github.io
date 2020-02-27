@@ -221,9 +221,13 @@
 <p>最后感谢实习期间的导师，让我受益匪浅。</p>
 <p>如果你觉得读完有一丢丢用处，就在下面留个言吧👀</p>
 ]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
       <tags>
         <tag>实习</tag>
         <tag>推荐算法</tag>
+        <tag>机器学习</tag>
       </tags>
   </entry>
   <entry>
@@ -477,6 +481,9 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p>代码地址：<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2FChenglongChen%2Ftensorflow-DeepFM" target="_blank" rel="noopener">https://github.com/ChenglongChen/tensorflow-DeepFM</a></p>
 <p>梳理FM发展历史：<a href="https://zhuanlan.zhihu.com/p/52877868" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/52877868</a><br>参考FM：<a href="https://blog.csdn.net/John_xyz/article/details/78933253" target="_blank" rel="noopener">https://blog.csdn.net/John_xyz/article/details/78933253</a><br>带举例的解释：<a href="https://blog.csdn.net/baymax_007/article/details/83931698" target="_blank" rel="noopener">https://blog.csdn.net/baymax_007/article/details/83931698</a><br>推荐系统遇上深度学习系列1-3：<a href="https://www.jianshu.com/p/6f1c2643d31b" target="_blank" rel="noopener">https://www.jianshu.com/p/6f1c2643d31b</a></p>
 ]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
       <tags>
         <tag>推荐系统</tag>
       </tags>
@@ -502,6 +509,12 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p>害，扯远了。上学期在香港，看到香港马拉松的报名，毫不犹豫的直接报名了。时间是2月8号，也就是开学后一天。离现在也只有不到一个月的时间，近几个月我好吃懒做，加班严重，公司附近也没有很好的健身房(其实是没有去找)。反正就是心肺都下降了很多，力量也弱，六七个引体都做不了(去年还能一次30个呢，哼)。</p>
 <p>所以，接下来三周，我要进入疯狂备赛阶段，今晚去公司对面的公园，发现环境还不错，面积挺大，一圈又两公里左右。有很多跑步的人和健身老头。所以我可以接下来一周(11-19号)就在公园锻炼，然后过年回家十来天，在家的体育场，年后(2月1号-7号)再来一周公园锻炼，就要去跑马拉松啦。</p>
 ]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
+      <tags>
+        <tag>运动</tag>
+      </tags>
   </entry>
   <entry>
     <title>Git再入门</title>
@@ -773,6 +786,9 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <h1 id="例子-list-rank"><a href="#例子-list-rank" class="headerlink" title="例子 list rank"></a>例子 list rank</h1><p>对于一个链表排序（按照距离尾部节点的距离排序）：<br>暴力算法：遍历n次，每次找到尾部节点，记录并删除 O(n)<br>方法2：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Initialize u.d = 0 if u.next = null, else u.d = 1</span><br><span class="line">Run the following for each node u until all next pointers are null:</span><br><span class="line">	if u.next is not null: </span><br><span class="line">		u.d += u.next.d </span><br><span class="line">		u.next = u.next.next</span><br></pre></td></tr></table></figure><br>算法原理如图：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170545.png"><br>复杂度O(logn)，每一轮遍历非尾节点都会参与，减少循环次数<br> 实现：<br> <img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170704.png"><br> <img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123170718.png"></p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>本文总结了pyspark的graph模块基本语法和操作，关于5003的三篇总结到此结束。</p>
 ]]></content>
+      <categories>
+        <category>MSBD5003</category>
+      </categories>
       <tags>
         <tag>复习</tag>
         <tag>spark</tag>
@@ -831,6 +847,9 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <hr>
 <p>用实例总结了几个steaming和并行计算的基础知识点，路漫漫兮。</p>
 ]]></content>
+      <categories>
+        <category>MSBD5003</category>
+      </categories>
       <tags>
         <tag>复习</tag>
         <tag>spark</tag>
@@ -952,6 +971,9 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <li>Two types of memory usages for applications:<br>– Execution memory: for computation in shuffles, joins, sorts and aggregations<br>– Storage memory: for caching and propagating internal data across the cluster</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>MSBD5003</category>
+      </categories>
       <tags>
         <tag>复习</tag>
         <tag>spark</tag>
@@ -1016,6 +1038,9 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p>解决：<br>when：使用互通次日<br>who：IT，零售，物流<br>why：需要客户联系，管理消费者资源<br>how：<br>1 大企业，推联系方式给BD联系主动沟通，拉起使用<br>2 中小企业，非管理员体验，push引导管理员开通客户联系；  管理员体验，企业号推送行业案例，激发兴趣<br>3 未进入的企业，寻找“优质用户”包，在朋友圈广告定向推送互通行业案例<br>4 增加通道：微信个人资料增加企业微信icon，增加曝光</p>
 <hr>
 ]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
       <tags>
         <tag>实习</tag>
         <tag>推荐算法</tag>
@@ -1078,6 +1103,9 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p><img alt="Example of the Generative Adversarial Network Model Architecture" data-src="https://3qeqpr26caki16dnhd19sv6by6v-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Example-of-the-Generative-Adversarial-Network-Model-Architecture.png"></p>
 <p>Example of the Generative Adversarial Network Model Architecture</p>
 ]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
       <tags>
         <tag>学习笔记</tag>
       </tags>
@@ -1189,6 +1217,12 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <p>总结，一个简单的idel不断优化，借鉴别的想法，优化到了极致，导致xgboost能这么强。</p>
 <p>参考资料：xgboost原文<br><a href="https://blog.csdn.net/weixin_42158523/article/details/81737370" target="_blank" rel="noopener">https://blog.csdn.net/weixin_42158523/article/details/81737370</a><br><a href="https://www.cnblogs.com/aixiao07/p/11375168.html" target="_blank" rel="noopener">https://www.cnblogs.com/aixiao07/p/11375168.html</a></p>
 ]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
   </entry>
   <entry>
     <title>港校msc 互联网找工作时间轴</title>
@@ -1203,6 +1237,9 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <hr>
 <h2 id="成为社畜"><a href="#成为社畜" class="headerlink" title="成为社畜"></a>成为社畜</h2><p>我的个人准备笔试面试时间轴：<br><!-- Table --><br>| 月份| 校内|找工作准备|<br>|—|—|—|<br>| 11月| 各种ddl | 算法基础+数据结构<br>|12月|考试+寒假|剑指offer<br>|1月|寒假| 剑指offer+NLP+整理机器学习+特征工程<br>|2月|开学不忙|leetcode mid+NLP实战+整理深度学习<br>|3月|开始准备期中| leetcode hard+笔试概率题、智商题</p>
 ]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
       <tags>
         <tag>timeline</tag>
         <tag>实习</tag>
@@ -1250,6 +1287,9 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 <hr>
 <p><a href="https://hexo.io/zh-cn/docs/commands.html" target="_blank" rel="noopener">hexo官网</a></p>
 ]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
       <tags>
         <tag>blog</tag>
       </tags>
@@ -1277,6 +1317,9 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
 </ul>
 <p>为了混口饭吃，写博客的flag没有任何理由推倒了吧。<br>希望最少保持一个月一篇的频率，正常频率一周一篇。</p>
 ]]></content>
+      <categories>
+        <category>随笔</category>
+      </categories>
       <tags>
         <tag>blog</tag>
       </tags>
