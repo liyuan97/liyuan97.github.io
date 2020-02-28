@@ -1203,7 +1203,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #c2d16f;
+  background: #d466ff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2726,7 +2726,7 @@ mjx-container + br {
   opacity: 0.9;
 }
 .site-brand-container {
-  background: url("https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228122755.png");
+  background: url("https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228122854.jpg");
   background-position: 70% 20%;
   background-size: cover;
 }
