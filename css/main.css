@@ -1203,7 +1203,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #d466ff;
+  background: #ebcc88;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -3017,5 +3017,5 @@ blockquote p,
 }
 .footer,
 .footer a {
-  color: #666;
+  color: #fff;
 }
