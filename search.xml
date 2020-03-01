@@ -1,6 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>MSBD5004 Mathematical Methods for Data Analysis Homework 1</title>
+    <url>/2020/MSBD5004-Mathematical-Methods-for-Data-Analysis-Homework-1/</url>
+    <content><![CDATA[<p>MSBD5004 Mathematical Methods for Data Analysis Homework 1<br>20635526 LiYuan</p><h1 id="Q1"><a href="#Q1" class="headerlink" title="Q1"></a>Q1</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200301103136.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p><h1 id="a"><a href="#a" class="headerlink" title="( a )"></a>( a )</h1><p>By norm definition, we can see:</p><a id="more"></a>
+
+
+<ul>
+<li>Zero vector:<br>$\forall x \in V, |\boldsymbol{x}|_{\infty}=\max _{1 \leq i \leq n}\left|x_{i}\right|\geq0$ .<br>And only when $X=0$ then $|x|_{\infty}=0$.</li>
+<li>positive homogeneity:<br>$\forall x \in V$ and $\alpha \in \mathbb{R}$, $|\boldsymbol{\alpha x}|_{\infty}=\max _{1 \leq i \leq n}\left|\alpha x_{i}\right|=\left|\alpha \right||\boldsymbol{ x}|_{\infty}$.</li>
+<li>triangle inequality:<br>$\forall x, y \in V$, $|\boldsymbol{x+y}|_{\infty}= \max _{1 \leq i \leq n}\left|x_{i}+y_i\right|<br>\leq \max _{1 \leq i \leq n}\left|x_{i}\right|+\max _{1 \leq j \leq n}\left|y_{j}\right| =|\boldsymbol{x}|_{\infty}+|\boldsymbol{y}|_{\infty}$ </li>
+</ul>
+<p>So, $|\boldsymbol{x}|_{\infty}=\max _{1 \leq i \leq n}\left|x_{i}\right|$ is indeed a norm on $\mathbb{R}^{n}$.◾</p>
+<h2 id="b"><a href="#b" class="headerlink" title="( b )"></a>( b )</h2><ul>
+<li><p>Proof. </p>
+<p>Let $|x|_{p}=\left(\sum_{i}\left|x_{i}\right|^{p}\right)^{\frac{1}{p}} .$ Observe that for all $x$ we have that</p>
+<script type="math/tex; mode=display">
+\max _{i}\left|x_{i}\right| \leq\|x\|_{p}</script><p>and that</p>
+<script type="math/tex; mode=display">
+\|x\|_{p} \leq\left(\sum_{i} \max _{i}\left|x_{i}\right|^{p}\right)^{\frac{1}{p}}</script><p>Thus,</p>
+<script type="math/tex; mode=display">
+\max _{i}\left|x_{i}\right| \leq\|x\|_{p} \leq\left(\sum_{i} \max _{i}\left|x_{i}\right|^{p}\right)^{\frac{1}{p}}</script><p>but then,</p>
+<script type="math/tex; mode=display">\left(\sum_{i} \max _{i}\left|x_{i}\right|^{p}\right)^{\frac{1}{p}}=\left(n \cdot \max _{i}\left|x_{i}\right|^{p}\right)^{\frac{1}{p}}=n^{\frac{1}{p}} \cdot \max _{i}\left|x_{i}\right|</script><p>Thus </p>
+<script type="math/tex; mode=display">
+\max _{i}\left|x_{i}\right| \leq\|x\|_{p} \leq n^{\frac{1}{p}} \cdot \max _{i}\left|x_{i}\right|</script><p>however, $\lim _{p \rightarrow \infty} n^{\frac{1}{p}}=1,$ so</p>
+<script type="math/tex; mode=display">
+\max _{i}\left|x_{i}\right| \leq \lim _{p \rightarrow \infty}\|x\|_{p} \leq \max _{i}\left|x_{i}\right|</script><p>or rather, that $|x|_{\infty}=\lim _{p \rightarrow \infty}|x|_{p}=\max _{i}\left|x_{i}\right|$.<a href="https://notgnoshi.github.io/l-infinity-norm/" target="_blank" rel="noopener">◾</a></p>
+</li>
+</ul>
+<h1 id="c"><a href="#c" class="headerlink" title="( c )"></a>( c )</h1><ul>
+<li>Proof.<br>$|\boldsymbol{x}|_{\infty}=\max _{1 \leq i \leq n}\left|x_{i}\right|\leq\sum_{i=1}^n\left|x_{i}\right|=|\boldsymbol{x}|_{1}$<br>$|\boldsymbol{x}|_{1}=\sum_{i=1}^n\left|x_{i}\right|\leq n*\max _{1 \leq i \leq n}\left|x_{i}\right|=n|\boldsymbol{x}|_{\infty}$</li>
+</ul>
+<p>So that $|\boldsymbol{x}|_{\infty} \leq|\boldsymbol{x}|_{1} \leq n|\boldsymbol{x}|_{\infty}, \quad \forall \boldsymbol{x} \in \mathbb{R}^{n}$.◾</p>
+<h1 id="Q2"><a href="#Q2" class="headerlink" title="Q2"></a>Q2</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200301104035.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="a-1"><a href="#a-1" class="headerlink" title="( a )"></a>( a )</h2><ul>
+<li>Proof:</li>
+</ul>
+<p>Running through all $x \neq 0$ is equivalent to running through all $y:=\frac{x}{|x|_2}$ with $|y|_2=1$</p>
+<script type="math/tex; mode=display">
+\|\boldsymbol{A}\|_{2}=\sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq 0} \frac{\|\boldsymbol{A} \boldsymbol{x}\|_{2}}{\|\boldsymbol{x}\|_{2}}=\sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq 0}\left\|A \frac{x}{\|x\|_2}\right\|_2=
+\sup _{\boldsymbol{y} \in \mathbb{R}^{n}, \|y\|_2 =1}\left\|A y\right\|_2=\max_{\boldsymbol{y} \in \mathbb{R}^{n}, \|y\|_2 =1}\left\|A y\right\|_2</script><p>◾</p>
+<h2 id="b-1"><a href="#b-1" class="headerlink" title="( b )"></a>( b )</h2><p>By norm definition, we can see:</p>
+<ul>
+<li>Zero vector:<br>$\forall A \in V$,<br><script type="math/tex">\|\boldsymbol{A}\|_{2}=\max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{A} \boldsymbol{x}\|_{2}\geq\|\boldsymbol{A} \boldsymbol{I}\|_{2}\geq0</script>.<br>And only when $a_{i,j}=0$,then $|\boldsymbol{A}|_{2}=0$, So $|\boldsymbol{A}|_{2}=0\Leftrightarrow \mathbf{A}=0$</li>
+<li>positive homogeneity:<br>$\forall A \in V$ and $\alpha \in R$, <script type="math/tex">\|\alpha\boldsymbol{A}\|_{2}=\sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq \mathbf{0}} \frac{\|\alpha\boldsymbol{A} \boldsymbol{x}\|_{2}}{\|\boldsymbol{x}\|_{2}}=\alpha\sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq \mathbf{0}} \frac{\|\boldsymbol{A} \boldsymbol{x}\|_{2}}{\|\boldsymbol{x}\|_{2}}=\alpha\|\boldsymbol{A}\|_{2}</script></li>
+<li>triangle inequality:<br>$\forall A,B \in V$,<script type="math/tex; mode=display">
+\|\boldsymbol{A+B}\|_{2}=\sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq 0} \frac{\|\boldsymbol{A} \boldsymbol{x}+\boldsymbol{B} \boldsymbol{x}\|_{2}}{\|\boldsymbol{x}\|_{2}}
+\leq\sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq 0} \frac{\|\boldsymbol{A} \boldsymbol{x}\|_{2}}{\|\boldsymbol{x}\|_{2}}+\sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq 0} \frac{\|\boldsymbol{B} \boldsymbol{x}\|_{2}}{\|\boldsymbol{x}\|_{2}}=\|\boldsymbol{A}\|_{2}+\|\boldsymbol{B}\|_{2}</script>So,  $|\cdot|_{2}$is indeed a norm on $\mathbb{R}^{m\times n}$.◾</li>
+</ul>
+<h2 id="c-1"><a href="#c-1" class="headerlink" title="( c )"></a>( c )</h2><p>From the definition we have $\forall \boldsymbol{A} \in \mathbb{R}^{m \times n},\forall\boldsymbol{|x|}\neq \mathbf{0}$,</p>
+<script type="math/tex; mode=display">\|\boldsymbol{A} \boldsymbol{x}\|_{2}\leq \sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq \mathbf{0}}\|\boldsymbol{A} \boldsymbol{x}\|_{2} =\|\boldsymbol{A}\|_{2}\|\boldsymbol{x}\|_{2}
+$$◾
+
+## ( d )
+$\forall \boldsymbol{A} \in \mathbb{R}^{m \times n},\forall\boldsymbol{B} \in \mathbb{R}^{m \times n}$,
+$$\|\boldsymbol{A}\boldsymbol{B}\|_{2}=\max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{AB} \boldsymbol{x}\|_{2} = \max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{A(Bx)}\|_{2} \leq  \|A\|\max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{(Bx)}\|_{2}</script><p>by ( c ) above. Thus</p>
+<script type="math/tex; mode=display">\|\boldsymbol{A}\boldsymbol{B}\|_{2}\leq  \|\boldsymbol{A}\|_2\max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{(Bx)}\|_{2}= \|\boldsymbol{A}\|_2 \|\boldsymbol{B}\|_2</script><p><a href="https://www.sciencedirect.com/topics/mathematics/matrix-norm" target="_blank" rel="noopener">◾</a></p>
+<h1 id="Q3"><a href="#Q3" class="headerlink" title="Q3"></a>Q3</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200301223359.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<ul>
+<li>Proof. </li>
+</ul>
+<p>We’re basically after:</p>
+<script type="math/tex; mode=display">\arg \min_{b} \sum_{i = 1}^{m} \left| {a}_{i} - b \right|</script><p>One should notice that $\frac{\mathrm{d} \left | x \right | }{\mathrm{d} x} = \operatorname{sign} \left( x \right)$ (Being more rigorous would say it is a Sub Gradient of the non smooth $L_1$ Norm function).<br>Hence, deriving the sum above yields $\sum_{i = 1}^{m} \operatorname{sign} \left( {a}_{i} - b \right)$.<br>This equals to zero only when the number of positive items equals the number of negative which happens when $b = \operatorname{median} \left\{ {a}_{1}, {a}_{2}, \cdots, {a}_{m} \right\}$.<a href="https://math.stackexchange.com/questions/113270/the-median-minimizes-the-sum-of-absolute-deviations-the-l-1-norm" target="_blank" rel="noopener">◾</a></p>
+<h1 id="Q4"><a href="#Q4" class="headerlink" title="Q4"></a>Q4</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200301223421.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="a-2"><a href="#a-2" class="headerlink" title="( a )"></a>( a )</h2><p>Because $z_j$ is average of some $x_i$, so $z_j$ located at center of these $x_i$ , so $z_j$ is in the entries. So $z_j$ also are nonnegative.◾</p>
+<h2 id="b-2"><a href="#b-2" class="headerlink" title="( b )"></a>( b )</h2><p>If each vector sums to one, $\mathbf{1}^{T} x_{k}=1$ for all $k$ then the same is true for the average:</p>
+<p><script type="math/tex">\mathbf{1}^{T} z_{j}=\frac{1}{\left|G_{j}\right|} \sum_{k \in G_{j}} \mathbf{1}^{T} x_{k}=\frac{\left|G_{j}\right|}{\left|G_{j}\right|}=1</script>◾</p>
+<h2 id="c-2"><a href="#c-2" class="headerlink" title="( c )"></a>( c )</h2><p>The $i$th entry of group represenative $z_j$is the fraction of the vectors in group $j$that have $i$th entry one. If it is equal to one, all vectors in the group have $i$thentry one. If it is close to one, most vectors in the group haveith entry one. If it zero, no vectors in the group haveith entry one.<a href="https://www.coursehero.com/file/p67cqc5/a-Suppose-the-original-vectors-x-i-are-nonnegative-ie-their-entries-are/" target="_blank" rel="noopener">◾</a></p>
+<h1 id="Q5"><a href="#Q5" class="headerlink" title="Q5"></a>Q5</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200301234639.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+]]></content>
+      <categories>
+        <category>5004</category>
+      </categories>
+      <tags>
+        <tag>范数</tag>
+        <tag>Kmeans</tag>
+        <tag>Homework</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>通过ssh免密部署github</title>
     <url>/2020/github-ssh/</url>
     <content><![CDATA[<p>之前在部署博客到github page的时候每当遇到hexo deploy，遇到了<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">git@github.com: Permission denied (publickey).</span><br><span class="line">fatal: 无法读取远程仓库。</span><br><span class="line">请确认您有正确的访问权限并且仓库存在。</span><br></pre></td></tr></table></figure><br>搞的我百思不得其解，ssh和github的连接明明是搞好的。最后定位到问题是系统ssh-key代理被误删了。具体是什么操作误删我就没定位到，可能是因为用了zsh的shell之后，和之前bash的路径不对？算了，这篇就总结搭载ssh的过程。</p><a id="more"></a>
@@ -32,10 +110,10 @@
         <category>工程</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ssh</tag>
         <tag>github</tag>
         <tag>hexo</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
