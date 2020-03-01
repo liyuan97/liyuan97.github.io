@@ -49,12 +49,9 @@
 \leq\sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq 0} \frac{\|\boldsymbol{A} \boldsymbol{x}\|_{2}}{\|\boldsymbol{x}\|_{2}}+\sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq 0} \frac{\|\boldsymbol{B} \boldsymbol{x}\|_{2}}{\|\boldsymbol{x}\|_{2}}=\|\boldsymbol{A}\|_{2}+\|\boldsymbol{B}\|_{2}</script>So,  $|\cdot|_{2}$is indeed a norm on $\mathbb{R}^{m\times n}$.◾</li>
 </ul>
 <h2 id="c-1"><a href="#c-1" class="headerlink" title="( c )"></a>( c )</h2><p>From the definition we have $\forall \boldsymbol{A} \in \mathbb{R}^{m \times n},\forall\boldsymbol{|x|}\neq \mathbf{0}$,</p>
-<script type="math/tex; mode=display">\|\boldsymbol{A} \boldsymbol{x}\|_{2}\leq \sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq \mathbf{0}}\|\boldsymbol{A} \boldsymbol{x}\|_{2} =\|\boldsymbol{A}\|_{2}\|\boldsymbol{x}\|_{2}
-$$◾
-
-## ( d )
-$\forall \boldsymbol{A} \in \mathbb{R}^{m \times n},\forall\boldsymbol{B} \in \mathbb{R}^{m \times n}$,
-$$\|\boldsymbol{A}\boldsymbol{B}\|_{2}=\max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{AB} \boldsymbol{x}\|_{2} = \max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{A(Bx)}\|_{2} \leq  \|A\|\max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{(Bx)}\|_{2}</script><p>by ( c ) above. Thus</p>
+<script type="math/tex; mode=display">\|\boldsymbol{A} \boldsymbol{x}\|_{2}\leq \sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq \mathbf{0}}\|\boldsymbol{A} \boldsymbol{x}\|_{2} =\|\boldsymbol{A}\|_{2}\|\boldsymbol{x}\|_{2}</script><p>◾</p>
+<h2 id="d"><a href="#d" class="headerlink" title="( d )"></a>( d )</h2><p>$\forall \boldsymbol{A} \in \mathbb{R}^{m \times n},\forall\boldsymbol{B} \in \mathbb{R}^{m \times n}$,</p>
+<script type="math/tex; mode=display">\|\boldsymbol{A}\boldsymbol{B}\|_{2}=\max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{AB} \boldsymbol{x}\|_{2} = \max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{A(Bx)}\|_{2} \leq  \|A\|\max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{(Bx)}\|_{2}</script><p>by ( c ) above. Thus</p>
 <script type="math/tex; mode=display">\|\boldsymbol{A}\boldsymbol{B}\|_{2}\leq  \|\boldsymbol{A}\|_2\max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{(Bx)}\|_{2}= \|\boldsymbol{A}\|_2 \|\boldsymbol{B}\|_2</script><p><a href="https://www.sciencedirect.com/topics/mathematics/matrix-norm" target="_blank" rel="noopener">◾</a></p>
 <h1 id="Q3"><a href="#Q3" class="headerlink" title="Q3"></a>Q3</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200301223359.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
 <ul>
