@@ -1,6 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CS224n-6 语言模型, n-Gram, RNN</title>
+    <url>/2020/CS224n-6-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B-n-Gram-RNN/</url>
+    <content><![CDATA[<p>为什么先写P6呢，因为P4是反向传播，公式太多，P5是语法分析，枯燥乏味。为了防止没有更新下去的动力，先来写P6。接下来的三讲P6-P8都是由助教Abby讲的，逻辑超级清楚，一步一步循序渐进。爱了爱了。<a href="https://www.bilibili.com/video/av61620135?p=6" target="_blank" rel="noopener">B站链接</a><br>P6 语言模型-&gt;RNN模型的进化，P7 LSTM，P8 Attention<br><img alt="附图" data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302021352.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>附上Abby靓照</p><a id="more"></a>
+<hr>
+<p><strong>Language Modeling</strong> is the task of predicting what word comes next.<br>根据前面前半句，预测后半句。就比如输入法的联想候选词，搜索栏弹出的候选搜索项目，都属于语言模型。<br>为什么要研究语言模型呢？因为很多任务里都会涉及到，比如：</p>
+<ul>
+<li>Predictive typing 预测之后的输入</li>
+<li>Speech recognition 语音识别</li>
+<li>Handwriting recognition 手写识别</li>
+<li>Spelling/grammar correction 语法纠正</li>
+<li>Authorship identification </li>
+<li>Machine translation 机器翻译</li>
+<li>Summarization 文章总结</li>
+<li>Dialogue 对话系统</li>
+<li>etc.<br>所以，这一节很重要。</li>
+</ul>
+<h1 id="n-Gram语言模型"><a href="#n-Gram语言模型" class="headerlink" title="n-Gram语言模型"></a>n-Gram语言模型</h1><p>传统方法训练语言模型，就用的<a href="https://leeee.top/2020/CS224n-2-word2vec-word-Senses/">CS224n-2-word2vec-word-Senses</a>之前提到过的<strong>n-Gram语言模型</strong>，原理也很简单，就是通过统计频率：前半句出现过，之后最有可能跟着的词是什么。</p>
+<p><strong>n-Gram</strong>： 就是连续的n个词(一般不会大于5)当做一个最小单元，统计出现的频率。</p>
+<p><strong>n-Gram语言模型的假设</strong>：第t+1个词的选择，只依赖于前n-1个词。</p>
+<blockquote>
+<p>这里有点马尔科夫链和时间序列ARIMA模型的内味了。 </p>
+</blockquote>
+<p>根据假设就能得到：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302025657.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<blockquote>
+<p>举个栗子：天气很好，我想吃___<br>如果这里用3-Gram 模型，那填空的位置，只与前面三个字”我想吃”有关，假如，之前的数据集里出现了1000词“火锅”，500次“糖”，那么这里肯定填“火锅”</p>
+</blockquote>
+<ul>
+<li>想法越简单，问题就必然存在：</li>
+</ul>
+<ol>
+<li>分母为0怎么办？ “我想吃”这三个字数据集里没有<br>S: <strong>backoff</strong> 3-Gram退化成2-Gram，只看前两个词“想吃”，因为数据集里可能有“他想吃”</li>
+<li>分子为0怎么办？假如这里的语境是“我脑子有问题，我想吃翔”，但是数据集里没出现过这个短语<br>S:  <strong>smoothing</strong> 对于没出现的词都加一个小数量。<blockquote>
+<p>(我感觉没啥用啊，翔还是不会被选中)</p>
+</blockquote>
+</li>
+<li>存储问题，n-Gram越小，情况越多，需要存储的空间太大<br>S: 增加n</li>
+<li>稀疏性问题，没办法解决</li>
+</ol>
+<h1 id="窗口语言模型"><a href="#窗口语言模型" class="headerlink" title="窗口语言模型"></a>窗口语言模型</h1><p>任务：输入前几个单词，输出之后可能的单词概率</p>
+<p>比如说：用第三讲的窗口模型，就可以转化为一个分类器，候选种类是所有可能出现的单词。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302032724.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>解决了n-Gram的稀疏性问题，也不需要储存大量的频率(只需要储存词向量)</p>
+<ul>
+<li>想法越简单，问题就必然存在：</li>
+</ul>
+<ol>
+<li>窗口的大小不好确定，太小了不准确，太大了权重W得变长，训练的也不好。W的长度=n*词向量长度。</li>
+<li>窗口内的单词权重一样，没有利用上位置信息</li>
+</ol>
+<h1 id="BOOM-RNN"><a href="#BOOM-RNN" class="headerlink" title="BOOM! RNN"></a>BOOM! RNN</h1><p>这个时候，再来介绍RNN就顺理成章了。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302034025.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>RNN优点：</p>
+<ul>
+<li>长度没有限制</li>
+<li><strong>理论上</strong>可以用上之前的所有信息</li>
+<li>输入的长度和模型大小无关</li>
+<li>权值共享，对于每个输入处理都是一样的</li>
+</ul>
+<p>想法越简单，问题就必然存在：</p>
+<ul>
+<li>计算太慢</li>
+<li>RNN对于之前的信息(无论重要与否)都会容易丢失（梯度消失）<blockquote>
+<p>🐟的记忆只有3s.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h2><p>训练一个RNN的数据集就是一个corpus语料库，然后开始预测，每一步都计算loss（预测值和真实值的偏差），直到模型收敛。<br>这里用交叉熵作为损失：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302035733.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>当我们跑完一轮之后(一般跑一段话，或者一个句子就行)，就可以得到当前的参数对应的loss，对于每个位置的损失求平均就好，然后计算梯度，得到新的参数，然后用新的参数去训练后面的语料。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302035921.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302040022.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="RNN反向传播"><a href="#RNN反向传播" class="headerlink" title="RNN反向传播"></a>RNN反向传播</h2><p>反向传播也就是当我们计算梯度的时候，发挥作用。<br>这里用了“backpropagation through time”。因为我们得到的loss J是加起来这一批的loss，所以我们求导的时候也是对于每次的预测都进行求导(实际上用了链式法则)<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302040907.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="RNN语言模型的评价指标"><a href="#RNN语言模型的评价指标" class="headerlink" title="RNN语言模型的评价指标"></a>RNN语言模型的评价指标</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120224.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>困惑度的理解可以参考知乎<a href="https://www.zhihu.com/question/58482430" target="_blank" rel="noopener">这篇文章</a></p>
+<blockquote>
+<p><strong>困惑度Perplexity</strong>就是模型对于测试数据认知，如果说模型很容易生成测试数据集，那么困惑度就小。<br>换一种理解：<strong>给测试集的句子赋予较高概率值的语言模型较好,当语言模型训练完之后，测试集中的句子都是正常的句子，那么训练好的模型就是在测试集上的概率越高越好。</strong></p>
+</blockquote>
+<p>困惑度不需要应用什么任务，直接输入数据，就能比较模型好坏。</p>
+<ul>
+<li>模型困惑度比较<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120612.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>可以发现lstm&gt;RNN&gt;5-gram</li>
+</ul>
+<h1 id="RNN的其他任务-当然LSTM也可以"><a href="#RNN的其他任务-当然LSTM也可以" class="headerlink" title="RNN的其他任务(当然LSTM也可以)"></a>RNN的其他任务(当然LSTM也可以)</h1><ul>
+<li>词性标注<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120841.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></li>
+<li><p>句子分类（eg：情感分类）<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120926.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+</li>
+<li><p>encoder 问答系统</p>
+</li>
+</ul>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302121101.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<ul>
+<li>语音识别等</li>
+</ul>
+<p>◾</p>
+<blockquote>
+<p>下节课讲LSTM，GRU，多层LSTM，想想还有点小激动呢</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>CS224n</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+        <tag>RNN</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MSBD5004 Mathematical Methods for Data Analysis Homework 1</title>
     <url>/2020/MSBD5004-Mathematical-Methods-for-Data-Analysis-Homework-1/</url>
     <content><![CDATA[<p>MSBD5004 Mathematical Methods for Data Analysis Homework 1<br>20635526 LiYuan</p><h1 id="Q1"><a href="#Q1" class="headerlink" title="Q1"></a>Q1</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200301103136.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p><h1 id="a"><a href="#a" class="headerlink" title="( a )"></a>( a )</h1><p>By norm definition, we can see:</p><a id="more"></a>
@@ -107,10 +205,10 @@
         <category>工程</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ssh</tag>
         <tag>github</tag>
         <tag>hexo</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>

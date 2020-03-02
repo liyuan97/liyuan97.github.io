@@ -56,18 +56,32 @@
   };
 </script>
 
-  <meta name="description" content="Hello Blog.之前经常会发现大佬有自己的技术博客，之前也尝试着去做一个，但是由于自己的技术水平有限，也没有决定好走技术路线，所以就一直没有开始写技术博客。最近比较了算法和产品的待遇，真的差别好大。暂且不说之后的发展会怎样，程序员&#x2F;技术岗本身是智力和努力的比拼，是硬功夫。有更清晰的发展方向。再加上种种原因，我决定做技术了。">
-<meta name="keywords" content="blog">
+  <meta name="description" content="为什么先写P6呢，因为P4是反向传播，公式太多，P5是语法分析，枯燥乏味。为了防止没有更新下去的动力，先来写P6。接下来的三讲P6-P8都是由助教Abby讲的，逻辑超级清楚，一步一步循序渐进。爱了爱了。B站链接P6 语言模型-&amp;gt;RNN模型的进化，P7 LSTM，P8 Attention附上Abby靓照">
+<meta name="keywords" content="NLP,RNN">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello Blog">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2019&#x2F;Hello-Blog&#x2F;index.html">
+<meta property="og:title" content="CS224n-6 语言模型, n-Gram, RNN">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-6-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B-n-Gram-RNN&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="Hello Blog.之前经常会发现大佬有自己的技术博客，之前也尝试着去做一个，但是由于自己的技术水平有限，也没有决定好走技术路线，所以就一直没有开始写技术博客。最近比较了算法和产品的待遇，真的差别好大。暂且不说之后的发展会怎样，程序员&#x2F;技术岗本身是智力和努力的比拼，是硬功夫。有更清晰的发展方向。再加上种种原因，我决定做技术了。">
+<meta property="og:description" content="为什么先写P6呢，因为P4是反向传播，公式太多，P5是语法分析，枯燥乏味。为了防止没有更新下去的动力，先来写P6。接下来的三讲P6-P8都是由助教Abby讲的，逻辑超级清楚，一步一步循序渐进。爱了爱了。B站链接P6 语言模型-&amp;gt;RNN模型的进化，P7 LSTM，P8 Attention附上Abby靓照">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-27T03:57:50.114Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302021352.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302025657.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302032724.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302034025.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302035733.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302035921.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302040022.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302040907.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302120224.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302120612.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302120841.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302120926.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302121101.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:updated_time" content="2020-03-02T04:18:43.170Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302021352.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 
-<link rel="canonical" href="http://leeee.top/2019/Hello-Blog/">
+<link rel="canonical" href="http://leeee.top/2020/CS224n-6-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B-n-Gram-RNN/">
 
 
 <script id="page-configurations">
@@ -81,7 +95,7 @@
   };
 </script>
 
-  <title>Hello Blog | 元哥的日记</title>
+  <title>CS224n-6 语言模型, n-Gram, RNN | 元哥的日记</title>
   
 
 
@@ -244,7 +258,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2019/Hello-Blog/">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-6-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B-n-Gram-RNN/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228120904.jpg">
@@ -257,7 +271,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          Hello Blog
+          CS224n-6 语言模型, n-Gram, RNN
         </h2>
 
         <div class="post-meta">
@@ -268,23 +282,17 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-10-24 15:04:00" itemprop="dateCreated datePublished" datetime="2019-10-24T15:04:00+08:00">2019-10-24</time>
+              <time title="创建时间：2020-03-02 12:13:00 / 修改时间：12:18:43" itemprop="dateCreated datePublished" datetime="2020-03-02T12:13:00+08:00">2020-03-02</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-27 11:57:50" itemprop="dateModified" datetime="2020-02-27T11:57:50+08:00">2020-02-27</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
+                  <a href="/categories/CS224n/" itemprop="url" rel="index"><span itemprop="name">CS224n</span></a>
                 </span>
             </span>
 
@@ -301,14 +309,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>659</span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -320,25 +328,92 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Hello-Blog"><a href="#Hello-Blog" class="headerlink" title="Hello Blog."></a>Hello Blog.</h1><p>之前经常会发现大佬有自己的技术博客，之前也尝试着去做一个，但是由于自己的技术水平有限，也没有决定好走技术路线，所以就一直没有开始写技术博客。</p><p>最近比较了算法和产品的待遇，真的差别好大。暂且不说之后的发展会怎样，程序员/技术岗本身是智力和努力的比拼，是硬功夫。有更清晰的发展方向。再加上种种原因，我决定做技术了。</p><a id="more"></a>
-
+        <p>为什么先写P6呢，因为P4是反向传播，公式太多，P5是语法分析，枯燥乏味。为了防止没有更新下去的动力，先来写P6。接下来的三讲P6-P8都是由助教Abby讲的，逻辑超级清楚，一步一步循序渐进。爱了爱了。<a href="https://www.bilibili.com/video/av61620135?p=6" target="_blank" rel="noopener">B站链接</a><br>P6 语言模型-&gt;RNN模型的进化，P7 LSTM，P8 Attention<br><img alt="附图" data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302021352.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>附上Abby靓照</p><a id="more"></a>
+<hr>
+<p><strong>Language Modeling</strong> is the task of predicting what word comes next.<br>根据前面前半句，预测后半句。就比如输入法的联想候选词，搜索栏弹出的候选搜索项目，都属于语言模型。<br>为什么要研究语言模型呢？因为很多任务里都会涉及到，比如：</p>
 <ul>
-<li>所以为什么要写博客呢？<br>（鉴于自己的理解和b站up主<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.bilibili.com%2Fvideo%2Fav56930990%2F%3Fspm_id_from%3D333.788.videocard.2" target="_blank" rel="noopener">codesheep</a> 的介绍，总结如下） <ol>
-<li>博客=输出=实践<br>写博客也是一个技术输出的过程，而当你想输出的时候，你就已经需要整合自己的学习成果，不断的理解技术细节，比如说：神经网络的梯度传到过程，虽然接触很多遍，不动手就很难掌握。</li>
-<li>博客=输出=表达<br>理科出身的我经常给自己找借口，原理我懂就行，表达不清楚就慢慢表达，但实际上，表达不清楚会导致别人不愿意和你交流，从而丧失很多机会。<br>有了输出的过程，就需要去磨炼自己表达的精炼程度，以及练习如何让别人明白，就更容易理解。</li>
-<li>博客=简历=社交<br>有了个人主页，别人就知道你的技术水平，你会什么，你学过什么，一应俱全。是找工作，或者是技术交流的好平台。</li>
-</ol>
+<li>Predictive typing 预测之后的输入</li>
+<li>Speech recognition 语音识别</li>
+<li>Handwriting recognition 手写识别</li>
+<li>Spelling/grammar correction 语法纠正</li>
+<li>Authorship identification </li>
+<li>Machine translation 机器翻译</li>
+<li>Summarization 文章总结</li>
+<li>Dialogue 对话系统</li>
+<li>etc.<br>所以，这一节很重要。</li>
+</ul>
+<h1 id="n-Gram语言模型"><a href="#n-Gram语言模型" class="headerlink" title="n-Gram语言模型"></a>n-Gram语言模型</h1><p>传统方法训练语言模型，就用的<a href="https://leeee.top/2020/CS224n-2-word2vec-word-Senses/">CS224n-2-word2vec-word-Senses</a>之前提到过的<strong>n-Gram语言模型</strong>，原理也很简单，就是通过统计频率：前半句出现过，之后最有可能跟着的词是什么。</p>
+<p><strong>n-Gram</strong>： 就是连续的n个词(一般不会大于5)当做一个最小单元，统计出现的频率。</p>
+<p><strong>n-Gram语言模型的假设</strong>：第t+1个词的选择，只依赖于前n-1个词。</p>
+<blockquote>
+<p>这里有点马尔科夫链和时间序列ARIMA模型的内味了。 </p>
+</blockquote>
+<p>根据假设就能得到：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302025657.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<blockquote>
+<p>举个栗子：天气很好，我想吃___<br>如果这里用3-Gram 模型，那填空的位置，只与前面三个字”我想吃”有关，假如，之前的数据集里出现了1000词“火锅”，500次“糖”，那么这里肯定填“火锅”</p>
+</blockquote>
+<ul>
+<li>想法越简单，问题就必然存在：</li>
+</ul>
+<ol>
+<li>分母为0怎么办？ “我想吃”这三个字数据集里没有<br>S: <strong>backoff</strong> 3-Gram退化成2-Gram，只看前两个词“想吃”，因为数据集里可能有“他想吃”</li>
+<li>分子为0怎么办？假如这里的语境是“我脑子有问题，我想吃翔”，但是数据集里没出现过这个短语<br>S:  <strong>smoothing</strong> 对于没出现的词都加一个小数量。<blockquote>
+<p>(我感觉没啥用啊，翔还是不会被选中)</p>
+</blockquote>
 </li>
-<li>担心自己的博客没有技术含量？<br>你觉得没有技术含量的可能会对别人有用，只要可复现，都是有价值的。</li>
-<li>现在写的会晚吗？<br>我知道很多cs的同学大一就开始搭建自己的知识体系，构建专栏，值得敬佩和羡慕。不过人生漫长，任何时候开始干一件事都不晚。</li>
-<li>写什么内容？<ol>
-<li>学习笔记、心得</li>
-<li>生活感悟</li>
-<li>工程排坑</li>
+<li>存储问题，n-Gram越小，情况越多，需要存储的空间太大<br>S: 增加n</li>
+<li>稀疏性问题，没办法解决</li>
 </ol>
+<h1 id="窗口语言模型"><a href="#窗口语言模型" class="headerlink" title="窗口语言模型"></a>窗口语言模型</h1><p>任务：输入前几个单词，输出之后可能的单词概率</p>
+<p>比如说：用第三讲的窗口模型，就可以转化为一个分类器，候选种类是所有可能出现的单词。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302032724.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>解决了n-Gram的稀疏性问题，也不需要储存大量的频率(只需要储存词向量)</p>
+<ul>
+<li>想法越简单，问题就必然存在：</li>
+</ul>
+<ol>
+<li>窗口的大小不好确定，太小了不准确，太大了权重W得变长，训练的也不好。W的长度=n*词向量长度。</li>
+<li>窗口内的单词权重一样，没有利用上位置信息</li>
+</ol>
+<h1 id="BOOM-RNN"><a href="#BOOM-RNN" class="headerlink" title="BOOM! RNN"></a>BOOM! RNN</h1><p>这个时候，再来介绍RNN就顺理成章了。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302034025.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>RNN优点：</p>
+<ul>
+<li>长度没有限制</li>
+<li><strong>理论上</strong>可以用上之前的所有信息</li>
+<li>输入的长度和模型大小无关</li>
+<li>权值共享，对于每个输入处理都是一样的</li>
+</ul>
+<p>想法越简单，问题就必然存在：</p>
+<ul>
+<li>计算太慢</li>
+<li>RNN对于之前的信息(无论重要与否)都会容易丢失（梯度消失）<blockquote>
+<p>🐟的记忆只有3s.</p>
+</blockquote>
 </li>
 </ul>
-<p>为了混口饭吃，写博客的flag没有任何理由推倒了吧。<br>希望最少保持一个月一篇的频率，正常频率一周一篇。</p>
+<h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h2><p>训练一个RNN的数据集就是一个corpus语料库，然后开始预测，每一步都计算loss（预测值和真实值的偏差），直到模型收敛。<br>这里用交叉熵作为损失：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302035733.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>当我们跑完一轮之后(一般跑一段话，或者一个句子就行)，就可以得到当前的参数对应的loss，对于每个位置的损失求平均就好，然后计算梯度，得到新的参数，然后用新的参数去训练后面的语料。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302035921.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302040022.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="RNN反向传播"><a href="#RNN反向传播" class="headerlink" title="RNN反向传播"></a>RNN反向传播</h2><p>反向传播也就是当我们计算梯度的时候，发挥作用。<br>这里用了“backpropagation through time”。因为我们得到的loss J是加起来这一批的loss，所以我们求导的时候也是对于每次的预测都进行求导(实际上用了链式法则)<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302040907.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="RNN语言模型的评价指标"><a href="#RNN语言模型的评价指标" class="headerlink" title="RNN语言模型的评价指标"></a>RNN语言模型的评价指标</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120224.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>困惑度的理解可以参考知乎<a href="https://www.zhihu.com/question/58482430" target="_blank" rel="noopener">这篇文章</a></p>
+<blockquote>
+<p><strong>困惑度Perplexity</strong>就是模型对于测试数据认知，如果说模型很容易生成测试数据集，那么困惑度就小。<br>换一种理解：<strong>给测试集的句子赋予较高概率值的语言模型较好,当语言模型训练完之后，测试集中的句子都是正常的句子，那么训练好的模型就是在测试集上的概率越高越好。</strong></p>
+</blockquote>
+<p>困惑度不需要应用什么任务，直接输入数据，就能比较模型好坏。</p>
+<ul>
+<li>模型困惑度比较<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120612.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>可以发现lstm&gt;RNN&gt;5-gram</li>
+</ul>
+<h1 id="RNN的其他任务-当然LSTM也可以"><a href="#RNN的其他任务-当然LSTM也可以" class="headerlink" title="RNN的其他任务(当然LSTM也可以)"></a>RNN的其他任务(当然LSTM也可以)</h1><ul>
+<li>词性标注<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120841.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></li>
+<li><p>句子分类（eg：情感分类）<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120926.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+</li>
+<li><p>encoder 问答系统</p>
+</li>
+</ul>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302121101.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<ul>
+<li>语音识别等</li>
+</ul>
+<p>◾</p>
+<blockquote>
+<p>下节课讲LSTM，GRU，多层LSTM，想想还有点小激动呢</p>
+</blockquote>
 
     </div>
 
@@ -349,7 +424,13 @@
   <div class="popular-posts-header">相似文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2019/Blog1-Build by Hexo/" rel="bookmark">Build by Hexo</a></div>
+      <div class="popular-posts-title"><a href="/2020/CS224n-3/" rel="bookmark">CS224n-3 回顾神经网络，文本分类介绍</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/CS224n-2-word2vec-word-Senses/" rel="bookmark">CS224n-2 word2vec, word Senses</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/CS224n-1-初步探索，背景介绍/" rel="bookmark">CS224n-1 初步探索，背景介绍  </a></div>
     </li>
   </ul>
 
@@ -357,21 +438,22 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/blog/" rel="tag"><i class="fa fa-tag"></i> blog</a>
+              <a href="/tags/NLP/" rel="tag"><i class="fa fa-tag"></i> NLP</a>
+              <a href="/tags/RNN/" rel="tag"><i class="fa fa-tag"></i> RNN</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
+                <a href="/2020/MSBD5004-Mathematical-Methods-for-Data-Analysis-Homework-1/" rel="next" title="MSBD5004 Mathematical Methods for Data Analysis Homework 1">
+                  <i class="fa fa-chevron-left"></i> MSBD5004 Mathematical Methods for Data Analysis Homework 1
+                </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/Blog1-Build%20by%20Hexo/" rel="prev" title="Build by Hexo">
-                  Build by Hexo <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -412,7 +494,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hello-Blog"><span class="nav-number">1.</span> <span class="nav-text">Hello Blog.</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#n-Gram语言模型"><span class="nav-number">1.</span> <span class="nav-text">n-Gram语言模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#窗口语言模型"><span class="nav-number">2.</span> <span class="nav-text">窗口语言模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BOOM-RNN"><span class="nav-number">3.</span> <span class="nav-text">BOOM! RNN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#训练过程"><span class="nav-number">3.1.</span> <span class="nav-text">训练过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RNN反向传播"><span class="nav-number">3.2.</span> <span class="nav-text">RNN反向传播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RNN语言模型的评价指标"><span class="nav-number">3.3.</span> <span class="nav-text">RNN语言模型的评价指标</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RNN的其他任务-当然LSTM也可以"><span class="nav-number">4.</span> <span class="nav-text">RNN的其他任务(当然LSTM也可以)</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
