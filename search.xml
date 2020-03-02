@@ -42,7 +42,7 @@
 \sup _{\boldsymbol{y} \in \mathbb{R}^{n}, \|y\|_2 =1}\left\|A y\right\|_2=\max_{\boldsymbol{y} \in \mathbb{R}^{n}, \|y\|_2 =1}\left\|A y\right\|_2</script><p>◾</p>
 <h2 id="b-1"><a href="#b-1" class="headerlink" title="( b )"></a>( b )</h2><p>By norm definition, we can see:</p>
 <ul>
-<li>Zero vector:<br>$\forall A \in V$,<br><script type="math/tex">\|\boldsymbol{A}\|_{2}=\max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{A} \boldsymbol{x}\|_{2}\geq\|\boldsymbol{A} \boldsymbol{I}\|_{2}\geq0</script>.<br>And only when $a_{i,j}=0$,then $|\boldsymbol{A}|_{2}=0$, So $|\boldsymbol{A}|_{2}=0\Leftrightarrow \mathbf{A}=0$</li>
+<li>Zero vector:<br>$\forall A \in V^{m \times n}$,<script type="math/tex; mode=display">\|\boldsymbol{A}\|_{2}=\max _{\boldsymbol{x} \in \mathbb{R}^{n},\|\boldsymbol{x}\|_{2}=1}\|\boldsymbol{A} \boldsymbol{x}\|_{2}\geq\max_{0\leq i \leq m}(\sum_{j = 1}^{n} a_{i,j}x_j)</script>Because $|\boldsymbol{x}|_2=1$, so not all $x_j=0$, So $|\boldsymbol{x}|_2 \geq 0$.<br>And only when all $a_{i,j}=0$,then $|\boldsymbol{A}|_{2}=0$, So $|\boldsymbol{A}|_{2}=0\Leftrightarrow \mathbf{A}=0$</li>
 <li>positive homogeneity:<br>$\forall A \in V$ and $\alpha \in R$, <script type="math/tex">\|\alpha\boldsymbol{A}\|_{2}=\sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq \mathbf{0}} \frac{\|\alpha\boldsymbol{A} \boldsymbol{x}\|_{2}}{\|\boldsymbol{x}\|_{2}}=\alpha\sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq \mathbf{0}} \frac{\|\boldsymbol{A} \boldsymbol{x}\|_{2}}{\|\boldsymbol{x}\|_{2}}=\alpha\|\boldsymbol{A}\|_{2}</script></li>
 <li>triangle inequality:<br>$\forall A,B \in V$,<script type="math/tex; mode=display">
 \|\boldsymbol{A+B}\|_{2}=\sup _{\boldsymbol{x} \in \mathbb{R}^{n}, \boldsymbol{x} \neq 0} \frac{\|\boldsymbol{A} \boldsymbol{x}+\boldsymbol{B} \boldsymbol{x}\|_{2}}{\|\boldsymbol{x}\|_{2}}
@@ -107,10 +107,10 @@
         <category>工程</category>
       </categories>
       <tags>
+        <tag>linux</tag>
         <tag>ssh</tag>
         <tag>github</tag>
         <tag>hexo</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
