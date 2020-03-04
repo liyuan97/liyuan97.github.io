@@ -56,25 +56,30 @@
   };
 </script>
 
-  <meta name="description" content="这是学校csit5500的一门课，听着名字就知道很经典。第一节课主要是算法评估，排序，搜索树，红黑树算法评估这一节就解释，为什么用O(n)来表示算法的复杂度。 不能简单用cpu的时间，因为不固定 不同级数之间差异大，同一个级数内差异不大">
-<meta name="keywords" content="算法">
+  <meta name="description" content="这一节：机器翻译，seq2seq(翻译的本质)，attention(提升seq2seq)统计机器翻译1990s-2010s: Statistical Machine Translation统计翻译是传统方法，可以大概了解一下背景。task：输入语言x的语句，输出语言y的语句。需要得到一个y，让概率最大化：">
+<meta name="keywords" content="Attention,机器翻译">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSIT5500-1 算法基础">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CSIT5500-1&#x2F;index.html">
+<meta property="og:title" content="CS224n-8 机器翻译,seq2seq,Attention">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-8-%E6%9C%BA%E5%99%A8%E7%BF%BB%E8%AF%91-seq&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="这是学校csit5500的一门课，听着名字就知道很经典。第一节课主要是算法评估，排序，搜索树，红黑树算法评估这一节就解释，为什么用O(n)来表示算法的复杂度。 不能简单用cpu的时间，因为不固定 不同级数之间差异大，同一个级数内差异不大">
+<meta property="og:description" content="这一节：机器翻译，seq2seq(翻译的本质)，attention(提升seq2seq)统计机器翻译1990s-2010s: Statistical Machine Translation统计翻译是传统方法，可以大概了解一下背景。task：输入语言x的语句，输出语言y的语句。需要得到一个y，让概率最大化：">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200225022848.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226151338.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226151835.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226160114.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226160138.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200226160354.png">
-<meta property="og:updated_time" content="2020-03-02T04:17:14.453Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304123056.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304123125.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304123213.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304123616.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304130801.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304131042.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304143548.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304154800.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304155439.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304160308.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304161747.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:updated_time" content="2020-03-04T08:29:28.584Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200225022848.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304123056.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 
-<link rel="canonical" href="http://leeee.top/2020/CSIT5500-1/">
+<link rel="canonical" href="http://leeee.top/2020/CS224n-8-%E6%9C%BA%E5%99%A8%E7%BF%BB%E8%AF%91-seq/">
 
 
 <script id="page-configurations">
@@ -88,7 +93,7 @@
   };
 </script>
 
-  <title>CSIT5500-1 算法基础 | 元哥的日记</title>
+  <title>CS224n-8 机器翻译,seq2seq,Attention | 元哥的日记</title>
   
 
 
@@ -251,7 +256,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CSIT5500-1/">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-8-%E6%9C%BA%E5%99%A8%E7%BF%BB%E8%AF%91-seq/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228120904.jpg">
@@ -264,7 +269,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          CSIT5500-1 算法基础
+          CS224n-8 机器翻译,seq2seq,Attention
         </h2>
 
         <div class="post-meta">
@@ -275,23 +280,17 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-02-26 16:18:00" itemprop="dateCreated datePublished" datetime="2020-02-26T16:18:00+08:00">2020-02-26</time>
+              <time title="创建时间：2020-03-04 16:19:43 / 修改时间：16:29:28" itemprop="dateCreated datePublished" datetime="2020-03-04T16:19:43+08:00">2020-03-04</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-03-02 12:17:14" itemprop="dateModified" datetime="2020-03-02T12:17:14+08:00">2020-03-02</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CSIT5500/" itemprop="url" rel="index"><span itemprop="name">CSIT5500</span></a>
+                  <a href="/categories/CS224n/" itemprop="url" rel="index"><span itemprop="name">CS224n</span></a>
                 </span>
             </span>
 
@@ -308,7 +307,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3k</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -327,71 +326,98 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>这是学校csit5500的一门课，听着名字就知道很经典。第一节课主要是算法评估，排序，搜索树，红黑树</p><h1 id="算法评估"><a href="#算法评估" class="headerlink" title="算法评估"></a>算法评估</h1><p>这一节就解释，为什么用O(n)来表示算法的复杂度。</p><ul>
-<li>不能简单用cpu的时间，因为不固定</li>
-<li>不同级数之间差异大，同一个级数内差异不大</li>
-</ul><a id="more"></a>
+        <p>这一节：机器翻译，seq2seq(翻译的本质)，attention(提升seq2seq)</p><hr><h1 id="统计机器翻译"><a href="#统计机器翻译" class="headerlink" title="统计机器翻译"></a>统计机器翻译</h1><p>1990s-2010s: Statistical Machine Translation<br>统计翻译是传统方法，可以大概了解一下背景。<br>task：输入语言x的语句，输出语言y的语句。<br>需要得到一个y，让概率最大化：</p><a id="more"></a>
 
 
-<p>其他的点：</p>
+<script type="math/tex; mode=display">
+ \operatorname{argmax}_{y} P(y | x) =  \operatorname{argmax}_{y} P(x|y)P(y)</script><p>$P(x|y)$是翻译模型，评价x和y的匹配程度；P(y) 是语言模型第6讲的时候已经讲过，就是评价语句是否通顺。</p>
+<p>除了满足<strong>匹配程度</strong>和<strong>语句通顺</strong>两个条件，alignment(一一对应)程度也可以考虑，模型就变成了</p>
+<script type="math/tex; mode=display">
+ \operatorname{argmax}_{y} P(y | x) =  \operatorname{argmax}_{y} P(x,a |y)P(y)</script><p>对应度是很复杂的一个东西，举例说明：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304123056.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304123125.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304123213.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>所以，统计模型的翻译缺点显而易见：</p>
 <ul>
-<li>比复杂度的时候，只看最高阶；</li>
-<li>对数的级数都是一样的；loga n = logb n/(logb a)</li>
+<li>太多的人工规则</li>
+<li>数据稀疏没解决</li>
+<li>需要大量的语料对应</li>
+<li>特征工程较为复杂</li>
 </ul>
-<p>算法需要最差评估复杂度，一般不用证明，举例就行。</p>
-<p>eg：Worst-Case Analysis of Binary Search<br>二分搜索最差的情况就是一直排除到最后一半只有一个元素的时候。<br>复杂度如下：</p>
+<h1 id="神经网络翻译模型"><a href="#神经网络翻译模型" class="headerlink" title="神经网络翻译模型"></a>神经网络翻译模型</h1><p>2014年google通过Neural Machine Translation (NMT) 也就是seq2seq实现了机器翻译，效果显著。</p>
+<h2 id="模型结构"><a href="#模型结构" class="headerlink" title="模型结构"></a>模型结构</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304123616.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>左边通过RNN Encoding了输入语句(也就是转成了向量), 右边通过另一个RNN decoding了语句(通过向量转成了另一种语言)。 语言和语言直接，通过隐藏层的向量传递意思。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304130801.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h2><p>训练与RNN的训练类似，区别在于decoder 传递梯度到encoder的过程。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304131042.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>这里注意，我们只需要考虑输入x和预测y与真实y的差距，所以是end2end。</p>
+<h2 id="decoding贪婪算法的缺点"><a href="#decoding贪婪算法的缺点" class="headerlink" title="decoding贪婪算法的缺点"></a>decoding贪婪算法的缺点</h2><p>假如我们decode的过程中，只一个词一个词往后生成，选择当前最优解，如果前面出错，会导致整体输出的语句概率变小，不是全局最优解。</p>
+<p>对于任何一个可能的输出y，需要最大化概率：</p>
 <script type="math/tex; mode=display">
-\begin{aligned} T(n) & \leq T(n / 2)+O(1) \\ & \leq T(n / 4)+O(1)+O(1) \\ & \leq T\left(n / 2^{k}\right)+k \cdot O(1) \end{aligned}</script><p>k可以人为指定成log2(n)</p>
-<script type="math/tex; mode=display">
-\begin{aligned} T(n) & \leq T(1)+\log _{2} n \cdot O(1) \\ &=O(1)+O(\log n) \\ &=O(\log n) \end{aligned}</script><h1 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h1><p>又到了经典的排序环节，直接引用我觉得写得最完整的两个博文<a href="https://www.cnblogs.com/onepixel/articles/7674659.html" target="_blank" rel="noopener">十大排序动图演示</a><br><a href="https://leetcode.com/problems/sort-an-array/discuss/276916/Python-bubble-insertion-selection-quick-merge-heap-objects" target="_blank" rel="noopener">python十大排序</a> </p>
-<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200225022848.png"></p>
-<p>课上跳过了最简单的主要讲了O(nlogn)的三个，并归，快速，堆。</p>
-<h2 id="并归merge"><a href="#并归merge" class="headerlink" title="并归merge"></a>并归merge</h2><p>简单的dc思路，先对数组分成两半，左右各自排序，然后用两个指针同时扫一遍，合起来。<br>这个过程递归到，两半只有一个元素的时候，就可以了。</p>
-<ul>
-<li>最坏情况复杂度<br>并归有两个过程，第一，遍历数组，统计长度，复杂度O(N).<br>第二，merge.<br>最好情况是，左：12345 右：6789，这样复杂度是O(N/2)=O(N).<br>最差情况是，左：13579 右：2468，这样复杂度也是O(N).<br>所以，两个过程加起来也是O(N)。</li>
-</ul>
-<p>然后进入到递归的过程：与二分搜索相似</p>
-<script type="math/tex; mode=display">
-\begin{aligned} T(n) & \leq 2 T(n / 2)+O(n) \\ & \leq 2(2 T(n / 4)+O(n / 2))+O(n) \\ & \leq 4 T(n / 4)+O(n)+O(n) \\ & \leq 2^{k} T\left(n / 2^{k}\right)+k \cdot O(n) \end{aligned}</script><p>直接取k=log2n</p>
-<script type="math/tex; mode=display">
-\begin{aligned} T(n) & \leq 2^{\log _{2} n} T(1)+\log _{2} n \cdot O(n) \\ & \leq O(n)+O(n \log n) \\ & \leq O(n \log n) \end{aligned}</script><p>所以最坏情况也是这个，并归排序复杂度是稳定的。<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># @mergeSort</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">mergeSort</span><span class="params">(self, nums)</span>:</span> </span><br><span class="line">       <span class="keyword">if</span> len(nums) &gt; <span class="number">1</span>: </span><br><span class="line">           mid = len(nums)//<span class="number">2</span></span><br><span class="line">           L = nums[:mid] </span><br><span class="line">           R = nums[mid:] </span><br><span class="line"></span><br><span class="line">           self.mergeSort(L)</span><br><span class="line">           self.mergeSort(R)</span><br><span class="line"></span><br><span class="line">           i = j = k = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">           <span class="keyword">while</span> i &lt; len(L) <span class="keyword">and</span> j &lt; len(R): </span><br><span class="line">               <span class="keyword">if</span> L[i] &lt; R[j]: </span><br><span class="line">                   nums[k] = L[i] </span><br><span class="line">                   i+=<span class="number">1</span></span><br><span class="line">               <span class="keyword">else</span>: </span><br><span class="line">                   nums[k] = R[j] </span><br><span class="line">                   j+=<span class="number">1</span></span><br><span class="line">               k+=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">           <span class="keyword">while</span> i &lt; len(L): </span><br><span class="line">               nums[k] = L[i] </span><br><span class="line">               i+=<span class="number">1</span></span><br><span class="line">               k+=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">           <span class="keyword">while</span> j &lt; len(R): </span><br><span class="line">               nums[k] = R[j] </span><br><span class="line">               j+=<span class="number">1</span></span><br><span class="line">               k+=<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="快速"><a href="#快速" class="headerlink" title="快速"></a>快速</h2><p>快排的思路是任选一个元素，然后把数组分成两半，再分别对两半进行这个过程。也是dc的思路。</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">	<span class="comment"># @quickSort</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">quickSort</span><span class="params">(array)</span>:</span></span><br><span class="line">	<span class="keyword">if</span> len(array) &lt; <span class="number">2</span>:  <span class="comment"># 基线条件（停止递归的条件）</span></span><br><span class="line">		<span class="keyword">return</span> array</span><br><span class="line">	<span class="keyword">else</span>:  <span class="comment"># 递归条件</span></span><br><span class="line">		baseValue = array[<span class="number">0</span>]  <span class="comment"># 选择基准# 由所有小于基准值的元素组成的子数组</span></span><br><span class="line">		less = [m <span class="keyword">for</span> m <span class="keyword">in</span> array[<span class="number">1</span>:] <span class="keyword">if</span> m &lt; baseValue]<span class="comment"># 包括基准在内的同时和基准相等的元素，在上一个版本的百科当中，并没有考虑相等元素</span></span><br><span class="line">		equal = [w <span class="keyword">for</span> w <span class="keyword">in</span> array <span class="keyword">if</span> w ==baseValue]<span class="comment"># 由所有大于基准值的元素组成的子数组</span></span><br><span class="line">		greater = [n <span class="keyword">for</span> n <span class="keyword">in</span> array[<span class="number">1</span>:] <span class="keyword">if</span> n &gt; baseValue]</span><br><span class="line">	<span class="keyword">return</span> quickSort(less) + equal + quickSort(greater)</span><br></pre></td></tr></table></figure>
-<h1 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h1><p>堆排序就高端一点，用了根堆(heap)的结构。<br>巧妙的是，通过利用完全二叉树的结构，通过数组的位置，就实现了这个根堆的过程。</p>
-<h2 id="复习树🌲的知识："><a href="#复习树🌲的知识：" class="headerlink" title="复习树🌲的知识："></a>复习树🌲的知识：</h2><ul>
-<li>二叉树：每一个节点最多两个孩子</li>
-<li>满二叉树Full binary tree：每个子节点都有两个元素</li>
-<li>完美二叉树Perfect binary tree：每一层都填满了</li>
-<li>完全二叉树Complete binary tree：除了最后一层其他每一层都是完全填满的，而最后一层从左往右依次排列</li>
-</ul>
-<h2 id="堆排序的过程"><a href="#堆排序的过程" class="headerlink" title="堆排序的过程"></a>堆排序的过程</h2><ul>
-<li>def: 小(大)根堆：完全二叉树 + 每个节点小于(大于)他的子节点。<blockquote>
-<p>先把数组构造成最小根堆(最大或者最小都行)<br>while 根堆还有元素:<br>——-弹出顶部最大值<br>——-重新构造最小根堆</p>
+ \begin{aligned} P(y | x) &=P\left(y_{1} | x\right) P\left(y_{2} | y_{1}, x\right) P\left(y_{3} | y_{1}, y_{2}, x\right) \ldots, P\left(y_{T} | y_{1}, \ldots, y_{T-1}, x\right) \\ &=\prod_{t=1}^{T} P\left(y_{t} | y_{1}, \ldots, y_{t-1}, x\right) \end{aligned}</script><p>所以简单方法是暴力枚举出所有可能出现的情况y，然后选出概率最大的那个；当然暴力方法太昂贵，所以可以使用Beam Search。</p>
+<blockquote>
+<p>何时结束：把句子结尾当成一个符号，加入训练</p>
 </blockquote>
+<h2 id="Beam-search-decoding"><a href="#Beam-search-decoding" class="headerlink" title="Beam search decoding"></a>Beam search decoding</h2><p>核心思想：每一步寻找k个可能的候选项，然后再对着k个进行下一步探索，直到句子结束。（k一般是5-10）</p>
+<blockquote>
+<p>这里一般用score=log(P(y|x))，这样就分数越大越好</p>
+<ul>
+<li>Beam search 也不能100%保证全局最优，k越大，越能保证</li>
+<li>但是Beam search的效率大大增加</li>
+</ul>
+</blockquote>
+<ul>
+<li>举一个例子，当K=2：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304143548.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></li>
+<li>何时停止：</li>
+</ul>
+<p>设定阈值，步长阈值：比如超过30个单词就停止；候选项阈值：比如有5句候选就停止。</p>
+<ul>
+<li>长度不公平的问题：</li>
+</ul>
+<p>按照上面的计算，句子越短，分数越长，这个标准更倾向于选择短句子。<br>解决也很简单，对于分数socre 规范化(Normalize) 除以句子的长度，就得到了这个句子每个单词的得分。</p>
+<script type="math/tex; mode=display">
+ \frac{1}{t} \sum_{i=1}^{t} \log P_{\mathrm{LM}}\left(y_{i} | y_{1}, \ldots, y_{i-1}, x\right)</script><h2 id="神经网络翻译模型的优点"><a href="#神经网络翻译模型的优点" class="headerlink" title="神经网络翻译模型的优点"></a>神经网络翻译模型的优点</h2><ul>
+<li>表现好：速度快，更流畅(语言模型更好)，对于短语翻译好</li>
+<li>端对端：不需要考虑内部的问题</li>
+<li>不需要人工干预：没有特征工程，模型可以应用到不同语言之间</li>
+</ul>
+<h2 id="神经网络翻译模型的缺点"><a href="#神经网络翻译模型的缺点" class="headerlink" title="神经网络翻译模型的缺点"></a>神经网络翻译模型的缺点</h2><ul>
+<li>难解释：不好debug</li>
+<li>难以控制：模型的输出不好控制，所以有时候需要模型之后加入规则干预</li>
+</ul>
+<h2 id="如何评价翻译模型"><a href="#如何评价翻译模型" class="headerlink" title="如何评价翻译模型"></a>如何评价翻译模型</h2><p>其实评价翻译好不好，最简单就是让人去读，但是总得有一个自动打分的小工具，于是有了BLEU。<br>BLEU (Bilingual Evaluation Understudy)</p>
+<ul>
+<li><p>Bleu通过对比机器翻译和真人翻译的数据集，通过计算n-Gram，以及句子长度(防止太啰嗦)来评价</p>
+</li>
+<li><p>BLEU也不太完美，因为翻译其实有很多种正确表达，这样对于预测集的依赖太大。</p>
+<h2 id="机器翻译解决了吗"><a href="#机器翻译解决了吗" class="headerlink" title="机器翻译解决了吗?"></a>机器翻译解决了吗?</h2><p>机器翻译虽然取得了很大进展，但是仍然不完美。</p>
+<ul>
+<li>比如没办法读懂新词</li>
+<li>依赖语料库的来源，不同语料库风格不一样，eg ： 聊天语料 vs 百科语料</li>
+<li>没有读懂上下文。比如小说中，有时候需要理解剧情才能更好的翻译。</li>
+<li>必须要有大量数据集训练。成本很高。</li>
+</ul>
 </li>
 </ul>
-<p>所以堆排序的过程主要是构造(初始化)根堆，和弹出最小值之后再构建根堆(重新维持稳定)根堆。初始化等于一个一个元素插入，重新维持相当于从堆中删除元素。<br>所以，主要是两个步骤：插入和删除。</p>
-<h3 id="插入节点："><a href="#插入节点：" class="headerlink" title="插入节点："></a>插入节点：</h3><blockquote>
-<p>插入到完全二叉树的最后<br>如果有父节点&amp;&amp;父节点比自己小：<br>——-两个节点交换位置</p>
-</blockquote>
-<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226151338.png"><br>移动次数=层数 所以插入的时间复杂度O(log n)</p>
-<h3 id="删除节点："><a href="#删除节点：" class="headerlink" title="删除节点："></a>删除节点：</h3><blockquote>
-<p>删除根节点，让末尾最大的值成为新的根节点<br>如果有子节点&amp;&amp;子节点比自己小：<br>——-选择子节点中小的那个，两个节点交换位置</p>
-</blockquote>
-<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226151835.png"></p>
-<p>移动次数=层数 所以删除的时间复杂度O(log n)</p>
-<h3 id="完全二叉树和数值的索引对应关系"><a href="#完全二叉树和数值的索引对应关系" class="headerlink" title="完全二叉树和数值的索引对应关系"></a>完全二叉树和数值的索引对应关系</h3><p>父节点 i 找子节点：2i+1 , 2i+2<br>子节点找父节点： [(i-1)/2]   向下取整<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># @heapSort</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">heapSort</span><span class="params">(self, nums)</span>:</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">heapify</span><span class="params">(nums, n, i)</span>:</span> </span><br><span class="line">         largest = i</span><br><span class="line">         l = <span class="number">2</span> * i + <span class="number">1</span></span><br><span class="line">         r = <span class="number">2</span> * i + <span class="number">2</span></span><br><span class="line">         </span><br><span class="line">         <span class="keyword">if</span> l &lt; n <span class="keyword">and</span> nums[i] &lt; nums[l]: </span><br><span class="line">             largest = l </span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span> r &lt; n <span class="keyword">and</span> nums[largest] &lt; nums[r]: </span><br><span class="line">             largest = r </span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span> largest != i: </span><br><span class="line">             nums[i], nums[largest] = nums[largest], nums[i]</span><br><span class="line">             </span><br><span class="line">             heapify(nums, n, largest)</span><br><span class="line">             </span><br><span class="line">     n = len(nums) </span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span> i <span class="keyword">in</span> range(n, <span class="number">-1</span>, <span class="number">-1</span>): </span><br><span class="line">         heapify(nums, n, i) </span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span> i <span class="keyword">in</span> range(n<span class="number">-1</span>, <span class="number">0</span>, <span class="number">-1</span>): </span><br><span class="line">         nums[i], nums[<span class="number">0</span>] = nums[<span class="number">0</span>], nums[i]</span><br><span class="line">         heapify(nums, i, <span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
-<h1 id="二叉搜索树-BST博客"><a href="#二叉搜索树-BST博客" class="headerlink" title="二叉搜索树 BST博客"></a>二叉搜索树 <a href="https://blog.csdn.net/csdn0123zl/article/details/81253648" target="_blank" rel="noopener">BST博客</a></h1><ul>
-<li>Def: 任何一个节点，小于右子节点，大于左子节点<br>条件不够苛刻，二叉搜索树不唯一。</li>
+<h2 id="Seq2Seq的其他用途"><a href="#Seq2Seq的其他用途" class="headerlink" title="Seq2Seq的其他用途"></a>Seq2Seq的其他用途</h2><p>其实有很多test都需要用到Seq2Seq：<br>  • Summarization (long text → short text)   总结<br>    • Dialogue (previous utterances → next utterance)  对话<br>    • Parsing (input text → output parse as sequence) 语法分析<br>    • Code generation (natural language → Python code) 写代码</p>
+<h1 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h1><ul>
+<li><p>Seq2Seq的问题在于，一个向量代表整句话就很容易损失太多信息；而且encoding是从结尾出去的，容易丢失开头的信息。</p>
+</li>
+<li><p>核心想法就是: decoder的每一步，通过和encoder 直接连接，只着重于当前的这个位置。</p>
+</li>
 </ul>
-<h2 id="节点的后继："><a href="#节点的后继：" class="headerlink" title="节点的后继："></a>节点的后继：</h2><p>大于这个节点的最小的值。<br>分两种情况，如果这个节点x有右子树，那么这个继承者就是右子树的最小值。<br>如果没有右子树，那么就是这个节点一直往上，第一个向右走的父节点。<br>如图。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160114.png"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160138.png"></p>
-<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><p>插入很简单，就和查找一样，找到一个位置塞进去就好了。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200226160354.png"></p>
-<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><p>删除分情况</p>
-<ol>
-<li>如果0个孩子，直接删</li>
-<li>如果1个孩子，用孩子代替这个位置</li>
-<li>如果2个孩子，删除孩子的后继，用后继补充这个位置</li>
-</ol>
+<h2 id="从图理解"><a href="#从图理解" class="headerlink" title="从图理解"></a>从图理解</h2><p>对于decoder的每一步，把RNN的输出和encoder的RNN输出进行点乘，通过softmax进行规范，得到一个概率值。这个概率值说明，现在在预测哪个位置。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304154800.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304155439.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>然后就这样做完了。</p>
+<h2 id="公式解释"><a href="#公式解释" class="headerlink" title="公式解释"></a>公式解释</h2><p>这里，更朴素的思想是每次decoder的时候，把之前的encoder的对应向量拿过来，拼接；但是位置太难找了，所有就用了概率位置来寻找位置。</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304160308.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="Attention的优点"><a href="#Attention的优点" class="headerlink" title="Attention的优点"></a>Attention的优点</h2><ul>
+<li>提升了表现</li>
+<li>解决了seq2seq的瓶颈</li>
+<li>解决了梯度消失问题(类似与上一讲的highway)</li>
+<li>给了一点可解释性(有了概率的对应关系alignment)</li>
+</ul>
+<h2 id="Attention的其他用途"><a href="#Attention的其他用途" class="headerlink" title="Attention的其他用途"></a>Attention的其他用途</h2><p>Attention不仅仅可以用在翻译上，还可以用在任何seq2seq的任务。<br><strong>朴素定义attention</strong>:<br>• Given a set of vector values, and a vector query, attention is a technique to compute a weighted sum of the values, dependent on the query.<br>（给一组向量，和一个待查询的向量，Attention可以计算出那组向量的权重）</p>
+<p>再理解Attention：</p>
+<ul>
+<li>求和权重的过程就是选择的过程，决定了那个输入值更重要</li>
+<li>Attention是一种获取依赖于其他表示形式（查询）的任意组表示形式（值）的固定大小表示形式的方法。</li>
+</ul>
+<h2 id="Attention的变种"><a href="#Attention的变种" class="headerlink" title="Attention的变种"></a>Attention的变种</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304161747.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<blockquote>
+<p>Attention 一定程度上和LSTM思想相似，就是通过额外的线路，去注意前面的信息。<br>妙啊！！！</p>
+</blockquote>
 
     </div>
 
@@ -404,23 +430,24 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
+              <a href="/tags/Attention/" rel="tag"><i class="fa fa-tag"></i> Attention</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E7%BF%BB%E8%AF%91/" rel="tag"><i class="fa fa-tag"></i> 机器翻译</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/Q%E9%9F%B3%E7%AE%97%E6%B3%95%E5%AE%9E%E4%B9%A0%E5%A4%8D%E7%9B%98/" rel="next" title="Q音算法实习复盘">
-                  <i class="fa fa-chevron-left"></i> Q音算法实习复盘
+                <a href="/2020/CS224n-7-%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1-LSTM-GRU-BLSTM/" rel="next" title="CS224n-7 梯度消失,LSTM,GRU,BLSTM">
+                  <i class="fa fa-chevron-left"></i> CS224n-7 梯度消失,LSTM,GRU,BLSTM
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/MSBD5009-1-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E4%BB%8B%E7%BB%8D/" rel="prev" title="MSBD5009-1 并行计算介绍">
-                  MSBD5009-1 并行计算介绍 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/CSIT5500-2-%E5%88%86%E6%B2%BB/" rel="prev" title="CSIT5500-2 分治">
+                  CSIT5500-2 分治 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -462,7 +489,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#算法评估"><span class="nav-number">1.</span> <span class="nav-text">算法评估</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#排序"><span class="nav-number">2.</span> <span class="nav-text">排序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#并归merge"><span class="nav-number">2.1.</span> <span class="nav-text">并归merge</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速"><span class="nav-number">2.2.</span> <span class="nav-text">快速</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#堆"><span class="nav-number">3.</span> <span class="nav-text">堆</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#复习树🌲的知识："><span class="nav-number">3.1.</span> <span class="nav-text">复习树🌲的知识：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#堆排序的过程"><span class="nav-number">3.2.</span> <span class="nav-text">堆排序的过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入节点："><span class="nav-number">3.2.1.</span> <span class="nav-text">插入节点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除节点："><span class="nav-number">3.2.2.</span> <span class="nav-text">删除节点：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完全二叉树和数值的索引对应关系"><span class="nav-number">3.2.3.</span> <span class="nav-text">完全二叉树和数值的索引对应关系</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二叉搜索树-BST博客"><span class="nav-number">4.</span> <span class="nav-text">二叉搜索树 BST博客</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#节点的后继："><span class="nav-number">4.1.</span> <span class="nav-text">节点的后继：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入"><span class="nav-number">4.2.</span> <span class="nav-text">插入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除"><span class="nav-number">4.3.</span> <span class="nav-text">删除</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#统计机器翻译"><span class="nav-number">1.</span> <span class="nav-text">统计机器翻译</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#神经网络翻译模型"><span class="nav-number">2.</span> <span class="nav-text">神经网络翻译模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型结构"><span class="nav-number">2.1.</span> <span class="nav-text">模型结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练过程"><span class="nav-number">2.2.</span> <span class="nav-text">训练过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decoding贪婪算法的缺点"><span class="nav-number">2.3.</span> <span class="nav-text">decoding贪婪算法的缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Beam-search-decoding"><span class="nav-number">2.4.</span> <span class="nav-text">Beam search decoding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络翻译模型的优点"><span class="nav-number">2.5.</span> <span class="nav-text">神经网络翻译模型的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络翻译模型的缺点"><span class="nav-number">2.6.</span> <span class="nav-text">神经网络翻译模型的缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何评价翻译模型"><span class="nav-number">2.7.</span> <span class="nav-text">如何评价翻译模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#机器翻译解决了吗"><span class="nav-number">2.8.</span> <span class="nav-text">机器翻译解决了吗?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Seq2Seq的其他用途"><span class="nav-number">2.9.</span> <span class="nav-text">Seq2Seq的其他用途</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Attention"><span class="nav-number">3.</span> <span class="nav-text">Attention</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从图理解"><span class="nav-number">3.1.</span> <span class="nav-text">从图理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公式解释"><span class="nav-number">3.2.</span> <span class="nav-text">公式解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Attention的优点"><span class="nav-number">3.3.</span> <span class="nav-text">Attention的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Attention的其他用途"><span class="nav-number">3.4.</span> <span class="nav-text">Attention的其他用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Attention的变种"><span class="nav-number">3.5.</span> <span class="nav-text">Attention的变种</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -479,7 +506,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -490,7 +517,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -816,13 +843,13 @@ if(canvas.getContext){
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">64k</span>
+    <span title="站点总字数">67k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">58 分钟</span>
+    <span title="站点阅读时长">1:01</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动
   </div>

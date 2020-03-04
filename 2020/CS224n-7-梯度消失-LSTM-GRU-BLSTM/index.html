@@ -56,27 +56,25 @@
   };
 </script>
 
-  <meta name="description" content="这一节因为RNN梯度消失引入了LSTM，GRU。LSTM和GRU的构造思想都是在RNN的主线内，并行一条线，传递其他信息。而下一节的ATTENTION则是在cell外并行一条线，都属于多线传播信息的思路。">
+  <meta name="description" content="这一节因为RNN梯度消失引入了LSTM，GRU。LSTM和GRU的构造思想都是在RNN的主线内，并行一条线，传递其他信息。解决梯度问题，也可以在cell外加一条线，比如双向RNN，多层RNN。 RNN的梯度消失与爆炸：原因：由于Wh的权值共享，当Wh的最大特征值大于大于小于1 就会造成$W_h^n$的指数，所以造成梯度消失或者爆炸">
 <meta name="keywords" content="NLP,LSTM&#x2F;GRU">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CS224n-7 梯度消失,LSTM,GRU,BLSTM">
 <meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-7-%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1-LSTM-GRU-BLSTM&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="这一节因为RNN梯度消失引入了LSTM，GRU。LSTM和GRU的构造思想都是在RNN的主线内，并行一条线，传递其他信息。而下一节的ATTENTION则是在cell外并行一条线，都属于多线传播信息的思路。">
+<meta property="og:description" content="这一节因为RNN梯度消失引入了LSTM，GRU。LSTM和GRU的构造思想都是在RNN的主线内，并行一条线，传递其他信息。解决梯度问题，也可以在cell外加一条线，比如双向RNN，多层RNN。 RNN的梯度消失与爆炸：原因：由于Wh的权值共享，当Wh的最大特征值大于大于小于1 就会造成$W_h^n$的指数，所以造成梯度消失或者爆炸">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302125410.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200204175150.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200204174949.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200204181404.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302155323.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302155428.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200204222854.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200204224730.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200204225836.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200204230034.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200204230855.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200204231035.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:updated_time" content="2020-03-02T07:54:33.644Z">
+<meta property="og:updated_time" content="2020-03-04T03:35:15.120Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302125410.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 
@@ -281,10 +279,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-03-02 13:39:04 / 修改时间：15:54:33" itemprop="dateCreated datePublished" datetime="2020-03-02T13:39:04+08:00">2020-03-02</time>
+              <time title="创建时间：2020-03-02 13:39:04" itemprop="dateCreated datePublished" datetime="2020-03-02T13:39:04+08:00">2020-03-02</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-04 11:35:15" itemprop="dateModified" datetime="2020-03-04T11:35:15+08:00">2020-03-04</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -328,10 +332,10 @@
 
       
         <blockquote>
-<p>这一节因为RNN梯度消失引入了LSTM，GRU。LSTM和GRU的构造思想都是在RNN的主线内，并行一条线，传递其他信息。而下一节的ATTENTION则是在cell外并行一条线，都属于多线传播信息的思路。</p>
-</blockquote><a id="more"></a>
-<hr>
-<h1 id="RNN的梯度消失与爆炸"><a href="#RNN的梯度消失与爆炸" class="headerlink" title="RNN的梯度消失与爆炸"></a>RNN的梯度消失与爆炸</h1><p>原因：由于Wh的权值共享，当Wh的最大特征值大于大于小于1 就会造成$W_h^n$的指数，所以造成梯度消失或者爆炸<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302125410.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200204175150.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>这一节因为RNN梯度消失引入了LSTM，GRU。LSTM和GRU的构造思想都是在RNN的主线内，并行一条线，传递其他信息。解决梯度问题，也可以在cell外加一条线，比如双向RNN，多层RNN。</p>
+</blockquote><hr><p>RNN的梯度消失与爆炸：<br>原因：由于Wh的权值共享，当Wh的最大特征值大于大于小于1 就会造成$W_h^n$的指数，所以造成梯度消失或者爆炸<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302125410.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200204175150.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p><a id="more"></a>
+
+
 <ul>
 <li><p>梯度消失的问题：<br>远处的信息(梯度)会消失，会对之后的输入没有影响</p>
 </li>
@@ -344,18 +348,19 @@
 <ul>
 <li>三个门：forget,input,output只是抽象出来的概念，通过各自共享的参数W，U，b来输入一个0-1的数值，辅助向下。</li>
 <li>其中c是用来更新“记忆”</li>
-<li>h用来作为隐藏层，和rnn的单线传播一样<br>整个核心都在这2张图里：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302155323.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302155428.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></li>
+<li>h用来作为隐藏层，和rnn的单线传播一样</li>
 </ul>
 <h2 id="为何门控要用sigmoid，传播要用tanh？"><a href="#为何门控要用sigmoid，传播要用tanh？" class="headerlink" title="为何门控要用sigmoid，传播要用tanh？"></a>为何门控要用sigmoid，传播要用tanh？</h2><p>Sigmoid的输出在0-1之同，符合门控的物理定义，且当输入较大或较小时，其输出会非常接近1或0，从而保证该门开或关，在生成候选记亿时，使用<strong>tanh函数，是因为其输出在-1-1之间，这与大多数场景下特征分布是0中心的吻合</strong>。此外，<strong>tanh函数在输入为0近相比 Sigmoid函数有更大的梯度，通常使模型收敛更快。</strong></p>
 <p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200204222854.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
 <h1 id="GRU"><a href="#GRU" class="headerlink" title="GRU"></a>GRU</h1><p>GRU是lstm的简化，只有两个门，减少了参数。也没有了cell state。<br>rt用来控制上一轮的h在这轮的输入大小，ut控制新旧的比例。<br>这里巧妙的地方在于ut。新的和旧的权重和为1。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200204224730.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
-<h2 id="LSTM-vs-GRU"><a href="#LSTM-vs-GRU" class="headerlink" title="LSTM vs GRU"></a>LSTM vs GRU</h2><p>两个差不多，效果上没有明显差别。<br>一般先尝试LSTM。</p>
+<h1 id="LSTM-vs-GRU"><a href="#LSTM-vs-GRU" class="headerlink" title="LSTM vs GRU"></a>LSTM vs GRU</h1><p>两个差不多，效果上没有明显差别。<br>一般先尝试LSTM。</p>
 <h1 id="其他思路解决梯度消失-爆炸问题："><a href="#其他思路解决梯度消失-爆炸问题：" class="headerlink" title="其他思路解决梯度消失/爆炸问题："></a>其他思路解决梯度消失/爆炸问题：</h1><p>首先，要明确，梯度的消失爆炸不仅仅是rnn，任何deepmodel在深度方面都会面临，而简单rnn是长度上的梯度问题。</p>
 <h2 id="解决思路1-Residual-connections"><a href="#解决思路1-Residual-connections" class="headerlink" title="解决思路1 Residual connections"></a>解决思路1 Residual connections</h2><p>skip connection 跨越隐藏层链接。</p>
 <p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200204225836.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
 <h2 id="思路2-Dence-Connect"><a href="#思路2-Dence-Connect" class="headerlink" title="思路2 Dence Connect"></a>思路2 Dence Connect</h2><p>也就是中间层相互链接一下。连得越多，梯度问题就越复杂，越稳定。</p>
 <p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200204230034.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
 <h1 id="其他两种网络"><a href="#其他两种网络" class="headerlink" title="其他两种网络"></a>其他两种网络</h1><h2 id="Bidirectional-RNNs-双向rnn"><a href="#Bidirectional-RNNs-双向rnn" class="headerlink" title="Bidirectional RNNs 双向rnn"></a>Bidirectional RNNs 双向rnn</h2><p>双向rnn可以解决语言中单向歧义的问题。比如下图的“terrible”<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200204230855.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>terrible 如果单向很容易理解为负向词，但是双向，就增加了exciting的作用，似的模型更稳定。</p>
 <h2 id="多层rnn"><a href="#多层rnn" class="headerlink" title="多层rnn"></a>多层rnn</h2><p>rnn也可以在深度上做文章，不仅仅是长度上。但是一般来说“3-5”合适。训练一般来说是一层一层训练。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200204231035.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
 
     </div>
@@ -400,6 +405,9 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
+                <a href="/2020/CS224n-8-%E6%9C%BA%E5%99%A8%E7%BF%BB%E8%AF%91-seq/" rel="prev" title="CS224n-8 机器翻译,seq2seq,Attention">
+                  CS224n-8 机器翻译,seq2seq,Attention <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
       </footer>
@@ -440,7 +448,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RNN的梯度消失与爆炸"><span class="nav-number">1.</span> <span class="nav-text">RNN的梯度消失与爆炸</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lstm"><span class="nav-number">2.</span> <span class="nav-text">lstm</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为何门控要用sigmoid，传播要用tanh？"><span class="nav-number">2.1.</span> <span class="nav-text">为何门控要用sigmoid，传播要用tanh？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GRU"><span class="nav-number">3.</span> <span class="nav-text">GRU</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LSTM-vs-GRU"><span class="nav-number">3.1.</span> <span class="nav-text">LSTM vs GRU</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他思路解决梯度消失-爆炸问题："><span class="nav-number">4.</span> <span class="nav-text">其他思路解决梯度消失/爆炸问题：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#解决思路1-Residual-connections"><span class="nav-number">4.1.</span> <span class="nav-text">解决思路1 Residual connections</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路2-Dence-Connect"><span class="nav-number">4.2.</span> <span class="nav-text">思路2 Dence Connect</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他两种网络"><span class="nav-number">5.</span> <span class="nav-text">其他两种网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Bidirectional-RNNs-双向rnn"><span class="nav-number">5.1.</span> <span class="nav-text">Bidirectional RNNs 双向rnn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多层rnn"><span class="nav-number">5.2.</span> <span class="nav-text">多层rnn</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#lstm"><span class="nav-number">1.</span> <span class="nav-text">lstm</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为何门控要用sigmoid，传播要用tanh？"><span class="nav-number">1.1.</span> <span class="nav-text">为何门控要用sigmoid，传播要用tanh？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GRU"><span class="nav-number">2.</span> <span class="nav-text">GRU</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LSTM-vs-GRU"><span class="nav-number">3.</span> <span class="nav-text">LSTM vs GRU</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他思路解决梯度消失-爆炸问题："><span class="nav-number">4.</span> <span class="nav-text">其他思路解决梯度消失/爆炸问题：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#解决思路1-Residual-connections"><span class="nav-number">4.1.</span> <span class="nav-text">解决思路1 Residual connections</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路2-Dence-Connect"><span class="nav-number">4.2.</span> <span class="nav-text">思路2 Dence Connect</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他两种网络"><span class="nav-number">5.</span> <span class="nav-text">其他两种网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Bidirectional-RNNs-双向rnn"><span class="nav-number">5.1.</span> <span class="nav-text">Bidirectional RNNs 双向rnn</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多层rnn"><span class="nav-number">5.2.</span> <span class="nav-text">多层rnn</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -457,7 +465,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -468,7 +476,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -794,13 +802,13 @@ if(canvas.getContext){
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">64k</span>
+    <span title="站点总字数">67k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">58 分钟</span>
+    <span title="站点阅读时长">1:01</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动
   </div>
