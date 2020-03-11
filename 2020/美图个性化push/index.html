@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228121032.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://s2.ax1x.com/2020/02/28/3B0ldI.md.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228121032.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="google-site-verification" content="true">
+  <meta name="msvalidate.01" content="true">
+  <meta name="yandex-verification" content="true">
+  <meta name="baidu-site-verification" content="true">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Lato:300,300italic,400,400italic,700,700italic|Long Cang:300,300italic,400,400italic,700,700italic|Noto Serif SC:300,300italic,400,400italic,700,700italic|Source Code Pro:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: true,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="这篇文章是帮DataFunTalk社区整理的讲稿，也就是把展示的内容写成文字，挺费时间的，还好是比较感兴趣的话题。最后也学到了一些模型迭代的思路。 这个分享对我启发最大的是召回源完全可以当做特征加到排序里啊！！！我之前实习的时候，只想的是通过模型改变召回源的数量，从而控制下发的比例，真的太傻了5555">
+<meta name="keywords" content="推荐系统,分享记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【分享整理】美图个性化push的探索之路">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;%E7%BE%8E%E5%9B%BE%E4%B8%AA%E6%80%A7%E5%8C%96push&#x2F;index.html">
+<meta property="og:site_name" content="元哥的日记">
+<meta property="og:description" content="这篇文章是帮DataFunTalk社区整理的讲稿，也就是把展示的内容写成文字，挺费时间的，还好是比较感兴趣的话题。最后也学到了一些模型迭代的思路。 这个分享对我启发最大的是召回源完全可以当做特征加到排序里啊！！！我之前实习的时候，只想的是通过模型改变召回源的数量，从而控制下发的比例，真的太傻了5555">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310141819.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310141817.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310144742.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310141818.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310145635.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310151758.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310151909.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310151921.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310151945.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310151952.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310152001.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310200130.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310200618.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310200857.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310203828.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310204300.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310204939.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310205716.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310210724.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310211221.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310211553.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310213320.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310213331.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310213356.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:updated_time" content="2020-03-11T07:01:55.320Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200310141819.jpg?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+
+<link rel="canonical" href="http://leeee.top/2020/%E7%BE%8E%E5%9B%BE%E4%B8%AA%E6%80%A7%E5%8C%96push/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>【分享整理】美图个性化push的探索之路 | 元哥的日记</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?567d405f5ec7479a4e2944724d8c336f";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">元哥的日记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <h1 class="site-subtitle" itemprop="description">终其一生，我们只不过在寻找自己</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/#/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-所有文章">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>所有文章</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-关于我">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于我</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        
+            
+  <li class="menu-item menu-item-更多">
+
+    <a href="/more/" rel="section"><i class="fa fa-fw fa-share"></i>更多</a>
+
+  </li>
+
+
+      
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/%E7%BE%8E%E5%9B%BE%E4%B8%AA%E6%80%A7%E5%8C%96push/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228120904.jpg">
+      <meta itemprop="name" content="Yuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="元哥的日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          【分享整理】美图个性化push的探索之路
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-03-11 14:53:00 / 修改时间：15:01:55" itemprop="dateCreated datePublished" datetime="2020-03-11T14:53:00+08:00">2020-03-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>这篇文章是帮DataFunTalk社区整理的讲稿，也就是把展示的内容写成文字，挺费时间的，还好是比较感兴趣的话题。最后也学到了一些模型迭代的思路。</p>
+<h2 id="这个分享对我启发最大的是召回源完全可以当做特征加到排序里啊！！！我之前实习的时候，只想的是通过模型改变召回源的数量，从而控制下发的比例，真的太傻了5555"><a href="#这个分享对我启发最大的是召回源完全可以当做特征加到排序里啊！！！我之前实习的时候，只想的是通过模型改变召回源的数量，从而控制下发的比例，真的太傻了5555" class="headerlink" title="这个分享对我启发最大的是召回源完全可以当做特征加到排序里啊！！！我之前实习的时候，只想的是通过模型改变召回源的数量，从而控制下发的比例，真的太傻了5555"></a>这个分享对我启发最大的是召回源完全可以当做特征加到排序里啊！！！我之前实习的时候，只想的是通过模型改变召回源的数量，从而控制下发的比例，真的太傻了5555</h2></blockquote><a id="more"></a>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310141819.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p><strong>导读：</strong> Push 作为一种有效的拉起 DAU 和召回用户的策略，近几年来被各类社交 App 广泛应用，随着深度神经网络在语音和图像识别上取得的巨大成功，AlphaGo 战胜人类围棋顶尖高手，以深度网络为基础的人工智能迎来第三次高潮。如何将深度模型应用于个性化 push 场景，从而减少无效 push 对用户的骚扰，是近年来一个关注的热点。本次分享讲从 Embedding，召回，排序，文案，内容池等多个方面介绍如何打造一个良好的 push 场景。</p>
+<hr>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310141817.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>本次分享主要介绍个性化push算法，包括业务背景，embedding召回和排序，不涉及系统架构。</p>
+<h1 id="1-业务背景"><a href="#1-业务背景" class="headerlink" title="1. 业务背景"></a>1. 业务背景</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310144742.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>Push也就是推送通知，可以通过系统界面直接触达用户，当用户点击就会唤醒APP，是提高APP的日活，留存等指指标重要的环节之一。</p>
+<h1 id="2-Embedding-演进"><a href="#2-Embedding-演进" class="headerlink" title="2.Embedding 演进"></a>2.Embedding 演进</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310141818.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>本次从三个算法层面介绍embedding：Word2Vec，Listing Embedding(参考Airbnb)在个性化push的应用，以及近两年流行的图相关的算法GCNs。</p>
+<h2 id="2-1Word2Vec"><a href="#2-1Word2Vec" class="headerlink" title="2.1Word2Vec"></a>2.1Word2Vec</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310145635.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<ul>
+<li>Feed也就是展示页的一个item，对于美图秀秀来说就是用户发的一张图，对于电商来说就是一个商品，本文统一称为feed。</li>
+<li>Embedding就是把任何一个Feed转化为一个向量，服务于后面的召回和排序。Embedding是比较基础的过程，在最开始阶段，我们尝试了最基础的Work2Vec中的Skip-Gram的模型，通过对于用户的点击序列模仿Work2Vec中的一个句子。如图，我们有序列之后，定义窗口大小，通过中心词，就会得到Train Sample。如图：定义单侧窗口大小为2，就可以得到样本对，把样本对输入模型，就可以返回向量。在实验中，我们采用了60天的点击序列，输出向量设置为100维。</li>
+</ul>
+<h2 id="2-2Airbnb-Listing-Embedding"><a href="#2-2Airbnb-Listing-Embedding" class="headerlink" title="2.2Airbnb Listing Embedding"></a>2.2Airbnb Listing Embedding</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310151758.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>Airbnb listing Embedding 是2018年KDD的最佳论文，这里和Word2Vec主要的区别在于损失函数，模型本身和Word2Vec是保持一致的，所以我们先看Word2Vec的损失函数。</p>
+<script type="math/tex; mode=display">
+ \text { objective }=\operatorname{argmax}\left\{\sum_{(l, c t x) \in D_{p}} \log \frac{1}{1+e^{-\hat{v}_{c x x} v_{i}}}+\sum_{(l, c t x) \in D_{m}} \log \frac{1}{1+e^{\tilde{v}_{c x} v_{i}}}\right\}</script><p>损失函数由正负样本两部分组成，正样本对$D_p$来源于用户点击流生成的item pair，负样本对$D_m$通过当前的item+随机采样空间的其他item(这里假设随机采样的样本不是当前item的邻居)，Ctx表示上下文。这里需要注意的是在log里，正样本前面有负号，负样本没有负号。</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310151909.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>但是，之前的构造只用了用户的点击数据，实际上用户还有点赞、分享等行为数据可以利用。所以，在Airbnb listing Embedding中，加入了Global Context这样一个概念：通过用户历史的点赞、分享对应的feed，与当前的feed构造出全局正样本对，加入到损失函数中。(如公式中的紫色部分)</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310151921.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>同理，我们可以通过用户的点击“不喜欢”的行为来构造负样本(如公式中的红色部分)。除此之外，用户的浏览过但是没有点击的feed也可以随机采样之后当做负样本，加入到损失函数中(如公式中的蓝色部分)。</p>
+<p>这样，就把Airbnb listing Embedding的策略引入到了美图秀秀的场景里。</p>
+<h2 id="2-3Graph-Embedding"><a href="#2-3Graph-Embedding" class="headerlink" title="2.3Graph Embedding"></a>2.3Graph Embedding</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310151945.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>Graph Embedding是近几年比较流行的Embedding方法，主要策略可以分为三类：Shallow Embedding, Neighborhood autoencoder methods和GCN的方法。但是前两种方法涉及到不可拓展和直推式的缺陷，GCN可以避免以上的缺陷。</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310151952.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>前面两种Embedding只用了用户的行为特征，但是没有考虑item的本身特征；另外，在之后的排序模型中，排序模型使用了item的自身属性进行排序。GCN就是把用户行为和item本身的特征联合起来，既能用上图的拓扑结构，又可以把握属性特征，把信息融合起来做Embedding。<br>在上图中，假设我们要计算A的Embedding，可以通过计算A的一阶近邻BC的信息聚合得到（Aggregate)，而BC的信息可以由二阶近邻DEC，EBFG的信息计算卷积（Convolution）计算得到。</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310152001.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>具体来说，延展的过程中，主要包括对于高阶信息的汇总Aggregate，以及当前阶和邻阶节点上一阶的卷积之间信息的结合Combine。其中，Combine可以由很多操作，比如拼接，求和等。Aggregate的过程中，需要注意的一点是采用了Importance pooling，这里并不会对每个邻居节点都汇总，而是先计算一个Importance Factor(影响力因子)，影响力因子小于阈值的不参与加权，最后根据权重去加权求和。</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310200130.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>构件图的不同形态：</p>
+<ul>
+<li>二分图形态：两种类型(Feeds,User)内部之间没有边，不同类型之间才有边；</li>
+<li>单体图形态：根据用户同一时间段的行为，将Feeds之间关联起来。</li>
+</ul>
+<p>到此为止，我们介绍了Embedding所尝试的方法。</p>
+<h1 id="3召回模型"><a href="#3召回模型" class="headerlink" title="3召回模型"></a>3召回模型</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310200618.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>召回主要采用了四个方面，全局召回(热榜，热搜，热词)，个性化召回(根据用户的行为，兴趣进行召回)，属性召回(也就是画像召回，通过机型，性别，年龄等)，最后是相关召回(包括相似，关键词召回等)。</p>
+<h2 id="3-1个性化召回之YoutubeNet"><a href="#3-1个性化召回之YoutubeNet" class="headerlink" title="3.1个性化召回之YoutubeNet"></a>3.1个性化召回之YoutubeNet</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310200857.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>YoutubeNet是近两年比较流行的算法，他既可以做召回，也可以做排序。通过输入用户的行为序列得到用户和item的向量，然后就可以通过向量相似程度，对每个user相似的topN个item进行个性化召回，实验中相似率提升达到了1.661%。</p>
+<h2 id="3-2个性化召回之聚类召回"><a href="#3-2个性化召回之聚类召回" class="headerlink" title="3.2个性化召回之聚类召回"></a>3.2个性化召回之聚类召回</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310203828.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>业务上，push也包含一个任务是实现将“工具类用户”转化成“社交类用户”，从而提高长期的DAU。在聚类召回阶段，可以通过对于用户的工具偏好特征去构建multi-hot的向量，然后进行用户群聚类，对于每个特定的用户群召回对应的榜单。</p>
+<h2 id="3-3相关召回之相似召回-主要"><a href="#3-3相关召回之相似召回-主要" class="headerlink" title="3.3相关召回之相似召回(主要)"></a>3.3相关召回之相似召回(主要)</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310204300.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>相关召回在美图秀秀中是输出用户近期的item点击流，获取了对应的Embedding之后，可以通过计算Embedding的均值然后找余弦距离最小的候选项；或者直接将每个候选项去找余弦距离最小的候选项，最后进行汇总。<br>这里值得思考的一个问题是，何时利用好工具行为的特征，是在排序阶段，召回阶段，还是生成Embedding的阶段？经过实验，得到在Embedding阶段使用工具行为特征效果最好。</p>
+<h2 id="3-4相关召回之聚类召回"><a href="#3-4相关召回之聚类召回" class="headerlink" title="3.4相关召回之聚类召回"></a>3.4相关召回之聚类召回</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310204939.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>聚类召回主要是为了实现多样性，避免同质化的内容。<br>通过对item的Embedding进行聚类，相当于每个item多了一个分类标签。通过统计用户对于每个类别的行为记录次数，按照倒叙进行排列。在召回阶段，按照排列好的顺序依次从每一个类别中抽取一个item，如果所有类别都抽了一遍，召回的数量仍然不够多，可以继续再抽一轮，直到候选数目足够。这样就实现了召回源的多样性。</p>
+<h2 id="3-5相关召回之文案相关召回"><a href="#3-5相关召回之文案相关召回" class="headerlink" title="3.5相关召回之文案相关召回"></a>3.5相关召回之文案相关召回</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310205716.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>当选取了候选个item之后，发送push仍需要一条文字信息触达用户，这里简称文案。文案一般由编辑生成，会有很多候选项，所以也需要对于文案进行建模召回。主要有一下三个方案：</p>
+<ul>
+<li>关键词召回：通过对于历史的文案进行分词，得到每条文案的关键词，然后把用户对于文案的点击映射到对于关键词的点击，这样就能得到用户对于不同关键词的偏好。当我们新需要发送一条文案的时候，可以得到用户对于每条候选文案偏好度，召回偏好大的文案。</li>
+<li>热词召回：通过计算全局哪些关键词最受欢迎，召回的过程中直接召回带有热门关键词的文案。</li>
+<li>文案相似度召回：通过NLP的模型，比如BERT，生成每一条对应的Embedding，然后召回与用户点击过的文案余弦距离最小的文案。</li>
+</ul>
+<p>以上，就是所有的召回部分。</p>
+<h1 id="4排序模型"><a href="#4排序模型" class="headerlink" title="4排序模型"></a>4排序模型</h1><h2 id="4-1LR-逻辑回归模型"><a href="#4-1LR-逻辑回归模型" class="headerlink" title="4.1LR 逻辑回归模型"></a>4.1LR 逻辑回归模型</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310210724.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>在排序模型的初始迭代阶段，使用了最简单的LR模型，LR的模型优点是模型浅，计算简单，解释性强，易于使用。但是缺点也显而易见，LR对于非线性特征拟合程度差；除此之外，交叉特征的生成依赖于大量尝试以及人工经验，所以尝试成本很高。</p>
+<h2 id="4-2-xNFM模型"><a href="#4-2-xNFM模型" class="headerlink" title="4.2 xNFM模型"></a>4.2 xNFM模型</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310211221.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>通过对于LR，Wide&amp;Deep，deepFM，NFM，DCN，xNFM，xDeepFM模型的尝试与对比，最后选择的xNFM的模型。xNFM优点是组合了一阶和二阶的特征的优点，性能上也可以达到工业落地的需求。</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310211553.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>xNFM不是业界主流的模型，而是在落地中对于NFM的变种。主要区别在于：</p>
+<ul>
+<li>模型的输入端为了降低模型参数规模，把id类特征和非id类特征分别进行Embedding，可以大大减少参数规模。</li>
+<li>在上层网络，主要区别在于右侧。传统的NFM的弊端是只考虑了一个显性的二阶信息，而忽略了一阶信息(单特征)，所有增加了右边的网络用来捕捉单特征的信息。相比于LR，提升效果明显，点击流增加13.89%。</li>
+</ul>
+<h2 id="4-3-双塔模型"><a href="#4-3-双塔模型" class="headerlink" title="4.3 双塔模型"></a>4.3 双塔模型</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310213320.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>随着用户量的增加，计算量飙升，笛卡尔积之后会有千亿级别的计算量，使得模型更新周期变长，时效性降低。为了解决这个问题，我们提出了双塔的结构。<br>双塔的结构特别在，当user和item分别构建一个DNN的全连接的网络。这样设计优化主要体现在工程性能方面，存储量大大降低，预测阶段耗时也降低，从而实现了支持亿级别的用户高效计算。<br>从最初的双塔之后接入到内积，再到上图的双塔接入NFM，到最后再加入点击序列的信息，三个版本的迭代最终点击率累计提升23.9%。</p>
+<h2 id="4-4-三塔模型"><a href="#4-4-三塔模型" class="headerlink" title="4.4 三塔模型"></a>4.4 三塔模型</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310213331.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>在之前也提到，我们有很多召回策略，但是召回源质量参差不齐，所以就需要解决对于召回源的选取。</p>
+<ul>
+<li>最初的想法是根据每个召回源的转化对排序结果进行socre reweight，但是弊端也很明显，因为召回源直接并不互斥，同个item会被多个召回源命中，所以reweight的规则也难以定义。</li>
+<li>之后，为了个性化，直接把召回源信息加入到模型中。这里为什么不把召回源直接加入到item的特征中，而是单独的构造了一个塔呢？主要工程上的考虑，如果把召回源的信息加到item塔中，必须等item塔计算完成之后才能进行生产预测，会造成串行化，增加了延时。</li>
+</ul>
+<p>增加了召回源信息之后，点击率提高了3.06%。</p>
+<h2 id="4-5-Field-wise-三塔模型"><a href="#4-5-Field-wise-三塔模型" class="headerlink" title="4.5 Field_wise 三塔模型"></a>4.5 Field_wise 三塔模型</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200310213356.jpg?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>最后一版就是对于NFM模型的改进，在NFM左边的Bi-Interaction Layer中，Bi是Bi-linear的缩写，这一层其实是一个pooling层操作，它把很多个向量转换成一个向量，形式化如下：</p>
+<script type="math/tex; mode=display">
+ \begin{aligned} \boldsymbol{f}_{B I} &=\sum_{i=1}^{n} \sum_{j=i+1}^{n} x_{i} v_{i} \odot x_{j} v_{u} \\ &=\frac{1}{2}\left[\left(\sum_{i=1}^{n} x_{i} v_{i}\right)^{2}-\sum_{i=1}^{n}\left(x_{i} v_{i}\right)^{2}\right] \end{aligned}</script><p>$f_{bi}$的输入是整个的嵌入向量，xi ，xj是特征取值，vi， vj是特征对应的嵌入向量。中间的操作表示对应位置相乘。所以原始的嵌入向量任意两个都进行组合，对应位置相乘结果得到一个新向量；然后把这些新向量相加，就得到了Bi-Interaction的输出。这个输出只有一个向量。</p>
+<p>这里参考FM到FFM的改进过程，引入Field的概念。由于BI层不同的类别特征所表达是权重不相同，而BI层捕捉不到这个信息，所以可以对于每个向量相乘前可以加上权重。但是，这样会导致参数过多，而同属于一个field的变量权重应该相近，所以对于BI层进行同类别的权重$w_{i,j}$共享而会使用相同参数的点积来计算:</p>
+<script type="math/tex; mode=display">
+ f_{F w B I}=\sum_{i=1}^{m} \sum_{j=i+1}^{m} w_{i j}\left(\sum_{k i n F_{i}} x_{i k} v_{i k}\right) \odot\left(\sum_{k \text { in } F_{j}} x_{j k} v_{j k}\right)</script><p>从而得到了Field_wise 三塔模型。模型上线后最终得到了点击率5.68%的提升。</p>
+<p>到此为止，我们分别介绍了Embedding，召回，排序三部分。Embedding作为底层的服务辅助召回和排序；在召回部分，主要介绍召回的各个策略；排序部分主要是模型由LR到Field_wise 三塔模型的迭代过程。<br>美图个性化 push AI 探索之路的介绍到此结束。</p>
+<blockquote>
+<p>这个分享对我启发最大的是召回源完全可以当做特征加到排序里啊！！！我之前实习的时候，只想的是通过模型改变召回源的数量，从而控制下发的比例，真的太傻了5555</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+      
+  <div class="popular-posts-header">相似文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/FM-FFM与推荐系统/" rel="bookmark">FM,FFM,DeepFM </a></div>
+    </li>
+  </ul>
+
+
+      <div>
+      
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+      
+      </div>
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="tag"><i class="fa fa-tag"></i> 推荐系统</a>
+              <a href="/tags/%E5%88%86%E4%BA%AB%E8%AE%B0%E5%BD%95/" rel="tag"><i class="fa fa-tag"></i> 分享记录</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/CSIT5500-2-%E5%88%86%E6%B2%BB/" rel="next" title="CSIT5500-2 分治">
+                  <i class="fa fa-chevron-left"></i> CSIT5500-2 分治
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#这个分享对我启发最大的是召回源完全可以当做特征加到排序里啊！！！我之前实习的时候，只想的是通过模型改变召回源的数量，从而控制下发的比例，真的太傻了5555"><span class="nav-number">1.</span> <span class="nav-text">这个分享对我启发最大的是召回源完全可以当做特征加到排序里啊！！！我之前实习的时候，只想的是通过模型改变召回源的数量，从而控制下发的比例，真的太傻了5555</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-业务背景"><span class="nav-number"></span> <span class="nav-text">1. 业务背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Embedding-演进"><span class="nav-number"></span> <span class="nav-text">2.Embedding 演进</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1Word2Vec"><span class="nav-number">1.</span> <span class="nav-text">2.1Word2Vec</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2Airbnb-Listing-Embedding"><span class="nav-number">2.</span> <span class="nav-text">2.2Airbnb Listing Embedding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3Graph-Embedding"><span class="nav-number">3.</span> <span class="nav-text">2.3Graph Embedding</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3召回模型"><span class="nav-number"></span> <span class="nav-text">3召回模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1个性化召回之YoutubeNet"><span class="nav-number">1.</span> <span class="nav-text">3.1个性化召回之YoutubeNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2个性化召回之聚类召回"><span class="nav-number">2.</span> <span class="nav-text">3.2个性化召回之聚类召回</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3相关召回之相似召回-主要"><span class="nav-number">3.</span> <span class="nav-text">3.3相关召回之相似召回(主要)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4相关召回之聚类召回"><span class="nav-number">4.</span> <span class="nav-text">3.4相关召回之聚类召回</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5相关召回之文案相关召回"><span class="nav-number">5.</span> <span class="nav-text">3.5相关召回之文案相关召回</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4排序模型"><span class="nav-number"></span> <span class="nav-text">4排序模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1LR-逻辑回归模型"><span class="nav-number">1.</span> <span class="nav-text">4.1LR 逻辑回归模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-xNFM模型"><span class="nav-number">2.</span> <span class="nav-text">4.2 xNFM模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-双塔模型"><span class="nav-number">3.</span> <span class="nav-text">4.3 双塔模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-三塔模型"><span class="nav-number">4.</span> <span class="nav-text">4.4 三塔模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-Field-wise-三塔模型"><span class="nav-number">5.</span> <span class="nav-text">4.5 Field_wise 三塔模型</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Yuan"
+    src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228120904.jpg">
+  <p class="site-author-name" itemprop="name">Yuan</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/liyuan97" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;liyuan97" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lysysu@qq.com" title="E-Mail &amp;rarr; mailto:lysysu@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Friends Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.yelbee.top/" title="http:&#x2F;&#x2F;www.yelbee.top&#x2F;" rel="noopener" target="_blank">Yellow Bee</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.dlzhang.com/" title="https:&#x2F;&#x2F;blog.dlzhang.com&#x2F;" rel="noopener" target="_blank">班班碎碎念</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://yiki.tech/" title="https:&#x2F;&#x2F;yiki.tech&#x2F;" rel="noopener" target="_blank">Guan FuQing</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+      
+      <div style="">
+  <canvas id="canvas" style="width:60%;">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+</div>
+<script>
+(function(){
+
+   var digit=
+    [
+        [
+            [0,0,1,1,1,0,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,0,1,1,0],
+            [0,0,1,1,1,0,0]
+        ],//0
+        [
+            [0,0,0,1,1,0,0],
+            [0,1,1,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [1,1,1,1,1,1,1]
+        ],//1
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,1,1],
+            [1,1,1,1,1,1,1]
+        ],//2
+        [
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//3
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,0],
+            [0,0,1,1,1,1,0],
+            [0,1,1,0,1,1,0],
+            [1,1,0,0,1,1,0],
+            [1,1,1,1,1,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,1,1]
+        ],//4
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,1,1,1,1,0],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//5
+        [
+            [0,0,0,0,1,1,0],
+            [0,0,1,1,0,0,0],
+            [0,1,1,0,0,0,0],
+            [1,1,0,0,0,0,0],
+            [1,1,0,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//6
+        [
+            [1,1,1,1,1,1,1],
+            [1,1,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,0,0,1,1,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0],
+            [0,0,1,1,0,0,0]
+        ],//7
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,1,1,0]
+        ],//8
+        [
+            [0,1,1,1,1,1,0],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [1,1,0,0,0,1,1],
+            [0,1,1,1,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,0,1,1],
+            [0,0,0,0,1,1,0],
+            [0,0,0,1,1,0,0],
+            [0,1,1,0,0,0,0]
+        ],//9
+        [
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,1,1,1,0,0],
+            [0,0,0,0,0,0,0]
+        ]//:
+    ];
+
+var canvas = document.getElementById('canvas');
+
+if(canvas.getContext){
+    var cxt = canvas.getContext('2d');
+    //声明canvas的宽高
+    var H = 100,W = 700;
+    canvas.height = H;
+    canvas.width = W;
+    cxt.fillStyle = '#f00';
+    cxt.fillRect(10,10,50,50);
+
+    //存储时间数据
+    var data = [];
+    //存储运动的小球
+    var balls = [];
+    //设置粒子半径
+    var R = canvas.height/20-1;
+    (function(){
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        //存储时间数字，由十位小时、个位小时、冒号、十位分钟、个位分钟、冒号、十位秒钟、个位秒钟这7个数字组成
+        data.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+    })();
+
+    /*生成点阵数字*/
+    function renderDigit(index,num){
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    cxt.beginPath();
+                    cxt.arc(14*(R+2)*index + j*2*(R+1)+(R+1),i*2*(R+1)+(R+1),R,0,2*Math.PI);
+                    cxt.closePath();
+                    cxt.fill();
+                }
+            }
+        }
+    }
+
+    /*更新时钟*/
+    function updateDigitTime(){
+        var changeNumArray = [];
+        var temp = /(\d)(\d):(\d)(\d):(\d)(\d)/.exec(new Date());
+        var NewData = [];
+        NewData.push(temp[1],temp[2],10,temp[3],temp[4],10,temp[5],temp[6]);
+        for(var i = data.length-1; i >=0 ; i--){
+            //时间发生变化
+            if(NewData[i] !== data[i]){
+                //将变化的数字值和在data数组中的索引存储在changeNumArray数组中
+                changeNumArray.push(i+'_'+(Number(data[i])+1)%10);
+            }
+        }
+        //增加小球
+        for(var i = 0; i< changeNumArray.length; i++){
+            addBalls.apply(this,changeNumArray[i].split('_'));
+        }
+        data = NewData.concat();
+    }
+
+    /*更新小球状态*/
+    function updateBalls(){
+        for(var i = 0; i < balls.length; i++){
+            balls[i].stepY += balls[i].disY;
+            balls[i].x += balls[i].stepX;
+            balls[i].y += balls[i].stepY;
+            if(balls[i].x > W + R || balls[i].y > H + R){
+                balls.splice(i,1);
+                i--;
+            }
+        }
+    }
+
+    /*增加要运动的小球*/
+    function addBalls(index,num){
+        var numArray = [1,2,3];
+        var colorArray =  ["#3BE","#09C","#A6C","#93C","#9C0","#690","#FB3","#F80","#F44","#C00"];
+        for(var i = 0; i < digit[num].length; i++){
+            for(var j = 0; j < digit[num][i].length; j++){
+                if(digit[num][i][j] == 1){
+                    var ball = {
+                        x:14*(R+2)*index + j*2*(R+1)+(R+1),
+                        y:i*2*(R+1)+(R+1),
+                        stepX:Math.floor(Math.random() * 4 -2),
+                        stepY:-2*numArray[Math.floor(Math.random()*numArray.length)],
+                        color:colorArray[Math.floor(Math.random()*colorArray.length)],
+                        disY:1
+                    };
+                    balls.push(ball);
+                }
+            }
+        }
+    }
+
+    /*渲染*/
+    function render(){
+        //重置画布宽度，达到清空画布的效果
+        canvas.height = 100;
+        //渲染时钟
+        for(var i = 0; i < data.length; i++){
+            renderDigit(i,data[i]);
+        }
+        //渲染小球
+        for(var i = 0; i < balls.length; i++){
+            cxt.beginPath();
+            cxt.arc(balls[i].x,balls[i].y,R,0,2*Math.PI);
+            cxt.fillStyle = balls[i].color;
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+
+    clearInterval(oTimer);
+    var oTimer = setInterval(function(){
+        //更新时钟
+        updateDigitTime();
+        //更新小球状态
+        updateBalls();
+        //渲染
+        render();
+    },50);
+}
+
+})();
+</script>
+
+      
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Yuan</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">72k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:06</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        本站访客数<span id="busuanzi_value_site_uv"></span>人次
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        本站总访问量<span id="busuanzi_value_site_pv"></span>次
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='255,140,0' opacity='0.5' zIndex='-1' count='100' src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@latest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+  
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"/>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '6e0e8cda3de0989d1085',
+    clientSecret: '3cb5f9a7db98cf1fb0204f8ef83de99e8be2eb66',
+    repo: 'liyuan97.github.io',
+    owner: 'liyuan97',
+    admin: ['liyuan97'],
+    id: md5(location.pathname),
+    
+      language: 'zh-CN',
+    
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+  
+
+
+  
+
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+
+  
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"/>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/js-md5@0.7.3/src/md5.min.js"></script>
+
+<script>
+  var gitalk = new Gitalk({
+    clientID: '6e0e8cda3de0989d1085',
+    clientSecret: '3cb5f9a7db98cf1fb0204f8ef83de99e8be2eb66',
+    repo: 'liyuan97.github.io',
+    owner: 'liyuan97',
+    admin: ['liyuan97'],
+    id: md5(location.pathname),
+    
+      language: 'zh-CN',
+    
+    distractionFreeMode: 'true'
+  });
+  gitalk.render('gitalk-container');
+</script>
+
+</body>
+</html>
