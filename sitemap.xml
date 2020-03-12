@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://leeee.top/2020/CSIT5500-1-%E6%8E%92%E5%BA%8F/</loc>
+    
+    <lastmod>2020-03-12T04:47:30.714Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://leeee.top/2020/CS224n-7-%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1-LSTM-GRU-BLSTM/</loc>
     
     <lastmod>2020-03-12T03:46:32.028Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>http://leeee.top/2020/CSIT5500-2-%E5%88%86%E6%B2%BB/</loc>
     
     <lastmod>2020-03-04T08:26:42.247Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://leeee.top/2020/CSIT5500-1-%E6%8E%92%E5%BA%8F/</loc>
-    
-    <lastmod>2020-03-04T08:24:45.643Z</lastmod>
     
   </url>
   
