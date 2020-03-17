@@ -1,6 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>MSBD5004 Mathematical Methods for Data Analysis Homework 2</title>
+    <url>/2020/MSBD5004%20Mathematical%20Methods%20for%20Data%20Analysis%20Homework%202/</url>
+    <content><![CDATA[<p>MSBD5004 Mathematical Methods for Data Analysis Homework 2</p><blockquote>
+<p>基础证明，感觉题不多，还是继续打出来了。</p>
+</blockquote><h1 id="Q1"><a href="#Q1" class="headerlink" title="Q1"></a>Q1</h1><p>Let $(V,|\cdot|)$ be a normed vector space.<br>(a) Prove that, for all $x, y \in V$,</p><a id="more"></a>
+
+
+<script type="math/tex; mode=display">| \|\boldsymbol{x}\|-\|\boldsymbol{y}\| |\leq\|\boldsymbol{x}-\boldsymbol{y}\|</script><p>(b) Let $\left\{x_{k}\right\}_{k \in \mathbb{N}}$ be a convergent sequence in $V$ with limit $x \in V$. Prove that</p>
+<script type="math/tex; mode=display">\lim _{k \rightarrow \infty}\left\|x_{k}\right\|=\|x\|</script><p>(Hint: Use part (a).)<br>(c) Let $\left\{x^{(k)}\right\}_{k \in \mathbb{N}}$ be a sequence in $V$ and $x, y \in V .$ Prove that, if</p>
+<script type="math/tex; mode=display">x^{(k)} \rightarrow x, \text { and } x^{(k)} \rightarrow y,</script><p>then $x=y .$ (In other words, the limit of the same sequence in a normed vector space is unique.)</p>
+<h2 id="a"><a href="#a" class="headerlink" title="(a)"></a>(a)</h2><p>Using the norm definition, we have that $|\boldsymbol{a}+\boldsymbol{b}| \leq|\boldsymbol{a}|+|\boldsymbol{b}|$.<br>$if :\boldsymbol{a}=|\boldsymbol{x}-\boldsymbol{y}| ,\boldsymbol{b}=|\boldsymbol{y}|, then |\boldsymbol{x}| \leq |\boldsymbol{x}-\boldsymbol{y}|  +|\boldsymbol{y}|$<br>$if :\boldsymbol{a}=|\boldsymbol{y}-\boldsymbol{x}| ,\boldsymbol{b}=|\boldsymbol{x}|, then |\boldsymbol{y}| \leq |\boldsymbol{y}-\boldsymbol{x}|  +|\boldsymbol{x}|$<br>From above we can get<script type="math/tex">\|\boldsymbol{x}\|-\|\boldsymbol{y}\| \leq\|\boldsymbol{x}-\boldsymbol{y}\| , and   \|\boldsymbol{y}\|-\|\boldsymbol{x}\| \leq\|\boldsymbol{x}-\boldsymbol{y}\|</script><br>So, $| |\boldsymbol{x}|-|\boldsymbol{y}| |\leq|\boldsymbol{x}-\boldsymbol{y}|$.◾</p>
+<h2 id="b"><a href="#b" class="headerlink" title="(b)"></a>(b)</h2><p>Using the converges definition, we can get</p>
+<script type="math/tex; mode=display">\lim _{k \rightarrow \infty}\left\|\boldsymbol{x}_{k}-\boldsymbol{x}\right\|=\left\|\lim _{k \rightarrow \infty}\boldsymbol{x}_{k}-\boldsymbol{x}\right\| = 0</script><p>Useing the conclusion of (a),</p>
+<script type="math/tex; mode=display">| \lim _{k \rightarrow \infty}\|\boldsymbol{x}_{k}\|-\|\boldsymbol{x}\||=\left\|\lim _{k \rightarrow \infty}\boldsymbol{x}_{k}-\boldsymbol{x}\right\| = 0</script><p>Then, we get $\lim _{k \rightarrow \infty}\left|\boldsymbol{x}_{k}\right|=|\boldsymbol{x}|$.◾</p>
+<h2 id="c"><a href="#c" class="headerlink" title="(c)"></a>(c)</h2><p><strong>Proof</strong>: Assume that as $k \rightarrow \infty$ then $x^{(k)} \rightarrow x$ and also $x^{(k)} \rightarrow y .$</p>
+<ul>
+<li>Let $\epsilon&gt;0$ be given and choose $N_{1} \in \mathbb{N}$ such that<br>$\left|x^{(k)}-x\right|&lt;\frac{\epsilon}{2}$. And also choose $N_{2} \in \mathbb{N}$ such that<br>$\left|x^{(k)}-y\right|&lt;\frac{\epsilon}{2}$.</li>
+<li>Now choose $N=\max \left(N_{1}, N_{2}\right)$. Not that the choose the maximum of $N_{1}$ and $N_{2}$, then it will be true that regardless $\left|x^{(k)}-x\right|&lt;\frac{\epsilon}{2}$ and<br>$\left|x^{(k)}-y\right|&lt;\frac{\ell}{2}$. Now consider the following inequality:<script type="math/tex; mode=display">|x-y|=\left|x-x^{(k)}+x^{(k)}-y\right|=\left|\left(x-x^{(k)}\right)+\left(x^{(k)}-y\right)\right|</script></li>
+<li>By the triangle inequality, we get that:<script type="math/tex; mode=display">|x-y|=\left|\left(x-x^{(k)}\right)+\left(x^{(k)}-y\right)\right| \leq\left|x-x^{(k)}\right|+\left|x^{(k)}-y\right|<\frac{\epsilon}{2}+\frac{\epsilon}{2}=\epsilon</script>Therefore $|x-y|&lt;\epsilon .$  $x-y$ is a number, and $\forall \epsilon&gt;0,|x-y|&lt;\epsilon$. So that $x=y$.◾<h1 id="Q2"><a href="#Q2" class="headerlink" title="Q2"></a>Q2</h1></li>
+</ul>
+<ol>
+<li>Let $V$ be a vector space, and $\langle\cdot, \cdot\rangle$ be an inner product on $V$. Use the definition of inner product to prove the following.<br>(a) Prove that $\langle \boldsymbol{0}, x\rangle=\langle x,  \boldsymbol{0}\rangle= 0$ for any $x \in V .$ Here  $\boldsymbol{0}$ is the zero vector in $V$.<br>(b) Prove that the second condition<script type="math/tex; mode=display">①\left\langle\alpha x_{1}+\beta x_{2}, y\right\rangle=\alpha\left\langle x_{1}, y\right\rangle+\beta\left\langle x_{2}, y\right\rangle \quad \forall x_{1}, x_{2}, y \in V, \alpha, \beta \in \mathbb{R} $$ is equivalent to $$② \left\langle x_{1}+x_{2}, y\right\rangle=\left\langle x_{1}, y\right\rangle+\left\langle x_{2}, y\right\rangle \text { and }\langle\alpha x, y\rangle=\alpha\langle x, y\rangle, \quad \forall x_{1}, x_{2}, x, y \in V, \alpha \in \mathbb{R}.</script></li>
+</ol>
+<h2 id="a-1"><a href="#a-1" class="headerlink" title="(a)"></a>(a)</h2><p>There are 3 condition of definition of inner product:</p>
+<script type="math/tex; mode=display">
+ \begin{array}{l}\text { (1) } \quad \forall x \in V, \quad\langle x, x\rangle \geq 0 \quad \text { and } \quad\langle x, x\rangle= 0 \Leftrightarrow x=0 \\ \text { (2) }\left.\quad\langle\alpha x_{1}+\beta x_{2}, y\rangle=\alpha\langle x_{1}, y\rangle+\beta\langle x_{2}, y\right\rangle \quad \forall \alpha, \beta \in R, \quad x_{1}, x_{2}, y \in V \\ \text { (3) }\left.\quad \langle x, y\right\rangle=\langle y, x\rangle\end{array}</script><p>Use (3) if $y= \boldsymbol{0}$, we can get  $\langle \boldsymbol{0}, x\rangle=\langle x,  \boldsymbol{0}\rangle$.<br>Use (2) if $y=x,  x_1=x_2=\boldsymbol{0},\alpha=\beta=1$, we can get $\langle \boldsymbol{0}, x\rangle=2*\langle \boldsymbol{0}, x\rangle$, so $\langle \boldsymbol{0}, x\rangle=0$<br>From above, we can get $\langle \boldsymbol{0}, x\rangle=\langle x,  \boldsymbol{0}\rangle= 0$. ◾</p>
+<h2 id="b-1"><a href="#b-1" class="headerlink" title="(b)"></a>(b)</h2><script type="math/tex; mode=display">①\left\langle\alpha x_{1}+\beta x_{2}, y\right\rangle=\alpha\left\langle x_{1}, y\right\rangle+\beta\left\langle x_{2}, y\right\rangle \quad \forall x_{1}, x_{2}, y \in V, \alpha, \beta \in \mathbb{R} $$  $$② \left\langle x_{1}+x_{2}, y\right\rangle=\left\langle x_{1}, y\right\rangle+\left\langle x_{2}, y\right\rangle \text { and }\langle\alpha x, y\rangle=\alpha\langle x, y\rangle, \quad \forall x_{1}, x_{2}, x, y \in V, \alpha \in \mathbb{R}.</script><p><strong>Proof</strong>: </p>
+<ul>
+<li><p>$①\rightarrow②$ :<br>set $\alpha=\beta=1$, we can get first equation of $②,\forall x_{1}, x_{2}, x, y \in V, \alpha \in \mathbb{R}.$.<br>set $x_1=x, \beta=0$, we can get second equation of $②,\forall x_{1}, x_{2}, x, y \in V, \alpha \in \mathbb{R}.$.</p>
+</li>
+<li><p>$②\rightarrow①$ :<br>set $x_1= \alpha x_1, x_2= \beta x_2$, we can get<br><script type="math/tex">\left\langle\alpha x_{1}+\beta x_{2}, y\right\rangle=\left\langle\alpha x_{1}, y\right\rangle+\left\langle\beta x_{2}, y\right\rangle=\alpha\left\langle x_{1}, y\right\rangle+\beta\left\langle x_{2}, y\right\rangle \quad \forall x_{1}, x_{2}, y \in V, \alpha, \beta \in \mathbb{R}</script>◾</p>
+</li>
+</ul>
+<h1 id="Q3"><a href="#Q3" class="headerlink" title="Q3"></a>Q3</h1><p>$\mathbb{R}^{m \times n}$ is a vector space over $\mathbb{R}$. Show that $\langle\boldsymbol{A}, \boldsymbol{B}\rangle=\operatorname{trace}\left(\boldsymbol{A}^{T} \boldsymbol{B}\right) \text { for } \boldsymbol{A}, \boldsymbol{B} \in \mathbb{R}^{m \times n}$ is an inner product on $\mathbb{R}^{m \times n} .$ Here trace(.)  is the trace of a matrix, i.e., the sum of all diagonal entries.</p>
+<p><strong>Proof</strong>:<br>For every $A=(A_{ij}) \in \mathbb{R}^{m\times n}$ we have <script type="math/tex">\langle A,A\rangle=\text{tr}(A^TA)=\sum_{i=1}^n(A^TA)_{ii}=\sum_{i=1}^n\sum_{j=1}^mA^T_{ij}A_{ji}=\sum_{i=1}^m\sum_{j=1}^nA_{ij}^2 \ge 0,</script> and <script type="math/tex">\langle A,A\rangle=\sum_{i=1}^m\sum_{j=1}^nA_{ij}^2 = 0\iff (A_{ij}=0 \quad \forall i,j) \iff A=0</script> Since <script type="math/tex">\text{tr}(X^T)=\text{tr}(X), \quad \text{tr}(X+Y)=\text{tr}(X)+\text{tr}(Y), \quad \text{tr}(\lambda X)=\lambda\text{tr}(X)</script> for every $X,Y \in \mathbb{R}^{n\times n}$, and $\lambda \in \mathbb{R}$, therefore, for every $A,B, C \in \mathbb{R}^{m\times n}$, and $\lambda \in \mathbb{R}$ we have</p>
+<script type="math/tex; mode=display">\langle A,B\rangle=\text{tr}(B^TA)=\text{tr}((B^TA)^T)=\text{tr}(A^TB)=\langle B,A\rangle,\\
+\langle \lambda A+B,C\rangle=\text{tr}(C^T(\lambda A+B))=\text{tr}(\lambda C^TA+C^TB)=\lambda\text{tr}(C^TA)+\text{tr}(C^TB)\\
+=\lambda\langle A,C\rangle+\langle B,C\rangle</script><h1 id="Q4"><a href="#Q4" class="headerlink" title="Q4"></a>Q4</h1><p>Consider the polynomial kernel $K(\boldsymbol{x}, \boldsymbol{y})=\left(\boldsymbol{x}^{T} \boldsymbol{y}+1\right)^{2}$ for $\boldsymbol{x}, \boldsymbol{y} \in \mathbb{R}^{2} .$ Find an explicit feature map $\phi: \mathbb{R}^{2} \rightarrow \mathbb{R}^{6}$ satisfying $\langle\phi(\boldsymbol{x}), \phi(\boldsymbol{y})\rangle= K(\boldsymbol{x}, \boldsymbol{y}),$ where the inner product the standard inner product<br>in $\mathbb{R}^{6}$.<br><strong>Solution as follow:</strong></p>
+<script type="math/tex; mode=display">
+ \begin{array}{c}\phi\left(\left(\begin{array}{c}x_{1} \\ x_{2}\end{array}\right),\left(\begin{array}{c}y_{1} \\ y_2\end{array}\right)\right)=\left(1+x_{1} y_{1}+x_{2} y_2\right)^{2} \\ =1+\left(x_{1} y_{1}\right)^{2}+\left(x_{2} y_2\right)^{2}+2 x_{1} y_{1}+2 x_{2} y_2+2 x_{1} y_{1} x_{2} y_2\end{array}</script><script type="math/tex; mode=display">=\left(\begin{array}{llll}1 & \sqrt{2}x_{1} & \sqrt{2} x_{2} & x_{1}^{2}\sqrt{2} &x_{1} x_{2}  &x_{2}^{2}\end{array} \right)^{T} \left(\begin{array}{llll}1 & \sqrt{2}x_{1} & \sqrt{2} x_{2} & x_{1}^{2}\sqrt{2} &x_{1} x_{2}  &x_{2}^{2}\end{array} \right)</script><h1 id="Q5"><a href="#Q5" class="headerlink" title="Q5"></a>Q5</h1><p>(You don’t need to do anything for this question.) A good Matlab code and demonstration of kernel K-means can be found at <a href="http://www.dcs.gla.ac.uk/~srogers/firstcourseml/matlab/chapter6/kernelkmeans.html" target="_blank" rel="noopener">http://www.dcs.gla.ac.uk/~srogers/firstcourseml/matlab/chapter6/kernelkmeans.html</a> Read the code. Run the code in Matlab, if possible, to see how kernel K-means works for nonlinear data.</p>
+]]></content>
+      <categories>
+        <category>5004</category>
+      </categories>
+      <tags>
+        <tag>Homework</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【分享整理】美图个性化push的探索之路</title>
     <url>/2020/%E7%BE%8E%E5%9B%BE%E4%B8%AA%E6%80%A7%E5%8C%96push/</url>
     <content><![CDATA[<blockquote>
@@ -423,9 +472,9 @@
         <category>5004</category>
       </categories>
       <tags>
+        <tag>Homework</tag>
         <tag>范数</tag>
         <tag>Kmeans</tag>
-        <tag>Homework</tag>
       </tags>
   </entry>
   <entry>
