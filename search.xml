@@ -1,6 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CS224n-9-如何做好project?</title>
+    <url>/2020/CS224n-9/</url>
+    <content><![CDATA[<blockquote>
+<p>这节主要是介绍project的要求，也重新提到了LSTM，GRU，还有一些trick. 比较杂。</p>
+</blockquote><h1 id="project选择问题"><a href="#project选择问题" class="headerlink" title="project选择问题"></a>project选择问题</h1><ul>
+<li>默认的Task: Building a textual question answering system for SQuAD<br>• Stanford Question Answering Dataset<br>• <a href="https://rajpurkar.github.io/SQuAD-explorer/" target="_blank" rel="noopener">https://rajpurkar.github.io/SQuAD-explorer/</a><br> 这个任务相当于在做英语阅读题，输入一段话和一个问题，输出是否有答案，答案是哪个单词。 </li>
+<li>Custom Final Project： 大佬自己去研究吧</li>
+</ul><a id="more"></a>
+
+<h1 id="project的探索方向"><a href="#project的探索方向" class="headerlink" title="project的探索方向"></a>project的探索方向</h1><ol>
+<li>找新的任务，用就的方法</li>
+<li>调整神经网络的结构，优化性能</li>
+<li>提出新的网络，并验证</li>
+<li>分析项目，分析现有的模型如何理解语言</li>
+<li>Rare theoretical project: Show some interesting, non-trivial properties of a model type, data, or a data representation 没理解<h2 id="往届优秀project"><a href="#往届优秀project" class="headerlink" title="往届优秀project"></a>往届优秀project</h2><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200318013542.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>通过诗集训练生成诗集。结构不复杂，替换数据集就是新任务，可以之后参考仿照着做。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200318013834.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>通过压缩数据长度，来优化计算速度。(很常见的方法)<h2 id="找方向，读论文"><a href="#找方向，读论文" class="headerlink" title="找方向，读论文"></a>找方向，读论文</h2>其他的方法去寻找论文  ，不过对我来说，我觉得找两个别人做好的项目，复现一下就不错了。🤪<br><a href="https://aclanthology.info" target="_blank" rel="noopener">https://aclanthology.info</a><br><a href="https://paperswithcode.com/sota" target="_blank" rel="noopener">https://paperswithcode.com/sota</a><br><a href="http://www.arxiv-sanity.com" target="_blank" rel="noopener">http://www.arxiv-sanity.com</a></li>
+</ol>
+<p>注意：<br>数据最好完整，任务可行，一点要有可以自动评价的指标。(很多任务都不好评价结果)</p>
+<h2 id="找数据"><a href="#找数据" class="headerlink" title="找数据"></a>找数据</h2><p><a href="https://catalog.ldc.upenn.edu/" target="_blank" rel="noopener">https://catalog.ldc.upenn.edu/</a><br><a href="https://linguistics.stanford.edu/resources/resources-corpora" target="_blank" rel="noopener">https://linguistics.stanford.edu/resources/resources-corpora</a><br>机器翻译 <a href="http://statmt.org" target="_blank" rel="noopener">http://statmt.org</a><br>kaggle/github</p>
+<blockquote>
+<p>然后又讲了一遍梯度消失爆炸，LSTM，GRU 就不赘述了。 主要是理解GRU用一个门，控制两边的输入量。</p>
+</blockquote>
+<h1 id="翻译中词汇量太大的问题"><a href="#翻译中词汇量太大的问题" class="headerlink" title="翻译中词汇量太大的问题"></a>翻译中词汇量太大的问题</h1><p>一般语言中，常用词就几万个，但是低频词还有很多(十几万)，计算速度慢，如何解决呢？</p>
+<ul>
+<li>在训练和测试集上，都限制词汇量，删除含有低频词的样本。</li>
+<li>Attention</li>
+<li>噪声对比估计（NCE，Noise-Contrastive Estimation），判断出没有实际含义的词，剔除</li>
+<li>Hierarchical softmax (word2vec的优化技巧)</li>
+</ul>
+<h1 id="做课堂project的基本步骤"><a href="#做课堂project的基本步骤" class="headerlink" title="做课堂project的基本步骤"></a>做课堂project的基本步骤</h1><ol>
+<li>定义问题。比如：翻译、总结、问答</li>
+<li>找数据集。最好是已经有了baseline</li>
+<li>清洗数据。分开text数据和devtest数据</li>
+<li>定义评价指标。不同任务评价指标不同。</li>
+<li>建立baseline。比如LR，然后看baseline的得分，分析baseline的问题</li>
+<li>尝试已经存在的网络模型。</li>
+<li>分析数据。可视化，统计信息，查看错误预测，分析超参数</li>
+<li>尝试其他的模型。</li>
+</ol>
+<h1 id="RNN的注意事项"><a href="#RNN的注意事项" class="headerlink" title="RNN的注意事项"></a>RNN的注意事项</h1><ol>
+<li>使用LSTM或GRU：它使您的生活变得更加简单！</li>
+<li>初始化递归矩阵为正交</li>
+<li>用合理的（小）标度初始化其他矩阵</li>
+<li>将“遗忘门”偏差初始化为1(默认为记住)</li>
+<li>使用自适应学习率算法：Adam，AdaDelta</li>
+<li>裁剪渐变的范数：1-5似乎是合理的与Adam或AdaDelta一起使用时的阈值。</li>
+<li>Either only dropout vertically or look into using Bayesian Dropout (Gal and Gahramani – not natively in PyTorch)</li>
+<li>要有耐心！</li>
+</ol>
+<h1 id="指导思想"><a href="#指导思想" class="headerlink" title="指导思想"></a>指导思想</h1><p>从简单入手，逐步增加模型复杂度<br>从小数据入手，可以快速迭代<br>不要怕过拟合，过拟合了可以降下来，但是证明了模型的拟合能力</p>
+]]></content>
+      <categories>
+        <category>CS224n</category>
+      </categories>
+      <tags>
+        <tag>project</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MSBD5004 Mathematical Methods for Data Analysis Homework 2</title>
     <url>/2020/MSBD5004%20Mathematical%20Methods%20for%20Data%20Analysis%20Homework%202/</url>
     <content><![CDATA[<p>MSBD5004 Mathematical Methods for Data Analysis Homework 2</p><blockquote>
