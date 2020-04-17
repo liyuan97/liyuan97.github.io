@@ -57,7 +57,7 @@
 </script>
 
   <meta name="description" content="skorch是基于pytorch的外部工具，集成了很多基础功能，使得训练过程变得异常简单。一个net.fit()就能搞定。本次是MSBD5002的第二次作业，作业要求用MLP实现二分类和多分类的任务。多分类其实是对于图片分类，所以我也照着MNIST的CNNdemo改了个CNN的模型，CNN效果会好一点。但是由于数据集本身的原因，准确率没能上90%。">
-<meta name="keywords" content="技术,学习,元哥的日记,blog,算法日记">
+<meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pytorch再接触">
 <meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;pytorch2&#x2F;index.html">
@@ -69,7 +69,7 @@
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200416195751.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200417202326.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg =500x400">
 <meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200417014003.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:updated_time" content="2020-04-17T13:57:48.574Z">
+<meta property="og:updated_time" content="2020-04-17T13:59:31.616Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200415172243.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg#center">
 
@@ -276,7 +276,16 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-04-17 21:51:00 / 修改时间：21:57:48" itemprop="dateCreated datePublished" datetime="2020-04-17T21:51:00+08:00">2020-04-17</time>
+              <time title="创建时间：2020-04-17 21:51:00 / 修改时间：21:59:31" itemprop="dateCreated datePublished" datetime="2020-04-17T21:51:00+08:00">2020-04-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/pytorch/" itemprop="url" rel="index"><span itemprop="name">pytorch</span></a>
+                </span>
             </span>
 
           
@@ -332,7 +341,9 @@ iris.npz& 10\\
 wine.npz& 1\\
 digit.npz& 8\\
 \end{array}</script><p>It’s weird for <code>wine.npz</code>‘s best hidden number is 1. And I will discuss it on next part.</p>
-<h2 id="All-result"><a href="#All-result" class="headerlink" title="All result"></a>All result</h2><p>On all five dataset, we can see the model performance as follows .<br> filename          | N | train_acc | test_acc | test_AUC | train_time |<br>|—————————-|——————-|—————-|—————|—————|——————|<br>| diabetes.npz      | 8           | 0.652     | 0.647    | 0.500    | 0.725      |<br>| breast-cancer.npz | 10          | 0.952     | 0.963    | 0.957    | 0.568      |<br>| iris.npz          | 10          | 1.000     | 1.000    | 1.000    | 0.214      |<br>| wine.npz          | 1           | 0.401     | 0.389    | 0.500    | 0.244      |<br>| digit.npz         | 8           | 0.959     | 0.935    | 0.939    | 0.833      |<br>As we can see, more hidden unit means more train time, because it need more computing .<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200417005311.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>Model performance well on <code>breast-cancer</code>, <code>iris.npz</code>, <code>digit.npz</code>.But for the <code>diabetes.npz</code> and <code>wine.npz</code> the model seems not work. There are several reasons for this problem. </p>
+<h2 id="All-result"><a href="#All-result" class="headerlink" title="All result"></a>All result</h2><p>On all five dataset, we can see the model performance as follows .</p>
+<p> filename          | N | train_acc | test_acc | test_AUC | train_time |<br>|—————————-|——————-|—————-|—————|—————|——————|<br>| diabetes.npz      | 8           | 0.652     | 0.647    | 0.500    | 0.725      |<br>| breast-cancer.npz | 10          | 0.952     | 0.963    | 0.957    | 0.568      |<br>| iris.npz          | 10          | 1.000     | 1.000    | 1.000    | 0.214      |<br>| wine.npz          | 1           | 0.401     | 0.389    | 0.500    | 0.244      |<br>| digit.npz         | 8           | 0.959     | 0.935    | 0.939    | 0.833      |</p>
+<p>As we can see, more hidden unit means more train time, because it need more computing .<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200417005311.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>Model performance well on <code>breast-cancer</code>, <code>iris.npz</code>, <code>digit.npz</code>.But for the <code>diabetes.npz</code> and <code>wine.npz</code> the model seems not work. There are several reasons for this problem. </p>
 <ol>
 <li>The feature and label of  dataset is meaningless.</li>
 <li>The model is underfitting, because the epoch is only 20.</li>
@@ -356,6 +367,18 @@ digit.npz& 8\\
     
     
       
+  <div class="popular-posts-header">相似文章</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/Q音算法实习复盘/" rel="bookmark">Q音算法实习复盘</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/pytorch1/" rel="bookmark">pytorch初体验</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2019/【机器学习】集成学习GDBT-XGBOOST-RF/" rel="bookmark">集成学习GDBT,XGBOOST,RF</a></div>
+    </li>
+  </ul>
 
 
       <div>
@@ -365,6 +388,10 @@ digit.npz& 8\\
       </div>
 
       <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          </div>
 
         
 
@@ -441,7 +468,7 @@ digit.npz& 8\\
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
