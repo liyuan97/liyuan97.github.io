@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>AutoML-调参迈入蒸汽时代</title>
+    <url>/2020/AutoML/</url>
+    <content><![CDATA[<blockquote>
+<p>抽象，再抽象。     AutoML体验有感。</p>
+</blockquote><p>抽象这个词我真的是越来越喜欢了。小时候把看不懂的文字或者画叫抽象，虽然那些东西我现在依然不懂，但是现在对于抽象这两个字多少有点认识。本科的时候老师说“数学是自然科学的抽象”，我感触最深的就是线性代数，线性代数在之后的各个学科基本都有应用，大部分和维数有关的都可以用线性代数来表示。</p><a id="more"></a>
+
+<p>其实，在程序语言里，抽象很好理解，抽象就是定义一个class。举例或者应用，就是对于一个class实例化/初始化。而什么东西需要定义class呢？就是那些可以重复使用，属性共通的东西。比如：定义一个“男孩”，那男孩就拥有自身属性“身高，体重，年龄”，男孩拥有自身功能“写作业，拍照，搬砖”。</p>
+<p>而再抽象，就是进一步的去找到共性。比如“男孩”之上可以抽象“人类”，“人类”之上可以抽象“生物”。越高级(这里的高级并不是说厉害，而是更多次的抽象)的定义，就意味可以代表更多的东西，有更多的功能。</p>
+<p>在我今天体验完AutoML之后就感受到了，自己傻乎乎的手动调参，手动cv网格搜索，手动去尝试所有的分类模型，回归模型是多落后的一件事。有了AutoML可以说，没有任何机器学习基础的人都能短时间内得到一个表现很不错的模型。(面临失业555😩)</p>
+<p>AutoML就是对于我们去用sklearn里的模型训练，调参，验证的过程进行抽象，然后封装。</p>
+<hr>
+<h1 id="AutoML"><a href="#AutoML" class="headerlink" title="AutoML"></a>AutoML</h1><p>话说18年好像AutoML就已经挺火了，不过一直局限于课本算法，没有怎么体验过，这两天苦于调参，尝试了一下，表现还不错。原理不复杂，如图。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418221344.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="出现原因"><a href="#出现原因" class="headerlink" title="出现原因"></a>出现原因</h2><p>机器学习的应用需要大量的人工干预，这些人工干预表现在：特征提取、模型选择、参数调节等机器学习的各个方面。AutoML 试图将这些与特征、模型、优化、评价有关的重要步骤进行自动化地学习，使得机器学习模型无需人工干预即可被应用。</p>
+<p><strong>也就是只需要输入数据，然后自动调参，自动选模型，自动找特征。这里的“自动”可以是遍历，也可以是通过某种策略。反正就是暴力出奇迹。</strong></p>
+<h2 id="AutoML问题定义"><a href="#AutoML问题定义" class="headerlink" title="AutoML问题定义"></a>AutoML问题定义</h2><p><strong>AutoML 的主要问题可以由三部分构成：特征工程、模型选择、算法选择。</strong></p>
+<h3 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a><strong>特征工程</strong></h3><p>特征工程在机器学习中有着举足轻重的作用。<strong>在 AutoML 中，自动特征工程的目的是自动地发掘并构造相关的特征，使得模型可以有最优的表现。</strong>除此之外，还包含一些特定的特征增强方法，例如特征选择、特征降维、特征生成、以及特征编码等。这些步骤目前来说都没有达到自动化的阶段。</p>
+<p>上述这些步骤也伴随着一定的参数搜索空间。第一种搜索空间是方法自带的，例如PCA自带降维参数需要调整。第二种是特征生成时会将搜索空间扩大。</p>
+<h3 id="模型选择"><a href="#模型选择" class="headerlink" title="模型选择"></a><strong>模型选择</strong></h3><p><strong>模型选择包括两个步骤：选择一个模型，设定它的参数。</strong>相应地，AutoML的目的就是自动选择出一个最合适的模型，并且能够设定好它的最优参数。</p>
+<h3 id="算法选择"><a href="#算法选择" class="headerlink" title="算法选择"></a><strong>算法选择</strong></h3><p>对于算法选择，<strong>AutoML 的目的是自动地选择出一个优化算法，以便能够达到效率和精度的平衡。</strong>常用的优化方法有 SGD、L-BFGS、GD 等。使用哪个优化算法、对应优化算法的配置，也需要一组搜索空间。</p>
+<h4 id="从全局看"><a href="#从全局看" class="headerlink" title="从全局看"></a><strong>从全局看</strong></h4><p>将以上三个关键步骤整合起来看，<strong>一个完整的 AutoML 过程可以分成这么两类</strong>：一类是将以上的三个步骤整合成一个完整的 pipeline；另一类则是 Network Architecture Search，能够自动地学习到最优的网络结构。在学习的过程中，对以上三个问题都进行一些优化。<br>总之，机器学习的各种包xgb，sklearn都打包好，接口设计好，光扔准备好的数据就好了。</p>
+<h1 id="Azure-Google-阿里云"><a href="#Azure-Google-阿里云" class="headerlink" title="Azure,Google,阿里云"></a>Azure,Google,阿里云</h1><h2 id="Azure"><a href="#Azure" class="headerlink" title="Azure"></a>Azure</h2><p>Azure是学校给的资源，100美元的额度，还挺多的。Azure产品上整体体验功能很多，但是前端和汉化做的不够好，难以理解模块之间的逻辑关系。<br>首先登录<a href="https://ml.azure.com/" target="_blank" rel="noopener">https://ml.azure.com/</a>，确保账号有钱。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418225757.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>然后准备好数据集，输入可以是csv的格式，label的那一列在哪无所谓，id列在也可以后期不输入模型。<br>然后选择“自动化ML”也就是automl，选择刚才的数据集。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418230336.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>随便选择一个模型的名字，然后选择label列y。最后选择计算的资源，按照自己的需求选吧，反正肯定越大越好。<br>最后选择模型，回归，分类，时间预测(还没用过，时间戳的格式可能有点复杂)，以及这个模型的评价指标，验证方法，训练时间，迭代次数等超参数。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418230731.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>然后，大概经过一个小时的等待，实验就完成了。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418231011.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>输出的模型是选择的评价指标最好的模型，一般大概率是一个集成模型Ensemble。点击模型可以看到具体的所有尝试过模型和特征提取方法的组合。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418231124.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>更nb的是他还可以对特征可视化，分析和模型的内部情况。随便上几张图感受一下。</p>
+<ul>
+<li><p>可以看出不同特征的权重差异<br><img alt="可以看出不同特征的权重差异" data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418231349.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+</li>
+<li><p>可以看出特征和y的相关性情况<br><img alt="可以看出特征和y的相关性情况" data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418231401.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+</li>
+</ul>
+<p>但是训练完的模型必须部署之后才能预测，部署又需要搞服务，和服务器一系列的东西，太工程化了，做研究就不太适合。</p>
+<h2 id="Google-Cloud"><a href="#Google-Cloud" class="headerlink" title="Google Cloud"></a>Google Cloud</h2><p>Google的产品永远是我最喜欢的，简洁，逻辑简单，功能强大。Cloud也不例外。<br>由于我去年申请了google cloud的免费试用一年，还有很多余额，刚好体验了一下。<br>AutoML模块链接：<a href="https://cloud.google.com/automl/?_ga=2.81364951.-1987914321.1587187760" target="_blank" rel="noopener">https://cloud.google.com/automl/</a><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418231836.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>普通的回归分类任务选择Tables。(其他的任务我看了一下都是近两年的热门，图像物品检测，翻译等，google在深度学习上的耕耘在这就变现了)。<br>然后上传数据集，需要提前准备存储空间。上传完长这样。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418233034.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>注意的是如果id类没有进行onehot，这里一定要手动改成分类变量，或者直接剔除。<br>训练一个小时到几个小时不等，可以定义不同的超参数，选择不同的特征训练多次。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418234516.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>训练好模型可以对比在验证集上的表现，不过google看不到具体是用哪个模型。</p>
+<p>和Azure类似，google也展示了特征的权重。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418234659.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>两边最终得到的模型表现接近，特征权重也很接近。这可能就说明了，AutoML已经把特征“榨干”了吧，逼近了特征的上限。</p>
+<p>google优秀的一点是，可以直接上传测试集得到预测结果。这一点比Azure优秀多了。</p>
+<h2 id="阿里云"><a href="#阿里云" class="headerlink" title="阿里云"></a>阿里云</h2><p>在阿里云的PAI里，也有AutoML的功能，但是明显阿里云做的不够详细，只有召回和图片分类，没有给机器学习部分投入太大的研究。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200418235050.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>如果我上学期就用上这个AutoML，那做kaggle比赛不是美滋滋？😍只需要构造特征，剩下的用AutoML逼近特征上限就好了。</p>
+]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+        <tag>AutoML</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pytorch再接触</title>
     <url>/2020/pytorch2/</url>
     <content><![CDATA[<p>skorch是基于pytorch的外部工具，集成了很多基础功能，使得训练过程变得异常简单。一个net.fit()就能搞定。<br>本次是MSBD5002的第二次作业，作业要求用MLP实现二分类和多分类的任务。多分类其实是对于图片分类，所以我也照着MNIST的CNNdemo改了个CNN的模型，CNN效果会好一点。但是由于数据集本身的原因，准确率没能上90%。</p><a id="more"></a>
@@ -934,8 +978,8 @@ n=\frac{[b_{1}-\langle a_{1}, y\rangle ]\langle a_1,a_2\rangle -[b_{2}-\langle a
         <category>随笔</category>
       </categories>
       <tags>
-        <tag>实习</tag>
         <tag>机器学习</tag>
+        <tag>实习</tag>
         <tag>推荐算法</tag>
       </tags>
   </entry>
