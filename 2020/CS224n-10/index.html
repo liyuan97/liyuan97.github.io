@@ -56,15 +56,28 @@
   };
 </script>
 
-  <meta name="keywords" content="技术,学习,元哥的日记,blog,算法日记">
-<meta property="og:type" content="website">
-<meta property="og:title" content="元哥的日记">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;archives&#x2F;2019&#x2F;11&#x2F;index.html">
+  <meta name="description" content="这一节主要在介绍数据集和task。对于模型没太深究。   问答系统QA  一般的project组成部分，很容易理解，不解释了。">
+<meta name="keywords" content="技术,学习,元哥的日记,blog,算法日记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS224n-10 问答系统QA介绍">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-10&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
+<meta property="og:description" content="这一节主要在介绍数据集和task。对于模型没太深究。   问答系统QA  一般的project组成部分，很容易理解，不解释了。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200419213835.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200419220439.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200419232140.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200419233229.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200419234920.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200419235414.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200420001227.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200420002038.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200420003652.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:updated_time" content="2020-04-19T16:49:56.345Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200419213835.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 
-<link rel="canonical" href="http://leeee.top/archives/2019/11/">
+<link rel="canonical" href="http://leeee.top/2020/CS224n-10/">
 
 
 <script id="page-configurations">
@@ -72,13 +85,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
-    isArchive: true
+    isArchive: false
   };
 </script>
 
-  <title>归档 | 元哥的日记</title>
+  <title>CS224n-10 问答系统QA介绍 | 元哥的日记</title>
   
 
 
@@ -236,94 +249,148 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        
-        <span class="collection-header">还行! 目前共计 33 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228120904.jpg">
+      <meta itemprop="name" content="Yuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="元哥的日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          CS224n-10 问答系统QA介绍
+        </h2>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-20 00:44:00 / 修改时间：00:49:56" itemprop="dateCreated datePublished" datetime="2020-04-20T00:44:00+08:00">2020-04-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CS224n/" itemprop="url" rel="index"><span itemprop="name">CS224n</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>720</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h2 class="collection-header">2019</h2>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-30T23:03:00+08:00"
-              content="2019-11-30">
-          11-30
-        </time>
-      </div>
-
-      <h3 class="post-title">
-          <a class="post-title-link" href="/2019/%E5%87%86%E5%A4%87Q%E9%9F%B3%E6%8E%A8%E8%8D%90%E7%9A%84%E7%AC%94%E8%AE%B0/" itemprop="url">
-            <span itemprop="name">准备Q音推荐实习面试的笔记</span>
-          </a>
-      </h3>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-30T15:13:00+08:00"
-              content="2019-11-30">
-          11-30
-        </time>
-      </div>
-
-      <h3 class="post-title">
-          <a class="post-title-link" href="/2019/What-is-GAN-basicly/" itemprop="url">
-            <span itemprop="name">What is GAN basicly?</span>
-          </a>
-      </h3>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-11-16T14:58:00+08:00"
-              content="2019-11-16">
-          11-16
-        </time>
-      </div>
-
-      <h3 class="post-title">
-          <a class="post-title-link" href="/2019/%E3%80%90%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%91%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0GDBT-XGBOOST-RF/" itemprop="url">
-            <span itemprop="name">集成学习GDBT,XGBOOST,RF</span>
-          </a>
-      </h3>
-
-    </header>
-  </article>
-
+        <blockquote>
+<p>这一节主要在介绍数据集和task。对于模型没太深究。</p>
+</blockquote>
+<ul>
+<li>问答系统QA</li>
+</ul>
+<p>一般的project组成部分，很容易理解，不解释了。<br><a id="more"></a><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200419213835.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h2><p>搜索引擎，语言助手比如siri，经常需要回答人类的问题。<br>可以分成两部分：</p>
+<ol>
+<li>从很多的文档中找到对应的文档。</li>
+<li>对于一个文档和一个问题，判断是否文档可以回答这个问题，答案是什么。类似于阅读理解。本节课主要讲这个。</li>
+</ol>
+<p>例子如图：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200419220439.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="数据集介绍SQuAD"><a href="#数据集介绍SQuAD" class="headerlink" title="数据集介绍SQuAD"></a>数据集介绍SQuAD</h2><p>Stanford Question Answering Dataset SQuAD是斯坦福搞的数据集，表现良好。<br>举例：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200419232140.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>对于任何一段话，一个问题一般有三个答案，如果预测回答的答案对了，那就得一分。然后会比较准确率，回撤率，F1值等指标。主要看F1.<br>对于第一版的数据可以看出，经过几年的发展，bert已经表现比人还好。<img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200419233229.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>对于SQuAD 2.0的改进，主要是数据集添加了&lt;该问题无答案&gt;的label，也更符合人类的场景，增加了难度。如图：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200419234920.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>增加难度之后，bert表现依然不错。排名靠前的都是bert。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200419235414.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="SQuAD的缺陷"><a href="#SQuAD的缺陷" class="headerlink" title="SQuAD的缺陷"></a>SQuAD的缺陷</h2><p>问题还是太简单，只需要找到实体，不能解释原因。<br>不需要提前的额外知识，答案就在一个很小的段落里。</p>
+<h1 id="一些方案介绍"><a href="#一些方案介绍" class="headerlink" title="一些方案介绍"></a>一些方案介绍</h1><h2 id="Stanford-Attentive-Reader"><a href="#Stanford-Attentive-Reader" class="headerlink" title="Stanford Attentive Reader"></a>Stanford Attentive Reader</h2><p>这个方案是2017年的cs224N的TA做的。思路很简单，用lstm扫描问题，用Attention扫描文章，然后用一个矩阵乘起来，通过softmax得到概率。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200420001227.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>最后表现还不错。</p>
+<h2 id="Stanford-Attentive-Reader-1"><a href="#Stanford-Attentive-Reader-1" class="headerlink" title="Stanford Attentive Reader++"></a>Stanford Attentive Reader++</h2><p>改进版的TA方案是对于文章也用BLSTM*3层，然后输入的时候也输入词性。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200420002038.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<blockquote>
+<p>好多细节，也没听懂，之后看代码吧。</p>
+<h2 id="BiDAF"><a href="#BiDAF" class="headerlink" title="BiDAF"></a>BiDAF</h2><p>另一个经典的网络。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200420003652.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>最后都是讲具体的模型，太细节了，讲的又快，还是到时候挑几个看代码吧。</p>
+</blockquote>
 
     </div>
+
+    
+    
+    
+      
+
+
+      <div>
+      
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+      
+      </div>
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/AutoML/" rel="next" title="AutoML-调参迈入蒸汽时代">
+                  <i class="fa fa-chevron-left"></i> AutoML-调参迈入蒸汽时代
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
         </div>
           
@@ -348,6 +415,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#动机"><span class="nav-number">1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据集介绍SQuAD"><span class="nav-number">2.</span> <span class="nav-text">数据集介绍SQuAD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQuAD的缺陷"><span class="nav-number">3.</span> <span class="nav-text">SQuAD的缺陷</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些方案介绍"><span class="nav-number"></span> <span class="nav-text">一些方案介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Stanford-Attentive-Reader"><span class="nav-number">1.</span> <span class="nav-text">Stanford Attentive Reader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stanford-Attentive-Reader-1"><span class="nav-number">2.</span> <span class="nav-text">Stanford Attentive Reader++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BiDAF"><span class="nav-number">3.</span> <span class="nav-text">BiDAF</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
