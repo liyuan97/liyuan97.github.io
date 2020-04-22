@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://leeee.top/about/index.html</loc>
+    
+    <lastmod>2020-04-22T17:52:32.070Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://leeee.top/2020/pytorch1/</loc>
     
     <lastmod>2020-04-22T17:00:25.396Z</lastmod>
@@ -285,13 +292,6 @@
     <loc>http://leeee.top/photo/index.html</loc>
     
     <lastmod>2019-12-28T05:11:37.301Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://leeee.top/about/index.html</loc>
-    
-    <lastmod>2019-12-20T17:45:27.597Z</lastmod>
     
   </url>
   
