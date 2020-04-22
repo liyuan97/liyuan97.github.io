@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://leeee.top/2020/pytorch1/</loc>
+    
+    <lastmod>2020-04-22T17:00:25.396Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://leeee.top/more/blog/index.html</loc>
+    
+    <lastmod>2020-04-22T16:59:43.225Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://leeee.top/2020/pytorch2/</loc>
+    
+    <lastmod>2020-04-22T16:57:03.225Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://leeee.top/2020/CS224n-10/</loc>
     
     <lastmod>2020-04-19T16:49:56.345Z</lastmod>
@@ -12,20 +33,6 @@
     <loc>http://leeee.top/2020/AutoML/</loc>
     
     <lastmod>2020-04-18T16:00:18.364Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://leeee.top/2020/pytorch1/</loc>
-    
-    <lastmod>2020-04-17T13:59:37.792Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://leeee.top/2020/pytorch2/</loc>
-    
-    <lastmod>2020-04-17T13:59:31.616Z</lastmod>
     
   </url>
   
@@ -138,13 +145,6 @@
     <loc>http://leeee.top/2020/2020%E9%A6%99%E6%B8%AF%E9%A9%AC%E6%8B%89%E6%9D%BE%E5%A4%87%E8%B5%9B/</loc>
     
     <lastmod>2020-02-28T03:48:52.671Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://leeee.top/more/blog/index.html</loc>
-    
-    <lastmod>2020-02-27T04:15:46.833Z</lastmod>
     
   </url>
   
