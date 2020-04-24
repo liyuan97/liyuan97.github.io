@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>MSBD5004 Mathematical Methods for Data Analysis Homework 4</title>
+    <url>/2020/MSBD5004-Mathematical-Methods-for-Data-Analysis-Homework-4/</url>
+    <content><![CDATA[<blockquote>
+<p>这次作业感觉有点简单啊。🤧 最后一题凭感觉写的，不知道对不对，如果有问题请在留言板告诉我。<br>希望大家留言板支持一下博主，打公式真的好累。☹️ 给个例子让你们参考一下。<br><a id="more"></a><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200424084444.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+</blockquote>
+<h1 id="Q1"><a href="#Q1" class="headerlink" title="Q1"></a>Q1</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200417021144.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><strong><em>Solution:</em></strong> </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\|A\| =\sup _{\|x\|_{V}=1}\|A x\|_{\mathbb{R}}=\sup _{\|x\|_{V}=1}\|\langle a,x \rangle\|=\sup _{\|x\|_{V}=1}\sqrt{|\sum a_ix_i|} =\sqrt{\max(a_i)}
+\end{aligned}</script><p>◾</p>
+<h1 id="Q2"><a href="#Q2" class="headerlink" title="Q2"></a>Q2</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200417021154.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><strong><em>Solution:</em></strong></p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&f_{1}(\boldsymbol{x})=f_{1}\left(\boldsymbol{x}^{(0)}\right)+ D f_{1}\left(\boldsymbol{x}^{(0)}\right)\left(\boldsymbol{x}-\boldsymbol{x}^{(0)}\right)+o\left(|| \boldsymbol{x}-\boldsymbol{x}^{(0)} \|\right)\\
+&f_{2}(\boldsymbol{x})=f_{2}\left(\boldsymbol{x}^{(0)}\right)+D f_{2}\left(\boldsymbol{x}^{(0)}\right)\left(\boldsymbol{x}-\boldsymbol{x}^{(0)}\right)+o\left(\left\|\boldsymbol{x}-\boldsymbol{x}^{(0)}\right\|\right)\\
+&\vdots\\
+&f_{n}(\boldsymbol{x})=f_{i}\left(\boldsymbol{x}^{(0)}\right)+D f_{n}\left(\boldsymbol{x}^{(0)}\right)\left(\boldsymbol{x}-\boldsymbol{x}^{(0)}\right)+o\left(\left\|\boldsymbol{x}-\boldsymbol{x}^{(0)}\right\|\right).\\\\
+&So, F(\boldsymbol{x})=F\left(\boldsymbol{x}^{(0)}\right)+D F\left(\boldsymbol{x}^{(0)}\right)\left(\boldsymbol{x}-\boldsymbol{x}^{(0)}\right)+o\left(\left\|\boldsymbol{x}-\boldsymbol{x}^{(0)}\right\|\right).\\
+& \text{where} D F\left(\boldsymbol{x}^{(0)}\right): V \rightarrow \mathbb{R} \text{ defined by} DF\left(\boldsymbol{x}^{(0)}\right)(\boldsymbol{y})=\left[\begin{array}{l}
+D f_{1}\left(\boldsymbol{x}^{(0)}\right)(\boldsymbol{y}) \\
+D f_{2}\left(\boldsymbol{x}^{(0)}\right)(\boldsymbol{y}) \\
+\qquad \vdots\\
+D f_{n}\left(\boldsymbol{x}^{(0)}\right)(\boldsymbol{y}) \\
+\end{array}\right]
+\end{aligned}</script><p>In particular, if $V$ is a Hilbert space,</p>
+<script type="math/tex; mode=display">D F(\boldsymbol{x})(\boldsymbol{y})=\left[\begin{array}{c}\left\langle\nabla f_{1}(\boldsymbol{x}), \boldsymbol{y}\right\rangle \\ \left\langle\nabla f_{2}(\boldsymbol{x}), \boldsymbol{y}\right\rangle \\ \vdots \\ \left\langle\nabla f_{n}(\boldsymbol{x}), \boldsymbol{y}\right\rangle\end{array}\right], \quad \forall \boldsymbol{x} \in V</script><p>◾</p>
+<h1 id="Q3"><a href="#Q3" class="headerlink" title="Q3"></a>Q3</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200417021207.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><strong><em>Solution:</em></strong><br>（a)<br>$\nabla f(\boldsymbol{x})=\boldsymbol{A}^T(\boldsymbol{A} \boldsymbol{x}-\boldsymbol{b})+2\lambda\boldsymbol{x}$<br>$\nabla^2 f(\boldsymbol{x})=\boldsymbol{A}^T\boldsymbol{A} +2\lambda$<br>(b)<br>$\nabla f(\boldsymbol{X})=\boldsymbol{b}^T\boldsymbol{X}\boldsymbol{c}=\boldsymbol{c}\boldsymbol{b}^T$<br>$\nabla^2 f(\boldsymbol{x})=0$<br>(c)<br>$\nabla f(\boldsymbol{x})=\boldsymbol{x}^T(\boldsymbol{A}+\boldsymbol{A}^T)$<br>$\nabla^2 f(\boldsymbol{x})=(\boldsymbol{A}+\boldsymbol{A}^T)$<br>(d)<br>$\nabla f(\boldsymbol{X})=\boldsymbol{b}^T\boldsymbol{X}\boldsymbol{c}+\boldsymbol{c}^T\boldsymbol{X}^T\boldsymbol{b}$<br>$\nabla^2 f(\boldsymbol{X})=\boldsymbol{c}\boldsymbol{b}^T+\boldsymbol{c}\boldsymbol{b}^T$<br>(e)<br>$\nabla f(\boldsymbol{X})=\boldsymbol{A}\boldsymbol{X}\boldsymbol{B}+\boldsymbol{B}\boldsymbol{X}\boldsymbol{A}$<br>$\nabla^2 f(\boldsymbol{X})=\boldsymbol{B}\boldsymbol{A}+\boldsymbol{A}\boldsymbol{B}$</p>
+]]></content>
+      <categories>
+        <category>5004</category>
+      </categories>
+  </entry>
+  <entry>
     <title>杂记-要结束了？</title>
     <url>/2020/%E6%9D%82%E8%AE%B0/</url>
     <content><![CDATA[<p>又有感而发，开始写杂乱无章了。<br>我一直觉得，任何一个学期。<br>学期刚开始，学的都是轻轻松松，又不用复习太多，就很有兴趣，兴致勃勃。<br>学期要结束，就得开始准备复习，准备考试，紧紧张张，学的就很有收获。<br>但是学期中，就比如过去的几周，就是一段煎熬的时光，自己难以找到锚来提供动力，开始疲惫，拖沓，平静的黑夜里在海面飘荡。<br>（所以，我很感激我本科四年，几乎每门课都有期中考，强行把我的学期划分，才让我不至于那么荒废时光。</p><a id="more"></a>
@@ -247,7 +280,7 @@ digit.npz& 8\\
   </entry>
   <entry>
     <title>MSBD5004 Mathematical Methods for Data Analysis Homework 3</title>
-    <url>/2020/MSBD5004HW3/</url>
+    <url>/2020/MSBD5004-Mathematical-Methods-for-Data-Analysis-Homework-3/</url>
     <content><![CDATA[<blockquote>
 <p>最近学的开始有意思了。题也没那么好做了。<br>MSBD5004 Mathematical Methods for Data Analysis Homework 3</p>
 </blockquote><h1 id="Q1"><a href="#Q1" class="headerlink" title="Q1"></a>Q1</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200331112512.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p><p><strong><em>Solution:</em></strong> All use the standard inner product$\left\langle A,B\right \rangle =\sum_{1\le j\le n}\sum_{1\le i\le n}a_{i,j}b_{i,j}$.</p><a id="more"></a>
@@ -374,7 +407,7 @@ n=\frac{[b_{1}-\langle a_{1}, y\rangle ]\langle a_1,a_2\rangle -[b_{2}-\langle a
   </entry>
   <entry>
     <title>MSBD5004 Mathematical Methods for Data Analysis Homework 2</title>
-    <url>/2020/MSBD5004%20Mathematical%20Methods%20for%20Data%20Analysis%20Homework%202/</url>
+    <url>/2020/MSBD5004-Mathematical-Methods-for-Data-Analysis-Homework-2/</url>
     <content><![CDATA[<p>MSBD5004 Mathematical Methods for Data Analysis Homework 2</p><blockquote>
 <p>基础证明，感觉题不多，还是继续打出来了。</p>
 </blockquote><h1 id="Q1"><a href="#Q1" class="headerlink" title="Q1"></a>Q1</h1><p>Let $(V,|\cdot|)$ be a normed vector space.<br>(a) Prove that, for all $x, y \in V$,</p><a id="more"></a>
@@ -881,10 +914,10 @@ n=\frac{[b_{1}-\langle a_{1}, y\rangle ]\langle a_1,a_2\rangle -[b_{2}-\langle a
         <category>工程</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>ssh</tag>
         <tag>github</tag>
         <tag>hexo</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
