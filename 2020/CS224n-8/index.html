@@ -56,18 +56,30 @@
   };
 </script>
 
-  <meta name="description" content="Hello Blog.之前经常会发现大佬有自己的技术博客，之前也尝试着去做一个，但是由于自己的技术水平有限，也没有决定好走技术路线，所以就一直没有开始写技术博客。最近比较了算法和产品的待遇，真的差别好大。暂且不说之后的发展会怎样，程序员&#x2F;技术岗本身是智力和努力的比拼，是硬功夫。有更清晰的发展方向。再加上种种原因，我决定做技术了。">
-<meta name="keywords" content="blog">
+  <meta name="description" content="这一节：机器翻译，seq2seq(翻译的本质)，attention(提升seq2seq)统计机器翻译1990s-2010s: Statistical Machine Translation统计翻译是传统方法，可以大概了解一下背景。task：输入语言x的语句，输出语言y的语句。需要得到一个y，让概率最大化：">
+<meta name="keywords" content="Attention,机器翻译">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello Blog">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2019&#x2F;Hello-Blog&#x2F;index.html">
+<meta property="og:title" content="CS224n-8 机器翻译,seq2seq,Attention">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-8&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="Hello Blog.之前经常会发现大佬有自己的技术博客，之前也尝试着去做一个，但是由于自己的技术水平有限，也没有决定好走技术路线，所以就一直没有开始写技术博客。最近比较了算法和产品的待遇，真的差别好大。暂且不说之后的发展会怎样，程序员&#x2F;技术岗本身是智力和努力的比拼，是硬功夫。有更清晰的发展方向。再加上种种原因，我决定做技术了。">
+<meta property="og:description" content="这一节：机器翻译，seq2seq(翻译的本质)，attention(提升seq2seq)统计机器翻译1990s-2010s: Statistical Machine Translation统计翻译是传统方法，可以大概了解一下背景。task：输入语言x的语句，输出语言y的语句。需要得到一个y，让概率最大化：">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-02-27T03:57:50.114Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304123056.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304123125.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304123213.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304123616.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304130801.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304131042.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304143548.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304154800.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304155439.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304160308.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304161747.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:updated_time" content="2020-03-04T08:29:28.584Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200304123056.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 
-<link rel="canonical" href="http://leeee.top/2019/Hello-Blog/">
+<link rel="canonical" href="http://leeee.top/2020/CS224n-8/">
 
 
 <script id="page-configurations">
@@ -81,7 +93,7 @@
   };
 </script>
 
-  <title>Hello Blog | 元哥的日记</title>
+  <title>CS224n-8 机器翻译,seq2seq,Attention | 元哥的日记</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163973026-1"></script>
     <script>
@@ -259,7 +271,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2019/Hello-Blog/">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228120904.jpg">
@@ -272,7 +284,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          Hello Blog
+          CS224n-8 机器翻译,seq2seq,Attention
         </h2>
 
         <div class="post-meta">
@@ -283,23 +295,17 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-10-24 15:04:00" itemprop="dateCreated datePublished" datetime="2019-10-24T15:04:00+08:00">2019-10-24</time>
+              <time title="创建时间：2020-03-04 16:19:43 / 修改时间：16:29:28" itemprop="dateCreated datePublished" datetime="2020-03-04T16:19:43+08:00">2020-03-04</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-27 11:57:50" itemprop="dateModified" datetime="2020-02-27T11:57:50+08:00">2020-02-27</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
+                  <a href="/categories/CS224n/" itemprop="url" rel="index"><span itemprop="name">CS224n</span></a>
                 </span>
             </span>
 
@@ -316,14 +322,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>659</span>
+              <span>2.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -335,25 +341,98 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Hello-Blog"><a href="#Hello-Blog" class="headerlink" title="Hello Blog."></a>Hello Blog.</h1><p>之前经常会发现大佬有自己的技术博客，之前也尝试着去做一个，但是由于自己的技术水平有限，也没有决定好走技术路线，所以就一直没有开始写技术博客。</p><p>最近比较了算法和产品的待遇，真的差别好大。暂且不说之后的发展会怎样，程序员/技术岗本身是智力和努力的比拼，是硬功夫。有更清晰的发展方向。再加上种种原因，我决定做技术了。</p><a id="more"></a>
+        <p>这一节：机器翻译，seq2seq(翻译的本质)，attention(提升seq2seq)</p><hr><h1 id="统计机器翻译"><a href="#统计机器翻译" class="headerlink" title="统计机器翻译"></a>统计机器翻译</h1><p>1990s-2010s: Statistical Machine Translation<br>统计翻译是传统方法，可以大概了解一下背景。<br>task：输入语言x的语句，输出语言y的语句。<br>需要得到一个y，让概率最大化：</p><a id="more"></a>
 
+
+<script type="math/tex; mode=display">
+ \operatorname{argmax}_{y} P(y | x) =  \operatorname{argmax}_{y} P(x|y)P(y)</script><p>$P(x|y)$是翻译模型，评价x和y的匹配程度；P(y) 是语言模型第6讲的时候已经讲过，就是评价语句是否通顺。</p>
+<p>除了满足<strong>匹配程度</strong>和<strong>语句通顺</strong>两个条件，alignment(一一对应)程度也可以考虑，模型就变成了</p>
+<script type="math/tex; mode=display">
+ \operatorname{argmax}_{y} P(y | x) =  \operatorname{argmax}_{y} P(x,a |y)P(y)</script><p>对应度是很复杂的一个东西，举例说明：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304123056.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304123125.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304123213.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>所以，统计模型的翻译缺点显而易见：</p>
 <ul>
-<li>所以为什么要写博客呢？<br>（鉴于自己的理解和b站up主<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.bilibili.com%2Fvideo%2Fav56930990%2F%3Fspm_id_from%3D333.788.videocard.2" target="_blank" rel="noopener">codesheep</a> 的介绍，总结如下） <ol>
-<li>博客=输出=实践<br>写博客也是一个技术输出的过程，而当你想输出的时候，你就已经需要整合自己的学习成果，不断的理解技术细节，比如说：神经网络的梯度传到过程，虽然接触很多遍，不动手就很难掌握。</li>
-<li>博客=输出=表达<br>理科出身的我经常给自己找借口，原理我懂就行，表达不清楚就慢慢表达，但实际上，表达不清楚会导致别人不愿意和你交流，从而丧失很多机会。<br>有了输出的过程，就需要去磨炼自己表达的精炼程度，以及练习如何让别人明白，就更容易理解。</li>
-<li>博客=简历=社交<br>有了个人主页，别人就知道你的技术水平，你会什么，你学过什么，一应俱全。是找工作，或者是技术交流的好平台。</li>
-</ol>
+<li>太多的人工规则</li>
+<li>数据稀疏没解决</li>
+<li>需要大量的语料对应</li>
+<li>特征工程较为复杂</li>
+</ul>
+<h1 id="神经网络翻译模型"><a href="#神经网络翻译模型" class="headerlink" title="神经网络翻译模型"></a>神经网络翻译模型</h1><p>2014年google通过Neural Machine Translation (NMT) 也就是seq2seq实现了机器翻译，效果显著。</p>
+<h2 id="模型结构"><a href="#模型结构" class="headerlink" title="模型结构"></a>模型结构</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304123616.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>左边通过RNN Encoding了输入语句(也就是转成了向量), 右边通过另一个RNN decoding了语句(通过向量转成了另一种语言)。 语言和语言直接，通过隐藏层的向量传递意思。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304130801.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h2><p>训练与RNN的训练类似，区别在于decoder 传递梯度到encoder的过程。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304131042.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>这里注意，我们只需要考虑输入x和预测y与真实y的差距，所以是end2end。</p>
+<h2 id="decoding贪婪算法的缺点"><a href="#decoding贪婪算法的缺点" class="headerlink" title="decoding贪婪算法的缺点"></a>decoding贪婪算法的缺点</h2><p>假如我们decode的过程中，只一个词一个词往后生成，选择当前最优解，如果前面出错，会导致整体输出的语句概率变小，不是全局最优解。</p>
+<p>对于任何一个可能的输出y，需要最大化概率：</p>
+<script type="math/tex; mode=display">
+ \begin{aligned} P(y | x) &=P\left(y_{1} | x\right) P\left(y_{2} | y_{1}, x\right) P\left(y_{3} | y_{1}, y_{2}, x\right) \ldots, P\left(y_{T} | y_{1}, \ldots, y_{T-1}, x\right) \\ &=\prod_{t=1}^{T} P\left(y_{t} | y_{1}, \ldots, y_{t-1}, x\right) \end{aligned}</script><p>所以简单方法是暴力枚举出所有可能出现的情况y，然后选出概率最大的那个；当然暴力方法太昂贵，所以可以使用Beam Search。</p>
+<blockquote>
+<p>何时结束：把句子结尾当成一个符号，加入训练</p>
+</blockquote>
+<h2 id="Beam-search-decoding"><a href="#Beam-search-decoding" class="headerlink" title="Beam search decoding"></a>Beam search decoding</h2><p>核心思想：每一步寻找k个可能的候选项，然后再对着k个进行下一步探索，直到句子结束。（k一般是5-10）</p>
+<blockquote>
+<p>这里一般用score=log(P(y|x))，这样就分数越大越好</p>
+<ul>
+<li>Beam search 也不能100%保证全局最优，k越大，越能保证</li>
+<li>但是Beam search的效率大大增加</li>
+</ul>
+</blockquote>
+<ul>
+<li>举一个例子，当K=2：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304143548.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></li>
+<li>何时停止：</li>
+</ul>
+<p>设定阈值，步长阈值：比如超过30个单词就停止；候选项阈值：比如有5句候选就停止。</p>
+<ul>
+<li>长度不公平的问题：</li>
+</ul>
+<p>按照上面的计算，句子越短，分数越长，这个标准更倾向于选择短句子。<br>解决也很简单，对于分数socre 规范化(Normalize) 除以句子的长度，就得到了这个句子每个单词的得分。</p>
+<script type="math/tex; mode=display">
+ \frac{1}{t} \sum_{i=1}^{t} \log P_{\mathrm{LM}}\left(y_{i} | y_{1}, \ldots, y_{i-1}, x\right)</script><h2 id="神经网络翻译模型的优点"><a href="#神经网络翻译模型的优点" class="headerlink" title="神经网络翻译模型的优点"></a>神经网络翻译模型的优点</h2><ul>
+<li>表现好：速度快，更流畅(语言模型更好)，对于短语翻译好</li>
+<li>端对端：不需要考虑内部的问题</li>
+<li>不需要人工干预：没有特征工程，模型可以应用到不同语言之间</li>
+</ul>
+<h2 id="神经网络翻译模型的缺点"><a href="#神经网络翻译模型的缺点" class="headerlink" title="神经网络翻译模型的缺点"></a>神经网络翻译模型的缺点</h2><ul>
+<li>难解释：不好debug</li>
+<li>难以控制：模型的输出不好控制，所以有时候需要模型之后加入规则干预</li>
+</ul>
+<h2 id="如何评价翻译模型"><a href="#如何评价翻译模型" class="headerlink" title="如何评价翻译模型"></a>如何评价翻译模型</h2><p>其实评价翻译好不好，最简单就是让人去读，但是总得有一个自动打分的小工具，于是有了BLEU。<br>BLEU (Bilingual Evaluation Understudy)</p>
+<ul>
+<li><p>Bleu通过对比机器翻译和真人翻译的数据集，通过计算n-Gram，以及句子长度(防止太啰嗦)来评价</p>
 </li>
-<li>担心自己的博客没有技术含量？<br>你觉得没有技术含量的可能会对别人有用，只要可复现，都是有价值的。</li>
-<li>现在写的会晚吗？<br>我知道很多cs的同学大一就开始搭建自己的知识体系，构建专栏，值得敬佩和羡慕。不过人生漫长，任何时候开始干一件事都不晚。</li>
-<li>写什么内容？<ol>
-<li>学习笔记、心得</li>
-<li>生活感悟</li>
-<li>工程排坑</li>
-</ol>
+<li><p>BLEU也不太完美，因为翻译其实有很多种正确表达，这样对于预测集的依赖太大。</p>
+<h2 id="机器翻译解决了吗"><a href="#机器翻译解决了吗" class="headerlink" title="机器翻译解决了吗?"></a>机器翻译解决了吗?</h2><p>机器翻译虽然取得了很大进展，但是仍然不完美。</p>
+<ul>
+<li>比如没办法读懂新词</li>
+<li>依赖语料库的来源，不同语料库风格不一样，eg ： 聊天语料 vs 百科语料</li>
+<li>没有读懂上下文。比如小说中，有时候需要理解剧情才能更好的翻译。</li>
+<li>必须要有大量数据集训练。成本很高。</li>
+</ul>
 </li>
 </ul>
-<p>为了混口饭吃，写博客的flag没有任何理由推倒了吧。<br>希望最少保持一个月一篇的频率，正常频率一周一篇。</p>
+<h2 id="Seq2Seq的其他用途"><a href="#Seq2Seq的其他用途" class="headerlink" title="Seq2Seq的其他用途"></a>Seq2Seq的其他用途</h2><p>其实有很多test都需要用到Seq2Seq：<br>  • Summarization (long text → short text)   总结<br>    • Dialogue (previous utterances → next utterance)  对话<br>    • Parsing (input text → output parse as sequence) 语法分析<br>    • Code generation (natural language → Python code) 写代码</p>
+<h1 id="Attention"><a href="#Attention" class="headerlink" title="Attention"></a>Attention</h1><ul>
+<li><p>Seq2Seq的问题在于，一个向量代表整句话就很容易损失太多信息；而且encoding是从结尾出去的，容易丢失开头的信息。</p>
+</li>
+<li><p>核心想法就是: decoder的每一步，通过和encoder 直接连接，只着重于当前的这个位置。</p>
+</li>
+</ul>
+<h2 id="从图理解"><a href="#从图理解" class="headerlink" title="从图理解"></a>从图理解</h2><p>对于decoder的每一步，把RNN的输出和encoder的RNN输出进行点乘，通过softmax进行规范，得到一个概率值。这个概率值说明，现在在预测哪个位置。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304154800.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304155439.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>然后就这样做完了。</p>
+<h2 id="公式解释"><a href="#公式解释" class="headerlink" title="公式解释"></a>公式解释</h2><p>这里，更朴素的思想是每次decoder的时候，把之前的encoder的对应向量拿过来，拼接；但是位置太难找了，所有就用了概率位置来寻找位置。</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304160308.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="Attention的优点"><a href="#Attention的优点" class="headerlink" title="Attention的优点"></a>Attention的优点</h2><ul>
+<li>提升了表现</li>
+<li>解决了seq2seq的瓶颈</li>
+<li>解决了梯度消失问题(类似与上一讲的highway)</li>
+<li>给了一点可解释性(有了概率的对应关系alignment)</li>
+</ul>
+<h2 id="Attention的其他用途"><a href="#Attention的其他用途" class="headerlink" title="Attention的其他用途"></a>Attention的其他用途</h2><p>Attention不仅仅可以用在翻译上，还可以用在任何seq2seq的任务。<br><strong>朴素定义attention</strong>:<br>• Given a set of vector values, and a vector query, attention is a technique to compute a weighted sum of the values, dependent on the query.<br>（给一组向量，和一个待查询的向量，Attention可以计算出那组向量的权重）</p>
+<p>再理解Attention：</p>
+<ul>
+<li>求和权重的过程就是选择的过程，决定了那个输入值更重要</li>
+<li>Attention是一种获取依赖于其他表示形式（查询）的任意组表示形式（值）的固定大小表示形式的方法。</li>
+</ul>
+<h2 id="Attention的变种"><a href="#Attention的变种" class="headerlink" title="Attention的变种"></a>Attention的变种</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200304161747.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<blockquote>
+<p>Attention 一定程度上和LSTM思想相似，就是通过额外的线路，去注意前面的信息。<br>妙啊！！！</p>
+</blockquote>
 
     </div>
 
@@ -361,12 +440,6 @@
     
     
       
-  <div class="popular-posts-header">相似文章</div>
-  <ul class="popular-posts">
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2019/Blog1-Build by Hexo/" rel="bookmark">Build by Hexo</a></div>
-    </li>
-  </ul>
 
 
       <div>
@@ -378,20 +451,24 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/tags/blog/" rel="tag"><i class="fa fa-tag"></i> blog</a>
+              <a href="/tags/Attention/" rel="tag"><i class="fa fa-tag"></i> Attention</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E7%BF%BB%E8%AF%91/" rel="tag"><i class="fa fa-tag"></i> 机器翻译</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
+                <a href="/2020/CS224n-7/" rel="next" title="CS224n-7 梯度消失,LSTM,GRU,BLSTM">
+                  <i class="fa fa-chevron-left"></i> CS224n-7 梯度消失,LSTM,GRU,BLSTM
+                </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2019/Blog1-Build%20by%20Hexo/" rel="prev" title="Build by Hexo">
-                  Build by Hexo <i class="fa fa-chevron-right"></i>
+                <a href="/2020/CSIT5500-2-%E5%88%86%E6%B2%BB/" rel="prev" title="CSIT5500-2 分治">
+                  CSIT5500-2 分治 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -433,7 +510,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Hello-Blog"><span class="nav-number">1.</span> <span class="nav-text">Hello Blog.</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#统计机器翻译"><span class="nav-number">1.</span> <span class="nav-text">统计机器翻译</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#神经网络翻译模型"><span class="nav-number">2.</span> <span class="nav-text">神经网络翻译模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型结构"><span class="nav-number">2.1.</span> <span class="nav-text">模型结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练过程"><span class="nav-number">2.2.</span> <span class="nav-text">训练过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decoding贪婪算法的缺点"><span class="nav-number">2.3.</span> <span class="nav-text">decoding贪婪算法的缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Beam-search-decoding"><span class="nav-number">2.4.</span> <span class="nav-text">Beam search decoding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络翻译模型的优点"><span class="nav-number">2.5.</span> <span class="nav-text">神经网络翻译模型的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络翻译模型的缺点"><span class="nav-number">2.6.</span> <span class="nav-text">神经网络翻译模型的缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何评价翻译模型"><span class="nav-number">2.7.</span> <span class="nav-text">如何评价翻译模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#机器翻译解决了吗"><span class="nav-number">2.8.</span> <span class="nav-text">机器翻译解决了吗?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Seq2Seq的其他用途"><span class="nav-number">2.9.</span> <span class="nav-text">Seq2Seq的其他用途</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Attention"><span class="nav-number">3.</span> <span class="nav-text">Attention</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从图理解"><span class="nav-number">3.1.</span> <span class="nav-text">从图理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公式解释"><span class="nav-number">3.2.</span> <span class="nav-text">公式解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Attention的优点"><span class="nav-number">3.3.</span> <span class="nav-text">Attention的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Attention的其他用途"><span class="nav-number">3.4.</span> <span class="nav-text">Attention的其他用途</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Attention的变种"><span class="nav-number">3.5.</span> <span class="nav-text">Attention的变种</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

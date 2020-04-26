@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CS224n-11 CNN在nlp的应用</title>
+    <url>/2020/CS224n-11/</url>
+    <content><![CDATA[<blockquote>
+<p>这一节主要讲cnn在nlp中的应用，然后讲了几篇paper的思路。站在现在看CNN其实对于nlp并没有爆发性的突破，但是CNN也算是提取局部特征的思路，可以学习2017年以前那些人的尝试过程，也蛮有意思吧。</p>
+</blockquote><a id="more"></a>
+<h1 id="CNN介绍"><a href="#CNN介绍" class="headerlink" title="CNN介绍"></a>CNN介绍</h1><p>这些定义和CV里一模一样，简单介绍一下怎么操作的。</p>
+<ul>
+<li>为什么要引入CNN？<br>因为语言（文本数据）是依托于“短语”组成的“句子”，而对于短语的划分难度较大，倒不如直接暴力的枚举出所有的连续词组当做“短语”。</li>
+<li>举个例子：“tentative deal reached to keep government open” 用长度是3的卷积来，就得到了：<br>tentative deal reached, deal reached to, reached to keep, to keep government, keep government open这样的新局部组合。<br>（最简单的2维卷积）<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425220011.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></li>
+</ul>
+<h2 id="Filter-Kernel"><a href="#Filter-Kernel" class="headerlink" title="Filter (Kernel)"></a>Filter (Kernel)</h2><p>文本都是一维<em>K (embedding 长度)，所以卷积核也是 C </em> K。C是卷积核长度。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425220434.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="Padding"><a href="#Padding" class="headerlink" title="Padding"></a>Padding</h2><p>边缘用0向外扩充，和图像一样。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425220548.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="多个Channel并行"><a href="#多个Channel并行" class="headerlink" title="多个Channel并行"></a>多个Channel并行</h2><p>多个卷积核一起工作，和图像一样。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425220710.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="Pooling-池化"><a href="#Pooling-池化" class="headerlink" title="Pooling 池化"></a>Pooling 池化</h2><p>最大池化，平均池化等操作。没什么好讲的。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425220816.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="Stride-步长"><a href="#Stride-步长" class="headerlink" title="Stride 步长"></a>Stride 步长</h2><p>默认的步长是1，设置了就可以跳跃。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425222644.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="局部池化"><a href="#局部池化" class="headerlink" title="局部池化"></a>局部池化</h2><p>例：local max pool<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425222745.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="k-max-pooling"><a href="#k-max-pooling" class="headerlink" title="k-max pooling"></a>k-max pooling</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425225426.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="Dilation-跨越卷积"><a href="#Dilation-跨越卷积" class="headerlink" title="Dilation 跨越卷积"></a>Dilation 跨越卷积</h2><p>就是跳着一层，去提取特征。CV也常用吧。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425225528.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h1 id="Paper-Single-Layer-CNN-for-Sentence-Classification-2014"><a href="#Paper-Single-Layer-CNN-for-Sentence-Classification-2014" class="headerlink" title="Paper: Single Layer CNN for Sentence Classification 2014"></a>Paper: Single Layer CNN for Sentence Classification 2014</h1><blockquote>
+<p>这篇文章上学期我还用过哈哈哈哈哈哈。<a href="https://arxiv.org/pdf/1408.5882.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1408.5882.pdf</a></p>
+</blockquote>
+<p>输入是一句话，输出是二分类（正负态度）。下面这张图包含了整个过程。太简单，不解释了。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425234203.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>他也使用了其他技巧比如 Dropout。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425235351.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br> L2 constraint s for rows of softmax, s = 3 。 softmax的参数限制到3？ 这里是为什么，没懂。</p>
+<h1 id="其他技巧"><a href="#其他技巧" class="headerlink" title="其他技巧"></a>其他技巧</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426000001.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="起飞飞飞飞飞：残差网络"><a href="#起飞飞飞飞飞：残差网络" class="headerlink" title="起飞飞飞飞飞：残差网络"></a>起飞飞飞飞飞：残差网络</h2><p>另外参考：<a href="https://zhuanlan.zhihu.com/p/42706477" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/42706477</a><br>其实之前也提到过了，lstm有效就是跨层链接。而对于cell外面，也可以使用这种方法ResNet。应该是在16年左右？当时听到这些名词感觉很神奇，好像作者何凯明还是广州人。 思路如图，就是跨越链接，避免网络太深。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426000540.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>这种思路被验证是有效的。左边没有门控，右边有门控。</p>
+<blockquote>
+<p>这里我有个疑问，为何没有门控的还晚一年。</p>
+</blockquote>
+<h2 id="BatchNorm"><a href="#BatchNorm" class="headerlink" title="BatchNorm"></a>BatchNorm</h2><p>另外参考：<a href="https://blog.csdn.net/wzy_zju/article/details/81262453" target="_blank" rel="noopener">https://blog.csdn.net/wzy_zju/article/details/81262453</a><br><a href="https://www.jianshu.com/p/86530a0a3935" target="_blank" rel="noopener">https://www.jianshu.com/p/86530a0a3935</a><br>原理就是对于每一个batch正则，保持batch都在相同的分布上，这样会避免<strong>internal covariate shift</strong>的现象。</p>
+<p>具体的原因之后遇到了再深究吧。</p>
+<h2 id="1-1-Convolutions"><a href="#1-1-Convolutions" class="headerlink" title="1*1 Convolutions"></a>1*1 Convolutions</h2><p>看起来1<em>1好像没有任何改变，但是实际上可以控制厚度(filter的数量)。<br>1、<strong>降维（ dimension reductionality ）</strong>。比如，一张500 </em> 500且厚度depth为100 的图片在20个filter上做1<em>1的卷积，那么结果的大小为500</em>500*20。</p>
+<p>2、<strong>加入非线性</strong>。卷积层之后经过激励层，1*1的卷积在前一层的学习表示上添加了非线性激励（ non-linear activation ），提升网络的表达能力；</p>
+<h2 id="应用举例"><a href="#应用举例" class="headerlink" title="应用举例"></a>应用举例</h2><p>  seq2seq de enocoder y用cnn<img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426112425.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p> <img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426112508.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426112521.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h1 id="更深，更大，更强-VC-CNN"><a href="#更深，更大，更强-VC-CNN" class="headerlink" title="更深，更大，更强: VC-CNN"></a>更深，更大，更强: VC-CNN</h1><p>这个网络是参考的VGGnet，所以就很大，当然表现也有所提升。具体就不细讲了。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426114208.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h1 id="QRNN"><a href="#QRNN" class="headerlink" title="QRNN"></a>QRNN</h1><p>RNN速度慢必须串行，所以就有了QRNN，来结合CNN提高速度。<br>参考：<a href="https://blog.csdn.net/u011961856/article/details/77431869" target="_blank" rel="noopener">https://blog.csdn.net/u011961856/article/details/77431869</a><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426120024.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>具体思路是，把LSTM的三个门控放到CNN的pooling层，做成类似与LSTM的效果。</p>
+<blockquote>
+<p>这节课讲的都是一些high-level的思路，具体的细节还有待揣摩。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>CS224n</category>
+      </categories>
+  </entry>
+  <entry>
     <title>MSBD5004 Mathematical Methods for Data Analysis Homework 4</title>
     <url>/2020/MSBD5004-Mathematical-Methods-for-Data-Analysis-Homework-4/</url>
     <content><![CDATA[<blockquote>
@@ -564,7 +610,7 @@ n=\frac{[b_{1}-\langle a_{1}, y\rangle ]\langle a_1,a_2\rangle -[b_{2}-\langle a
   </entry>
   <entry>
     <title>CS224n-8 机器翻译,seq2seq,Attention</title>
-    <url>/2020/CS224n-8-%E6%9C%BA%E5%99%A8%E7%BF%BB%E8%AF%91-seq/</url>
+    <url>/2020/CS224n-8/</url>
     <content><![CDATA[<p>这一节：机器翻译，seq2seq(翻译的本质)，attention(提升seq2seq)</p><hr><h1 id="统计机器翻译"><a href="#统计机器翻译" class="headerlink" title="统计机器翻译"></a>统计机器翻译</h1><p>1990s-2010s: Statistical Machine Translation<br>统计翻译是传统方法，可以大概了解一下背景。<br>task：输入语言x的语句，输出语言y的语句。<br>需要得到一个y，让概率最大化：</p><a id="more"></a>
 
 
@@ -668,7 +714,7 @@ n=\frac{[b_{1}-\langle a_{1}, y\rangle ]\langle a_1,a_2\rangle -[b_{2}-\langle a
   </entry>
   <entry>
     <title>CS224n-7 梯度消失,LSTM,GRU,BLSTM</title>
-    <url>/2020/CS224n-7-%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1-LSTM-GRU-BLSTM/</url>
+    <url>/2020/CS224n-7/</url>
     <content><![CDATA[<blockquote>
 <p>这一节因为RNN梯度消失引入了LSTM，GRU。LSTM和GRU的构造思想都是在RNN的主线内，并行一条线，传递其他信息。解决梯度问题，也可以在cell外加一条线，比如双向RNN，多层RNN。</p>
 </blockquote><hr><p>RNN的梯度消失与爆炸：<br>原因：由于Wh的权值共享，当Wh的最大特征值大于大于小于1 就会造成$W_h^n$的指数，所以造成梯度消失或者爆炸<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302125410.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200204175150.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p><a id="more"></a>
@@ -711,7 +757,7 @@ n=\frac{[b_{1}-\langle a_{1}, y\rangle ]\langle a_1,a_2\rangle -[b_{2}-\langle a
   </entry>
   <entry>
     <title>CS224n-6 语言模型, n-Gram, RNN</title>
-    <url>/2020/CS224n-6-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B-n-Gram-RNN/</url>
+    <url>/2020/CS224n-6/</url>
     <content><![CDATA[<p>为什么先写P6呢，因为P4是反向传播，公式太多，P5是语法分析，枯燥乏味。为了防止没有更新下去的动力，先来写P6。接下来的三讲P6-P8都是由助教Abby讲的，逻辑超级清楚，一步一步循序渐进。爱了爱了。<a href="https://www.bilibili.com/video/av61620135?p=6" target="_blank" rel="noopener">B站链接</a><br>P6 语言模型-&gt;RNN模型的进化，P7 LSTM，P8 Attention<br><img alt="附图" data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302021352.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>附上Abby靓照</p><a id="more"></a>
 <hr>
 <p><strong>Language Modeling</strong> is the task of predicting what word comes next.<br>根据前面前半句，预测后半句。就比如输入法的联想候选词，搜索栏弹出的候选搜索项目，都属于语言模型。<br>为什么要研究语言模型呢？因为很多任务里都会涉及到，比如：</p>
@@ -877,9 +923,9 @@ n=\frac{[b_{1}-\langle a_{1}, y\rangle ]\langle a_1,a_2\rangle -[b_{2}-\langle a
         <category>5004</category>
       </categories>
       <tags>
-        <tag>Homework</tag>
         <tag>范数</tag>
         <tag>Kmeans</tag>
+        <tag>Homework</tag>
       </tags>
   </entry>
   <entry>
@@ -1192,7 +1238,7 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
   </entry>
   <entry>
     <title>CS224n-2 word2vec, word Senses</title>
-    <url>/2020/CS224n-2-word2vec-word-Senses/</url>
+    <url>/2020/CS224n-2/</url>
     <content><![CDATA[<h1 id="CS224n-2-word2vec-word-Senses"><a href="#CS224n-2-word2vec-word-Senses" class="headerlink" title="CS224n-2 word2vec, word Senses"></a>CS224n-2 word2vec, word Senses</h1><p>这节课我不按课堂讲的，引用一篇<a href="https://www.jianshu.com/p/a6bc14323d77" target="_blank" rel="noopener">博客</a></p><h1 id="word-vectors-and-word2vec"><a href="#word-vectors-and-word2vec" class="headerlink" title="word vectors and word2vec"></a>word vectors and word2vec</h1><h2 id="代表技术之一-word2vec"><a href="#代表技术之一-word2vec" class="headerlink" title="代表技术之一 word2vec"></a>代表技术之一 word2vec</h2><p>2013年，Google团队发表了word2vec工具 [1]。word2vec工具主要包含两个模型：跳字模型（skip-gram）和连续词袋模型（continuous bag of words，简称CBOW），以及两种近似训练法：负采样（negative sampling）和层序softmax（hierarchical softmax）。值得一提的是，word2vec的词向量可以较好地表达不同词之间的相似和类比关系。</p><a id="more"></a>
 
 <p>word2vec自提出后被广泛应用在自然语言处理任务中。它的模型和训练方法也启发了很多后续的词嵌入模型。本节将重点介绍word2vec的模型和训练方法。</p>
@@ -1300,7 +1346,7 @@ p(y | x)=\frac{\exp \left(W_{y} \cdot x\right)}{\sum_{c=1}^{C} \exp \left(W_{c} 
   </entry>
   <entry>
     <title>CS224n-1 初步探索，背景介绍  </title>
-    <url>/2020/CS224n-1-%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2%EF%BC%8C%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D/</url>
+    <url>/2020/CS224n-1/</url>
     <content><![CDATA[<p>NLP持续升温，作为入门课程，224n声名远扬。<br>听了10节课之后，果然感觉不愧是斯坦福。<br>这门课逻辑很清晰（遇到什么问题，产生什么思路，做了什么探索模型，怎么解决问题），而不是直接的扔出来一个模型，之前遇到很多老师这样，让人摸不到头脑；这门课会讲如何做一个研究以及如何写一篇paper。这些虽然不是NLP必备，是一些普世的知识，但是课堂上不讲，学生也很难完全了解到，基本上都、是自己摸索。</p><a id="more"></a>
 <p>总的来说，觉得相见恨晚，虽然有点难，但是学的很舒服！现在开始整理每节课的笔记。</p>
 <hr>

@@ -56,32 +56,37 @@
   };
 </script>
 
-  <meta name="description" content="为什么先写P6呢，因为P4是反向传播，公式太多，P5是语法分析，枯燥乏味。为了防止没有更新下去的动力，先来写P6。接下来的三讲P6-P8都是由助教Abby讲的，逻辑超级清楚，一步一步循序渐进。爱了爱了。B站链接P6 语言模型-&amp;gt;RNN模型的进化，P7 LSTM，P8 Attention附上Abby靓照">
-<meta name="keywords" content="NLP,RNN">
+  <meta name="description" content="这一节主要讲cnn在nlp中的应用，然后讲了几篇paper的思路。站在现在看CNN其实对于nlp并没有爆发性的突破，但是CNN也算是提取局部特征的思路，可以学习2017年以前那些人的尝试过程，也蛮有意思吧。">
+<meta name="keywords" content="技术,学习,元哥的日记,blog,算法日记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CS224n-6 语言模型, n-Gram, RNN">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-6-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B-n-Gram-RNN&#x2F;index.html">
+<meta property="og:title" content="CS224n-11 CNN在nlp的应用">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-11&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="为什么先写P6呢，因为P4是反向传播，公式太多，P5是语法分析，枯燥乏味。为了防止没有更新下去的动力，先来写P6。接下来的三讲P6-P8都是由助教Abby讲的，逻辑超级清楚，一步一步循序渐进。爱了爱了。B站链接P6 语言模型-&amp;gt;RNN模型的进化，P7 LSTM，P8 Attention附上Abby靓照">
+<meta property="og:description" content="这一节主要讲cnn在nlp中的应用，然后讲了几篇paper的思路。站在现在看CNN其实对于nlp并没有爆发性的突破，但是CNN也算是提取局部特征的思路，可以学习2017年以前那些人的尝试过程，也蛮有意思吧。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302021352.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302025657.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302032724.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302034025.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302035733.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302035921.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302040022.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302040907.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302120224.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302120612.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302120841.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302120926.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302121101.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:updated_time" content="2020-03-02T04:22:36.455Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200425220011.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200425220434.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200425220548.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200425220710.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200425220816.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200425222644.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200425222745.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200425225426.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200425225528.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200425234203.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200425235351.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200426000001.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200426000540.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200426112425.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200426112508.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200426112521.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200426114208.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200426120024.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:updated_time" content="2020-04-26T04:05:12.448Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302021352.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200425220011.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 
-<link rel="canonical" href="http://leeee.top/2020/CS224n-6-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B-n-Gram-RNN/">
+<link rel="canonical" href="http://leeee.top/2020/CS224n-11/">
 
 
 <script id="page-configurations">
@@ -95,7 +100,7 @@
   };
 </script>
 
-  <title>CS224n-6 语言模型, n-Gram, RNN | 元哥的日记</title>
+  <title>CS224n-11 CNN在nlp的应用 | 元哥的日记</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163973026-1"></script>
     <script>
@@ -273,7 +278,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-6-%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B-n-Gram-RNN/">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-11/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228120904.jpg">
@@ -286,7 +291,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          CS224n-6 语言模型, n-Gram, RNN
+          CS224n-11 CNN在nlp的应用
         </h2>
 
         <div class="post-meta">
@@ -299,7 +304,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-02 12:13:00 / 修改时间：12:22:36" itemprop="dateCreated datePublished" datetime="2020-03-02T12:13:00+08:00">2020-03-02</time>
+              <time title="创建时间：2020-04-26 12:03:00 / 修改时间：12:05:12" itemprop="dateCreated datePublished" datetime="2020-04-26T12:03:00+08:00">2020-04-26</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -324,7 +329,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -343,91 +348,43 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>为什么先写P6呢，因为P4是反向传播，公式太多，P5是语法分析，枯燥乏味。为了防止没有更新下去的动力，先来写P6。接下来的三讲P6-P8都是由助教Abby讲的，逻辑超级清楚，一步一步循序渐进。爱了爱了。<a href="https://www.bilibili.com/video/av61620135?p=6" target="_blank" rel="noopener">B站链接</a><br>P6 语言模型-&gt;RNN模型的进化，P7 LSTM，P8 Attention<br><img alt="附图" data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302021352.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>附上Abby靓照</p><a id="more"></a>
-<hr>
-<p><strong>Language Modeling</strong> is the task of predicting what word comes next.<br>根据前面前半句，预测后半句。就比如输入法的联想候选词，搜索栏弹出的候选搜索项目，都属于语言模型。<br>为什么要研究语言模型呢？因为很多任务里都会涉及到，比如：</p>
+        <blockquote>
+<p>这一节主要讲cnn在nlp中的应用，然后讲了几篇paper的思路。站在现在看CNN其实对于nlp并没有爆发性的突破，但是CNN也算是提取局部特征的思路，可以学习2017年以前那些人的尝试过程，也蛮有意思吧。</p>
+</blockquote><a id="more"></a>
+<h1 id="CNN介绍"><a href="#CNN介绍" class="headerlink" title="CNN介绍"></a>CNN介绍</h1><p>这些定义和CV里一模一样，简单介绍一下怎么操作的。</p>
 <ul>
-<li>Predictive typing 预测之后的输入</li>
-<li>Speech recognition 语音识别</li>
-<li>Handwriting recognition 手写识别</li>
-<li>Spelling/grammar correction 语法纠正</li>
-<li>Authorship identification </li>
-<li>Machine translation 机器翻译</li>
-<li>Summarization 文章总结</li>
-<li>Dialogue 对话系统</li>
-<li>etc.<br>所以，这一节很重要。</li>
+<li>为什么要引入CNN？<br>因为语言（文本数据）是依托于“短语”组成的“句子”，而对于短语的划分难度较大，倒不如直接暴力的枚举出所有的连续词组当做“短语”。</li>
+<li>举个例子：“tentative deal reached to keep government open” 用长度是3的卷积来，就得到了：<br>tentative deal reached, deal reached to, reached to keep, to keep government, keep government open这样的新局部组合。<br>（最简单的2维卷积）<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425220011.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></li>
 </ul>
-<h1 id="n-Gram语言模型"><a href="#n-Gram语言模型" class="headerlink" title="n-Gram语言模型"></a>n-Gram语言模型</h1><p>传统方法训练语言模型，就用的<a href="https://leeee.top/2020/CS224n-2-word2vec-word-Senses/">CS224n-2-word2vec-word-Senses</a>之前提到过的<strong>n-Gram语言模型</strong>，原理也很简单，就是通过统计频率：前半句出现过，之后最有可能跟着的词是什么。</p>
-<p><strong>n-Gram</strong>： 就是连续的n个词(一般不会大于5)当做一个最小单元，统计出现的频率。</p>
-<p><strong>n-Gram语言模型的假设</strong>：第t+1个词的选择，只依赖于前n-1个词。</p>
+<h2 id="Filter-Kernel"><a href="#Filter-Kernel" class="headerlink" title="Filter (Kernel)"></a>Filter (Kernel)</h2><p>文本都是一维<em>K (embedding 长度)，所以卷积核也是 C </em> K。C是卷积核长度。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425220434.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="Padding"><a href="#Padding" class="headerlink" title="Padding"></a>Padding</h2><p>边缘用0向外扩充，和图像一样。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425220548.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="多个Channel并行"><a href="#多个Channel并行" class="headerlink" title="多个Channel并行"></a>多个Channel并行</h2><p>多个卷积核一起工作，和图像一样。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425220710.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="Pooling-池化"><a href="#Pooling-池化" class="headerlink" title="Pooling 池化"></a>Pooling 池化</h2><p>最大池化，平均池化等操作。没什么好讲的。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425220816.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="Stride-步长"><a href="#Stride-步长" class="headerlink" title="Stride 步长"></a>Stride 步长</h2><p>默认的步长是1，设置了就可以跳跃。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425222644.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="局部池化"><a href="#局部池化" class="headerlink" title="局部池化"></a>局部池化</h2><p>例：local max pool<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425222745.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="k-max-pooling"><a href="#k-max-pooling" class="headerlink" title="k-max pooling"></a>k-max pooling</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425225426.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="Dilation-跨越卷积"><a href="#Dilation-跨越卷积" class="headerlink" title="Dilation 跨越卷积"></a>Dilation 跨越卷积</h2><p>就是跳着一层，去提取特征。CV也常用吧。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425225528.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h1 id="Paper-Single-Layer-CNN-for-Sentence-Classification-2014"><a href="#Paper-Single-Layer-CNN-for-Sentence-Classification-2014" class="headerlink" title="Paper: Single Layer CNN for Sentence Classification 2014"></a>Paper: Single Layer CNN for Sentence Classification 2014</h1><blockquote>
+<p>这篇文章上学期我还用过哈哈哈哈哈哈。<a href="https://arxiv.org/pdf/1408.5882.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1408.5882.pdf</a></p>
+</blockquote>
+<p>输入是一句话，输出是二分类（正负态度）。下面这张图包含了整个过程。太简单，不解释了。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425234203.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>他也使用了其他技巧比如 Dropout。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200425235351.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br> L2 constraint s for rows of softmax, s = 3 。 softmax的参数限制到3？ 这里是为什么，没懂。</p>
+<h1 id="其他技巧"><a href="#其他技巧" class="headerlink" title="其他技巧"></a>其他技巧</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426000001.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="起飞飞飞飞飞：残差网络"><a href="#起飞飞飞飞飞：残差网络" class="headerlink" title="起飞飞飞飞飞：残差网络"></a>起飞飞飞飞飞：残差网络</h2><p>另外参考：<a href="https://zhuanlan.zhihu.com/p/42706477" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/42706477</a><br>其实之前也提到过了，lstm有效就是跨层链接。而对于cell外面，也可以使用这种方法ResNet。应该是在16年左右？当时听到这些名词感觉很神奇，好像作者何凯明还是广州人。 思路如图，就是跨越链接，避免网络太深。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426000540.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>这种思路被验证是有效的。左边没有门控，右边有门控。</p>
 <blockquote>
-<p>这里有点马尔科夫链和时间序列ARIMA模型的内味了。 </p>
+<p>这里我有个疑问，为何没有门控的还晚一年。</p>
 </blockquote>
-<p>根据假设就能得到：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302025657.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="BatchNorm"><a href="#BatchNorm" class="headerlink" title="BatchNorm"></a>BatchNorm</h2><p>另外参考：<a href="https://blog.csdn.net/wzy_zju/article/details/81262453" target="_blank" rel="noopener">https://blog.csdn.net/wzy_zju/article/details/81262453</a><br><a href="https://www.jianshu.com/p/86530a0a3935" target="_blank" rel="noopener">https://www.jianshu.com/p/86530a0a3935</a><br>原理就是对于每一个batch正则，保持batch都在相同的分布上，这样会避免<strong>internal covariate shift</strong>的现象。</p>
+<p>具体的原因之后遇到了再深究吧。</p>
+<h2 id="1-1-Convolutions"><a href="#1-1-Convolutions" class="headerlink" title="1*1 Convolutions"></a>1*1 Convolutions</h2><p>看起来1<em>1好像没有任何改变，但是实际上可以控制厚度(filter的数量)。<br>1、<strong>降维（ dimension reductionality ）</strong>。比如，一张500 </em> 500且厚度depth为100 的图片在20个filter上做1<em>1的卷积，那么结果的大小为500</em>500*20。</p>
+<p>2、<strong>加入非线性</strong>。卷积层之后经过激励层，1*1的卷积在前一层的学习表示上添加了非线性激励（ non-linear activation ），提升网络的表达能力；</p>
+<h2 id="应用举例"><a href="#应用举例" class="headerlink" title="应用举例"></a>应用举例</h2><p>  seq2seq de enocoder y用cnn<img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426112425.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p> <img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426112508.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426112521.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h1 id="更深，更大，更强-VC-CNN"><a href="#更深，更大，更强-VC-CNN" class="headerlink" title="更深，更大，更强: VC-CNN"></a>更深，更大，更强: VC-CNN</h1><p>这个网络是参考的VGGnet，所以就很大，当然表现也有所提升。具体就不细讲了。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426114208.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h1 id="QRNN"><a href="#QRNN" class="headerlink" title="QRNN"></a>QRNN</h1><p>RNN速度慢必须串行，所以就有了QRNN，来结合CNN提高速度。<br>参考：<a href="https://blog.csdn.net/u011961856/article/details/77431869" target="_blank" rel="noopener">https://blog.csdn.net/u011961856/article/details/77431869</a><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200426120024.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>具体思路是，把LSTM的三个门控放到CNN的pooling层，做成类似与LSTM的效果。</p>
 <blockquote>
-<p>举个栗子：天气很好，我想吃___<br>如果这里用4-Gram 模型，那填空的位置，只与前面三个字”我想吃”有关，假如，之前的数据集里出现了1000词“火锅”，500次“糖”，那么这里肯定填“火锅”</p>
-</blockquote>
-<ul>
-<li>想法越简单，问题就必然存在：</li>
-</ul>
-<ol>
-<li>分母为0怎么办？ “我想吃”这三个字数据集里没有<br>S: <strong>backoff</strong> 4-Gram退化成3-Gram，只看前两个词“想吃”，因为数据集里可能有“他想吃”</li>
-<li>分子为0怎么办？假如这里的语境是“我脑子有问题，我想吃翔”，但是数据集里没出现过这个短语<br>S:  <strong>smoothing</strong> 对于没出现的词都加一个小数量。<blockquote>
-<p>(我感觉没啥用啊，翔还是不会被选中)</p>
-</blockquote>
-</li>
-<li>存储问题，n-Gram越小，情况越多，需要存储的空间太大<br>S: 增加n</li>
-<li>稀疏性问题，没办法解决</li>
-</ol>
-<h1 id="窗口语言模型"><a href="#窗口语言模型" class="headerlink" title="窗口语言模型"></a>窗口语言模型</h1><p>任务：输入前几个单词，输出之后可能的单词概率</p>
-<p>比如说：用第三讲的窗口模型，就可以转化为一个分类器，候选种类是所有可能出现的单词。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302032724.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>解决了n-Gram的稀疏性问题，也不需要储存大量的频率(只需要储存词向量)</p>
-<ul>
-<li>想法越简单，问题就必然存在：</li>
-</ul>
-<ol>
-<li>窗口的大小不好确定，太小了不准确，太大了权重W得变长，训练的也不好。W的长度=n*词向量长度。</li>
-<li>窗口内的单词权重一样，没有利用上位置信息</li>
-</ol>
-<h1 id="BOOM-RNN"><a href="#BOOM-RNN" class="headerlink" title="BOOM! RNN"></a>BOOM! RNN</h1><p>这个时候，再来介绍RNN就顺理成章了。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302034025.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
-<p>RNN优点：</p>
-<ul>
-<li>长度没有限制</li>
-<li><strong>理论上</strong>可以用上之前的所有信息</li>
-<li>输入的长度和模型大小无关</li>
-<li>权值共享，对于每个输入处理都是一样的</li>
-</ul>
-<p>想法越简单，问题就必然存在：</p>
-<ul>
-<li>计算太慢</li>
-<li>RNN对于之前的信息(无论重要与否)都会容易丢失（梯度消失）<blockquote>
-<p>🐟的记忆只有3s.</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h2><p>训练一个RNN的数据集就是一个corpus语料库，然后开始预测，每一步都计算loss（预测值和真实值的偏差），直到模型收敛。<br>这里用交叉熵作为损失：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302035733.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>当我们跑完一轮之后(一般跑一段话，或者一个句子就行)，就可以得到当前的参数对应的loss，对于每个位置的损失求平均就好，然后计算梯度，得到新的参数，然后用新的参数去训练后面的语料。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302035921.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302040022.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
-<h2 id="RNN反向传播"><a href="#RNN反向传播" class="headerlink" title="RNN反向传播"></a>RNN反向传播</h2><p>反向传播也就是当我们计算梯度的时候，发挥作用。<br>这里用了“backpropagation through time”。因为我们得到的loss J是加起来这一批的loss，所以我们求导的时候也是对于每次的预测都进行求导(实际上用了链式法则)<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302040907.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
-<h2 id="RNN语言模型的评价指标"><a href="#RNN语言模型的评价指标" class="headerlink" title="RNN语言模型的评价指标"></a>RNN语言模型的评价指标</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120224.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>困惑度的理解可以参考知乎<a href="https://www.zhihu.com/question/58482430" target="_blank" rel="noopener">这篇文章</a></p>
-<blockquote>
-<p><strong>困惑度Perplexity</strong>就是模型对于测试数据认知，如果说模型很容易生成测试数据集，那么困惑度就小。<br>换一种理解：<strong>给测试集的句子赋予较高概率值的语言模型较好,当语言模型训练完之后，测试集中的句子都是正常的句子，那么训练好的模型就是在测试集上的概率越高越好。</strong></p>
-</blockquote>
-<p>困惑度不需要应用什么任务，直接输入数据，就能比较模型好坏。</p>
-<ul>
-<li>模型困惑度比较<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120612.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>可以发现lstm&gt;RNN&gt;5-gram</li>
-</ul>
-<h1 id="RNN的其他任务-当然LSTM也可以"><a href="#RNN的其他任务-当然LSTM也可以" class="headerlink" title="RNN的其他任务(当然LSTM也可以)"></a>RNN的其他任务(当然LSTM也可以)</h1><ul>
-<li>词性标注<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120841.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></li>
-<li><p>句子分类（eg：情感分类）<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120926.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
-</li>
-<li><p>encoder 问答系统</p>
-</li>
-</ul>
-<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302121101.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
-<ul>
-<li>语音识别等</li>
-</ul>
-<p>◾</p>
-<blockquote>
-<p>下节课讲LSTM，GRU，多层LSTM，想想还有点小激动呢</p>
+<p>这节课讲的都是一些high-level的思路，具体的细节还有待揣摩。</p>
 </blockquote>
 
     </div>
@@ -436,21 +393,6 @@
     
     
       
-  <div class="popular-posts-header">相似文章</div>
-  <ul class="popular-posts">
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-1-初步探索，背景介绍/" rel="bookmark">CS224n-1 初步探索，背景介绍  </a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-3/" rel="bookmark">CS224n-3 回顾神经网络，文本分类介绍</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-2-word2vec-word-Senses/" rel="bookmark">CS224n-2 word2vec, word Senses</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-7-梯度消失-LSTM-GRU-BLSTM/" rel="bookmark">CS224n-7 梯度消失,LSTM,GRU,BLSTM</a></div>
-    </li>
-  </ul>
 
 
       <div>
@@ -460,27 +402,19 @@
       </div>
 
       <footer class="post-footer">
-          
-          <div class="post-tags">
-              <a href="/tags/NLP/" rel="tag"><i class="fa fa-tag"></i> NLP</a>
-              <a href="/tags/RNN/" rel="tag"><i class="fa fa-tag"></i> RNN</a>
-          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/MSBD5004-Mathematical-Methods-for-Data-Analysis-Homework-1/" rel="next" title="MSBD5004 Mathematical Methods for Data Analysis Homework 1">
-                  <i class="fa fa-chevron-left"></i> MSBD5004 Mathematical Methods for Data Analysis Homework 1
+                <a href="/2020/MSBD5004-Mathematical-Methods-for-Data-Analysis-Homework-4/" rel="next" title="MSBD5004 Mathematical Methods for Data Analysis Homework 4">
+                  <i class="fa fa-chevron-left"></i> MSBD5004 Mathematical Methods for Data Analysis Homework 4
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/CS224n-7-%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1-LSTM-GRU-BLSTM/" rel="prev" title="CS224n-7 梯度消失,LSTM,GRU,BLSTM">
-                  CS224n-7 梯度消失,LSTM,GRU,BLSTM <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -521,7 +455,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#n-Gram语言模型"><span class="nav-number">1.</span> <span class="nav-text">n-Gram语言模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#窗口语言模型"><span class="nav-number">2.</span> <span class="nav-text">窗口语言模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BOOM-RNN"><span class="nav-number">3.</span> <span class="nav-text">BOOM! RNN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#训练过程"><span class="nav-number">3.1.</span> <span class="nav-text">训练过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RNN反向传播"><span class="nav-number">3.2.</span> <span class="nav-text">RNN反向传播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RNN语言模型的评价指标"><span class="nav-number">3.3.</span> <span class="nav-text">RNN语言模型的评价指标</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RNN的其他任务-当然LSTM也可以"><span class="nav-number">4.</span> <span class="nav-text">RNN的其他任务(当然LSTM也可以)</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CNN介绍"><span class="nav-number">1.</span> <span class="nav-text">CNN介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Filter-Kernel"><span class="nav-number">1.1.</span> <span class="nav-text">Filter (Kernel)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Padding"><span class="nav-number">1.2.</span> <span class="nav-text">Padding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多个Channel并行"><span class="nav-number">1.3.</span> <span class="nav-text">多个Channel并行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pooling-池化"><span class="nav-number">1.4.</span> <span class="nav-text">Pooling 池化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stride-步长"><span class="nav-number">1.5.</span> <span class="nav-text">Stride 步长</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#局部池化"><span class="nav-number">1.6.</span> <span class="nav-text">局部池化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k-max-pooling"><span class="nav-number">1.7.</span> <span class="nav-text">k-max pooling</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dilation-跨越卷积"><span class="nav-number">1.8.</span> <span class="nav-text">Dilation 跨越卷积</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Paper-Single-Layer-CNN-for-Sentence-Classification-2014"><span class="nav-number">2.</span> <span class="nav-text">Paper: Single Layer CNN for Sentence Classification 2014</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他技巧"><span class="nav-number">3.</span> <span class="nav-text">其他技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#起飞飞飞飞飞：残差网络"><span class="nav-number">3.1.</span> <span class="nav-text">起飞飞飞飞飞：残差网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BatchNorm"><span class="nav-number">3.2.</span> <span class="nav-text">BatchNorm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-Convolutions"><span class="nav-number">3.3.</span> <span class="nav-text">1*1 Convolutions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用举例"><span class="nav-number">3.4.</span> <span class="nav-text">应用举例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更深，更大，更强-VC-CNN"><span class="nav-number">4.</span> <span class="nav-text">更深，更大，更强: VC-CNN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#QRNN"><span class="nav-number">5.</span> <span class="nav-text">QRNN</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -538,7 +472,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -877,13 +811,13 @@ if(canvas.getContext){
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">105k</span>
+    <span title="站点总字数">107k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:36</span>
+    <span title="站点阅读时长">1:37</span>
 </div>
 
         

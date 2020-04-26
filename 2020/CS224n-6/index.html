@@ -56,25 +56,32 @@
   };
 </script>
 
-  <meta name="description" content="NLP持续升温，作为入门课程，224n声名远扬。听了10节课之后，果然感觉不愧是斯坦福。这门课逻辑很清晰（遇到什么问题，产生什么思路，做了什么探索模型，怎么解决问题），而不是直接的扔出来一个模型，之前遇到很多老师这样，让人摸不到头脑；这门课会讲如何做一个研究以及如何写一篇paper。这些虽然不是NLP必备，是一些普世的知识，但是课堂上不讲，学生也很难完全了解到，基本上都、是自己摸索。">
-<meta name="keywords" content="NLP">
+  <meta name="description" content="为什么先写P6呢，因为P4是反向传播，公式太多，P5是语法分析，枯燥乏味。为了防止没有更新下去的动力，先来写P6。接下来的三讲P6-P8都是由助教Abby讲的，逻辑超级清楚，一步一步循序渐进。爱了爱了。B站链接P6 语言模型-&amp;gt;RNN模型的进化，P7 LSTM，P8 Attention附上Abby靓照">
+<meta name="keywords" content="NLP,RNN">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CS224n-1 初步探索，背景介绍  ">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-1-%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2%EF%BC%8C%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D&#x2F;index.html">
+<meta property="og:title" content="CS224n-6 语言模型, n-Gram, RNN">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-6&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="NLP持续升温，作为入门课程，224n声名远扬。听了10节课之后，果然感觉不愧是斯坦福。这门课逻辑很清晰（遇到什么问题，产生什么思路，做了什么探索模型，怎么解决问题），而不是直接的扔出来一个模型，之前遇到很多老师这样，让人摸不到头脑；这门课会讲如何做一个研究以及如何写一篇paper。这些虽然不是NLP必备，是一些普世的知识，但是课堂上不讲，学生也很难完全了解到，基本上都、是自己摸索。">
+<meta property="og:description" content="为什么先写P6呢，因为P4是反向传播，公式太多，P5是语法分析，枯燥乏味。为了防止没有更新下去的动力，先来写P6。接下来的三讲P6-P8都是由助教Abby讲的，逻辑超级清楚，一步一步循序渐进。爱了爱了。B站链接P6 语言模型-&amp;gt;RNN模型的进化，P7 LSTM，P8 Attention附上Abby靓照">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208165156.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208165732.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208170015.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208171649.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208171826.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208172914.png">
-<meta property="og:updated_time" content="2020-02-08T15:41:46.073Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302021352.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302025657.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302032724.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302034025.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302035733.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302035921.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302040022.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302040907.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302120224.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302120612.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302120841.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302120926.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302121101.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:updated_time" content="2020-03-02T04:22:36.455Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208165156.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200302021352.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 
-<link rel="canonical" href="http://leeee.top/2020/CS224n-1-%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2%EF%BC%8C%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D/">
+<link rel="canonical" href="http://leeee.top/2020/CS224n-6/">
 
 
 <script id="page-configurations">
@@ -88,7 +95,7 @@
   };
 </script>
 
-  <title>CS224n-1 初步探索，背景介绍   | 元哥的日记</title>
+  <title>CS224n-6 语言模型, n-Gram, RNN | 元哥的日记</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163973026-1"></script>
     <script>
@@ -266,7 +273,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-1-%E5%88%9D%E6%AD%A5%E6%8E%A2%E7%B4%A2%EF%BC%8C%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D/">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228120904.jpg">
@@ -279,7 +286,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          CS224n-1 初步探索，背景介绍  
+          CS224n-6 语言模型, n-Gram, RNN
         </h2>
 
         <div class="post-meta">
@@ -292,7 +299,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-02-08 18:01:00 / 修改时间：23:41:46" itemprop="dateCreated datePublished" datetime="2020-02-08T18:01:00+08:00">2020-02-08</time>
+              <time title="创建时间：2020-03-02 12:13:00 / 修改时间：12:22:36" itemprop="dateCreated datePublished" datetime="2020-03-02T12:13:00+08:00">2020-03-02</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -317,14 +324,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>899</span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>2 分钟</span>
             </span>
 
         </div>
@@ -336,35 +343,92 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>NLP持续升温，作为入门课程，224n声名远扬。<br>听了10节课之后，果然感觉不愧是斯坦福。<br>这门课逻辑很清晰（遇到什么问题，产生什么思路，做了什么探索模型，怎么解决问题），而不是直接的扔出来一个模型，之前遇到很多老师这样，让人摸不到头脑；这门课会讲如何做一个研究以及如何写一篇paper。这些虽然不是NLP必备，是一些普世的知识，但是课堂上不讲，学生也很难完全了解到，基本上都、是自己摸索。</p><a id="more"></a>
-<p>总的来说，觉得相见恨晚，虽然有点难，但是学的很舒服！现在开始整理每节课的笔记。</p>
+        <p>为什么先写P6呢，因为P4是反向传播，公式太多，P5是语法分析，枯燥乏味。为了防止没有更新下去的动力，先来写P6。接下来的三讲P6-P8都是由助教Abby讲的，逻辑超级清楚，一步一步循序渐进。爱了爱了。<a href="https://www.bilibili.com/video/av61620135?p=6" target="_blank" rel="noopener">B站链接</a><br>P6 语言模型-&gt;RNN模型的进化，P7 LSTM，P8 Attention<br><img alt="附图" data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302021352.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>附上Abby靓照</p><a id="more"></a>
 <hr>
-<p>Lecture 1: Introduction and Word Vectors 第一节课主要是介绍背景</p>
-<h1 id="The-course-10-mins"><a href="#The-course-10-mins" class="headerlink" title="The course (10 mins)"></a>The course (10 mins)</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>自然语言处理（NLP）</strong>是计算科学、AI、语言学的交叉学科，其目的是为了让机器能够处理或者是“理解”自然语言，比如可以通过说话让机器为我们定会议、买东西。机器完全理解是不大可能的，完全理解基本等同于AI完全实现了。</p>
-<h2 id="如何表示词义？"><a href="#如何表示词义？" class="headerlink" title="如何表示词义？"></a>如何表示词义？</h2><ul>
-<li><p>Def：meaning：就是人写的，说的，短语句子符号来表达的想法</p>
-<h2 id="如何用计算机表达词义？"><a href="#如何用计算机表达词义？" class="headerlink" title="如何用计算机表达词义？"></a>如何用计算机表达词义？</h2><h3 id="WordNet："><a href="#WordNet：" class="headerlink" title="WordNet："></a>WordNet：</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165156.png"></p>
-<p>WordNet是人为的收录了近义词和相似词。<br>存在的问题是：没办法统计到细微差别；没有新词；需要人为的统计输入；不能计算相似度；依赖生成词库的主观。</p>
+<p><strong>Language Modeling</strong> is the task of predicting what word comes next.<br>根据前面前半句，预测后半句。就比如输入法的联想候选词，搜索栏弹出的候选搜索项目，都属于语言模型。<br>为什么要研究语言模型呢？因为很多任务里都会涉及到，比如：</p>
+<ul>
+<li>Predictive typing 预测之后的输入</li>
+<li>Speech recognition 语音识别</li>
+<li>Handwriting recognition 手写识别</li>
+<li>Spelling/grammar correction 语法纠正</li>
+<li>Authorship identification </li>
+<li>Machine translation 机器翻译</li>
+<li>Summarization 文章总结</li>
+<li>Dialogue 对话系统</li>
+<li>etc.<br>所以，这一节很重要。</li>
+</ul>
+<h1 id="n-Gram语言模型"><a href="#n-Gram语言模型" class="headerlink" title="n-Gram语言模型"></a>n-Gram语言模型</h1><p>传统方法训练语言模型，就用的<a href="https://leeee.top/2020/CS224n-2-word2vec-word-Senses/">CS224n-2-word2vec-word-Senses</a>之前提到过的<strong>n-Gram语言模型</strong>，原理也很简单，就是通过统计频率：前半句出现过，之后最有可能跟着的词是什么。</p>
+<p><strong>n-Gram</strong>： 就是连续的n个词(一般不会大于5)当做一个最小单元，统计出现的频率。</p>
+<p><strong>n-Gram语言模型的假设</strong>：第t+1个词的选择，只依赖于前n-1个词。</p>
+<blockquote>
+<p>这里有点马尔科夫链和时间序列ARIMA模型的内味了。 </p>
+</blockquote>
+<p>根据假设就能得到：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302025657.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<blockquote>
+<p>举个栗子：天气很好，我想吃___<br>如果这里用4-Gram 模型，那填空的位置，只与前面三个字”我想吃”有关，假如，之前的数据集里出现了1000词“火锅”，500次“糖”，那么这里肯定填“火锅”</p>
+</blockquote>
+<ul>
+<li>想法越简单，问题就必然存在：</li>
+</ul>
+<ol>
+<li>分母为0怎么办？ “我想吃”这三个字数据集里没有<br>S: <strong>backoff</strong> 4-Gram退化成3-Gram，只看前两个词“想吃”，因为数据集里可能有“他想吃”</li>
+<li>分子为0怎么办？假如这里的语境是“我脑子有问题，我想吃翔”，但是数据集里没出现过这个短语<br>S:  <strong>smoothing</strong> 对于没出现的词都加一个小数量。<blockquote>
+<p>(我感觉没啥用啊，翔还是不会被选中)</p>
+</blockquote>
+</li>
+<li>存储问题，n-Gram越小，情况越多，需要存储的空间太大<br>S: 增加n</li>
+<li>稀疏性问题，没办法解决</li>
+</ol>
+<h1 id="窗口语言模型"><a href="#窗口语言模型" class="headerlink" title="窗口语言模型"></a>窗口语言模型</h1><p>任务：输入前几个单词，输出之后可能的单词概率</p>
+<p>比如说：用第三讲的窗口模型，就可以转化为一个分类器，候选种类是所有可能出现的单词。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302032724.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>解决了n-Gram的稀疏性问题，也不需要储存大量的频率(只需要储存词向量)</p>
+<ul>
+<li>想法越简单，问题就必然存在：</li>
+</ul>
+<ol>
+<li>窗口的大小不好确定，太小了不准确，太大了权重W得变长，训练的也不好。W的长度=n*词向量长度。</li>
+<li>窗口内的单词权重一样，没有利用上位置信息</li>
+</ol>
+<h1 id="BOOM-RNN"><a href="#BOOM-RNN" class="headerlink" title="BOOM! RNN"></a>BOOM! RNN</h1><p>这个时候，再来介绍RNN就顺理成章了。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302034025.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>RNN优点：</p>
+<ul>
+<li>长度没有限制</li>
+<li><strong>理论上</strong>可以用上之前的所有信息</li>
+<li>输入的长度和模型大小无关</li>
+<li>权值共享，对于每个输入处理都是一样的</li>
+</ul>
+<p>想法越简单，问题就必然存在：</p>
+<ul>
+<li>计算太慢</li>
+<li>RNN对于之前的信息(无论重要与否)都会容易丢失（梯度消失）<blockquote>
+<p>🐟的记忆只有3s.</p>
+</blockquote>
 </li>
 </ul>
-<h3 id="把词当做离散变量one-hot"><a href="#把词当做离散变量one-hot" class="headerlink" title="把词当做离散变量one-hot"></a>把词当做离散变量one-hot</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165732.png"></p>
-<p> 存在的问题是：词库长度太大；不能计算相似度；</p>
-<h3 id="通过上下文表示"><a href="#通过上下文表示" class="headerlink" title="通过上下文表示"></a>通过上下文表示</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208170015.png"><br>通过上下文的思路，可以引出主流方法Word vectors（word embeddings or word representations）。<br>每一个词对应一个N维度的向量，N一般几百维。</p>
-<h1 id="Word2vec"><a href="#Word2vec" class="headerlink" title="Word2vec"></a>Word2vec</h1><p>从2013年开始有了Word2vec，如何生成向量的方法逐渐出现。</p>
-<p>思路：</p>
+<h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h2><p>训练一个RNN的数据集就是一个corpus语料库，然后开始预测，每一步都计算loss（预测值和真实值的偏差），直到模型收敛。<br>这里用交叉熵作为损失：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302035733.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>当我们跑完一轮之后(一般跑一段话，或者一个句子就行)，就可以得到当前的参数对应的loss，对于每个位置的损失求平均就好，然后计算梯度，得到新的参数，然后用新的参数去训练后面的语料。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302035921.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302040022.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="RNN反向传播"><a href="#RNN反向传播" class="headerlink" title="RNN反向传播"></a>RNN反向传播</h2><p>反向传播也就是当我们计算梯度的时候，发挥作用。<br>这里用了“backpropagation through time”。因为我们得到的loss J是加起来这一批的loss，所以我们求导的时候也是对于每次的预测都进行求导(实际上用了链式法则)<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302040907.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<h2 id="RNN语言模型的评价指标"><a href="#RNN语言模型的评价指标" class="headerlink" title="RNN语言模型的评价指标"></a>RNN语言模型的评价指标</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120224.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>困惑度的理解可以参考知乎<a href="https://www.zhihu.com/question/58482430" target="_blank" rel="noopener">这篇文章</a></p>
+<blockquote>
+<p><strong>困惑度Perplexity</strong>就是模型对于测试数据认知，如果说模型很容易生成测试数据集，那么困惑度就小。<br>换一种理解：<strong>给测试集的句子赋予较高概率值的语言模型较好,当语言模型训练完之后，测试集中的句子都是正常的句子，那么训练好的模型就是在测试集上的概率越高越好。</strong></p>
+</blockquote>
+<p>困惑度不需要应用什么任务，直接输入数据，就能比较模型好坏。</p>
 <ul>
-<li>有一个大的语料库</li>
-<li>每个词都表示成向量</li>
-<li>遍历每个词，中间的词当做c，周围的几个当做o</li>
-<li>通过计算每个词向量和周围词向量出现的概率</li>
-<li>调整词向量，让概率最大</li>
+<li>模型困惑度比较<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120612.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>可以发现lstm&gt;RNN&gt;5-gram</li>
 </ul>
-<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171649.png"></p>
-<p>目标函数：</p>
-<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171826.png"></p>
-<p>理解：这里就是对于语料(Data)的每个词t，对应前后j位置的词，是词a和词b的概率P，都乘起来。（这里还是很有统计色彩的)</p>
-<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208172914.png"><br>注意：这里需要维护两套向量，一套是中间的，一套是周围的。</p>
-<p>其他的都是一些微积分和优化的知识，不做记录了。</p>
+<h1 id="RNN的其他任务-当然LSTM也可以"><a href="#RNN的其他任务-当然LSTM也可以" class="headerlink" title="RNN的其他任务(当然LSTM也可以)"></a>RNN的其他任务(当然LSTM也可以)</h1><ul>
+<li>词性标注<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120841.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></li>
+<li><p>句子分类（eg：情感分类）<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302120926.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+</li>
+<li><p>encoder 问答系统</p>
+</li>
+</ul>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200302121101.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<ul>
+<li>语音识别等</li>
+</ul>
+<p>◾</p>
+<blockquote>
+<p>下节课讲LSTM，GRU，多层LSTM，想想还有点小激动呢</p>
+</blockquote>
 
     </div>
 
@@ -375,16 +439,16 @@
   <div class="popular-posts-header">相似文章</div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/2020/CS224n-7/" rel="bookmark">CS224n-7 梯度消失,LSTM,GRU,BLSTM</a></div>
+    </li>
+    <li class="popular-posts-item">
       <div class="popular-posts-title"><a href="/2020/CS224n-3/" rel="bookmark">CS224n-3 回顾神经网络，文本分类介绍</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-2-word2vec-word-Senses/" rel="bookmark">CS224n-2 word2vec, word Senses</a></div>
+      <div class="popular-posts-title"><a href="/2020/CS224n-2/" rel="bookmark">CS224n-2 word2vec, word Senses</a></div>
     </li>
     <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-7-梯度消失-LSTM-GRU-BLSTM/" rel="bookmark">CS224n-7 梯度消失,LSTM,GRU,BLSTM</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-6-语言模型-n-Gram-RNN/" rel="bookmark">CS224n-6 语言模型, n-Gram, RNN</a></div>
+      <div class="popular-posts-title"><a href="/2020/CS224n-1/" rel="bookmark">CS224n-1 初步探索，背景介绍  </a></div>
     </li>
   </ul>
 
@@ -399,22 +463,23 @@
           
           <div class="post-tags">
               <a href="/tags/NLP/" rel="tag"><i class="fa fa-tag"></i> NLP</a>
+              <a href="/tags/RNN/" rel="tag"><i class="fa fa-tag"></i> RNN</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/FM-FFM%E4%B8%8E%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="next" title="FM,FFM,DeepFM ">
-                  <i class="fa fa-chevron-left"></i> FM,FFM,DeepFM 
+                <a href="/2020/MSBD5004-Mathematical-Methods-for-Data-Analysis-Homework-1/" rel="next" title="MSBD5004 Mathematical Methods for Data Analysis Homework 1">
+                  <i class="fa fa-chevron-left"></i> MSBD5004 Mathematical Methods for Data Analysis Homework 1
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/CS224n-2-word2vec-word-Senses/" rel="prev" title="CS224n-2 word2vec, word Senses">
-                  CS224n-2 word2vec, word Senses <i class="fa fa-chevron-right"></i>
+                <a href="/2020/CS224n-7/" rel="prev" title="CS224n-7 梯度消失,LSTM,GRU,BLSTM">
+                  CS224n-7 梯度消失,LSTM,GRU,BLSTM <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -456,7 +521,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#The-course-10-mins"><span class="nav-number">1.</span> <span class="nav-text">The course (10 mins)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何表示词义？"><span class="nav-number">1.2.</span> <span class="nav-text">如何表示词义？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何用计算机表达词义？"><span class="nav-number">1.3.</span> <span class="nav-text">如何用计算机表达词义？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WordNet："><span class="nav-number">1.3.1.</span> <span class="nav-text">WordNet：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#把词当做离散变量one-hot"><span class="nav-number">1.3.2.</span> <span class="nav-text">把词当做离散变量one-hot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过上下文表示"><span class="nav-number">1.3.3.</span> <span class="nav-text">通过上下文表示</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Word2vec"><span class="nav-number">2.</span> <span class="nav-text">Word2vec</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#n-Gram语言模型"><span class="nav-number">1.</span> <span class="nav-text">n-Gram语言模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#窗口语言模型"><span class="nav-number">2.</span> <span class="nav-text">窗口语言模型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BOOM-RNN"><span class="nav-number">3.</span> <span class="nav-text">BOOM! RNN</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#训练过程"><span class="nav-number">3.1.</span> <span class="nav-text">训练过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RNN反向传播"><span class="nav-number">3.2.</span> <span class="nav-text">RNN反向传播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RNN语言模型的评价指标"><span class="nav-number">3.3.</span> <span class="nav-text">RNN语言模型的评价指标</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RNN的其他任务-当然LSTM也可以"><span class="nav-number">4.</span> <span class="nav-text">RNN的其他任务(当然LSTM也可以)</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -473,7 +538,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -812,13 +877,13 @@ if(canvas.getContext){
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">105k</span>
+    <span title="站点总字数">107k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:36</span>
+    <span title="站点阅读时长">1:37</span>
 </div>
 
         
@@ -934,54 +999,6 @@ if(canvas.getContext){
   
 
   
-      
-<script type="text/x-mathjax-config">
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
-</script>
-
-    
 
   
 
