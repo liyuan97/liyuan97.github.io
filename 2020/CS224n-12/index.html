@@ -56,15 +56,27 @@
   };
 </script>
 
-  <meta name="keywords" content="技术,学习,元哥的日记,blog,算法日记">
-<meta property="og:type" content="website">
-<meta property="og:title" content="元哥的日记">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;categories&#x2F;CSIT5500&#x2F;index.html">
+  <meta name="description" content="Subword Models 解决OOV问题 OOV： out-of-vocabulary即单词不在词汇库里的情况之前的模型都是基于单词层面的，但是对于一个新单词“asd”没有解决方案。一个朴素的想法就是“拆分”，把长单词拆成几个单词的组合。相对于中文来说，就是一个新的词组去按照每个字的意思去理解单词的意思。下面是解决方案。">
+<meta name="keywords" content="技术,学习,元哥的日记,blog,算法日记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS224n-12 Subword Models 解决OOV问题">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-12&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
+<meta property="og:description" content="Subword Models 解决OOV问题 OOV： out-of-vocabulary即单词不在词汇库里的情况之前的模型都是基于单词层面的，但是对于一个新单词“asd”没有解决方案。一个朴素的想法就是“拆分”，把长单词拆成几个单词的组合。相对于中文来说，就是一个新的词组去按照每个字的意思去理解单词的意思。下面是解决方案。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200502235959.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200502235847.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200503000654.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200502235621.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200503001623.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200503002052.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.zhihu.com&#x2F;equation?tex=%5Cvec%7Bz_g%7D">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.zhihu.com&#x2F;equation?tex=s%28w%2Cc%29%3D%5Csum_%7Bg%5Cin+G_w%7D%5Cvec%7Bz_g%7D%5ET%5Cvec%7Bv_c%7D">
+<meta property="og:updated_time" content="2020-05-02T16:34:31.877Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200502235959.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 
-<link rel="canonical" href="http://leeee.top/categories/CSIT5500/">
+<link rel="canonical" href="http://leeee.top/2020/CS224n-12/">
 
 
 <script id="page-configurations">
@@ -72,13 +84,13 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>分类: CSIT5500 | 元哥的日记</title>
+  <title>CS224n-12 Subword Models 解决OOV问题 | 元哥的日记</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163973026-1"></script>
     <script>
@@ -251,54 +263,152 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">CSIT5500
-          <small>分类</small>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-12/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228120904.jpg">
+      <meta itemprop="name" content="Yuan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="元哥的日记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          CS224n-12 Subword Models 解决OOV问题
         </h2>
-      </div>
+
+        <div class="post-meta">
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-03 00:30:00 / 修改时间：00:34:31" itemprop="dateCreated datePublished" datetime="2020-05-03T00:30:00+08:00">2020-05-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CS224n/" itemprop="url" rel="index"><span itemprop="name">CS224n</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h2 class="collection-header">2020</h2>
+        <ul>
+<li>Subword Models 解决OOV问题</li>
+</ul><p>OOV： out-of-vocabulary即单词不在词汇库里的情况<br>之前的模型都是基于单词层面的，但是对于一个新单词“asd”没有解决方案。一个朴素的想法就是“拆分”，把长单词拆成几个单词的组合。相对于中文来说，就是一个新的词组去按照每个字的意思去理解单词的意思。<br>下面是解决方案。</p><a id="more"></a>
+
+<h1 id="Character-Level-Model"><a href="#Character-Level-Model" class="headerlink" title="Character-Level Model"></a>Character-Level Model</h1><ul>
+<li>字符级别操作，直接把每个字母当做基本单元，然后训练单词的Embedding。</li>
+</ul>
+<p>但是其输入的序列更长了，使得数据更稀疏且长程的依赖关系更难学习，训练速度也会降低。下面是几种具体的方案。</p>
+<h2 id="CNN"><a href="#CNN" class="headerlink" title="CNN"></a>CNN</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200502235959.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>CNN相当于把连续的几个字符，全部枚举，拼起来，然后Embedding。</p>
+<h2 id="BLSTM"><a href="#BLSTM" class="headerlink" title="BLSTM"></a>BLSTM</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200502235847.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>双向RNN遍历字符，直接输出Embedding，简单粗暴。</p>
+<h2 id="字母单词同时Embedding"><a href="#字母单词同时Embedding" class="headerlink" title="字母单词同时Embedding"></a>字母单词同时Embedding</h2><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200503000654.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>详细介绍：<a href="https://www.hankcs.com/nlp/cs224n-character-aware-neural-language-models.html" target="_blank" rel="noopener">https://www.hankcs.com/nlp/cs224n-character-aware-neural-language-models.html</a><br>字符级别的CNN+Highway Network可以提取丰富的语义和结构信息。这个模型将其他网络当成积木一样，构建了更好的语言模型。</p>
+<h2 id="LSTM-BGRU"><a href="#LSTM-BGRU" class="headerlink" title="LSTM+BGRU"></a>LSTM+BGRU</h2><p>和上面那个好像。<br><a href="https://arxiv.org/abs/1610.03017" target="_blank" rel="noopener">Fully Character-Level Neural Machine Translation without Explicit Segmentation</a>中利用了多层的convolution, pooling与highway layer来解决这一问题，其中encoder的结构如下图所示：</p>
+<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200502235621.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<p>输入的字符先被映射到character embedding。然后与窗口大小不同的卷积核进行卷积操作再将输出联结起来，例如上图中有三种窗口大小分别为3，4，5的卷积核，相当于学习了基于字符的trigram, 4-grams, 5-grams。然后对卷积的输出进行max pooling操作，相当于选择最显著的特征产生segment embedding。由此我们从最基础的输入的character embedding得到了系统中认为语言学上有意义的segment embedding。然后将这些特征经过Highway Network(有些类似于Residual network，方便深层网络中信息的流通，不过加入了一些控制信息流量的gate）和双向的GRU，这样得到最终的encoder output。之后decoder再利用Attention机制以及character level GRU进行decode。</p>
+<p>实验结果显示，基于字符的模型能更好的处理OOV的问题，而且对于多语言场景，能更好的学习各语言间通用的词素。</p>
+<h1 id="字母组合"><a href="#字母组合" class="headerlink" title="字母组合"></a>字母组合</h1><p>字母的的暴力组合可以优化的思路就是，只选有意义的（高频）的当做组合。</p>
+<h2 id="Byte-Pair-Encoding"><a href="#Byte-Pair-Encoding" class="headerlink" title="Byte Pair Encoding"></a>Byte Pair Encoding</h2><p>基本单元介于字符与单词之间的模型称作Subword Model。那么Subword如何选择呢？一种方法是Byte Pair Encoding,简称BPE。 BPE最早是一种压缩算法，基本思路是把经常出现的byte pair用一个新的byte来代替，例如假设(‘A’, ’B‘）经常顺序出现，则用一个新的标志’AB’来代替它们。</p>
+<p>给定了文本库，我们的初始词汇库仅包含所有的单个的字符，然后不断的将出现频率最高的n-gram pair作为新的ngram加入到词汇库中，直到词汇库的大小达到我们所设定的某个目标为止。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200503001623.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>例如，假设我们的文本库中出现的单词及其出现次数为 {‘l o w’: 5, ‘l o w e r’: 2, ‘n e w e s t’: 6, ‘w i d e s t’: 3}，我们的初始词汇库为{ ‘l’, ‘o’, ‘w’, ‘e’, ‘r’, ‘n’, ‘w’, ‘s’, ‘t’, ‘i’, ‘d’}，出现频率最高的ngram pair是(‘e’,’s’) 9次，所以我们将’es’作为新的词汇加入到词汇库中，由于’es’作为一个整体出现在词汇库中，这时文本库可表示为 {‘l o w’: 5, ‘l o w e r’: 2, ‘n e w es t’: 6, ‘w i d es t’: 3}，这时出现频率最高的ngram pair是(‘es’,’t’) 9次，将’est’加入到词汇库中，文本库更新为{‘l o w’: 5, ‘l o w e r’: 2, ‘n e w est’: 6, ‘w i d est’: 3}，新的出现频率最高的ngram pair是(‘l’,’o’)7次，将’lo’加入到词汇库中，文本库更新为{‘lo w’: 5, ‘lo w e r’: 2, ‘n e w est’: 6, ‘w i d est’: 3}。以此类推，直到词汇库大小达到我们所设定的目标。这个例子中词汇量较小，对于词汇量很大的实际情况，我们就可以通过BPE逐步建造一个较小的基于subword unit的词汇库来表示所有的词汇。</p>
+<h2 id="SentencePiece"><a href="#SentencePiece" class="headerlink" title="SentencePiece"></a>SentencePiece</h2><p>谷歌的NMT模型用了BPE的变种，称作wordpiece model，BPE中利用了n-gram count来更新词汇库，而wordpiece model中则用了一种贪心算法来最大化语言模型概率，即选取新的n-gram时都是选择使得perplexity减少最多的ngram。进一步的，sentencepiece model将词间的空白也当成一种标记，可以直接处理sentence，而不需要将其pre-tokenize成单词。下面是解决方案。</p>
+<h1 id="Hybrid-Model：只对新词character-level"><a href="#Hybrid-Model：只对新词character-level" class="headerlink" title="Hybrid Model：只对新词character level"></a>Hybrid Model：只对新词character level</h1><p>character level本来是解决word Embedding的OOV问题的，直接重新打破word Embedding 有点亏，就单纯对新词进行Embedding就好了。</p>
+<p>其结构如下图所示，大部分还是依赖于比较高效的word level模型，但遇到例子中的”cute”这样的OOV词汇，我们就需要建立一个character level的表示，decode时遇到<unk>这个表示OOV的特殊标记时，就需要character level的decode，训练过程是end2end的，不过损失函数是word部分与character level部分损失函数的加权叠加。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200503002052.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></unk></p>
+<h1 id="其他思路：FastText-embeddings"><a href="#其他思路：FastText-embeddings" class="headerlink" title="其他思路：FastText embeddings"></a>其他思路：FastText embeddings</h1><p>对于任何一个单词，把他内部的可能全枚举出来，然后在word embeddings的过程中都生成一个向量。相当于扩充了单词集。</p>
+<p>其基本思路是将每个word表示成bag of character n-gram以及单词本身的集合，例如对于where这个单词和n=3的情况，它可以表示为 _<wh,whe,her,ere,re>,<where> ，_其中”&lt;”,”&gt;”为代表单词开始与结束的特殊标记。假设对于word $w$ ，其n-gram集合用 $=G_W$ 表示，每个n-gram的矢量表示为 <img alt="[公式]" data-src="https://www.zhihu.com/equation?tex=%5Cvec%7Bz_g%7D"> ，则每个单词可以表示成其所有n-gram的矢量和的形式，而center word $w$ 与context word $c$ 的分数就可表示成 <img alt="[公式]" data-src="https://www.zhihu.com/equation?tex=s%28w%2Cc%29%3D%5Csum_%7Bg%5Cin+G_w%7D%5Cvec%7Bz_g%7D%5ET%5Cvec%7Bv_c%7D"> 的形式，之后就可以按照经典的word2vec算法训练得到这些特征向量。<br>这种方式既保持了word2vec计算速度快的优点，又解决了遇到training data中没见过的oov word的表示问题，可谓一举两得。</where></wh,whe,her,ere,re></p>
+<blockquote>
+<p>参考： <a href="https://zhuanlan.zhihu.com/p/69414965" target="_blank" rel="noopener">知乎这篇</a></p>
+</blockquote>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+      
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-02-26T16:18:00+08:00"
-              content="2020-02-26">
-          02-26
-        </time>
+
+      <div>
+      
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　你的留言　<i class="fa fa-heart"></i>　是我更新的动力😊　　　　-------------</div>
+      
       </div>
 
-      <h3 class="post-title">
-          <a class="post-title-link" href="/2020/CSIT5500-1-%E6%8E%92%E5%BA%8F/" itemprop="url">
-            <span itemprop="name">CSIT5500-1 算法基础</span>
-          </a>
-      </h3>
+      <footer class="post-footer">
 
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2020/CS224n-11/" rel="next" title="CS224n-11 CNN在nlp的应用">
+                  <i class="fa fa-chevron-left"></i> CS224n-11 CNN在nlp的应用
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+            </div>
+          </div>
+      </footer>
+    
   </article>
 
-    </div>
+  
+  
+  
+
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
         </div>
           
@@ -323,6 +433,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Character-Level-Model"><span class="nav-number">1.</span> <span class="nav-text">Character-Level Model</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CNN"><span class="nav-number">1.1.</span> <span class="nav-text">CNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BLSTM"><span class="nav-number">1.2.</span> <span class="nav-text">BLSTM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字母单词同时Embedding"><span class="nav-number">1.3.</span> <span class="nav-text">字母单词同时Embedding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LSTM-BGRU"><span class="nav-number">1.4.</span> <span class="nav-text">LSTM+BGRU</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字母组合"><span class="nav-number">2.</span> <span class="nav-text">字母组合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Byte-Pair-Encoding"><span class="nav-number">2.1.</span> <span class="nav-text">Byte Pair Encoding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SentencePiece"><span class="nav-number">2.2.</span> <span class="nav-text">SentencePiece</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hybrid-Model：只对新词character-level"><span class="nav-number">3.</span> <span class="nav-text">Hybrid Model：只对新词character level</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他思路：FastText-embeddings"><span class="nav-number">4.</span> <span class="nav-text">其他思路：FastText embeddings</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -800,6 +911,54 @@ if(canvas.getContext){
   
 
   
+      
+<script type="text/x-mathjax-config">
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
 
   
 
