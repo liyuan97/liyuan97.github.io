@@ -1,6 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>MSBD5004 Mathematical Methods for Data Analysis Homework 5</title>
+    <url>/2020/MSBD5004-Mathematical-Methods-for-Data-Analysis-Homework-5/</url>
+    <content><![CDATA[<blockquote>
+<p>Just for Validation. 😇Connect me if U need detial.</p>
+</blockquote><h1 id="Q1"><a href="#Q1" class="headerlink" title="Q1"></a>Q1</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200509220809.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p><script type="math/tex; mode=display">
+\begin{aligned}
+&if \ n=0,\ c_0 =\int_{-\frac{1}{2}}^{\frac{1}{2}} t \exp (0) d t=0\\
+&if \ n\not=0,\ c_n =\int_{-\frac{1}{2}}^{\frac{1}{2}} t \exp (-2 i \pi k t) d t=\frac{i(\pi n \cos (\pi k)-\sin (\pi n))}{2 \pi^{2} n^{2}}=\frac{(-1)^ni}{2\pi n}\\
+\end{aligned}</script><a id="more"></a>
+
+<script type="math/tex; mode=display">
+So, \ f(t) = \sum_{k\not=0} \frac{(-1)^ni}{2\pi n} e^{2\pi i n t}</script><h1 id="Q2"><a href="#Q2" class="headerlink" title="Q2"></a>Q2</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200509222100.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&if \ n=0,\ c_0 =\int_{-\frac{1}{2}}^{\frac{1}{2}} t^2 \exp (0) d t=\frac{1}{12}\\
+&if \ n\not=0,\ c_n =\int_{-\frac{1}{2}}^{\frac{1}{2}} t^{2} \exp (-2 i \pi n t) d t=\frac{\left(\pi^{2} n^{2}-2\right) \sin (\pi n)+2 \pi n \cos (\pi n)}{4 \pi^{3} n^{3}}=\frac{(-1)^n}{2\pi^2 n^2} \\
+&So, \ f(t) =\frac{1}{12} +\sum_{n\not=0} \frac{(-1)^n}{2\pi^2 n^2}  e^{2\pi i n t}\\
+&Use\ fourier\ teansform, \\
+&1/80=\int_{-\frac{1}{2}}^{\frac{1}{2}} (t^2)^2dt=\frac{1}{12^2}+\sum_{n\not=0} \frac{1}{4\pi^4 n^4}  \\
+&\sum_{n=2}^{\infty} \frac{1}{ n^4}=\frac{\pi^4}{90}-1
+\end{aligned}</script><h1 id="Q3"><a href="#Q3" class="headerlink" title="Q3"></a>Q3</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200509234833.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<script type="math/tex; mode=display">
+g(t)=\left\{\begin{array}{cc}
+1, & |t| < 1 \\
+0, & \text { otherwise }
+\end{array}\right.</script><h1 id="Q4"><a href="#Q4" class="headerlink" title="Q4"></a>Q4</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200509235212.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\hat{f}(s)&=\int_{-\infty}^{\infty} f(t) e^{-2 \pi i s t} d t=\int_{-1}^{1} f(t)e^{-2 \pi i s t} dt\\
+&=\int_{-1}^{0} (1+t)e^{-2 \pi i s t} dt\ +\ \int_{0}^{1} (1-t)e^{-2 \pi i s t} dt \\
+&= \frac{\sin^2 (\pi s)}{\pi^2 s^2}\\
+&=sinc^2(s)
+\end{aligned}</script><h1 id="Q5"><a href="#Q5" class="headerlink" title="Q5"></a>Q5</h1><ol>
+<li>Compute the Discrete Fourier Transform of [1 1 2 2]T.</li>
+</ol>
+<script type="math/tex; mode=display">
+\mathbf{X}=\left(\begin{array}{cccc}
+1 & 1 & 1 & 1 \\
+1 & -i & -1 & i \\
+1 & -1 & 1 & -1 \\
+1 & i & -1 & -i
+\end{array}\right)\left(\begin{array}{c}
+X_{0} \\
+X_{1} \\
+X_{2} \\
+X_{3}
+\end{array}\right)=\left(\begin{array}{c}
+6 \\
+-1+i \\
+0 \\
+-1-i
+\end{array}\right)</script><h1 id="Q6"><a href="#Q6" class="headerlink" title="Q6"></a>Q6</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200509235256.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>TODO</p>
+<h1 id="Q7"><a href="#Q7" class="headerlink" title="Q7"></a>Q7</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200509235307.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></p>
+]]></content>
+      <categories>
+        <category>5004</category>
+      </categories>
+  </entry>
+  <entry>
     <title>CS224n-12 Subword Models 解决OOV问题</title>
     <url>/2020/CS224n-12/</url>
     <content><![CDATA[<ul>
@@ -957,9 +1016,9 @@ n=\frac{[b_{1}-\langle a_{1}, y\rangle ]\langle a_1,a_2\rangle -[b_{2}-\langle a
         <category>5004</category>
       </categories>
       <tags>
+        <tag>Homework</tag>
         <tag>范数</tag>
         <tag>Kmeans</tag>
-        <tag>Homework</tag>
       </tags>
   </entry>
   <entry>
