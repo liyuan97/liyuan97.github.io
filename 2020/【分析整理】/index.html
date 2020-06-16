@@ -56,25 +56,46 @@
   };
 </script>
 
-  <meta name="description" content="NLP持续升温，作为入门课程，224n声名远扬。听了10节课之后，果然感觉不愧是斯坦福。这门课逻辑很清晰（遇到什么问题，产生什么思路，做了什么探索模型，怎么解决问题），而不是直接的扔出来一个模型，之前遇到很多老师这样，让人摸不到头脑；这门课会讲如何做一个研究以及如何写一篇paper。这些虽然不是NLP必备，是一些普世的知识，但是课堂上不讲，学生也很难完全了解到，基本上都、是自己摸索。">
-<meta name="keywords" content="NLP">
+  <meta name="description" content="平衡业务策略与模型之间的关系。策略能力有限，模型也“没有银弹”。 最近刚好在研究策略和多样性的关系，就帮DataFunTalk社区又整理了一篇稿子，策略本身很乏味，但是策略可以解决很多模型解决不了的问题。为什么会这样呢？主要还是模型太笨了，由于模型不能完全动态的掌握用户的心理变化，兴趣变化，所以一般的推荐模型都是对于用户的基于历史的点击率CTR预估，可以简化为分类或者回归模型。可是实际上，远远没">
+<meta name="keywords" content="技术,学习,元哥的日记,blog,算法日记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CS224n-1 初步探索，背景介绍  ">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CS224n-1&#x2F;index.html">
+<meta property="og:title" content="【分析整理】 58同城多业务融合推荐实践与思考">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;%E3%80%90%E5%88%86%E6%9E%90%E6%95%B4%E7%90%86%E3%80%91&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="NLP持续升温，作为入门课程，224n声名远扬。听了10节课之后，果然感觉不愧是斯坦福。这门课逻辑很清晰（遇到什么问题，产生什么思路，做了什么探索模型，怎么解决问题），而不是直接的扔出来一个模型，之前遇到很多老师这样，让人摸不到头脑；这门课会讲如何做一个研究以及如何写一篇paper。这些虽然不是NLP必备，是一些普世的知识，但是课堂上不讲，学生也很难完全了解到，基本上都、是自己摸索。">
+<meta property="og:description" content="平衡业务策略与模型之间的关系。策略能力有限，模型也“没有银弹”。 最近刚好在研究策略和多样性的关系，就帮DataFunTalk社区又整理了一篇稿子，策略本身很乏味，但是策略可以解决很多模型解决不了的问题。为什么会这样呢？主要还是模型太笨了，由于模型不能完全动态的掌握用户的心理变化，兴趣变化，所以一般的推荐模型都是对于用户的基于历史的点击率CTR预估，可以简化为分类或者回归模型。可是实际上，远远没">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208165156.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208165732.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208170015.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208171649.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208171826.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208172914.png">
-<meta property="og:updated_time" content="2020-02-08T15:41:46.000Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;lhQZtX3sSngG2Ma.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;DX8tzx6kUBHOC9y.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;AN4cnvVtz5XLiPh.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;gUnY8pR7ml2Vefa.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;4gOlfupJABNXE3y.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;sJcAyldFmDR3e9P.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;JwV1oisNHY6uICQ.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;4pjM9w3vl28oHLE.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;9yNPpLzGM43IAVw.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;nqfkNiyvm6AS58t.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;OneN6xWoVd2rRFl.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;NQ69fyZsoVMRtix.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;Y3XSlPGupNrw8my.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;Vw1y4Wbnu6ShaZ2.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;ZN3rvixfcEUHug4.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;Acd6fDG4aIWzNRV.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;DaR5THXbS4GqoVc.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;T1yAc7YuXHlxnjW.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;8yZkfmRSYHBN4Jq.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;j2OanEkCW6KAPdw.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;Dg57QVoZnJNycH6.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;K4WqiRGt17SnvdM.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;RF3KPuZbeoMDhi7.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;MsyxV5kAjHrpOuN.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;PDyuYHlwA74pOgn.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;xw2W4y3bTvjV1kS.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;p4Uf8Fq91OvgVNt.png">
+<meta property="og:updated_time" content="2020-06-16T14:01:48.345Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200208165156.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;06&#x2F;14&#x2F;lhQZtX3sSngG2Ma.jpg">
 
-<link rel="canonical" href="http://leeee.top/2020/CS224n-1/">
+<link rel="canonical" href="http://leeee.top/2020/%E3%80%90%E5%88%86%E6%9E%90%E6%95%B4%E7%90%86%E3%80%91/">
 
 
 <script id="page-configurations">
@@ -88,7 +109,7 @@
   };
 </script>
 
-  <title>CS224n-1 初步探索，背景介绍   | 元哥的日记</title>
+  <title>【分析整理】 58同城多业务融合推荐实践与思考 | 元哥的日记</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163973026-1"></script>
     <script>
@@ -266,7 +287,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CS224n-1/">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/%E3%80%90%E5%88%86%E6%9E%90%E6%95%B4%E7%90%86%E3%80%91/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228120904.jpg">
@@ -279,7 +300,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          CS224n-1 初步探索，背景介绍  
+          【分析整理】 58同城多业务融合推荐实践与思考
         </h2>
 
         <div class="post-meta">
@@ -292,7 +313,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-02-08 18:01:00 / 修改时间：23:41:46" itemprop="dateCreated datePublished" datetime="2020-02-08T18:01:00+08:00">2020-02-08</time>
+              <time title="创建时间：2020-06-16 21:49:00 / 修改时间：22:01:48" itemprop="dateCreated datePublished" datetime="2020-06-16T21:49:00+08:00">2020-06-16</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -300,7 +321,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CS224n/" itemprop="url" rel="index"><span itemprop="name">CS224n</span></a>
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
                 </span>
             </span>
 
@@ -317,14 +338,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>899</span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -336,35 +357,105 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>NLP持续升温，作为入门课程，224n声名远扬。<br>听了10节课之后，果然感觉不愧是斯坦福。<br>这门课逻辑很清晰（遇到什么问题，产生什么思路，做了什么探索模型，怎么解决问题），而不是直接的扔出来一个模型，之前遇到很多老师这样，让人摸不到头脑；这门课会讲如何做一个研究以及如何写一篇paper。这些虽然不是NLP必备，是一些普世的知识，但是课堂上不讲，学生也很难完全了解到，基本上都、是自己摸索。</p><a id="more"></a>
-<p>总的来说，觉得相见恨晚，虽然有点难，但是学的很舒服！现在开始整理每节课的笔记。</p>
+        <blockquote>
+<p>平衡业务策略与模型之间的关系。策略能力有限，模型也“没有银弹”。</p>
+</blockquote><p>最近刚好在研究策略和多样性的关系，就帮DataFunTalk社区又整理了一篇稿子，策略本身很乏味，但是策略可以解决很多模型解决不了的问题。<br>为什么会这样呢？主要还是模型太笨了，由于模型不能完全动态的掌握用户的心理变化，兴趣变化，所以一般的推荐模型都是对于用户的基于历史的点击率CTR预估，可以简化为分类或者回归模型。可是实际上，远远没有这么简单。我觉得最接近”智能化的推荐“的算法就应该是强化学习，算法推出一个item就是一次尝试，用户的行为会及时让系统收到反馈，无论是”多样性“，”准确性“，”兴趣偏好“，”负反馈“，统统都会被融合到Agent的激励里。之后有空了希望进一步调研强化学习在推荐的瓶颈。<br>以下为分享内容。</p><a id="more"></a>
+
 <hr>
-<p>Lecture 1: Introduction and Word Vectors 第一节课主要是介绍背景</p>
-<h1 id="The-course-10-mins"><a href="#The-course-10-mins" class="headerlink" title="The course (10 mins)"></a>The course (10 mins)</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p><strong>自然语言处理（NLP）</strong>是计算科学、AI、语言学的交叉学科，其目的是为了让机器能够处理或者是“理解”自然语言，比如可以通过说话让机器为我们定会议、买东西。机器完全理解是不大可能的，完全理解基本等同于AI完全实现了。</p>
-<h2 id="如何表示词义？"><a href="#如何表示词义？" class="headerlink" title="如何表示词义？"></a>如何表示词义？</h2><ul>
-<li><p>Def：meaning：就是人写的，说的，短语句子符号来表达的想法</p>
-<h2 id="如何用计算机表达词义？"><a href="#如何用计算机表达词义？" class="headerlink" title="如何用计算机表达词义？"></a>如何用计算机表达词义？</h2><h3 id="WordNet："><a href="#WordNet：" class="headerlink" title="WordNet："></a>WordNet：</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165156.png"></p>
-<p>WordNet是人为的收录了近义词和相似词。<br>存在的问题是：没办法统计到细微差别；没有新词；需要人为的统计输入；不能计算相似度；依赖生成词库的主观。</p>
-</li>
-</ul>
-<h3 id="把词当做离散变量one-hot"><a href="#把词当做离散变量one-hot" class="headerlink" title="把词当做离散变量one-hot"></a>把词当做离散变量one-hot</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208165732.png"></p>
-<p> 存在的问题是：词库长度太大；不能计算相似度；</p>
-<h3 id="通过上下文表示"><a href="#通过上下文表示" class="headerlink" title="通过上下文表示"></a>通过上下文表示</h3><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208170015.png"><br>通过上下文的思路，可以引出主流方法Word vectors（word embeddings or word representations）。<br>每一个词对应一个N维度的向量，N一般几百维。</p>
-<h1 id="Word2vec"><a href="#Word2vec" class="headerlink" title="Word2vec"></a>Word2vec</h1><p>从2013年开始有了Word2vec，如何生成向量的方法逐渐出现。</p>
-<p>思路：</p>
+<p><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426(1)_page-0001.jpg" data-src="https://i.loli.net/2020/06/14/lhQZtX3sSngG2Ma.jpg"><br>本文主要介绍了58同城在推荐场景的重排优化部分，主要通过“用户兴趣优化&amp;重排”，“业务流量分配机制”，“动态刷新机制”三个方面，实现了重排的策略。最终的业务指标有明显提升。</p>
 <ul>
-<li>有一个大的语料库</li>
-<li>每个词都表示成向量</li>
-<li>遍历每个词，中间的词当做c，周围的几个当做o</li>
-<li>通过计算每个词向量和周围词向量出现的概率</li>
-<li>调整词向量，让概率最大</li>
+<li>推荐系统整体架构</li>
+<li>场景介绍</li>
+<li>重排优化  <ul>
+<li>用户兴趣优化&amp;重排</li>
+<li>业务流量分配机制 </li>
+<li>动态刷新机制</li>
 </ul>
-<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171649.png"></p>
-<p>目标函数：</p>
-<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208171826.png"></p>
-<p>理解：这里就是对于语料(Data)的每个词t，对应前后j位置的词，是词a和词b的概率P，都乘起来。（这里还是很有统计色彩的)</p>
-<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200208172914.png"><br>注意：这里需要维护两套向量，一套是中间的，一套是周围的。</p>
-<p>其他的都是一些微积分和优化的知识，不做记录了。</p>
+</li>
+<li>总结与后续规划 Q&amp;A</li>
+</ul>
+<h1 id="推荐系统整体架构"><a href="#推荐系统整体架构" class="headerlink" title="推荐系统整体架构"></a>推荐系统整体架构</h1><p><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0005.jpg" data-src="https://i.loli.net/2020/06/14/DX8tzx6kUBHOC9y.jpg"></p>
+<ul>
+<li>最上面是系统的对外接口层，包括到58的各个业务的推荐接口的输出，以及负反馈的输入。</li>
+<li>中间是业务逻辑层，包括兴趣服务，召回服务，排序服务，解释服务，abtest服务等。</li>
+<li>底层是算法层，包括业务数据，日志数据，召回逻辑，排序逻辑，算法平台等。</li>
+</ul>
+<h1 id="场景介绍"><a href="#场景介绍" class="headerlink" title="场景介绍"></a>场景介绍</h1><p><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0007.jpg" data-src="https://i.loli.net/2020/06/14/AN4cnvVtz5XLiPh.jpg"><br>本文主要优化的是58同城的首页信息流，这个业务场景的特点有：</p>
+<ol>
+<li>强兴趣：大部分用户都是带着自己的需求进入app；不同的兴趣周期有所差异，比如租房周期短，买房周期长。</li>
+<li>多业务：首页的访问量较大(千万级别pv)，如何把流量分配给不同的业务就很关键。</li>
+<li>推荐感知：虽然用户的目标单一，但是如何做到推荐结果的多样性就需要对其优化。</li>
+</ol>
+<p><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0008.jpg" data-src="https://i.loli.net/2020/06/14/gUnY8pR7ml2Vefa.jpg"><br>58现有的召回和排序逻辑与业内同行保持一致，所以本次分享主要结合业务策略在重排层的实验结果。虽然看起来不高大上，但是简单实用。希望能给同行带来启发，减少试错成本。</p>
+<p><img alt data-src="https://i.loli.net/2020/06/14/4gOlfupJABNXE3y.jpg"><br>58app首页推荐业务(多品类推荐)主要面临的挑战在于：</p>
+<ol>
+<li>如何满足用户对于不同品类的兴趣？（用户兴趣问题）</li>
+<li>推荐的业务比例如何和平台的业务比例进行匹配？（流量分配）</li>
+<li>是推荐单一品类效果好，还是推荐不同品类的混排？（混排策略）</li>
+<li>如何平衡CTR和多样性？（动态刷新机制）</li>
+</ol>
+<h1 id="重排优化"><a href="#重排优化" class="headerlink" title="重排优化"></a>重排优化</h1><h2 id="用户兴趣优化-amp-重排"><a href="#用户兴趣优化-amp-重排" class="headerlink" title="用户兴趣优化&amp;重排"></a>用户兴趣优化&amp;重排</h2><p><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0012.jpg" data-src="https://i.loli.net/2020/06/14/sJcAyldFmDR3e9P.jpg"><br>业界常见的推荐系统都是要建立user和item之间的联系，还需要建立58的toC和toB之间的链接。<br><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0013.jpg" data-src="https://i.loli.net/2020/06/14/JwV1oisNHY6uICQ.jpg"><br>建立联系的过程就是对于user和item分别建立标签体系，然后对其匹配。对于user打标签需要长期的用户画像，也需要短期的兴趣。在供需方各自提供的需求中抽取出标签之后，进行匹配。<br><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0014.jpg" data-src="https://i.loli.net/2020/06/14/4pjM9w3vl28oHLE.jpg"><br>（通过用户的行为日志），得到了用户的兴趣之后，对于原始兴趣直接进行推荐效果并不理想。 所以有以下的问题：</p>
+<ul>
+<li>时效性的及时满足：对于58的业务来说，需要及时捕捉用户兴趣的变化，才能推荐出满足当下需求的item。</li>
+<li>兴趣分层：不同兴趣的优先级和占比需要进行优化。</li>
+<li>兴趣去噪：对于用户太旧的兴趣需要考虑丢弃去噪。</li>
+<li>向量化兴趣(TODO)：从标签的兴趣，逐渐过滤到向量化的兴趣。通过对于用户画像/兴趣的Embedding进行召回。</li>
+</ul>
+<p><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0015.jpg" data-src="https://i.loli.net/2020/06/14/9yNPpLzGM43IAVw.jpg"><br>用户兴趣和画像系统主要包括以上的方面，接下来详细介绍。</p>
+<p><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0016.jpg" data-src="https://i.loli.net/2020/06/14/nqfkNiyvm6AS58t.jpg"></p>
+<ol>
+<li>数据抽取：对用户的点击进行埋点，对用户的购买/转化行为进行埋点。<br><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0017.jpg" data-src="https://i.loli.net/2020/06/14/OneN6xWoVd2rRFl.jpg"></li>
+<li>数据清洗：去除掉无意义的数据，补充缺失数据。<br><img alt="image.png" data-src="https://i.loli.net/2020/06/14/NQ69fyZsoVMRtix.png"></li>
+<li>兴趣分类：通过时间戳区分用户的长期/中期/临时兴趣。比如一个用户几个兴趣前在找工作，到现在找工作的需求可能已经解决了，目前就需要找租房了。<br><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0019.jpg" data-src="https://i.loli.net/2020/06/14/Y3XSlPGupNrw8my.jpg"></li>
+<li>兴趣计算：对于兴趣进行分类之后，就需要对于数据进行存储和打通线上调用接口的服务。<br><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0020.jpg" data-src="https://i.loli.net/2020/06/14/Vw1y4Wbnu6ShaZ2.jpg"></li>
+<li>兴趣衰减的公式如图，一般来说最好可以通过线上的ab实验确定自己业务的衰减参数；再者可以做的更细，对于不同的兴趣得到不同的时间衰减参数。通过时间衰减，可以解决用户近期的兴趣和实时兴趣权重上升；久远的兴趣权重会下降。<br>其它思路: (1)不同业务需求，衰减公式或参数不同，衰减快慢不同; (2)实时与历史兴趣，短期与长期兴趣，衰减快慢不同。<br><img alt="  .jpg" data-src="https://i.loli.net/2020/06/14/ZN3rvixfcEUHug4.jpg"></li>
+<li>兴趣合并：</li>
+</ol>
+<ul>
+<li>可以对不同时间维度的兴趣进行合并。</li>
+<li>也可以对不同领域的兴趣进行合并，得到用户画像。可以用于兴趣的专业和试探，用于增加多样性。<br><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0023.jpg" data-src="https://i.loli.net/2020/06/14/Acd6fDG4aIWzNRV.jpg"></li>
+</ul>
+<ol>
+<li><p>兴趣聚合<br>数据统计会发现，虽然大部分用户只关注个别价格区间，但是有一批用户会关注多个汽车的价格区间，导致推荐的分散，效果并不理想。可以采用“优势组直选策略”选取权重最大(浏览最多的)策略，保留一个区间；或者是“长尾组淘汰策略”，排除掉权重小的几个区间。</p>
+</li>
+<li><p>兴趣去噪<br><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0025.jpg" data-src="https://i.loli.net/2020/06/14/DaR5THXbS4GqoVc.jpg"><br>兴趣去噪和兴趣聚合原理一样，去除掉“用户误点”，“客户端误报”，等噪音数据。</p>
+</li>
+<li>兴趣扩展<br><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0026.jpg" data-src="https://i.loli.net/2020/06/14/T1yAc7YuXHlxnjW.jpg"><br>兴趣扩展就是当用户的召回较少时，逐层增加兴趣的边界，经过实验，一般增加扩展会导致点击率下降，所以也需要调整和平衡。</li>
+</ol>
+<p>扩展的方式如图，可以是品内标签的横向扩展。从用户选择的一个点，向外发散，从而召回更多的item。也可以是跨品类的扩展，从最小类目扩展到二级类目。用户有了更多的选择，也接近自己的倾向。实验的点击率有所提高。<br>从表格中，可以看出相关扩展和范扩展点击率都不会很好，所以需要分层，优先满足原始兴趣。<br><img alt="image.png" data-src="https://i.loli.net/2020/06/14/8yZkfmRSYHBN4Jq.png"></p>
+<p>举个例子：从地图上的一个点，就可以按照距离向外扩展；向类似接近的品类进行扩散。</p>
+<p><img alt="5.《多业务融合推荐实践与思考》——58同城推荐分享.王炜.可发布版本.20200426_1__page-0028.jpg" data-src="https://i.loli.net/2020/06/14/j2OanEkCW6KAPdw.jpg"></p>
+<ol>
+<li>兴趣排序<br>对于召回源的权重进行排序，从而满足较大权重的兴趣排到前面。这里，由于我们的场景是强兴趣的，所以主要的召回渠道仍然是兴趣的召回。希望对场景类似的朋友有所帮助。</li>
+</ol>
+<h2 id="重排优化—业务流量分配策略"><a href="#重排优化—业务流量分配策略" class="headerlink" title="重排优化—业务流量分配策略"></a>重排优化—业务流量分配策略</h2><p>对于58的混合推荐场景来说，对于推荐结果来说，对于用户来说，需要给出用户需要的推荐结果；对于平台来说，也需要对于不同的业务都给予一定比例的曝光分流。</p>
+<ol>
+<li>为什么要持续优化流量分配策略?<br>首页推荐哪些业务线的帖子需要为分流这个重要目的服务。比如：58上的整租房的帖子高于合租房的帖子，所以就需要推荐出来的整租的帖子也高于合租的帖子。</li>
+</ol>
+<ol>
+<li>本次优化以前，原策略对各业务的分配策略有以下问题:<br>(1)品类之间平均分配，未考虑权重;<br>(2)大品类与小品类之间的冲突、重叠。</li>
+</ol>
+<p>针对以上的问题，我们做了以下的实验策略对比：<br>原始策略：</p>
+<ol>
+<li>直接采用精排结果序列。—-缺点在于：以CTR为学习评价目标，所以热门的item比例过大，大部分用户的结果趋同。</li>
+<li>按照item的比例分配流量。假设58平台流量在大的品类上，占比如下: 招聘:租房:二手车:本地服务 = 40:30:20:10。每个用户都按上面的比例分配。—-缺点在于：每个用户之间的需求差异不明显，给每个用户都推相同比例的不合理。</li>
+</ol>
+<p>所以，我们进行了以下策略，既保证个性化需求，也保证了业务的流量分发的合理。<br>实验策略：<br><img alt="image.png" data-src="https://i.loli.net/2020/06/14/Dg57QVoZnJNycH6.png"><br>比如说，用户的兴趣比例如（1），而召回的比例如（2），就需要通过强插入黄页的其他item，补足缺口。<br><img alt="image.png" data-src="https://i.loli.net/2020/06/14/K4WqiRGt17SnvdM.png"><br>采用这种策略，可以保证分发的比例与大盘比例一致。这个问题类似于在新闻推荐里，有文章/视频/短视频，如果用停留时长作为评价指标，推荐出来的视频往往是长视频和长文章。这时候就需要进行比例调整，合理分配。<br><img alt="image.png" data-src="https://i.loli.net/2020/06/14/RF3KPuZbeoMDhi7.png"><br>在最后的重排阶段，也会对候选的item进行打散，避免相同类型的item过于聚集，增加了多样性。<br><img alt="image.png" data-src="https://i.loli.net/2020/06/14/MsyxV5kAjHrpOuN.png"><br>重排还有一种机制就是把当下的实时兴趣优先排出来，让推荐系统强感知用户的实时兴趣。</p>
+<h2 id="动态刷新机制"><a href="#动态刷新机制" class="headerlink" title="动态刷新机制"></a>动态刷新机制</h2><p>常见的推荐系统，用户用的越久，推荐的越窄，这就涉及了多样性的问题。而一般来说，增加了多样性就会涉及CTR的下降。我们采用了一种动态化刷新机制方案，整理来说多样性增加CTR也没有下降。</p>
+<ol>
+<li>为什么需要动态化刷新机制?<br>目的: 解决内容多样性问题。</li>
+<li>优化思路:<br>可以通过协同过滤、向量化召回等多路召回的办法增加多样性。<br>但在我们面临的问题是召回集合基本不变的前提下，优先考虑在集合内部的排序上进行动态调整。</li>
+</ol>
+<p>最终上线的版本如下：<br><img alt="image.png" data-src="https://i.loli.net/2020/06/14/PDyuYHlwA74pOgn.png"><br>通过对于多次曝光的item进行降低排序位置，避免用户反复看到已经浏览的item。<br><img alt="image.png" data-src="https://i.loli.net/2020/06/14/xw2W4y3bTvjV1kS.png"><br>再引入时间衰减，近期多次帖子会更强的打压，远期的浏览曝光就进行衰减，逐步恢复正常排序。<br><img alt="image.png" data-src="https://i.loli.net/2020/06/14/p4Uf8Fq91OvgVNt.png"><br>服务端的下发日志和客户端的曝光日志比不一定是真实曝光，但是响应更快，也可以考虑加到曝光打压中，可以进行综合考量。</p>
+<ol>
+<li>整体效果: (1)以上3步迭代的整体效果:点击率比基准提升+7.0%。</li>
+</ol>
+<p>(2)同一用户最新访问的帖子集合较前一次访问的集合的动态变化比率 全天平均达到60%。</p>
+<ol>
+<li>近期规划:<br>(1)引入全站的曝光日志，进一步优化刷新机制。<br>(2)引入用户的点击日志，通过再营销等策略，进一步优化效果。</li>
+</ol>
+<p>总结：<br>1.关键是理解业务。<br>2.优化策略之间的冲突、叠加。<br>3.多目标之间的平衡。<br>4.算法与策略之间的关系。</p>
+<p>后续规划 ：<br>1.动态化刷新机制的进一步优化<br>2.首页推荐理由的进一步优化<br>3.冷启动的进一步优化<br>4.基于feed流机制的访问模式<br>5.深度学习模型的持续优化</p>
 
     </div>
 
@@ -372,21 +463,6 @@
     
     
       
-  <div class="popular-posts-header">相似文章</div>
-  <ul class="popular-posts">
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-7/" rel="bookmark">CS224n-7 梯度消失,LSTM,GRU,BLSTM</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-6/" rel="bookmark">CS224n-6 语言模型, n-Gram, RNN</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-3/" rel="bookmark">CS224n-3 回顾神经网络，文本分类介绍</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/CS224n-2/" rel="bookmark">CS224n-2 word2vec, word Senses</a></div>
-    </li>
-  </ul>
 
 
       <div>
@@ -396,26 +472,19 @@
       </div>
 
       <footer class="post-footer">
-          
-          <div class="post-tags">
-              <a href="/tags/NLP/" rel="tag"><i class="fa fa-tag"></i> NLP</a>
-          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/FM-FFM%E4%B8%8E%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/" rel="next" title="FM,FFM,DeepFM ">
-                  <i class="fa fa-chevron-left"></i> FM,FFM,DeepFM 
+                <a href="/2020/MSBD5004-Mathematical-Methods-for-Data-Analysis-Homework-5/" rel="next" title="MSBD5004 Mathematical Methods for Data Analysis Homework 5">
+                  <i class="fa fa-chevron-left"></i> MSBD5004 Mathematical Methods for Data Analysis Homework 5
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/CS224n-2/" rel="prev" title="CS224n-2 word2vec, word Senses">
-                  CS224n-2 word2vec, word Senses <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -456,7 +525,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#The-course-10-mins"><span class="nav-number">1.</span> <span class="nav-text">The course (10 mins)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何表示词义？"><span class="nav-number">1.2.</span> <span class="nav-text">如何表示词义？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何用计算机表达词义？"><span class="nav-number">1.3.</span> <span class="nav-text">如何用计算机表达词义？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WordNet："><span class="nav-number">1.3.1.</span> <span class="nav-text">WordNet：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#把词当做离散变量one-hot"><span class="nav-number">1.3.2.</span> <span class="nav-text">把词当做离散变量one-hot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过上下文表示"><span class="nav-number">1.3.3.</span> <span class="nav-text">通过上下文表示</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Word2vec"><span class="nav-number">2.</span> <span class="nav-text">Word2vec</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#推荐系统整体架构"><span class="nav-number">1.</span> <span class="nav-text">推荐系统整体架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#场景介绍"><span class="nav-number">2.</span> <span class="nav-text">场景介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#重排优化"><span class="nav-number">3.</span> <span class="nav-text">重排优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用户兴趣优化-amp-重排"><span class="nav-number">3.1.</span> <span class="nav-text">用户兴趣优化&amp;重排</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重排优化—业务流量分配策略"><span class="nav-number">3.2.</span> <span class="nav-text">重排优化—业务流量分配策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态刷新机制"><span class="nav-number">3.3.</span> <span class="nav-text">动态刷新机制</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -934,54 +1003,6 @@ if(canvas.getContext){
   
 
   
-      
-<script type="text/x-mathjax-config">
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      equationNumbers: {
-        autoNumber: 'AMS'
-      }
-    }
-  });
-
-  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
-    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
-      if (data.display) {
-        var next = data.script.nextSibling;
-        while (next && next.nodeName.toLowerCase() === '#text') {
-          next = next.nextSibling;
-        }
-        if (next && next.nodeName.toLowerCase() === 'br') {
-          next.parentNode.removeChild(next);
-        }
-      }
-    });
-  });
-
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for (i = 0; i < all.length; i += 1) {
-      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
-      if (element.nodeName.toLowerCase() == 'li') {
-        element = element.parentNode;
-      }
-      element.classList.add('has-jax');
-    }
-  });
-</script>
-<script>
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
-    MathJax.Hub.Typeset();
-  }, window.MathJax);
-</script>
-
-    
 
   
 
