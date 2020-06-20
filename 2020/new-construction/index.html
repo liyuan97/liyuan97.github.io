@@ -56,25 +56,21 @@
   };
 </script>
 
-  <meta name="description" content="Streaming是处理数据流的API。下面直接通过例子，感受streaming的机制。">
-<meta name="keywords" content="复习,spark,5003,并行计算">
+  <meta name="description" content="本文回顾近几十年发展过程，展望一下未来20年的发展方向。雷军说，站在风口，猪都能飞。既然大家都是猪，就要找好风口。 国家发改委首次明确「新基建」范围，具体涵盖 5G 基建 工业互联网 人工智能 大数据中心 高速公路轨道交通 新能源汽车充电桩 特高压">
+<meta name="keywords" content="技术,学习,元哥的日记,blog,算法日记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="5003总结2 stream&amp;并行计算-例子">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2019&#x2F;5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1&#x2F;index.html">
+<meta property="og:title" content="如何把自己绑到新基建的火车上？">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;new-construction&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="Streaming是处理数据流的API。下面直接通过例子，感受streaming的机制。">
+<meta property="og:description" content="本文回顾近几十年发展过程，展望一下未来20年的发展方向。雷军说，站在风口，猪都能飞。既然大家都是猪，就要找好风口。 国家发改委首次明确「新基建」范围，具体涵盖 5G 基建 工业互联网 人工智能 大数据中心 高速公路轨道交通 新能源汽车充电桩 特高压">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123213735.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123220112.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123222512.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123230557.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123231336.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191124085220.png">
-<meta property="og:updated_time" content="2020-02-27T03:58:58.000Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200524125047.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200524132125.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta property="og:updated_time" content="2020-06-20T03:29:03.212Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20191123213735.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200524125047.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
 
-<link rel="canonical" href="http://leeee.top/2019/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/">
+<link rel="canonical" href="http://leeee.top/2020/new-construction/">
 
 
 <script id="page-configurations">
@@ -88,7 +84,7 @@
   };
 </script>
 
-  <title>5003总结2 stream&并行计算-例子 | 元哥的日记</title>
+  <title>如何把自己绑到新基建的火车上？ | 元哥的日记</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163973026-1"></script>
     <script>
@@ -266,7 +262,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2019/5003%E6%80%BB%E7%BB%932-stream-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97-%E4%BE%8B%E5%AD%90-1/">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/new-construction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228120904.jpg">
@@ -279,7 +275,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          5003总结2 stream&并行计算-例子
+          如何把自己绑到新基建的火车上？
         </h2>
 
         <div class="post-meta">
@@ -290,24 +286,9 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-12-26 20:43:00" itemprop="dateCreated datePublished" datetime="2019-12-26T20:43:00+08:00">2019-12-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-27 11:58:58" itemprop="dateModified" datetime="2020-02-27T11:58:58+08:00">2020-02-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MSBD5003/" itemprop="url" rel="index"><span itemprop="name">MSBD5003</span></a>
-                </span>
+              <time title="创建时间：2020-06-20 11:26:00 / 修改时间：11:29:03" itemprop="dateCreated datePublished" datetime="2020-06-20T11:26:00+08:00">2020-06-20</time>
             </span>
 
           
@@ -323,14 +304,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>2.3k</span>
+              <span>3.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
+              <span>3 分钟</span>
             </span>
 
         </div>
@@ -342,53 +323,75 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Streaming是处理数据流的API。<br>下面直接通过例子，感受streaming的机制。</p>
-<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123213735.png"><br><a id="more"></a></p>
-<h1 id="例1-从键盘输入文本，统计词频"><a href="#例1-从键盘输入文本，统计词频" class="headerlink" title="例1 从键盘输入文本，统计词频"></a>例1 从键盘输入文本，统计词频</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123220112.png"></p>
-<h1 id="例2-1-从文件输入，统计词频"><a href="#例2-1-从文件输入，统计词频" class="headerlink" title="例2.1 从文件输入，统计词频"></a>例2.1 从文件输入，统计词频</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123222512.png"></p>
-<h1 id="例2-2-对词的感情值排序"><a href="#例2-2-对词的感情值排序" class="headerlink" title="例2.2 对词的感情值排序"></a>例2.2 对词的感情值排序</h1><p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123230557.png"></p>
-<h1 id="例2-3-stage，统计所有词频"><a href="#例2-3-stage，统计所有词频" class="headerlink" title="例2.3 stage，统计所有词频"></a>例2.3 stage，统计所有词频</h1><p>上面的例子2.1 仅仅是统计每一个输入部分的词频，意义不大<br>通过<code>updateStateByKey()</code>可以实现对所有数据的统计。</p>
-<p><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191123231336.png"></p>
-<p><code>updateStateByKey()</code>需要定义一个函数，函数的输入是上次的和这次的rdd，这里的streaming的精髓，需要好好理解。</p>
-<hr>
-<h1 id="算法应用1：蓄水池抽样Reservoir-Sampling"><a href="#算法应用1：蓄水池抽样Reservoir-Sampling" class="headerlink" title="算法应用1：蓄水池抽样Reservoir Sampling"></a>算法应用1：蓄水池抽样Reservoir Sampling</h1><h2 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h2><p>蓄水池采样算法（Reservoir Sampling）了。先说一下算法的过程：</p>
+        <blockquote>
+<p>本文回顾近几十年发展过程，展望一下未来20年的发展方向。雷军说，站在风口，猪都能飞。既然大家都是猪，就要找好风口。</p>
+</blockquote><p>国家发改委首次明确「新基建」范围，具体涵盖</p><ol>
+<li>5G 基建</li>
+<li>工业互联网</li>
+<li>人工智能</li>
+<li>大数据中心</li>
+<li>高速公路轨道交通</li>
+<li>新能源汽车充电桩</li>
+<li>特高压</li>
+</ol><a id="more"></a>
+
+
+<p>这是10-20年内，国家万亿的投资渠道。我坚定的相信，无论把自己绑在国家发展的风口上的这些朝阳产业上，会发展的更好。先来回顾一下近几年的互联网发展历史。</p>
+<h1 id="1990至今-互联网时代"><a href="#1990至今-互联网时代" class="headerlink" title="1990至今 互联网时代"></a>1990至今 互联网时代</h1><p>在旧工业革命时，我们的大清因为自大保守，没有赶上工业革命的快车。但是随着新中国成立和改革开放的这些年的追赶，和对于先进文化的学校，到了互联网时代，中美几乎处于同一起跑线，同时开跑。</p>
+<p>美国有了雅虎，谷歌，Amazon，Microsoft。<br>而中国现在的互联网巨头也几乎都是2000年左右创办的。<br>网易： 1997年6月<br>搜狐： 1998年2月<br>京东： 1998年6月18日<br>腾讯： 1998年11月11日<br>新浪： 1998年12月<br>阿里： 1999年9月9日<br>美国的公司伴随着全球化的进展，迅速将互联网/软件市场全球化。相对于传统行业，互联网有着天然的快速传播，生产后即可享受最大化的边际收益，迅速发展。现在美国的巨头都成为了万亿级公司。而值得庆幸的是，中国这几家企随着国家的保护措施以及中文社区的天然壁垒，现在混得也可以相媲美。</p>
+<p>回顾历史，只要是在20年前，有先见之明，投身于互联网时代，现在绝对是靠股票都能财富自由的人。</p>
+<h1 id="2008至今-移动互联网2C"><a href="#2008至今-移动互联网2C" class="headerlink" title="2008至今 移动互联网2C"></a>2008至今 移动互联网2C</h1><p>iPhone的诞生，标志了智能手机的兴起。之后的3G，4G时代快速迭代，使得传统的互联网公司还没歇息，快速迈入移动互联网的蓝海之中。<br>传统巨头：</p>
 <ul>
-<li>假设数据序列的规模为  𝑛，需要采样的数量的为  𝑘。</li>
-<li>首先构建一个可容纳  𝑘  个元素的数组，将序列的前  𝑘  个元素放入数组中。</li>
-<li>然后从第  𝑘+1  个元素开始，以  𝑘/𝑛  的概率来决定该元素是否被替换到数组中（数组中的元素被替换的概率是相同的）。 当遍历完所有元素之后，数组中剩下的元素即为所需采取的样本。<blockquote>
-<p>这样就可以对任意长度的数据抽样，可以实现streaming. 不需要考虑文件长度。</p>
-</blockquote>
+<li><strong>阿里</strong>迅速投入手机淘宝的研发，淘宝+支付宝的天然优势形成了自己的护城河。</li>
+<li><strong>腾讯</strong>宁愿断掉手机QQ的大腿，也要制造一款纯净的移动互联网社交平台，微信。当然，微信的成功也让腾讯上了头等舱，为之后的游戏，广告等业务创造了土壤。</li>
+<li><strong>新浪</strong>前期发展不是很了解，后期微博迅速拓展移动端，并且引入了明星，饭圈等内容生态，干翻了腾讯微博，留在了船上。</li>
+<li><strong>网易</strong>虽然做的比较杂，但是手机游戏的自然增长也带了巨大的收益。</li>
+<li><strong>搜狐</strong>和<strong>百度</strong>算是反应太慢，百度虽然也有尝试过外卖/以及推广百度app，但是单单外卖app和一个搜索引擎，没有绝对性的壁垒，最后外卖业务也凉了。</li>
+</ul>
+<p>当然，移动互联网也带来了更多新机遇。</p>
+<ul>
+<li>手机行业：<strong>小米，华为，蓝绿厂</strong>这几家最有代表性的厂商就是抓住了移动互联网的机遇。当然大浪淘沙，虽然赛道不错，但是那些跑不快的马(魅族，努比亚，天语，小辣椒，中兴等)确实死在了沙滩上。最值得遗憾的就是传统巨头诺基亚和摩托诺拉没有及时调整方向，直接被挤下了赛道。</li>
+<li>直播：4g的普及使得观众和主播随时可以在手机上完成互动，直播行业曾经千帆竞技，最后大浪淘沙，现在<strong>斗鱼，YY，虎牙</strong>通过运营跑赢杀到最后。</li>
+<li>外卖：外卖行业需要结合线下，而且容易形成壁垒。美团，饿了么，百度，滴滴血拼到最后，<strong>腾讯控股美团，阿里控股饿了么</strong>，形成了平衡。</li>
+<li>短视频：短视频也从千帆竞技到两分天下，最后<strong>抖音、快手</strong>两家基于推荐算法的公司跑到最后。虽然腾讯，b站也都开始发展自己的短视频，但是由于入场晚，没有“基因”，微视依然不瘟不火。【值得一提的是抖音母公司<strong>字节跳动</strong>发展迅速，凭借着成功经验疯狂生产不同的app，形成了app矩阵，用人海拼概率，总有儿子有出息。并且不断的迭代出海市场，Tiktok成为了全球化的短视频平台。而且有了Tiktok的经验，我看好字节跳动在海外市场的发展】</li>
+<li>移动支付：其实移动支付虽然前期竞争猛烈，但实际上还是<strong>阿里和腾讯</strong>在跑马圈地，最后二分天下。移动支付的门槛太高，银联有着天然的资源优势，玩到最后都难以抗衡。</li>
+<li>社交电商：社交电商唯一nb的代表就是<strong>拼多多</strong>，完全放弃pc端，只做移动端，靠社交电商能超过京东，和淘宝抗衡，拼多多真的很强。当然，拼多多的成功还有很多其他因素，比如淘宝对于中小商户的挤压，物流成本的降低，对准了下沉时长，等等等等。拼多多现在2020.05.22的股价已经是$68了，太顶了。上市十几块到现在市值翻了三四倍。</li>
+<li>移动打车：<strong>滴滴快滴</strong>血拼，挤掉对手，最后合并，垄断市场。经典的故事，不多说了。</li>
+</ul>
+<h1 id="2015至今-产业互联网2B"><a href="#2015至今-产业互联网2B" class="headerlink" title="2015至今 产业互联网2B"></a>2015至今 产业互联网2B</h1><ul>
+<li>产业互联网基础—云计算</li>
+</ul>
+<p>互联网2B最直观的感受就是各类云计算市场的崛起。云计算市场也有着国家的安全保护的战略意义，国内三家巨头享受到了红利。<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200524125047.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>2015年无论对于投资界，BAT等科技巨头，或者中小型创新企业，面向B端市场的企业级服务受到重视，其中人工智能、大数据、云计算等主要面向企业级服务的互联网基础设施成为科技巨头的布局重点。</p>
+<ul>
+<li><p>在这方面，阿里起步较早，阿里云在2016年都高调表态，强势进军云计算平台，再结合淘宝本身的自身需求，对于高频发高计算的技术积累，在数据库和弹性计算上都有了迅猛增长。就在2020的5月，也就是前几天，阿里云年收入破四百亿。实属吓人。阿里云现在也开始着力发展海外业务，与老牌的AWS，Google Cloud开始抗衡。做到了亚太第一。</p>
+</li>
+<li><p>腾讯云起步较晚，但是发力迅猛，各种活动的促销，也抢来了一大块蛋糕。2019年全年应收170亿，付费用户超过100万。</p>
+</li>
+<li><p>百度虽然在移动互联网发展的不好，但是百度云的发展也还可以。尤其是在ai算法方法发力充足，百度的飞浆深度学习框架虽然和TF，pytorch还有着明显差距，但是国内已经有人开始使用了。在算法上的沉淀，确实给百度带来了一定的市场。</p>
+</li>
+<li><p>除此之外的还有华为云，七牛云等小的计算平台。</p>
 </li>
 </ul>
-<p>简单证明：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20191124085220.png"></p>
-<p>完整证明需要用到FIsher-Yates shuffle。</p>
-<h1 id="算法应用2：O-n-时间，O-1-空间，寻找Majority的元素-n-gt-N-2"><a href="#算法应用2：O-n-时间，O-1-空间，寻找Majority的元素-n-gt-N-2" class="headerlink" title="算法应用2：O(n)时间，O(1)空间，寻找Majority的元素(n&gt;N/2)"></a>算法应用2：O(n)时间，O(1)空间，寻找Majority的元素(n&gt;N/2)</h1><p>算法描述：<br>只用空间复杂度O(1)，去寻找数组内有没有出现次数大于一半的元素。</p>
-<p>算法过程：</p>
-<blockquote>
-<p>遍历所有元素：记录新出现元素的次数，如果下一个与记录相同，就＋1，不同就-1，遍历完成，会保留一个候选项<br>遍历所有元素：统计刚才候选项出现的次数n以及N，验证n&gt;N/2则验证成功，如果n&lt;=N/2，则无Majority</p>
-</blockquote>
-<h1 id="算法应用3：GM算法-Heavy-hitters"><a href="#算法应用3：GM算法-Heavy-hitters" class="headerlink" title="算法应用3：GM算法 Heavy hitters"></a>算法应用3：GM算法 Heavy hitters</h1><p>Misra-Gries (MG) algorithm finds up to k items that occur more than 1/k fraction of the time in a stream.<br>找到频率超过1/k的元素.<br>算法：</p>
-<blockquote>
-<p>初始化k个候选项，对之后的每个元素：</p>
+<p>当然，除了计算，产业互联网更多的应用场景需要具体的去优化和抽象，这也就之后十年的发展方向。</p>
+<h1 id="新基建对于从业者"><a href="#新基建对于从业者" class="headerlink" title="新基建对于从业者"></a>新基建对于从业者</h1><p>回归历史，雷军的那句话真很对。<code>站在风口，猪都能飞</code>，如何选择风口就太重要了。而新基建我觉得是一个简单粗暴的选择方式，十万亿的发展空间对于任何一个行业都有直接的刺激。</p>
+<p>过去二十年的国家基础建设主要是房地产，铁路等。铁路普通人无法投资，但是一大批人通过炒房/提前购买，实现了财富的增长，抛开对于社会的影响，这些人确实改善了自己的生活的目的。</p>
+<p>现在回到正题，新基建对于我们来说，该如何选择？如何把自己绑到新基建的火车上？</p>
 <ul>
-<li>如果元素已经被记录了，count++</li>
-<li>如果没有记录，如果候选项&lt;k，那就记录他</li>
-<li>如果没有记录，如果候选项=k，那就对每个候选项count—</li>
+<li>简单回答：<strong>投资</strong>。<br>从事相关行业，力量投资；购买相关股票，价值投资。<br>价值投资不必多说，就买各个领域的龙头股票，等待稳定收益。</li>
 </ul>
-<p>遍历完成，返回候选项</p>
-</blockquote>
-<h1 id="算法应用4：并行计算TOPn-时间复杂度满足O-n-p-log-k"><a href="#算法应用4：并行计算TOPn-时间复杂度满足O-n-p-log-k" class="headerlink" title="算法应用4：并行计算TOPn, 时间复杂度满足O(n/p*log k)"></a>算法应用4：并行计算TOPn, 时间复杂度满足O(n/p*log k)</h1><p>原题：</p>
+<p>力量投资就得结合自身的专业特长去考虑：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200524132125.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>图来自<a href="https://www.bilibili.com/video/BV1H7411y7Hh" target="_blank" rel="noopener">所长林超</a><br>对于每个领域多说两句：</p>
+<ol>
+<li>5G 基建<br> 上游通信，纯工业，包括数字电路，芯片，天线，系带，运营线等。下游则是5G带来的新应用，包括内容(4K,VR)平台，云游戏平台，自动驾驶等等，以及需要大量的相应的内容创作者(网红)。虽然传统巨头必然会转型，但是绝对会爆发出一些新的明星公司。</li>
+<li>工业互联网<br> 工业互联网是个难啃的骨头，因为需要不断的对于传统行业的痛点进行深耕，找到解决方案，然后抽象方案，形成自己的体系。阿里也有“工业大脑”，华为也有“智慧大脑”。但是这里我看好某些做垂直行业的小型公司崛起，只有深挖到生产的每一步才能做好。</li>
+<li>人工智能<br>人工智能是个虚词，不落到具体的应用，技术会显得一文不值。这几年的CV和NLP的发展，确实落地了具体的应用，比如人脸识别，车牌识别，图像修复增强；骚扰电话机器人，机器翻译，搜索引擎的智能，语音助手等。如果能诞生一个新的具体的应用场景，就能杀入市场，盘活技术。</li>
+<li>大数据中心<br>主要也被云计算平台包揽了。</li>
+<li>高速公路轨道交通 &amp; 6. 新能源汽车充电桩 &amp; 7. 特高压<br>关于最后几点，我不太了解，都是纯工业的方向。虽然石油价格的下跌也缺失造成了一定的阻力，我相信电动车行业是发展方向，适合长期投资。</li>
+</ol>
+<p>总的来说，如果你和我一样是计算机相关专业，那去坚定地去从事互联网行业，如果想发展的更好，就坚定地去产业/工业互联网的这样toB的产业。不断的成为一个垂直细分领域的专家，身价只会随着年龄越来越高。</p>
+<p>对于更有梦想的同学来说，就可以考虑不断的积累经验，等待机会。在3-5年后，一旦爆发了新的媒体形式，新的交互模式。必然会诞生像小红书，抖音，bilibili这样新的PUGC平台型娱乐工具，而平台的增长是非常快速的，可能三四年就能实现上市。<br><strong>你需要做的就是准备好人脉，储备好技术，提前入场，努力垄断，干翻对手。一将功成万骨枯。</strong></p>
 <blockquote>
-<p>Given an RDD storing a list of n integers (unordered), design a divide-and-conquer algorithm to find the k largest integers in the RDD. All workers must run in parallel. For full marks, each worker should run in time O(n/p * log k) time, where p is the number of workers.<br>Hint: Use a priority queue at each worker for maximum efficiency.</p>
+<p>本文并未查阅资料，纯属白日做梦，大家看看就好。</p>
 </blockquote>
-<p>当看到log K和priority queue就知道要使用堆排序了。<br>分成p个worker，每个worker有O(n/p)的值，每一个work维护一个最大K堆，时间复杂度是O(log k). </p>
-<p>老师给的答案：</p>
-<blockquote>
-<p>Partition the integers evenly so that each worker receives O(n/p) values. On each worker, maintain a min-heap of size k. Inserting an element to the heap costs O(log k) time.<br>For each value, insert it to the heap if it is larger than the current min of the heap. Pop the minimum item if there are more than k items in the heap. By making one pass over all the values in each worker, we get the k largest integers out of the values of this worker. This can be done in O(n/p log k) time.<br>Then we merge the results by sending the top k of each partition to the same worker, which is at most kp values. The worker finds the largest k integers among these kp values and report it.</p>
-</blockquote>
-<p>代码<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> heapq  <span class="comment"># 引入最大堆的包</span></span><br><span class="line">  </span><br><span class="line">rdd = sc.parallelize(xrange(<span class="number">0</span>,<span class="number">1000</span>,<span class="number">2</span>))   <span class="comment">#生成rdd</span></span><br><span class="line">k = <span class="number">10</span>  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">topk</span><span class="params">(it)</span>:</span>        <span class="comment">#对于每一个分区的n/p个值</span></span><br><span class="line">    h = []  </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> it:     <span class="comment">#遍历每一个值</span></span><br><span class="line">        <span class="comment"># check if we should insert i  </span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">not</span> h) <span class="keyword">or</span> (i &gt; h[<span class="number">0</span>]):   <span class="comment">#如果h为空或者新来的大于h里面最大的</span></span><br><span class="line">            heapq.heappush(h,i)     <span class="comment">#把这个元素插入到h</span></span><br><span class="line">            <span class="keyword">if</span> len(h) &gt; k:          <span class="comment">#长度大于k</span></span><br><span class="line">                heapq.heappop(h)    <span class="comment">#弹出h中最小的</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(len(h)):        <span class="comment">#遍历每一个值</span></span><br><span class="line">        <span class="keyword">yield</span> heapq.heappop(h)      <span class="comment">#从小到大依次弹出返回到上一层</span></span><br><span class="line">        </span><br><span class="line">print(list(topk(rdd.mapPartitions(topk).collect()))) <span class="comment">#对于分区使用，再整体使用</span></span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>用实例总结了几个steaming和并行计算的基础知识点，路漫漫兮。</p>
 
     </div>
 
@@ -396,18 +399,6 @@
     
     
       
-  <div class="popular-posts-header">相似文章</div>
-  <ul class="popular-posts">
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/5003总结3-Graphs/" rel="bookmark">5003总结3 Graphs</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2019/5003总结1-RDD-Spark-Internals/" rel="bookmark">5003总结1 RDD, Spark Internals</a></div>
-    </li>
-    <li class="popular-posts-item">
-      <div class="popular-posts-title"><a href="/2020/MSBD5009-1-并行计算介绍/" rel="bookmark">MSBD5009 并行计算介绍</a></div>
-    </li>
-  </ul>
 
 
       <div>
@@ -417,29 +408,19 @@
       </div>
 
       <footer class="post-footer">
-          
-          <div class="post-tags">
-              <a href="/tags/%E5%A4%8D%E4%B9%A0/" rel="tag"><i class="fa fa-tag"></i> 复习</a>
-              <a href="/tags/spark/" rel="tag"><i class="fa fa-tag"></i> spark</a>
-              <a href="/tags/5003/" rel="tag"><i class="fa fa-tag"></i> 5003</a>
-              <a href="/tags/%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97/" rel="tag"><i class="fa fa-tag"></i> 并行计算</a>
-          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2019/5003%E6%80%BB%E7%BB%931-RDD-Spark-Internals/" rel="next" title="5003总结1 RDD, Spark Internals">
-                  <i class="fa fa-chevron-left"></i> 5003总结1 RDD, Spark Internals
+                <a href="/2020/%E3%80%90%E5%88%86%E6%9E%90%E6%95%B4%E7%90%86%E3%80%91/" rel="next" title="【分析整理】 58同城多业务融合推荐实践与思考">
+                  <i class="fa fa-chevron-left"></i> 【分析整理】 58同城多业务融合推荐实践与思考
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/5003%E6%80%BB%E7%BB%933-Graphs/" rel="prev" title="5003总结3 Graphs">
-                  5003总结3 Graphs <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -480,7 +461,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#例1-从键盘输入文本，统计词频"><span class="nav-number">1.</span> <span class="nav-text">例1 从键盘输入文本，统计词频</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例2-1-从文件输入，统计词频"><span class="nav-number">2.</span> <span class="nav-text">例2.1 从文件输入，统计词频</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例2-2-对词的感情值排序"><span class="nav-number">3.</span> <span class="nav-text">例2.2 对词的感情值排序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例2-3-stage，统计所有词频"><span class="nav-number">4.</span> <span class="nav-text">例2.3 stage，统计所有词频</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法应用1：蓄水池抽样Reservoir-Sampling"><span class="nav-number">5.</span> <span class="nav-text">算法应用1：蓄水池抽样Reservoir Sampling</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法过程"><span class="nav-number">5.1.</span> <span class="nav-text">算法过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法应用2：O-n-时间，O-1-空间，寻找Majority的元素-n-gt-N-2"><span class="nav-number">6.</span> <span class="nav-text">算法应用2：O(n)时间，O(1)空间，寻找Majority的元素(n&gt;N/2)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法应用3：GM算法-Heavy-hitters"><span class="nav-number">7.</span> <span class="nav-text">算法应用3：GM算法 Heavy hitters</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#算法应用4：并行计算TOPn-时间复杂度满足O-n-p-log-k"><span class="nav-number">8.</span> <span class="nav-text">算法应用4：并行计算TOPn, 时间复杂度满足O(n/p*log k)</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1990至今-互联网时代"><span class="nav-number">1.</span> <span class="nav-text">1990至今 互联网时代</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2008至今-移动互联网2C"><span class="nav-number">2.</span> <span class="nav-text">2008至今 移动互联网2C</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2015至今-产业互联网2B"><span class="nav-number">3.</span> <span class="nav-text">2015至今 产业互联网2B</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新基建对于从业者"><span class="nav-number">4.</span> <span class="nav-text">新基建对于从业者</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
