@@ -56,21 +56,40 @@
   };
 </script>
 
-  <meta name="description" content="算法理解了就很简单，写代码也容易，但是表达清楚原理就很麻烦。如果没看懂就去看大神的博客吧。 分治法分治法其实很常见，在并归排序的过程也用上了。接下来举一个例子：寻找平面内最近的一对点https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_37540865&#x2F;article&#x2F;details&#x2F;78201399。">
-<meta name="keywords" content="技术,学习,元哥的日记,blog,算法日记">
+  <meta name="description" content="最近有调研几篇知识图谱在推荐系统的应用的论文，在组内进行了分享。在这里写成文字版，给大家普及一下知识图谱的背景以及在推荐上的应用。如有错误，望指正。123456背景介绍（2012-2020）推荐场景发展1. Collaborative knowledge base embedding for recommender systems KDD, 2016, Microsoft2. Deep know">
+<meta name="keywords" content="知识图谱">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSIT5500-2 分治">
-<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;CSIT5500-2-%E5%88%86%E6%B2%BB&#x2F;index.html">
+<meta property="og:title" content="知识图谱与推荐系统综述">
+<meta property="og:url" content="http:&#x2F;&#x2F;leeee.top&#x2F;2020&#x2F;%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E4%B8%8E%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E7%BB%BC%E8%BF%B0&#x2F;index.html">
 <meta property="og:site_name" content="元哥的日记">
-<meta property="og:description" content="算法理解了就很简单，写代码也容易，但是表达清楚原理就很麻烦。如果没看懂就去看大神的博客吧。 分治法分治法其实很常见，在并归排序的过程也用上了。接下来举一个例子：寻找平面内最近的一对点https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_37540865&#x2F;article&#x2F;details&#x2F;78201399。">
+<meta property="og:description" content="最近有调研几篇知识图谱在推荐系统的应用的论文，在组内进行了分享。在这里写成文字版，给大家普及一下知识图谱的背景以及在推荐上的应用。如有错误，望指正。123456背景介绍（2012-2020）推荐场景发展1. Collaborative knowledge base embedding for recommender systems KDD, 2016, Microsoft2. Deep know">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200303222758.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200303222858.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
-<meta property="og:updated_time" content="2020-03-04T08:26:42.000Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;bLznvOZGX1trjDC.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;EZscJfHzxNdIvwU.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;hDFZodaVMc6xNs2.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;WxVEJbz5QqXdHjS.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;QDCSeO8VBzFdPki.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;NR7YvGfkT54yEwb.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;m1qxGtMu9SQRUyE.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;q43GVKk1HEXeh7t.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;bWqEC9KDnv4az6i.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;A2knNWecfEJVz6Q.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;SHbEaMAUrCwBzxc.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.zhihu.com&#x2F;equation?tex=context%28e%29%3D%5Cleft%5C%7Be_%7Bi%7D+%7C%5Cleft%28e%2C+r%2C+e_%7Bi%7D%5Cright%29+%5Cin+%5Cmathcal%7BG%7D+%5Ctext+%7B+or+%7D%5Cleft%28e_%7Bi%7D%2C+r%2C+e%5Cright%29+%5Cin+%5Cmathcal%7BG%7D%5Cright%5C%7D">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;UjNiqS6d2u8LeRG.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.zhihu.com&#x2F;equation?tex=%5Coverline+%7B%5Crm%7Be%7D%7D+%3D+%5Cfrac%7B1%7D%7B%7B%7C%7B%5Crm%7Bcontext%7D%7D%28e%29%7C%7D%7D%5Csum%5Climits_%7B%7Be_i%7D+%5Cin+%7B%5Cmathop%7B%5Crm+context%7D%5Cnolimits%7D+%28e%29%7D+%7B%7B%7B%5Crm%7Be%7D%7D_i%7D%7D++">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.zhihu.com&#x2F;equation?tex=%5Cleft%5C%7Bt_%7B1%7D%5E%7Bi%7D%2C+t_%7B2%7D%5E%7Bi%7D%2C+%5Cldots%2C+t_%7BN_%7Bi%7D%7D%5E%7Bi%7D%5Cright%5C%7D">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.zhihu.com&#x2F;equation?tex=t_%7Bj%7D%5E%7Bi%7D">
+<meta property="og:image" content="https:&#x2F;&#x2F;www.zhihu.com&#x2F;equation?tex=t%3D%5Cleft%5Bw_%7B1%7D%2C+w_%7B2%7D%2C+%5Cldots%5Cright%5D">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;NA8kvgRQCy9VDaJ.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;vZFrkYmcuU5I12D.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;65ETk4SFNnhJD1j.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;crmjHFnRTUhEJAD.png">
+<meta property="og:updated_time" content="2020-09-02T13:32:36.673Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;liyuanimage.oss-cn-beijing.aliyuncs.com&#x2F;img&#x2F;20200303222758.png?x-oss-process=image&#x2F;auto-orient,1&#x2F;quality,q_90&#x2F;format,jpg">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;09&#x2F;02&#x2F;bLznvOZGX1trjDC.png">
 
-<link rel="canonical" href="http://leeee.top/2020/CSIT5500-2-%E5%88%86%E6%B2%BB/">
+<link rel="canonical" href="http://leeee.top/2020/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E4%B8%8E%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E7%BB%BC%E8%BF%B0/">
 
 
 <script id="page-configurations">
@@ -84,7 +103,7 @@
   };
 </script>
 
-  <title>CSIT5500-2 分治 | 元哥的日记</title>
+  <title>知识图谱与推荐系统综述 | 元哥的日记</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-163973026-1"></script>
     <script>
@@ -262,7 +281,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/CSIT5500-2-%E5%88%86%E6%B2%BB/">
+    <link itemprop="mainEntityOfPage" href="http://leeee.top/2020/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1%E4%B8%8E%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E7%BB%BC%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200228120904.jpg">
@@ -275,7 +294,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          CSIT5500-2 分治
+          知识图谱与推荐系统综述
         </h2>
 
         <div class="post-meta">
@@ -288,7 +307,16 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-04 16:21:18 / 修改时间：16:26:42" itemprop="dateCreated datePublished" datetime="2020-03-04T16:21:18+08:00">2020-03-04</time>
+              <time title="创建时间：2020-09-02 21:30:00 / 修改时间：21:32:36" itemprop="dateCreated datePublished" datetime="2020-09-02T21:30:00+08:00">2020-09-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
             </span>
 
           
@@ -304,14 +332,14 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>534</span>
+              <span>4.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="fa fa-clock-o"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -324,28 +352,56 @@
 
       
         <blockquote>
-<p>算法理解了就很简单，写代码也容易，但是表达清楚原理就很麻烦。如果没看懂就去看大神的博客吧。</p>
-</blockquote><h1 id="分治法"><a href="#分治法" class="headerlink" title="分治法"></a>分治法</h1><p>分治法其实很常见，在并归排序的过程也用上了。<br>接下来举一个例子：</p><h2 id="寻找平面内最近的一对点"><a href="#寻找平面内最近的一对点" class="headerlink" title="寻找平面内最近的一对点"></a>寻找平面内最近的一对点</h2><p><a href="https://blog.csdn.net/weixin_37540865/article/details/78201399" target="_blank" rel="noopener">https://blog.csdn.net/weixin_37540865/article/details/78201399</a>。</p><a id="more"></a>
-
-
-<ul>
-<li>暴力：计算n个点两两距离，O(N^2)</li>
-<li>分治：<ul>
-<li>对于所有有点，按照一个轴排序O(nlog(n))，一分为二</li>
-<li>找到左右各自最短距离dl, dr</li>
-<li>合并起来<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200303222758.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"></li>
-</ul>
-</li>
-</ul>
-<p>这里复杂就复杂在合并的时候考虑的情况太多。如果这个点的x坐标和中间数的差值大于d，那么就不用考虑这个点了。也就是说我们仅仅需要考虑如下中间的带状区域里的点：<br><img alt data-src="https://liyuanimage.oss-cn-beijing.aliyuncs.com/img/20200303222858.png?x-oss-process=image/auto-orient,1/quality,q_90/format,jpg"><br>d=min(dl,dr)<br>然后需要对灰色带里的两边分别排序，从上到下各自遍历一遍：</p>
-<ul>
-<li>遍历的时候，只需要看对面的上下d距离的正方形里有没有点，然后计算距离就好了，这一步的复杂度是O(1)</li>
-<li>左遍历一遍，高2d，长度为d的矩形内最多最多边角6个点，因为如果超过6个点就不满足最小距离是d</li>
-</ul>
-<blockquote>
-<p>我虽然理解了，表达实在是费劲，没理解的还是去看上面那篇博客吧</p>
+<p>最近有调研几篇知识图谱在推荐系统的应用的论文，在组内进行了分享。在这里写成文字版，给大家普及一下知识图谱的背景以及在推荐上的应用。如有错误，望指正。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">背景介绍（2012-2020）</span><br><span class="line">推荐场景发展</span><br><span class="line">1. Collaborative knowledge base embedding for recommender systems KDD, 2016, Microsoft</span><br><span class="line">2. Deep knowledge-aware network (DKN) 2018,  ShanghaiJiaoTongU</span><br><span class="line">3. RippleNet: Propagating User Preferences on the Knowledge Graph for Recommender Systems, 2018, ShanghaiJiaoTongU</span><br><span class="line">总 结</span><br></pre></td></tr></table></figure><br><a id="more"></a></p>
+<h1 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h1><p><img alt="image.png" data-src="https://i.loli.net/2020/09/02/bLznvOZGX1trjDC.png"><br>知识图谱在数学里可以抽象成异构信息网络（Heterogeneous Information Network）。<br>区别于同构信息网络的点在于，同构信息网络内，所有的节点都是同一种类型，边的关系也是同一种类型，比如：社交网络的节点是“人”，边是“认识”；论文相互引用关系的网络中，节点是“论文“，边是有向的”引用“关系。<br>而再异构信息网络中（也就是我们提到的知识图谱），节点的类型可以是多种，比如“歌曲” “歌手” “歌单” “创作公司” 等，关系也可以是多种 “歌手-歌手” ： “相似，恋人，合作过”、“歌手-歌曲”：“原创，翻唱，作词，作曲”等。<br>可以理解为，知识图谱可以填充所有现实世界错综复杂的关系。<br>愿景是，如果我们可以结构化的梳理出这些数据，并且把显示的信息用于我们的推荐、搜索等领域，定能使得我们的系统更加智能，可解释。可以使得我们的内容理解更加充分。</p>
 </blockquote>
-<h2 id="第k大数"><a href="#第k大数" class="headerlink" title="第k大数"></a>第k大数</h2><p>仿照快速排序，随机选一个值当做阈值，然后一分为二，如果左边只有k-1个数，那么就选对了；如果一边多一边少，就继续在多的那边选</p>
+<h2 id="知识图谱的常见应用"><a href="#知识图谱的常见应用" class="headerlink" title="知识图谱的常见应用"></a>知识图谱的常见应用</h2><p>最常见的图谱的应用是搜索引擎，比如说我们搜索“腾讯的CEO是谁”，这个搜索的问句中，“腾讯”就是一个实体，“的CEO”是一种关系，而最后的关系指向了另一个节点。<br>再比如，在“天眼查”这个网站中，主要的节点是人和企业。之间就有从属，合作等关系。</p>
+<p><img alt="image.png" data-src="https://i.loli.net/2020/09/02/EZscJfHzxNdIvwU.png"></p>
+<h2 id="互联网大佬的布局"><a href="#互联网大佬的布局" class="headerlink" title="互联网大佬的布局"></a>互联网大佬的布局</h2><p>其实各个互联网公司也都开始做相关的研究，国内阿里和美团据称已经应用到推荐领域了。<br><img alt="image.png" data-src="https://i.loli.net/2020/09/02/hDFZodaVMc6xNs2.png"></p>
+<h2 id="知识图谱的构建方式"><a href="#知识图谱的构建方式" class="headerlink" title="知识图谱的构建方式"></a>知识图谱的构建方式</h2><p>想构建一个完整的知识图谱并不容易。从结构化的数据中提取关系较为简单，但是高质量的结构话关系数据往往数据量小且难以得到。当我们去提取半结构化数据（XML和JSON）和非结构化数据（文本，图片）中提取关系就相对复杂很多。涉及到实体识别(Named Entity Recognition, NER)，实习分类，关系识别等数据提取的工作。以及之后的数据清洗，知识表示和推理。整体来说，想要一个“大而全”的知识图谱目前来说较为复杂，也是目前的一个瓶颈。<br><img alt="image.png" data-src="https://i.loli.net/2020/09/02/WxVEJbz5QqXdHjS.png"></p>
+<h1 id="论文串讲"><a href="#论文串讲" class="headerlink" title="论文串讲"></a>论文串讲</h1><p>对于图谱，最直接的使用就是对于每一个节点，边都进行表征学习，最后输出Embedding来支持后面的其他业务。所以，如何进行图表征就是研究的重点。</p>
+<h2 id="0-背景知识：知识图谱特征学习-Knowledge-Graph-Embedding"><a href="#0-背景知识：知识图谱特征学习-Knowledge-Graph-Embedding" class="headerlink" title="0. 背景知识：知识图谱特征学习(Knowledge Graph Embedding)"></a>0. 背景知识：知识图谱特征学习(Knowledge Graph Embedding)</h2><p>回顾一下word2vec中的“平行四边形”关系，我们可以发现“dring-&gt;drinking” 和 “swam -&gt; swaming” 之间的向量是平行的。但是在word2vec并没有直接的去学习这个“-&gt;”边的向量。<br><img alt="image.png" data-src="https://i.loli.net/2020/09/02/QDCSeO8VBzFdPki.png"><br>在图谱中，边也是需要进行向量化表征的。在研究中，已经诞生了很多表征的基本方法，如TransE, TransH , TransR , TransD , TransA , TransG , TranSparse等，他们都是对于向量表征的关系定义，感兴趣的同学可以详细了解。举两个具体的例子（如下图）。<br><img alt="image.png" data-src="https://i.loli.net/2020/09/02/NR7YvGfkT54yEwb.png"><br>在左边的TransE中，h 和 t都是节点，r是关系。而所有的向量都在同一个空间，h+r可以近似的表示t。<br>在左边的TransH中，h 和 t都是节点，h’d’是关系。节点向量的投影可以在平面上表示出关系。<br>在右边的TranR中，h 和 t都通过一个映射关系M，映射到关系空间内，可以恰好和关系r进行计算。<br>除此之外，还有一些其他的表示方法，都大同小异。 </p>
+<h2 id="1-Collaborative-knowledge-base-embedding-for-recommender-systems-KDD-2016-Microsoft"><a href="#1-Collaborative-knowledge-base-embedding-for-recommender-systems-KDD-2016-Microsoft" class="headerlink" title="1. Collaborative knowledge base embedding for recommender systems KDD, 2016, Microsoft"></a>1. Collaborative knowledge base embedding for recommender systems KDD, 2016, Microsoft</h2><p>微软在2016年首次把知识图谱带入到了推荐系统中，也就是对于协同过滤引入了side-information。<br>物品的属性是一种结构化的数据，用简单的MLP并不能学习到它们之间的关联，从而无法全面的刻画一个物品。本文提出基于知识图谱的embedding来刻画物品的显式信息，这种是从图结构中学到的关联，能够比较充分地学习到物品的表达。本文关于物品的表达有三个部分，另外两个分别是文本信息和图片信息。<br><img alt="image.png" data-src="https://i.loli.net/2020/09/02/m1qxGtMu9SQRUyE.png"><br>如下图所示，知识图谱其实只是side-information中的一种，而其中结构化embedding使用刚刚介绍的TransR来求得，即将两个存在于实体空间的实体向量通过映射在关系空间的关系向量连接。<br><img alt="image.png" data-src="https://i.loli.net/2020/09/02/q43GVKk1HEXeh7t.png"><br>在引用了外部信息之后，当模型表现会优于现在的其他模型。<br><img alt="image.png" data-src="https://i.loli.net/2020/09/02/bWqEC9KDnv4az6i.png"></p>
+<h2 id="2-Deep-knowledge-aware-network-DKN-2018-ShanghaiJiaoTongU"><a href="#2-Deep-knowledge-aware-network-DKN-2018-ShanghaiJiaoTongU" class="headerlink" title="2. Deep knowledge-aware network (DKN) 2018, ShanghaiJiaoTongU"></a>2. Deep knowledge-aware network (DKN) 2018, ShanghaiJiaoTongU</h2><p>第二篇是来源于上海交大的文章，针对于新闻推荐场景的。目前的新闻推荐系统有以下几个问题：</p>
+<ol>
+<li>无法建立知识层面的潜在链接</li>
+<li>对用户的个性化推荐无法高时效性地动态适应</li>
+</ol>
+<p>本文在其中引入外部知识，提出了基于新闻内容和用户点击率的推荐系统：deep knowledge-aware network (DKN)。 其中有两个核心部分：一个是knowledge-aware convolutional neural network (KCNN)，该网络结合了语义信息和知识信息共同对新闻进行表示；另一部分是引入attention机制，根据用户历史点击和当前候选新闻进行用户点击率预测。</p>
+<h3 id="method"><a href="#method" class="headerlink" title="method"></a>method</h3><p>DKN结构如下：<br><img alt="image.png" data-src="https://i.loli.net/2020/09/02/A2knNWecfEJVz6Q.png"></p>
+<h3 id="知识提取"><a href="#知识提取" class="headerlink" title="知识提取"></a>知识提取</h3><p>本文首先将其中包含的实体抽取出来进行实体链接，进而得到该文章知识层面的表示。<br><img alt="image.png" data-src="https://i.loli.net/2020/09/02/SHbEaMAUrCwBzxc.png"><br>这里分为如下三步：</p>
+<ol>
+<li>从新闻内容提取实体，并进行实体链接</li>
+<li>用文中包含的实体构建出一个子图，再对每一个实体从图谱中提取邻居实体（一跳范围）进行扩充</li>
+<li>对子图做graph embedding， 可用方法有transE，transH等等</li>
+</ol>
+<p>由于即使graph embedding已经基本保留了知识图谱的结构信息，但是效果还是不够好，所以这里引入“上下文”信息做辅助。</p>
+<p><img alt="[公式]" data-src="https://www.zhihu.com/equation?tex=context%28e%29%3D%5Cleft%5C%7Be_%7Bi%7D+%7C%5Cleft%28e%2C+r%2C+e_%7Bi%7D%5Cright%29+%5Cin+%5Cmathcal%7BG%7D+%5Ctext+%7B+or+%7D%5Cleft%28e_%7Bi%7D%2C+r%2C+e%5Cright%29+%5Cin+%5Cmathcal%7BG%7D%5Cright%5C%7D"></p>
+<p>所谓“上下文”指节点的邻居节点集，如下图所示：<br><img alt="image.png" data-src="https://i.loli.net/2020/09/02/UjNiqS6d2u8LeRG.png"><br>每个节点的embedding就可以用它“上下文”节点embedding的均值来表示：</p>
+<p><img alt="[公式]" data-src="https://www.zhihu.com/equation?tex=%5Coverline+%7B%5Crm%7Be%7D%7D+%3D+%5Cfrac%7B1%7D%7B%7B%7C%7B%5Crm%7Bcontext%7D%7D%28e%29%7C%7D%7D%5Csum%5Climits_%7B%7Be_i%7D+%5Cin+%7B%5Cmathop%7B%5Crm+context%7D%5Cnolimits%7D+%28e%29%7D+%7B%7B%7B%5Crm%7Be%7D%7D_i%7D%7D++"></p>
+<p>对于每个用户，有历史点击记录  <img alt="[公式]" data-src="https://www.zhihu.com/equation?tex=%5Cleft%5C%7Bt_%7B1%7D%5E%7Bi%7D%2C+t_%7B2%7D%5E%7Bi%7D%2C+%5Cldots%2C+t_%7BN_%7Bi%7D%7D%5E%7Bi%7D%5Cright%5C%7D">  ，其中  <img alt="[公式]" data-src="https://www.zhihu.com/equation?tex=t_%7Bj%7D%5E%7Bi%7D">  表示用户点击的第条新闻的标题，  <img alt="[公式]" data-src="https://www.zhihu.com/equation?tex=t%3D%5Cleft%5Bw_%7B1%7D%2C+w_%7B2%7D%2C+%5Cldots%5Cright%5D">  是其中包括的词项。每个词项从语义角度都能找到一个word embedding，从知识角度有可能能在知识图谱中找到对应的实体，并得到entity embedding（流程如上节描述）。</p>
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p><img alt="image.png" data-src="https://i.loli.net/2020/09/02/NA8kvgRQCy9VDaJ.png"></p>
+<p>点   评：</p>
+<ol>
+<li>多通道的CNN词表示与实体表示来建模标题序列，能更好的建模词和实体之间的关系 👏      </li>
+<li>DKN使用attention机制，赋予user历史不同的权重，能更好地刻画用户的兴趣😎（ Attention牛逼    </li>
+<li>用了实体周围的一阶信息，丰满了Embedding的信息</li>
+</ol>
+<h2 id="3-RippleNet-Propagating-User-Preferences-on-the-Knowledge-Graph-for-Recommender-Systems-2018-ShanghaiJiaoTongU"><a href="#3-RippleNet-Propagating-User-Preferences-on-the-Knowledge-Graph-for-Recommender-Systems-2018-ShanghaiJiaoTongU" class="headerlink" title="3. RippleNet: Propagating User Preferences on the Knowledge Graph for Recommender Systems, 2018, ShanghaiJiaoTongU"></a>3. RippleNet: Propagating User Preferences on the Knowledge Graph for Recommender Systems, 2018, ShanghaiJiaoTongU</h2><p>第三篇同样来源于上海交大，且超越了前一篇。作者考虑到了第二篇中，既然用了一阶紧邻的节点对于中心节点进行表征可行，那也可以进行一个扩大范围。<br>考虑到水波(Ripple)的传播，以user感兴趣的item为seed，在商品知识图谱上向外一圈一圈的扩散到其他的item，这个过程称之为偏好传播(Preference Propagation)。</p>
+<p>该模型认为外层的item同样属于用户的潜在偏好, 因此在刻画user时候，需要将其考虑进去，而不能仅仅使用观测到的items去表示user偏好。</p>
+<p><img alt="image.png" data-src="https://i.loli.net/2020/09/02/vZFrkYmcuU5I12D.png"><br>模型的结构如下图。不断的向外扩展，来拟合残差。<br><img alt="image.png" data-src="https://i.loli.net/2020/09/02/65ETk4SFNnhJD1j.png"><br>最终的结果，超越了目前所有模型，包括DKN。<br><img alt="image.png" data-src="https://i.loli.net/2020/09/02/crmjHFnRTUhEJAD.png"></p>
+<p>点   评：</p>
+<ol>
+<li>通过图的向外层层传播，来构造user Embedding的兴趣，可解释性非常强，很有创意 👏      </li>
+<li>在多个Embedding传递的过程中，通过vRh的softmax，实现了类似Attention的功能</li>
+<li>联合学习是端到端的方式，训练开销大，但是比较方便<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1></li>
+<li>知识图谱，可以有效利用大量存在的先验知识，进而降低模型对于大规模样本的依赖</li>
+<li>知识图谱，有更好的可解释性，通过Attention，可以解释用户对于item的具体哪个属性更喜欢</li>
+<li>知识图谱，可以综合更多的信息，充分利用item的自身以及临阶属性<br>但是:</li>
+<li>知识图谱目前仍然属于前沿(发展不成熟)，是否真正需要还需调研</li>
+<li>音乐场景下，数据格式较为简单。通过关键词匹配，或者曲库标签，可以只花费20%的成本，实现80%的效果</li>
+</ol>
+<p>参考资料：<br><a href="https://tech.meituan.com/2018/11/22/meituan-brain-nlp-01.html" target="_blank" rel="noopener">https://tech.meituan.com/2018/11/22/meituan-brain-nlp-01.html</a><br><a href="https://zhuanlan.zhihu.com/p/131455882" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/131455882</a><br><a href="http://shomy.top/2019/03/19/kg-ns-recsys/" target="_blank" rel="noopener">http://shomy.top/2019/03/19/kg-ns-recsys/</a><br><a href="https://www.jianshu.com/p/ac4988c535ae" target="_blank" rel="noopener">https://www.jianshu.com/p/ac4988c535ae</a><br><a href="https://www.sohu.com/a/337458150_817016" target="_blank" rel="noopener">https://www.sohu.com/a/337458150_817016</a><br><a href="https://zhuanlan.zhihu.com/p/34919142" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/34919142</a><br><a href="https://blog.csdn.net/Sunflower_ke/article/details/89642009" target="_blank" rel="noopener">https://blog.csdn.net/Sunflower_ke/article/details/89642009</a><br><a href="https://www.jianshu.com/p/2e3cade31098" target="_blank" rel="noopener">https://www.jianshu.com/p/2e3cade31098</a><br><a href="https://www.jianshu.com/p/c5ffaf7ed449" target="_blank" rel="noopener">https://www.jianshu.com/p/c5ffaf7ed449</a><br><a href="https://www.leiphone.com/news/201709/kefvQPk1FMybCleb.html" target="_blank" rel="noopener">https://www.leiphone.com/news/201709/kefvQPk1FMybCleb.html</a><br><a href="https://zhuanlan.zhihu.com/p/62914401" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/62914401</a></p>
 
     </div>
 
@@ -362,22 +418,23 @@
       </div>
 
       <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" rel="tag"><i class="fa fa-tag"></i> 知识图谱</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
-                <a href="/2020/CS224n-8/" rel="next" title="CS224n-8 机器翻译,seq2seq,Attention">
-                  <i class="fa fa-chevron-left"></i> CS224n-8 机器翻译,seq2seq,Attention
+                <a href="/2020/new-construction/" rel="next" title="如何把自己绑到新基建的火车上？">
+                  <i class="fa fa-chevron-left"></i> 如何把自己绑到新基建的火车上？
                 </a>
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-                <a href="/2020/%E7%BE%8E%E5%9B%BE%E4%B8%AA%E6%80%A7%E5%8C%96push/" rel="prev" title="【分享整理】美图个性化push的探索之路">
-                  【分享整理】美图个性化push的探索之路 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
       </footer>
@@ -418,7 +475,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分治法"><span class="nav-number">1.</span> <span class="nav-text">分治法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#寻找平面内最近的一对点"><span class="nav-number">1.1.</span> <span class="nav-text">寻找平面内最近的一对点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第k大数"><span class="nav-number">1.2.</span> <span class="nav-text">第k大数</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景介绍"><span class="nav-number">1.</span> <span class="nav-text">背景介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱的常见应用"><span class="nav-number">1.1.</span> <span class="nav-text">知识图谱的常见应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#互联网大佬的布局"><span class="nav-number">1.2.</span> <span class="nav-text">互联网大佬的布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱的构建方式"><span class="nav-number">1.3.</span> <span class="nav-text">知识图谱的构建方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#论文串讲"><span class="nav-number">2.</span> <span class="nav-text">论文串讲</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-背景知识：知识图谱特征学习-Knowledge-Graph-Embedding"><span class="nav-number">2.1.</span> <span class="nav-text">0. 背景知识：知识图谱特征学习(Knowledge Graph Embedding)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Collaborative-knowledge-base-embedding-for-recommender-systems-KDD-2016-Microsoft"><span class="nav-number">2.2.</span> <span class="nav-text">1. Collaborative knowledge base embedding for recommender systems KDD, 2016, Microsoft</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Deep-knowledge-aware-network-DKN-2018-ShanghaiJiaoTongU"><span class="nav-number">2.3.</span> <span class="nav-text">2. Deep knowledge-aware network (DKN) 2018, ShanghaiJiaoTongU</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#method"><span class="nav-number">2.3.1.</span> <span class="nav-text">method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#知识提取"><span class="nav-number">2.3.2.</span> <span class="nav-text">知识提取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果"><span class="nav-number">2.3.3.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-RippleNet-Propagating-User-Preferences-on-the-Knowledge-Graph-for-Recommender-Systems-2018-ShanghaiJiaoTongU"><span class="nav-number">2.4.</span> <span class="nav-text">3. RippleNet: Propagating User Preferences on the Knowledge Graph for Recommender Systems, 2018, ShanghaiJiaoTongU</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
